@@ -1423,8 +1423,8 @@
             },
             "Admincontrol.php": {
               "type": "-",
-              "size": 543782,
-              "lmtime": 1718329893773,
+              "size": 507305,
+              "lmtime": 1718383841353,
               "modified": false
             },
             "Api.php": {
@@ -19680,15 +19680,15 @@
             "2": {
               "admin.php": {
                 "type": "-",
-                "size": 255142,
+                "size": 252002,
                 "lmtime": 1718329894568,
-                "modified": false
+                "modified": true
               },
               "client.php": {
                 "type": "-",
-                "size": 3786,
+                "size": 3707,
                 "lmtime": 1718329894568,
-                "modified": false
+                "modified": true
               },
               "flag.png": {
                 "type": "-",
@@ -19698,27 +19698,27 @@
               },
               "front.php": {
                 "type": "-",
-                "size": 15607,
+                "size": 15374,
                 "lmtime": 1718329894568,
-                "modified": false
+                "modified": true
               },
               "store.php": {
                 "type": "-",
-                "size": 19017,
+                "size": 18676,
                 "lmtime": 1718329894570,
-                "modified": false
+                "modified": true
               },
               "template_simple.php": {
                 "type": "-",
-                "size": 1831,
+                "size": 1796,
                 "lmtime": 1718329894570,
-                "modified": false
+                "modified": true
               },
               "user.php": {
                 "type": "-",
-                "size": 83251,
+                "size": 81934,
                 "lmtime": 1718329894570,
-                "modified": false
+                "modified": true
               }
             },
             "default": {
@@ -29545,6 +29545,64 @@
                   "type": "-",
                   "size": 7965,
                   "lmtime": 1718329895177,
+                  "modified": false
+                }
+              },
+              "branchs": {
+                "add_branch.php": {
+                  "type": "-",
+                  "size": 7140,
+                  "lmtime": 1718383841353,
+                  "modified": false
+                },
+                "branchs_list_tr.php": {
+                  "type": "-",
+                  "size": 6503,
+                  "lmtime": 1718383841353,
+                  "modified": false
+                },
+                "clients_list_tr.php": {
+                  "type": "-",
+                  "size": 6910,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "index copy.php": {
+                  "type": "-",
+                  "size": 40,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "index.php": {
+                  "type": "-",
+                  "size": 7335,
+                  "lmtime": 1718383841353,
+                  "modified": false
+                }
+              },
+              "stocks": {
+                "add_stock.php": {
+                  "type": "-",
+                  "size": 7648,
+                  "lmtime": 1718383841369,
+                  "modified": false
+                },
+                "clients_list_tr.php": {
+                  "type": "-",
+                  "size": 6910,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "index.php": {
+                  "type": "-",
+                  "size": 7475,
+                  "lmtime": 1718383841369,
+                  "modified": false
+                },
+                "stocks_list_tr.php": {
+                  "type": "-",
+                  "size": 6667,
+                  "lmtime": 1718383841369,
                   "modified": false
                 }
               }

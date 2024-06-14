@@ -14840,6 +14840,525 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'clients/add_clients');
 	}
 
+	public function addbranch($id = null) {
+
+
+
+		$userdetails = $this->userdetails();
+
+
+
+		if (empty($userdetails)) {
+
+			redirect($this->admin_domain_url);
+		}
+
+
+
+		$data = array();
+
+
+
+		if ($this->input->post()) {
+
+
+
+			$this->load->library('form_validation');
+
+
+
+			$checkmail = $this->Product_model->checkmail($this->input->post('email', true), $id);
+
+
+
+			$checkuser = $this->Product_model->checkuser($this->input->post('username', true), $id);
+
+
+
+			if (!empty($checkmail)) {
+
+
+
+				$this->session->set_flashdata('error', __('admin.this_email_already_register'));
+
+
+
+				$this->session->set_flashdata('postdata', $this->input->post());
+
+
+
+				redirect('admincontrol/addclients');
+			} elseif (!empty($checkuser)) {
+
+				$this->session->set_flashdata('error', __('admin.this_username_already_register'));
+
+
+
+				$this->session->set_flashdata('postdata', $this->input->post());
+
+
+
+				redirect('admincontrol/addclients');
+			} else {
+
+				if (empty($id)) {
+
+
+
+					$data = $this->user->insert(array(
+
+
+
+						'firstname' => $this->input->post('firstname', true),
+
+
+
+						'lastname'  => $this->input->post('lastname', true),
+
+
+
+						'email'     => $this->input->post('email', true),
+
+
+
+						'username'  => $this->input->post('username', true),
+
+
+
+						'status'  => $this->input->post('status', true),
+
+
+
+						'phone'  => '+' . $this->input->post('countrycode', true) . ' ' . $this->input->post('phone', true),
+
+
+
+						'ucountry'  => $this->input->post('country', true),
+
+
+
+						'state'  => $this->input->post('state', true),
+
+
+
+						'ucity'  => $this->input->post('ucity', true),
+
+
+
+						'uzip'  => $this->input->post('uzip', true),
+
+
+
+						'twaddress'  => $this->input->post('twaddress', true),
+
+
+
+						'password'  => sha1($this->input->post('password', true)),
+
+
+
+						'refid'     => 0,
+
+
+
+						'type'      => 'client',
+
+
+
+					));
+				} else {
+
+
+
+					$data = $id;
+				}
+
+
+
+				if (!empty($data)) {
+
+
+
+					$arrayName = array(
+
+
+
+						'firstname' => $this->input->post('firstname', true),
+
+
+
+						'lastname'  => $this->input->post('lastname', true),
+
+
+
+						'email'  => $this->input->post('email', true),
+
+
+
+						'status'  => $this->input->post('status', true),
+
+
+
+						'ucountry'  => $this->input->post('country', true),
+
+
+
+						'state'  => $this->input->post('state', true),
+
+
+
+						'ucity'  => $this->input->post('ucity', true),
+
+
+
+						'uzip'  => $this->input->post('uzip', true),
+
+
+
+						'twaddress'  => $this->input->post('twaddress', true),
+
+
+
+						'phone'  => '+' . $this->input->post('countrycode', true) . ' ' . $this->input->post('phone', true),
+
+
+
+
+
+					);
+
+
+
+					if ($this->input->post('password', true) != '') {
+
+
+
+						$arrayName['password'] = sha1($this->input->post('password', true));
+					}
+
+
+
+					$this->user->update_user($data, $arrayName);
+
+
+
+					$this->session->set_flashdata('success', __('admin.updated_successfully'));
+
+
+
+					redirect('admincontrol/listclients/');
+				}
+			}
+		}
+
+
+
+		$data['client'] 	= $this->Product_model->getUserDetailsObject($id);
+
+		$data['countries'] 	= $this->Product_model->getcountry('id,name');
+
+
+
+		$this->view($data, 'clients/add_clients');
+	}
+
+	public function listbranchs($page = 1) {
+
+
+
+		$userdetails = $this->userdetails();
+
+
+
+		$data['countries'] 	= $this->Product_model->getcountry('id,name');
+
+
+
+		$data['user'] = $userdetails;
+
+
+
+		$store_setting = $this->Product_model->getSettings('store');
+
+
+
+		if (isset($_POST['listbranchs'])) {
+
+
+
+			$page = max((int)$page, 1);
+
+
+
+			$filter = array(
+
+				'limit' => 50,
+
+				'page' => $page
+
+			);
+
+
+
+			list($data['clientslist'], $total) = $this->Product_model->getAllClients($filter);
+
+			$data['start_from'] = (($page - 1) * $filter['limit']) + 1;
+
+			$json['html'] = $this->load->view("admincontrol/branchs/branchs_list_tr", $data, true);
+
+
+
+			$this->load->library('pagination');
+
+			$config['base_url'] = base_url('admincontrol/listbranchs/');
+
+			$config['per_page'] = $filter['limit'];
+
+			$config['total_rows'] = $total;
+
+			$config['use_page_numbers'] = TRUE;
+
+			$config['enable_query_strings'] = TRUE;
+
+			$this->pagination->initialize($config);
+
+			$json['pagination'] = $this->pagination->create_links();
+
+			echo json_encode($json);
+			die;
+
+
+
+			exit;
+		}
+
+
+
+		$this->view($data, 'branchs/index');
+	}
+
+	public function addstock($id = null) {
+
+
+
+		$userdetails = $this->userdetails();
+
+
+
+		if (empty($userdetails)) {
+
+			redirect($this->admin_domain_url);
+		}
+
+
+
+		$data = array();
+
+
+
+		if ($this->input->post()) {
+
+
+
+			$this->load->library('form_validation');
+
+
+
+			$checkmail = $this->Product_model->checkmail($this->input->post('email', true), $id);
+
+
+
+			$checkuser = $this->Product_model->checkuser($this->input->post('username', true), $id);
+
+
+
+			if (!empty($checkmail)) {
+
+
+
+				$this->session->set_flashdata('error', __('admin.this_email_already_register'));
+
+
+
+				$this->session->set_flashdata('postdata', $this->input->post());
+
+
+
+				redirect('admincontrol/addclients');
+			} elseif (!empty($checkuser)) {
+
+				$this->session->set_flashdata('error', __('admin.this_username_already_register'));
+
+
+
+				$this->session->set_flashdata('postdata', $this->input->post());
+
+
+
+				redirect('admincontrol/addclients');
+			} else {
+
+				if (empty($id)) {
+
+
+
+					$data = $this->user->insert(array(
+
+
+
+						'firstname' => $this->input->post('firstname', true),
+
+
+
+						'lastname'  => $this->input->post('lastname', true),
+
+
+
+						'email'     => $this->input->post('email', true),
+
+
+
+						'username'  => $this->input->post('username', true),
+
+
+
+						'status'  => $this->input->post('status', true),
+
+
+
+						'phone'  => '+' . $this->input->post('countrycode', true) . ' ' . $this->input->post('phone', true),
+
+
+
+						'ucountry'  => $this->input->post('country', true),
+
+
+
+						'state'  => $this->input->post('state', true),
+
+
+
+						'ucity'  => $this->input->post('ucity', true),
+
+
+
+						'uzip'  => $this->input->post('uzip', true),
+
+
+
+						'twaddress'  => $this->input->post('twaddress', true),
+
+
+
+						'password'  => sha1($this->input->post('password', true)),
+
+
+
+						'refid'     => 0,
+
+
+
+						'type'      => 'client',
+
+
+
+					));
+				} else {
+
+
+
+					$data = $id;
+				}
+
+
+
+				if (!empty($data)) {
+
+
+
+					$arrayName = array(
+
+
+
+						'firstname' => $this->input->post('firstname', true),
+
+
+
+						'lastname'  => $this->input->post('lastname', true),
+
+
+
+						'email'  => $this->input->post('email', true),
+
+
+
+						'status'  => $this->input->post('status', true),
+
+
+
+						'ucountry'  => $this->input->post('country', true),
+
+
+
+						'state'  => $this->input->post('state', true),
+
+
+
+						'ucity'  => $this->input->post('ucity', true),
+
+
+
+						'uzip'  => $this->input->post('uzip', true),
+
+
+
+						'twaddress'  => $this->input->post('twaddress', true),
+
+
+
+						'phone'  => '+' . $this->input->post('countrycode', true) . ' ' . $this->input->post('phone', true),
+
+
+
+
+
+					);
+
+
+
+					if ($this->input->post('password', true) != '') {
+
+
+
+						$arrayName['password'] = sha1($this->input->post('password', true));
+					}
+
+
+
+					$this->user->update_user($data, $arrayName);
+
+
+
+					$this->session->set_flashdata('success', __('admin.updated_successfully'));
+
+
+
+					redirect('admincontrol/listclients/');
+				}
+			}
+		}
+
+
+
+		$data['client'] 	= $this->Product_model->getUserDetailsObject($id);
+
+		$data['countries'] 	= $this->Product_model->getcountry('id,name');
+
+
+
+		$this->view($data, 'clients/add_clients');
+	}
+
 	public function liststocks($page = 1) {
 
 
@@ -14914,6 +15433,7 @@ class Admincontrol extends MY_Controller {
 
 		$this->view($data, 'branchs/index');
 	}
+
 
 	public function addclients($id = null) {
 

@@ -132,7 +132,7 @@ $pdf->CheckBox('newsletter', 5, true, array(), array(), 'OK');
 $pdf->Ln(10);
 // Address
 $pdf->Cell(35, 5, 'Address:');
-$pdf->TextField('address', 60, 18, array('multiline'=>true, 'lineWidth'=>0, 'borderStyle'=>'none'), array('v'=>'OvanGlobal dolor sit amet, consectetur adipiscing elit.', 'dv'=>'OvanGlobal dolor sit amet, consectetur adipiscing elit.'));
+$pdf->TextField('address', 60, 18, array('multiline'=>true, 'lineWidth'=>0, 'borderStyle'=>'none'), array('v'=>'Nuwa dolor sit amet, consectetur adipiscing elit.', 'dv'=>'Nuwa dolor sit amet, consectetur adipiscing elit.'));
 $pdf->Ln(19);
 
 // Listbox

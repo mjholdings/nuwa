@@ -470,9 +470,9 @@ $logo = ($store_setting['logo']) ? base_url('assets/images/site/'.$store_setting
                 <div class="ft-col">
                   <h3><?= __('store.policies_info') ?></h3>
                   <ul>
-                    <li><a href="#">OvanGlobal</a></li>
-                    <li><a href="#">OvanGlobal</a></li>
-                    <li><a href="#">OvanGlobal</a></li>
+                    <li><a href="#">Nuwa</a></li>
+                    <li><a href="#">Nuwa</a></li>
+                    <li><a href="#">Nuwa</a></li>
                   </ul>
                 </div>
               </div>
@@ -481,9 +481,9 @@ $logo = ($store_setting['logo']) ? base_url('assets/images/site/'.$store_setting
                 <div class="ft-col">
                   <h3><?= __('store.quick_link') ?></h3>
                   <ul>
-                    <li><a href="#">OvanGlobal</a></li>
-                    <li><a href="#">OvanGlobal</a></li>
-                    <li><a href="#">OvanGlobal</a></li>
+                    <li><a href="#">Nuwa</a></li>
+                    <li><a href="#">Nuwa</a></li>
+                    <li><a href="#">Nuwa</a></li>
                   </ul>
                 </div>
               </div>
@@ -492,29 +492,29 @@ $logo = ($store_setting['logo']) ? base_url('assets/images/site/'.$store_setting
                 <div class="ft-col">
                   <h3><?= __('store.my_account') ?></h3>
                   <ul>
-                    <li><a href="#">OvanGlobal</a></li>
-                    <li><a href="#">OvanGlobal</a></li>
-                    <li><a href="#">OvanGlobal</a></li>
+                    <li><a href="#">Nuwa</a></li>
+                    <li><a href="#">Nuwa</a></li>
+                    <li><a href="#">Nuwa</a></li>
                   </ul>
                 </div>
               </div>
               <div class="col-6 col-md-2">
                 <div class="ft-col">
-                  <h3>OvanGlobal</h3>
+                  <h3>Nuwa</h3>
                   <ul>
-                    <li><a href="#">OvanGlobal</a></li>
-                    <li><a href="#">OvanGlobal</a></li>
-                    <li><a href="#">OvanGlobal</a></li>
+                    <li><a href="#">Nuwa</a></li>
+                    <li><a href="#">Nuwa</a></li>
+                    <li><a href="#">Nuwa</a></li>
                   </ul>
                 </div>
               </div>
               <div class="col-6 col-md-2">
                 <div class="ft-col">
-                  <h3>OvanGlobal</h3>
+                  <h3>Nuwa</h3>
                   <ul>
-                    <li><a href="#">OvanGlobal</a></li>
-                    <li><a href="#">OvanGlobal</a></li>
-                    <li><a href="#">OvanGlobal</a></li>
+                    <li><a href="#">Nuwa</a></li>
+                    <li><a href="#">Nuwa</a></li>
+                    <li><a href="#">Nuwa</a></li>
                   </ul>
                 </div>
               </div> <?php

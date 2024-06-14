@@ -46,9 +46,9 @@ if(empty($products)){
 				}
 				?>
 			</div>
-			<h3><?= (!empty($product['product_name'])) ? $product['product_name'] : 'OvanGlobal' ?></h3>
+			<h3><?= (!empty($product['product_name'])) ? $product['product_name'] : 'Nuwa' ?></h3>
 			<?php $desc_suffix = (strlen($product['product_short_description']) > 50) ? "..." : ""; ?>
-			<p><?= (!empty($product['product_short_description'])) ? substr($product['product_short_description'], 0, 50).$desc_suffix : 'What is OvanGlobal?' ?></p>
+			<p><?= (!empty($product['product_short_description'])) ? substr($product['product_short_description'], 0, 50).$desc_suffix : 'What is Nuwa?' ?></p>
 			<div class="price"><?= (!empty($product['product_price'])) ? c_format($product['product_price']) : '$659.00' ?></div>
 		</div>
 		<div class="product-buttons d-flex">

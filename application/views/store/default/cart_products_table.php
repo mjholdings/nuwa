@@ -30,7 +30,7 @@
                     }
                 ?>
                 <a href="<?= $product['link'] ?>"><h3><?= $product['product_name'] ?> <?= ($combinationString != "") ? "(".$combinationString.")" : "" ?></h3></a>
-                <p class="product-description text-muted"><?= (!empty($product['product_short_description'])) ? $product['product_short_description'] : "OvanGlobal dolor sit amet, consectetur adipiscing" ?></p>
+                <p class="product-description text-muted"><?= (!empty($product['product_short_description'])) ? $product['product_short_description'] : "Nuwa dolor sit amet, consectetur adipiscing" ?></p>
             </div>
             </div>			 
         </li>

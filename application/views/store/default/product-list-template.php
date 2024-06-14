@@ -20,8 +20,8 @@
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/st1.png" />
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/st1.png" />
 					</div>
-					<h3>OvanGlobal</h3>
-					<p>What is OvanGlobal?</p>
+					<h3>Nuwa</h3>
+					<p>What is Nuwa?</p>
 					<div class="product-buttons d-flex">
 						<a href="#" class="btn btn-product bg-main2 text-white"><?= __('store.details') ?></a>
 					</div>
@@ -45,8 +45,8 @@
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/st1.png" />
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/st1.png" />
 					</div>
-					<h3>OvanGlobal</h3>
-					<p>What is OvanGlobal?</p>
+					<h3>Nuwa</h3>
+					<p>What is Nuwa?</p>
 					<div class="product-buttons d-flex">
 						<a href="#" class="btn btn-product bg-main2 text-white"><?= __('store.details') ?></a>
 					</div>
@@ -70,8 +70,8 @@
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/st1.png" />
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/st1.png" />
 					</div>
-					<h3>OvanGlobal</h3>
-					<p>What is OvanGlobal?</p>
+					<h3>Nuwa</h3>
+					<p>What is Nuwa?</p>
 					<div class="product-buttons d-flex">
 						<a href="#" class="btn btn-product bg-main2 text-white"><?= __('store.details') ?></a>
 					</div>
@@ -95,8 +95,8 @@
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/st1.png" />
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/st1.png" />
 					</div>
-					<h3>OvanGlobal</h3>
-					<p>What is OvanGlobal?</p>
+					<h3>Nuwa</h3>
+					<p>What is Nuwa?</p>
 					<div class="product-buttons d-flex">
 						<a href="#" class="btn btn-product bg-main2 text-white"><?= __('store.details') ?></a>
 					</div>
@@ -120,8 +120,8 @@
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/st1.png" />
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/st1.png" />
 					</div>
-					<h3>OvanGlobal</h3>
-					<p>What is OvanGlobal?</p>
+					<h3>Nuwa</h3>
+					<p>What is Nuwa?</p>
 					<div class="product-buttons d-flex">
 						<a href="#" class="btn btn-product bg-main2 text-white"><?= __('store.details') ?></a>
 					</div>
@@ -145,8 +145,8 @@
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/st1.png" />
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/st1.png" />
 					</div>
-					<h3>OvanGlobal</h3>
-					<p>What is OvanGlobal?</p>
+					<h3>Nuwa</h3>
+					<p>What is Nuwa?</p>
 					<div class="product-buttons d-flex">
 						<a href="#" class="btn btn-product bg-main2 text-white"><?= __('store.details') ?></a>
 					</div>

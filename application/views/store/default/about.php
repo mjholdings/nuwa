@@ -56,7 +56,7 @@
 			</div>
 			<div class="col-12 col-md-12 col-lg-8 col-xl-6 pt-4">
 				<div class="about-top-text">
-					<p class="sub-title">OVANGLOBAL</p>
+					<p class="sub-title">Nuwa</p>
 					<h1><?= __('store.about_us') ?></h1>
 					<img src="<?= base_url('assets/store/default/'); ?>img/popline.png" class="cn-titlebar mx-0" alt="<?= __('store.image') ?>">
 					<?= !empty($content['about_content']) ? $content['about_content'] : __('store.about_us_if_not_exist'); ?>
@@ -80,10 +80,10 @@
 		</div>
 		<div class="row about1" style="background-color:#FAF3EB">
 			<div class="title-about">
-				<h6>OVANGLOBAL</h6>
+				<h6>NUWA</h6>
 				<div class="line"></div>
 				<h2>TẦM NHÌN-SỨ MỆNH-GIÁ TRỊ</h2>
-<!--				<span>OvanGlobal dolor sit amet, consectetur adipiscing elit.</span>-->
+<!--				<span>Nuwa dolor sit amet, consectetur adipiscing elit.</span>-->
 			</div>
 			<div class="content-left col-12 col-md-12 col-lg-4 col-xl-6">
 				<div class="content">

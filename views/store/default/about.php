@@ -172,7 +172,7 @@
 
 				<h2>TẦM NHÌN-SỨ MỆNH-GIÁ TRỊ</h2>
 
-				<!--				<span>OvanGlobal dolor sit amet, consectetur adipiscing elit.</span>-->
+				<!--				<span>Nuwa dolor sit amet, consectetur adipiscing elit.</span>-->
 
 			</div>
 

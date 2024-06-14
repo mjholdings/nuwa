@@ -47,7 +47,7 @@ baseBuilderElements.push({
 	name: 'paragraph',
  	frameworks: ['base'],
  	nodes: ['p'],
- 	html: '<p>OvanGlobal dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor '+
+ 	html: '<p>Nuwa dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor '+
  	'incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation'+
  	'ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in'+
  	'voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non'+
@@ -109,7 +109,7 @@ baseBuilderElements.push({
  	frameworks: ['base'],
  	nodes: ['blockqoute'],
  	html: '<blockquote>'+
-  		    '<p>OvanGlobal dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>'+
+  		    '<p>Nuwa dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>'+
   			'<footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>'+
 		  '</blockquote>',
  	types: ['flow', 'sectioning root'],

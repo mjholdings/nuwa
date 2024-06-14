@@ -216,11 +216,11 @@
 								} 
 							} else {
 								?>
-								<a href="javaScript:void(0);">OvanGlobal</a>
-								<a href="javaScript:void(0);" class="active">OvanGlobal</a>
-								<a href="javaScript:void(0);">OvanGlobal</a>
-								<a href="javaScript:void(0);">OvanGlobal</a>
-								<a href="javaScript:void(0);">OvanGlobal</a>
+								<a href="javaScript:void(0);">Nuwa</a>
+								<a href="javaScript:void(0);" class="active">Nuwa</a>
+								<a href="javaScript:void(0);">Nuwa</a>
+								<a href="javaScript:void(0);">Nuwa</a>
+								<a href="javaScript:void(0);">Nuwa</a>
 								<?php
 							}
 						?>

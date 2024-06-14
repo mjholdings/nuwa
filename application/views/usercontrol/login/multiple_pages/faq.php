@@ -35,8 +35,8 @@ if ($faq_banner_image != '' || !empty($faq_banner_image)) {
                 <div class="col-lg-6">
                     <div class="section-title text-center">
                         <i class="fa fa-snowflake-o fa-lg front_theme_text_color" aria-hidden="true"></i>
-                        <h2 class="front_theme_text_color"><?= (!empty($faq_section_title)) ? $faq_section_title : "What is OvanGlobal?";?></h2>
-                        <p><?= (!empty($faq_section_subtitle)) ? $faq_section_subtitle : "OvanGlobal is simply dummy text of the printing and typesetting industry.";?></p>
+                        <h2 class="front_theme_text_color"><?= (!empty($faq_section_title)) ? $faq_section_title : "What is Nuwa?";?></h2>
+                        <p><?= (!empty($faq_section_subtitle)) ? $faq_section_subtitle : "Nuwa is simply dummy text of the printing and typesetting industry.";?></p>
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@ if ($faq_banner_image != '' || !empty($faq_banner_image)) {
                       </h2>
                     </div>
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionFaq">
-                      <div class="card-body">There are many variations of passages of OvanGlobal available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of OvanGlobal, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the OvanGlobal generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate OvanGlobal which looks reasonable. The generated OvanGlobal is therefore always free from repetition, injected humour, or non-characteristic words etc.</div>
+                      <div class="card-body">There are many variations of passages of Nuwa available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Nuwa, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Nuwa generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Nuwa which looks reasonable. The generated Nuwa is therefore always free from repetition, injected humour, or non-characteristic words etc.</div>
                     </div>
                   </div>
                   <div class="card">
@@ -98,7 +98,7 @@ if ($faq_banner_image != '' || !empty($faq_banner_image)) {
                       </h2>
                     </div>
                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-bs-parent="#accordionFaq">
-                      <div class="card-body">There are many variations of passages of OvanGlobal available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of OvanGlobal, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the OvanGlobal generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate OvanGlobal which looks reasonable. The generated OvanGlobal is therefore always free from repetition, injected humour, or non-characteristic words etc.</div>
+                      <div class="card-body">There are many variations of passages of Nuwa available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Nuwa, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Nuwa generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Nuwa which looks reasonable. The generated Nuwa is therefore always free from repetition, injected humour, or non-characteristic words etc.</div>
                     </div>
                   </div>                  
                   <div class="card">
@@ -111,7 +111,7 @@ if ($faq_banner_image != '' || !empty($faq_banner_image)) {
                       </h2>
                     </div>
                     <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-bs-parent="#accordionFaq">
-                      <div class="card-body">There are many variations of passages of OvanGlobal available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of OvanGlobal, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the OvanGlobal generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate OvanGlobal which looks reasonable. The generated OvanGlobal is therefore always free from repetition, injected humour, or non-characteristic words etc.</div>
+                      <div class="card-body">There are many variations of passages of Nuwa available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Nuwa, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Nuwa generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Nuwa which looks reasonable. The generated Nuwa is therefore always free from repetition, injected humour, or non-characteristic words etc.</div>
                     </div>
                   </div>                 
                   <div class="card">
@@ -124,7 +124,7 @@ if ($faq_banner_image != '' || !empty($faq_banner_image)) {
                       </h2>
                     </div>
                     <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-bs-parent="#accordionFaq">
-                      <div class="card-body">There are many variations of passages of OvanGlobal available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of OvanGlobal, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the OvanGlobal generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate OvanGlobal which looks reasonable. The generated OvanGlobal is therefore always free from repetition, injected humour, or non-characteristic words etc.</div>
+                      <div class="card-body">There are many variations of passages of Nuwa available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Nuwa, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Nuwa generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Nuwa which looks reasonable. The generated Nuwa is therefore always free from repetition, injected humour, or non-characteristic words etc.</div>
                     </div>
                   </div>
 

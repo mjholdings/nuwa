@@ -46,8 +46,8 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
             <div class="row">
                 <div class="col-lg-8">
                     <div class="wlc-hero-content" data-background="<?= $slideHeroImage; ?>">
-                        <h1 class="display-3"><?= (isset($theme_sliders[$i]) && !empty($theme_sliders[$i]->title)) ? $theme_sliders[$i]->title : "OvanGlobal <br>is Simply Dummy" ?></h1>
-                        <p><?= (isset($theme_sliders[$i]) && !empty($theme_sliders[$i]->description)) ? $theme_sliders[$i]->description : "OvanGlobal has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."; ?></p>
+                        <h1 class="display-3"><?= (isset($theme_sliders[$i]) && !empty($theme_sliders[$i]->title)) ? $theme_sliders[$i]->title : "Nuwa <br>is Simply Dummy" ?></h1>
+                        <p><?= (isset($theme_sliders[$i]) && !empty($theme_sliders[$i]->description)) ? $theme_sliders[$i]->description : "Nuwa has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."; ?></p>
                         <a href="<?= (isset($theme_sliders[$i]) && !empty($theme_sliders[$i]->link)) ? $theme_sliders[$i]->link : base_url('register'); ?>" target="_blank" class="btn-orage front_button_color front_button_hover_color front_button_text_color"><?= (isset($theme_sliders[$i]) && !empty($theme_sliders[$i]->button_text)) ? $theme_sliders[$i]->button_text : __('front.join_as_affiliate'); ?></a>
                     </div>
                 </div>
@@ -62,8 +62,8 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="wlc-hero-content" data-background="<?= $heroImage; ?>">
-                                <h1 class="display-3">OvanGlobal <br>is Simply Dummy</h1>
-                                <p>OvanGlobal has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                <h1 class="display-3">Nuwa <br>is Simply Dummy</h1>
+                                <p>Nuwa has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
                                 <a href="<?= base_url('register') ?>" target="_blank" class="btn-orage front_button_color front_button_hover_color front_button_text_color"><?= __('front.join_as_affiliate'); ?></a>
                             </div>
                         </div>
@@ -108,7 +108,7 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
                     <!--Single News Ticker-->
                     <div class="single-news-ticker">
                         <div class="news-ticker-inner text-center">
-                            <p>OvanGlobal has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled</p>
+                            <p>Nuwa has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled</p>
                         </div>
                     </div>
                     <!--Single News Ticker-->
@@ -143,7 +143,7 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
                     <i class="fa fa-snowflake-o fa-lg front_theme_text_color" aria-hidden="true"></i>
                     <?php foreach($theme_settings as $settings) { $membershipTitles = $settings; } ?>
                     <h2 class="front_theme_text_color"><?= (isset($membershipTitles) && !empty($membershipTitles->membership_top_title)) ? $membershipTitles->membership_top_title : __('front.best_affiliate_plan'); ?></h2>
-                    <p><?= (isset($membershipTitles) && !empty($membershipTitles->membership_sub_title)) ? $membershipTitles->membership_sub_title : "OvanGlobal is simply dummy text of the printing and typesetting industry."; ?></p>
+                    <p><?= (isset($membershipTitles) && !empty($membershipTitles->membership_sub_title)) ? $membershipTitles->membership_sub_title : "Nuwa is simply dummy text of the printing and typesetting industry."; ?></p>
                 </div>
             </div>
         </div>
@@ -233,11 +233,11 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
                 echo $plan['description'];
             } else {
                 echo '<ul class="list-unstyled">
-                        <li>OvanGlobal is simply dummy text</li>
-                        <li>OvanGlobal is simply dummy text</li>
-                        <li>OvanGlobal is simply dummy text</li>
-                        <li>OvanGlobal is simply dummy text</li>
-                        <li>OvanGlobal is simply dummy text</li>
+                        <li>Nuwa is simply dummy text</li>
+                        <li>Nuwa is simply dummy text</li>
+                        <li>Nuwa is simply dummy text</li>
+                        <li>Nuwa is simply dummy text</li>
+                        <li>Nuwa is simply dummy text</li>
                     </ul>';
             }
         ?>
@@ -271,15 +271,15 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
             </div>
             <div class="price-content">
                 <ul>
-                    <li>OvanGlobal is simply dummy text</li>
-                    <li>OvanGlobal is simply dummy text</li>
-                    <li>OvanGlobal is simply dummy text</li>
-                    <li>OvanGlobal is simply dummy text</li>
-                    <li>OvanGlobal is simply dummy text</li>
+                    <li>Nuwa is simply dummy text</li>
+                    <li>Nuwa is simply dummy text</li>
+                    <li>Nuwa is simply dummy text</li>
+                    <li>Nuwa is simply dummy text</li>
+                    <li>Nuwa is simply dummy text</li>
                 </ul>
             </div>
             <div class="price-footer text-center">
-                <a href="">OvanGlobal</a>
+                <a href="">Nuwa</a>
             </div>
         </div>
     </div>                
@@ -297,15 +297,15 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
             </div>
             <div class="price-content">
                 <ul>
-                    <li>OvanGlobal is simply dummy text</li>
-                    <li>OvanGlobal is simply dummy text</li>
-                    <li>OvanGlobal is simply dummy text</li>
-                    <li>OvanGlobal is simply dummy text</li>
-                    <li>OvanGlobal is simply dummy text</li>
+                    <li>Nuwa is simply dummy text</li>
+                    <li>Nuwa is simply dummy text</li>
+                    <li>Nuwa is simply dummy text</li>
+                    <li>Nuwa is simply dummy text</li>
+                    <li>Nuwa is simply dummy text</li>
                 </ul>
             </div>
             <div class="price-footer text-center">
-                <a href="">OvanGlobal</a>
+                <a href="">Nuwa</a>
             </div>
         </div>
     </div>                
@@ -323,15 +323,15 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
             </div>
             <div class="price-content">
                 <ul>
-                    <li>OvanGlobal is simply dummy text</li>
-                    <li>OvanGlobal is simply dummy text</li>
-                    <li>OvanGlobal is simply dummy text</li>
-                    <li>OvanGlobal is simply dummy text</li>
-                    <li>OvanGlobal is simply dummy text</li>
+                    <li>Nuwa is simply dummy text</li>
+                    <li>Nuwa is simply dummy text</li>
+                    <li>Nuwa is simply dummy text</li>
+                    <li>Nuwa is simply dummy text</li>
+                    <li>Nuwa is simply dummy text</li>
                 </ul>
             </div>
             <div class="price-footer text-center">
-                <a href="">OvanGlobal</a>
+                <a href="">Nuwa</a>
             </div>
         </div>
     </div>
@@ -395,10 +395,10 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
     <div class="row align-items-center">
         <div class="col-lg-6">
             <div class="featured-content">
-                <h2 class="front_theme_text_color">What is OvanGlobal?</h2>
-                <p>Contrary to popular belief, OvanGlobal is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a OvanGlobal passage, and going through the cites of the word in classical literature, discovered the undoubtable source. OvanGlobal comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of OvanGlobal, "OvanGlobal dolor sit amet..", comes from a line in section 1.10.32.</p>
+                <h2 class="front_theme_text_color">What is Nuwa?</h2>
+                <p>Contrary to popular belief, Nuwa is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Nuwa passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Nuwa comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Nuwa, "Nuwa dolor sit amet..", comes from a line in section 1.10.32.</p>
 
-                <p>The standard chunk of OvanGlobal used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
+                <p>The standard chunk of Nuwa used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
             </div>
         </div>
         <div class="col-lg-5 offset-lg-1">
@@ -415,10 +415,10 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
     <div class="row align-items-center">
         <div class="col-lg-6">
             <div class="featured-content">
-                <h2 class="front_theme_text_color">What is OvanGlobal?</h2>
-                <p>Contrary to popular belief, OvanGlobal is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a OvanGlobal passage, and going through the cites of the word in classical literature, discovered the undoubtable source. OvanGlobal comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of OvanGlobal, "OvanGlobal dolor sit amet..", comes from a line in section 1.10.32.</p>
+                <h2 class="front_theme_text_color">What is Nuwa?</h2>
+                <p>Contrary to popular belief, Nuwa is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Nuwa passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Nuwa comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Nuwa, "Nuwa dolor sit amet..", comes from a line in section 1.10.32.</p>
 
-                <p>The standard chunk of OvanGlobal used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
+                <p>The standard chunk of Nuwa used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
             </div>
         </div>
         <div class="col-lg-5 offset-lg-1">
@@ -435,10 +435,10 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
     <div class="row align-items-center">
         <div class="col-lg-6">
             <div class="featured-content">
-                <h2 class="front_theme_text_color">What is OvanGlobal?</h2>
-                <p>Contrary to popular belief, OvanGlobal is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a OvanGlobal passage, and going through the cites of the word in classical literature, discovered the undoubtable source. OvanGlobal comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of OvanGlobal, "OvanGlobal dolor sit amet..", comes from a line in section 1.10.32.</p>
+                <h2 class="front_theme_text_color">What is Nuwa?</h2>
+                <p>Contrary to popular belief, Nuwa is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Nuwa passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Nuwa comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Nuwa, "Nuwa dolor sit amet..", comes from a line in section 1.10.32.</p>
 
-                <p>The standard chunk of OvanGlobal used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
+                <p>The standard chunk of Nuwa used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
             </div>
         </div>
         <div class="col-lg-5 offset-lg-1">
@@ -471,8 +471,8 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
                     <div class="section-title text-center">
                         <i class="fa fa-snowflake-o fa-lg front_theme_text_color" aria-hidden="true"></i>
                         <?php foreach($theme_settings as $settings) { $homeSecTitles = $settings; } ?>
-                        <h2 class="front_theme_text_color"><?= (isset($homeSecTitles) && !empty($homeSecTitles->home_section_title)) ? $homeSecTitles->home_section_title : "<h2 class='front_theme_text_color'>What is OvanGlobalS?</h2>"; ?></h2>
-                        <p><?= (isset($homeSecTitles) && !empty($homeSecTitles->home_section_subtitle)) ? $homeSecTitles->home_section_subtitle : "<p>OvanGlobal is simply dummy text of the printing and typesetting industry.</p>"; ?></p>
+                        <h2 class="front_theme_text_color"><?= (isset($homeSecTitles) && !empty($homeSecTitles->home_section_title)) ? $homeSecTitles->home_section_title : "<h2 class='front_theme_text_color'>What is NuwaS?</h2>"; ?></h2>
+                        <p><?= (isset($homeSecTitles) && !empty($homeSecTitles->home_section_subtitle)) ? $homeSecTitles->home_section_subtitle : "<p>Nuwa is simply dummy text of the printing and typesetting industry.</p>"; ?></p>
                     </div>
                 </div>
             </div>
@@ -503,8 +503,8 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
                     <div class="single-blog">
                         <img src="<?= base_url('assets/login/multiple_pages') ?>/img/blog-image.jpg" alt="<?= __('front.blog') ?>" class="img-fluid">
                         <h3 class="front_button_color front_button_text_color">Section 1</h3>
-                        <p>OvanGlobal is simply dummy text of the printing and typesetting industry. OvanGlobal has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                        <a class="front_button_color front_button_hover_color front_button_text_color" href="">OvanGlobal</a>
+                        <p>Nuwa is simply dummy text of the printing and typesetting industry. Nuwa has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                        <a class="front_button_color front_button_hover_color front_button_text_color" href="">Nuwa</a>
                     </div>
                 </div>                
                 
@@ -512,8 +512,8 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
                     <div class="single-blog">
                         <img src="<?= base_url('assets/login/multiple_pages') ?>/img/blog-image-2.jpg" alt="<?= __('front.blog') ?>" class="img-fluid">
                         <h3 class="front_button_color front_button_text_color">Section 2</h3>
-                        <p>OvanGlobal is simply dummy text of the printing and typesetting industry. OvanGlobal has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                        <a class="front_button_color front_button_hover_color front_button_text_color" href="">OvanGlobal</a>
+                        <p>Nuwa is simply dummy text of the printing and typesetting industry. Nuwa has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                        <a class="front_button_color front_button_hover_color front_button_text_color" href="">Nuwa</a>
                     </div>
                 </div>                
                 
@@ -521,8 +521,8 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
                     <div class="single-blog">
                         <img src="<?= base_url('assets/login/multiple_pages') ?>/img/blog-image-3.jpg" alt="<?= __('front.blog') ?>" class="img-fluid">
                         <h3 class="front_button_color front_button_text_color">Section 3</h3>
-                        <p>OvanGlobal is simply dummy text of the printing and typesetting industry. OvanGlobal has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                        <a class="front_button_color front_button_hover_color front_button_text_color" href="">OvanGlobal</a>
+                        <p>Nuwa is simply dummy text of the printing and typesetting industry. Nuwa has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                        <a class="front_button_color front_button_hover_color front_button_text_color" href="">Nuwa</a>
                     </div>
                 </div>
             
@@ -642,8 +642,8 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
                                             <div class="section-title text-center">
                                                 <i class="fa fa-snowflake-o fa-lg front_theme_text_color" aria-hidden="true"></i>
                                                 <?php foreach($theme_settings as $settings) { $recommendation_section = $settings; } ?>
-                                                <h2 class="front_theme_text_color"><?= (isset($recommendation_section) && !empty($recommendation_section->recommendation_section_title)) ? $recommendation_section->recommendation_section_title : "What is OvanGlobalS?" ?></h2>
-                                                <p><?= (isset($recommendation_section) && !empty($recommendation_section->recommendation_section_subtitle)) ? $recommendation_section->recommendation_section_subtitle : "OvanGlobal is simply dummy text of the printing and typesetting industry." ?></p>
+                                                <h2 class="front_theme_text_color"><?= (isset($recommendation_section) && !empty($recommendation_section->recommendation_section_title)) ? $recommendation_section->recommendation_section_title : "What is NuwaS?" ?></h2>
+                                                <p><?= (isset($recommendation_section) && !empty($recommendation_section->recommendation_section_subtitle)) ? $recommendation_section->recommendation_section_subtitle : "Nuwa is simply dummy text of the printing and typesetting industry." ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -691,7 +691,7 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
             <span class="designation">Designer</span>
         </div>
         <div class="testmonial-content text-center">
-            <p>OvanGlobal has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Nuwa has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
         </div>
     </div>
 </div>
@@ -708,7 +708,7 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
             <span class="designation">Designer</span>
         </div>
         <div class="testmonial-content text-center">
-            <p>OvanGlobal has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Nuwa has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
         </div>
     </div>
 </div>
@@ -725,7 +725,7 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
             <span class="designation">Designer</span>
         </div>
         <div class="testmonial-content text-center">
-            <p>OvanGlobal has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Nuwa has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
         </div>
     </div>
 </div>
@@ -742,7 +742,7 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
             <span class="designation">Designer</span>
         </div>
         <div class="testmonial-content text-center">
-            <p>OvanGlobal has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Nuwa has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
         </div>
     </div>
 </div>
@@ -759,7 +759,7 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
             <span class="designation">Designer</span>
         </div>
         <div class="testmonial-content text-center">
-            <p>OvanGlobal has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Nuwa has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
         </div>
     </div>
 </div>
@@ -776,7 +776,7 @@ $fbmessager_status = (array)json_decode($site_setting['fbmessager_status'],1);
             <span class="designation">Designer</span>
         </div>
         <div class="testmonial-content text-center">
-            <p>OvanGlobal has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Nuwa has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
         </div>
     </div>
 </div>

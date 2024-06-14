@@ -135,10 +135,10 @@ if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
 // ---------------------------------------------------------
 
 // print TEXT
-$pdf->PrintChapter(1, 'OvanGlobal [TEXT]', 'data/chapter_demo_1.txt', false);
+$pdf->PrintChapter(1, 'Nuwa [TEXT]', 'data/chapter_demo_1.txt', false);
 
 // print HTML
-$pdf->PrintChapter(2, 'OvanGlobal [HTML]', 'data/chapter_demo_2.txt', true);
+$pdf->PrintChapter(2, 'Nuwa [HTML]', 'data/chapter_demo_2.txt', true);
 
 // ---------------------------------------------------------
 

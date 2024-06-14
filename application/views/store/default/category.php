@@ -80,10 +80,10 @@
 					display_with_children($category_tree, 0);
 					echo '</ul>';
 					?>
-						<!-- <li><a href="#">OvanGlobal</a></li>
-						<li><a href="#">OvanGlobal</a></li>
-						<li><a href="#">OvanGlobal</a></li>
-						<li><a href="#">OvanGlobal</a></li> -->
+						<!-- <li><a href="#">Nuwa</a></li>
+						<li><a href="#">Nuwa</a></li>
+						<li><a href="#">Nuwa</a></li>
+						<li><a href="#">Nuwa</a></li> -->
 				</div>
 				
 				<div class="sidebar-block mt-4">
@@ -233,11 +233,11 @@
 								}
 							} else {
 								?>
-								<a href="javaScript:void(0);">OvanGlobal</a>
-								<a href="javaScript:void(0);" class="active">OvanGlobal</a>
-								<a href="javaScript:void(0);">OvanGlobal</a>
-								<a href="javaScript:void(0);">OvanGlobal</a>
-								<a href="javaScript:void(0);">OvanGlobal</a>
+								<a href="javaScript:void(0);">Nuwa</a>
+								<a href="javaScript:void(0);" class="active">Nuwa</a>
+								<a href="javaScript:void(0);">Nuwa</a>
+								<a href="javaScript:void(0);">Nuwa</a>
+								<a href="javaScript:void(0);">Nuwa</a>
 								<?php
 							}
 						?>

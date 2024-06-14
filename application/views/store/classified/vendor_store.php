@@ -261,7 +261,7 @@ $store_meta = (!empty($store_details['store_meta'])) ? json_decode($store_detail
                                           <li><span><?= __('store.category')?>:</span> {{product_category}}</li>
                                           <li><span><?= __('store.sku')?>:</span> {{product_sku}}</li>
                                        </ul>
-                                       <p>OvanGlobal dolor sit amet, consectetur adipiscing elit, sed do dolore magna aliqua. In eu mi bibendum neque egestas…</p>
+                                       <p>Nuwa dolor sit amet, consectetur adipiscing elit, sed do dolore magna aliqua. In eu mi bibendum neque egestas…</p>
                                        <ul class="entry-meta">
                                           <li><i class="fa fa-tags"></i>{{total_sale}} sold</li>
                                           <li><i class="fas fa-user"></i> {{product_created_by_name}}</li>

@@ -360,12 +360,12 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 	<?php $homepage_banner = (isset($store_setting['homepage_banner'])) ? json_decode($store_setting['homepage_banner']) : []; ?>
 
 	<div class="ad-caption">
-		<h3><?= (isset($homepage_banner->title) && !empty($homepage_banner->title)) ? $homepage_banner->title : 'OvanGlobal'; ?>
+		<h3><?= (isset($homepage_banner->title) && !empty($homepage_banner->title)) ? $homepage_banner->title : 'Nuwa'; ?>
 		</h3>
-		<p><?= (isset($homepage_banner->content) && !empty($homepage_banner->content)) ? $homepage_banner->content : 'OvanGlobal is simply dummy text of the printing and typesetting industry.'; ?>
+		<p><?= (isset($homepage_banner->content) && !empty($homepage_banner->content)) ? $homepage_banner->content : 'Nuwa is simply dummy text of the printing and typesetting industry.'; ?>
 		</p>
 		<a
-			href="<?= (isset($homepage_banner->button_link) && !empty($homepage_banner->button_link)) ? $homepage_banner->button_link : '#'; ?>"><?= (isset($homepage_banner->button_text) && !empty($homepage_banner->button_text)) ? $homepage_banner->button_text : 'OvanGlobal'; ?></a>
+			href="<?= (isset($homepage_banner->button_link) && !empty($homepage_banner->button_link)) ? $homepage_banner->button_link : '#'; ?>"><?= (isset($homepage_banner->button_text) && !empty($homepage_banner->button_text)) ? $homepage_banner->button_text : 'Nuwa'; ?></a>
 	</div>
 </section>
 
@@ -447,9 +447,9 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 					<div class="rejuvenation">
 						<h2 class="card-title title-font mt-5" style="color: #FFF">Trẻ hóa cấp tế bào</h2>
 						<p class="card-text">
-							OVANGLOBAL mang sắc đẹp đến với mọi người
+							Nuwa mang sắc đẹp đến với mọi người
 						</p>
-						<h3 class="title-font mb-3 title-nameMain" style="color:#FFF">OVANGLOBAL</h3>
+						<h3 class="title-font mb-3 title-nameMain" style="color:#FFF">Nuwa</h3>
 						<a href="<?= base_url('store/category/' . $row['slug']) ?>"
 							class="btn btn-custom-skin title-font btn-service">XEM THÊM</a>
 					</div>
@@ -622,7 +622,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/img') ?>/blog1.png"
 							class="blog-img" />
 						<div class="blog-content">
-							<h4>OvanGlobal</h4>
+							<h4>Nuwa</h4>
 							<p>
 								Vui lòng vập nhật dữ liệu.
 							</p>
@@ -634,7 +634,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/img') ?>/fb2.png"
 							class="blog-img" />
 						<div class="blog-content">
-							<h4>OvanGlobal</h4>
+							<h4>Nuwa</h4>
 							<p>
 								Vui lòng vập nhật dữ liệu.
 							</p>
@@ -646,7 +646,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/img') ?>/fb3.png"
 							class="blog-img" />
 						<div class="blog-content">
-							<h4>OvanGlobal</h4>
+							<h4>Nuwa</h4>
 							<p>
 								Vui lòng vập nhật dữ liệu.
 							</p>
@@ -658,7 +658,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/img') ?>/fb4.png"
 							class="blog-img" />
 						<div class="blog-content">
-							<h4>OvanGlobal</h4>
+							<h4>Nuwa</h4>
 							<p>
 								Vui lòng vập nhật dữ liệu.
 							</p>

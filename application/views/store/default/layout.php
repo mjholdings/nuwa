@@ -263,7 +263,7 @@ if (isset($store_setting['notification']) && sizeOf(json_decode($store_setting['
     <!-- Dummy Top notification bar -->
     <div class="top-bar bg-main text-white text-center">
         <div class="container">
-            <img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/top-icon.png" /> OvanGlobal is simply dummy text of the printing and typesetting industry.
+            <img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/top-icon.png" /> Nuwa is simply dummy text of the printing and typesetting industry.
         </div>
     </div>
 
@@ -329,7 +329,7 @@ if (isset($store_setting['notification']) && sizeOf(json_decode($store_setting['
                     <ul class="d-flex">
                         <li id="store_currency_menu" class="dropdown"><?= $CurrencyHtml ?></li>
                         <li id="store_lang_menu" class="dropdown"><?= $LanguageHtml ?></li>
-                        <li id="store_location_menu"><a href="https://nhasach365.com/ovandemo/store/login" class="top-login-btn btn bg-main2 text-white d-flex align-items-center">Siêu thị TPHCM</a></li>
+                        <li id="store_location_menu"><a href="https://nhasach365.com/nuwa/store/login" class="top-login-btn btn bg-main2 text-white d-flex align-items-center">Siêu thị TPHCM</a></li>
                         <?php if ($is_logged) { ?>
                             <div class="dropdown">
                                 <?php

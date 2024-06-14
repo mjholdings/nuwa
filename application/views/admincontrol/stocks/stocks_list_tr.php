@@ -23,8 +23,7 @@
     <td class="text-center"><?php echo $clients['username']; ?></td>
 
     <td class="text-center">x</td>
-    <td class="text-center">x</td>
-    <td class="text-center">x</td>
+
 
     <td class="text-center"><?php echo $clients['total_sale']; ?> / <?php echo c_format($clients['amount']); ?></td>
 

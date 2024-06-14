@@ -177,11 +177,11 @@
     $this = $(t);
 
     $.ajax({
-    url: "<?= base_url('admincontrol/listclients'); ?>/" + page,
+    url: "<?= base_url('admincontrol/liststocks'); ?>/" + page,
     type: 'POST',
     dataType: 'json',
     data: {
-      listclients: 1,
+      liststocks: 1,
       page: page
     },
     beforeSend: function() {

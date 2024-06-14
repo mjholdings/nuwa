@@ -7780,7 +7780,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-				redirect('admincontrol/addclients');
+				redirect('admincontrol/addbranch');
+
 			} elseif (!empty($checkuser)) {
 
 				$this->session->set_flashdata('error', __('admin.this_username_already_register'));
@@ -7952,7 +7953,7 @@ class Admincontrol extends MY_Controller {
 
 
 
-		$this->view($data, 'clients/add_branch');
+		$this->view($data, 'branchs/add_branch');
 	}
 
 	public function listbranchs($page = 1) {
@@ -8250,7 +8251,7 @@ class Admincontrol extends MY_Controller {
 
 
 
-		$this->view($data, 'clients/add_stock');
+		$this->view($data, 'stocks/add_stock');
 	}
 
 

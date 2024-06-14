@@ -7791,7 +7791,7 @@ class Admincontrol extends MY_Controller {
 
 
 
-				redirect('admincontrol/addclients');
+				redirect('admincontrol/addbranch');
 			} else {
 
 				if (empty($id)) {
@@ -7939,7 +7939,7 @@ class Admincontrol extends MY_Controller {
 
 
 
-					redirect('admincontrol/listclients/');
+					redirect('admincontrol/listbranchs/');
 				}
 			}
 		}
@@ -7952,7 +7952,7 @@ class Admincontrol extends MY_Controller {
 
 
 
-		$this->view($data, 'clients/add_clients');
+		$this->view($data, 'clients/add_branch');
 	}
 
 	public function listbranchs($page = 1) {
@@ -8077,7 +8077,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-				redirect('admincontrol/addclients');
+				redirect('admincontrol/addstock');
+
 			} elseif (!empty($checkuser)) {
 
 				$this->session->set_flashdata('error', __('admin.this_username_already_register'));
@@ -8088,7 +8089,7 @@ class Admincontrol extends MY_Controller {
 
 
 
-				redirect('admincontrol/addclients');
+				redirect('admincontrol/addstock');
 			} else {
 
 				if (empty($id)) {
@@ -8236,7 +8237,7 @@ class Admincontrol extends MY_Controller {
 
 
 
-					redirect('admincontrol/listclients/');
+					redirect('admincontrol/liststocks/');
 				}
 			}
 		}
@@ -8249,7 +8250,7 @@ class Admincontrol extends MY_Controller {
 
 
 
-		$this->view($data, 'clients/add_clients');
+		$this->view($data, 'clients/add_stock');
 	}
 
 
@@ -8295,13 +8296,13 @@ class Admincontrol extends MY_Controller {
 
 			$data['start_from'] = (($page - 1) * $filter['limit']) + 1;
 
-			$json['html'] = $this->load->view("admincontrol/branchs/branchs_list_tr", $data, true);
+			$json['html'] = $this->load->view("admincontrol/stocks/stocks_list_tr", $data, true);
 
 
 
 			$this->load->library('pagination');
 
-			$config['base_url'] = base_url('admincontrol/listbranchs/');
+			$config['base_url'] = base_url('admincontrol/liststocks/');
 
 			$config['per_page'] = $filter['limit'];
 
@@ -8325,7 +8326,7 @@ class Admincontrol extends MY_Controller {
 
 
 
-		$this->view($data, 'branchs/index');
+		$this->view($data, 'stocks/index');
 	}
 
 	public function affiliate_theme() {

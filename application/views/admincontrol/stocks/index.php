@@ -29,13 +29,12 @@
             <thead>
               <tr>
                 <th><?= __('admin.id') ?></th>
-                <th><?= __('admin.name') ?></th>
-                <th><?= __('admin.refer_user') ?></th>
-                <th><?= __('admin.email') ?></th>
+                <th><?= __('admin.branch_name') ?></th>                 
+                <th><?= __('admin.address') ?></th>
                 <th><?= __('admin.phone') ?></th>
-                <th><?= __('admin.username') ?></th>
-                <th><?= __('admin.sales') ?></th>
-                <th><?= __('admin.type') ?></th>
+                <th><?= __('admin.product_name') ?></th>
+                <th><?= __('admin.stock_quantity') ?></th>
+                <th><?= __('admin.product_price') ?></th>
                 <th><?= __('admin.action') ?></th>
               </tr>
             </thead>

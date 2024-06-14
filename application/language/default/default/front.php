@@ -34,27 +34,27 @@ $lang['amazing_features'] = 'Amazing Features';
 
 $lang['user_friendly'] = 'User Friendly';
 
-$lang['user_friendly_des'] = 'Nuwa dolor sit amet, consectetur adipisicing typesting industry text.';
+$lang['user_friendly_des'] = 'OvanGlobal dolor sit amet, consectetur adipisicing typesting industry text.';
 
 $lang['super_fast_speed'] = 'Super Fast Speed';
 
-$lang['super_fast_speed_des'] = 'Nuwa dolor sit amet, consectetur adipisicing typesting industry text.';
+$lang['super_fast_speed_des'] = 'OvanGlobal dolor sit amet, consectetur adipisicing typesting industry text.';
 
 $lang['24_7_support'] = '24/7 Support';
 
-$lang['24_7_support_des'] = 'Nuwa dolor sit amet, consectetur adipisicing typesting industry text.';
+$lang['24_7_support_des'] = 'OvanGlobal dolor sit amet, consectetur adipisicing typesting industry text.';
 
 $lang['secure'] = 'Secure';
 
-$lang['secure_des'] = 'Nuwa dolor sit amet, consectetur adipisicing typesting industry text.';
+$lang['secure_des'] = 'OvanGlobal dolor sit amet, consectetur adipisicing typesting industry text.';
 
 $lang['awesome_rating'] = 'Awesome Rating';
 
-$lang['awesome_rating_des'] = 'Nuwa dolor sit amet, consectetur adipisicing typesting industry text.';
+$lang['awesome_rating_des'] = 'OvanGlobal dolor sit amet, consectetur adipisicing typesting industry text.';
 
 $lang['award_winning'] = 'Award Winning';
 
-$lang['award_winning_des'] = 'Nuwa dolor sit amet, consectetur adipisicing typesting industry text.';
+$lang['award_winning_des'] = 'OvanGlobal dolor sit amet, consectetur adipisicing typesting industry text.';
 
 $lang['watch_video'] = "Watch Video";
 
@@ -212,7 +212,7 @@ $lang['register'] = 'Register';
 
 $lang['slider_title'] = 'Get Your App Landing Page <br> With Proton Template';
 
-$lang['slider_desc'] = 'Nuwa dolor sit amet, consectetur adipisicing elit. Esse unde blanditiis nostrum mollitia aliquam sed. Numquam ipsum unde repellendus similique autem non ab quibusdam enim provident distinctio! Fugit tenetur, iusto.';
+$lang['slider_desc'] = 'OvanGlobal dolor sit amet, consectetur adipisicing elit. Esse unde blanditiis nostrum mollitia aliquam sed. Numquam ipsum unde repellendus similique autem non ab quibusdam enim provident distinctio! Fugit tenetur, iusto.';
 
 $lang['download_now'] = 'Download Now';
 
@@ -466,12 +466,12 @@ $lang['affiliate_commission'] = 'Affiliate commission:';
 
 $lang['default'] = 'Default';
 
-$lang['faq_answer_if_not_exist'] = "There are many variations of passages of Nuwa available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Nuwa, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Nuwa generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Nuwa which looks reasonable. The generated Nuwa is therefore always free from repetition, injected humour, or non-characteristic words etc.";
+$lang['faq_answer_if_not_exist'] = "There are many variations of passages of OvanGlobal available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of OvanGlobal, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the OvanGlobal generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate OvanGlobal which looks reasonable. The generated OvanGlobal is therefore always free from repetition, injected humour, or non-characteristic words etc.";
 
-$lang['login_content_if_not_exist'] = "Nuwa is simply dummy text of the printing and typesetting industry. Nuwa has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Nuwa passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Nuwa.";
+$lang['login_content_if_not_exist'] = "OvanGlobal is simply dummy text of the printing and typesetting industry. OvanGlobal has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing OvanGlobal passages, and more recently with desktop publishing software like Aldus PageMaker including versions of OvanGlobal.";
 
-$lang['register_content_if_not_exist'] = "Nuwa is simply dummy text of the printing and typesetting industry. Nuwa has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Nuwa passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Nuwa.";
+$lang['register_content_if_not_exist'] = "OvanGlobal is simply dummy text of the printing and typesetting industry. OvanGlobal has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing OvanGlobal passages, and more recently with desktop publishing software like Aldus PageMaker including versions of OvanGlobal.";
 
-$lang['terms_content_if_not_exist'] = "Nuwa is simply dummy text of the printing and typesetting industry. Nuwa has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Nuwa passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Nuwa.";
+$lang['terms_content_if_not_exist'] = "OvanGlobal is simply dummy text of the printing and typesetting industry. OvanGlobal has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing OvanGlobal passages, and more recently with desktop publishing software like Aldus PageMaker including versions of OvanGlobal.";
 
 $lang['email_sent_instructions'] = 'Please enter the email address you registered with and a password reset link will be sent to you';

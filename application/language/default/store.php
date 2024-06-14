@@ -522,15 +522,15 @@ $lang['vendor_contact_message_send'] = 'Your message was successfully submitted.
 
 $lang['vendor_contact_message_not_send'] = 'Your message was not sent. Please try again later!';
 
-$lang['about_us_if_not_exist'] = 'Nuwa';
+$lang['about_us_if_not_exist'] = 'OvanGlobal';
 
-$lang['category_description_if_not_exist'] = 'Nuwa';
+$lang['category_description_if_not_exist'] = 'OvanGlobal';
 
-$lang['privacy_if_not_exist'] = 'Nuwa';
+$lang['privacy_if_not_exist'] = 'OvanGlobal';
 
-$lang['product_short_description_if_not_exist'] = 'Nuwa';
+$lang['product_short_description_if_not_exist'] = 'OvanGlobal';
 
-$lang['vendor_store_terms_if_not_exist'] = 'Nuwa';
+$lang['vendor_store_terms_if_not_exist'] = 'OvanGlobal';
 
 $lang['vendor_store_contact_form_subject'] = 'You have message from your store!';
 

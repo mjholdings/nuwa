@@ -412,6 +412,20 @@ class Product_model extends MY_Model
         return $returnCats;
     }
 
+    public function get_category_level($category_id) {
+        $level = 0;
+        while ($category_id != 0) {
+            $category = $this->db->get_where('categories', array('id' => $category_id))->row();
+            if ($category) {
+                $category_id = $category->parent_id;
+                $level++;
+            } else {
+                break;
+            }
+        }
+        return $level;
+    }
+
     public function getCategory($filter = array(), $isModeCheck = null)
     {
         $sql = "";
@@ -431,6 +445,10 @@ class Product_model extends MY_Model
 
         $data = array();
         foreach ($categories as $key => $value) {
+
+            // Tính cấp độ của chuyên mục
+            //$level = $this->get_category_level($value['id']);
+
             if ($value['mlm_categories'] == 'hang-hoa') {
                 $value['mlm_name'] = "Hàng Hoá";
             } else if ($value['mlm_categories'] == 'te-bao-goc') {
@@ -452,6 +470,7 @@ class Product_model extends MY_Model
                 'image_url' => base_url($value['image'] != '' ? 'assets/images/product/upload/thumb/' . $value['image'] : 'assets/images/no_image_available.png'),
                 'parent_id' => $value['parent_id'],
                 'created_at' => date("d-m-Y h:i A", strtotime($value['created_at'])),
+                // 'level' => $level // Thêm cấp độ vào dữ liệu
             );
 
         }

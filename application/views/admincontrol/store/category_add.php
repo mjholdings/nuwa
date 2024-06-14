@@ -26,7 +26,7 @@
                                 <select name="parent_id" class="form-control">
                                     <option value="">-- <?= __('admin.none') ?> --</option>
                                     <?php foreach ($categories as $key => $value) { ?>
-                                        <option value="<?= $value['id'] ?>" <?php echo ($category['parent_id'] == $value['id'] )?'selected':''; ?>><?= $value['name'] ?></option>
+                                        <option value="<?= $value['id'] ?>" <?php echo ($category['parent_id'] == $value['id'] )?'selected':''; ?>> <?= $value['parent_id'] == 0 ? '' : '-'; ?> <?= $value['name'] ?></option>
                                     <?php } ?>
                                 </select>
                             </div>

@@ -2,7 +2,7 @@
 	<tr>
 		<td><img src="<?= $category['image_url'] ?>" style='width: 35px'></td>
 		<td><?= $category['id'] ?></td>		
-		<td><?= $category['name'] ?></td>
+		<td><?= $category['parent_id'] == 0 ? '' : '-'; ?> <?= $category['name'] ?></td>
 		<td><?= $category['parent_name'] ? $category['parent_name'] : '<small class="text-muted">'.__('admin.none').'</small>' ?></td>
 		<td><?= $category['mlm_name'] ? $category['mlm_name'] : '<small class="text-muted">'.__('admin.none').'</small>' ?></td>
 	    <td>

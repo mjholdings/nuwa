@@ -734,7 +734,7 @@
 
               <div class="dropdown-menu">
 
-                <a class="dropdown-item px-2" href="<?= base_url('admincontrol/mlm_settings') ?>">
+                <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_settings') ?>">
 
                   <i class="fas fa-sliders-h"></i>
 
@@ -742,7 +742,7 @@
 
                 </a>
 
-                <a class="dropdown-item px-2" href="<?= base_url('admincontrol/mlm_levels') ?>">
+                <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_levels') ?>">
 
                   <i class="fas fa-sliders-h"></i>
 
@@ -750,7 +750,7 @@
 
                 </a>
 
-                  <a class="dropdown-item px-2" href="<?= base_url('admincontrol/mlm_levels_hang_hoa') ?>">
+                  <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_levels_hang_hoa') ?>">
 
                       <i class="fas fa-sliders-h"></i>
 
@@ -758,7 +758,7 @@
 
                   </a>
 
-                  <a class="dropdown-item px-2" href="<?= base_url('admincontrol/mlm_levels_te_bao_goc') ?>">
+                  <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_levels_te_bao_goc') ?>">
 
                       <i class="fas fa-sliders-h"></i>
 
@@ -766,7 +766,7 @@
 
                   </a>
 
-                  <a class="dropdown-item px-2" href="<?= base_url('admincontrol/mlm_levels_dich_vu') ?>">
+                  <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_levels_dich_vu') ?>">
 
                       <i class="fas fa-sliders-h"></i>
 
@@ -774,7 +774,7 @@
 
                   </a>
 
-                  <a class="dropdown-item px-2" href="<?= base_url('admincontrol/mlm_levels_dao_tao') ?>">
+                  <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_levels_dao_tao') ?>">
 
                       <i class="fas fa-sliders-h"></i>
 

@@ -1,67 +1,66 @@
 <?php
 
-  $db =& get_instance();
+$db = &get_instance();
 
-  $products = $db->Product_model;
+$products = $db->Product_model;
 
-  $store_setting =$db->Product_model->getSettings('store');
+$store_setting = $db->Product_model->getSettings('store');
 
-  $userdetails=$db->Product_model->userdetails();
+$userdetails = $db->Product_model->userdetails();
 
-  $license = $products->getLicese();
+$license = $products->getLicese();
 
-  $notifications = $products->getnotificationnew('admin',null,5);
+$notifications = $products->getnotificationnew('admin', null, 5);
 
-  $notifications_count = $products->getnotificationnew_count('admin',null);
+$notifications_count = $products->getnotificationnew_count('admin', null);
 
-  $referlevel_status = $this->Product_model->getSettings('referlevel', 'status');
+$referlevel_status = $this->Product_model->getSettings('referlevel', 'status');
 
 
 
-  $market_vendor_marketvendorstatus = $this->Product_model->getSettings('market_vendor', 'marketvendorstatus');
+$market_vendor_marketvendorstatus = $this->Product_model->getSettings('market_vendor', 'marketvendorstatus');
 
-  $vendor_storestatus = $this->Product_model->getSettings('vendor', 'storestatus');
+$vendor_storestatus = $this->Product_model->getSettings('vendor', 'storestatus');
 
-  $market_vendor_marketvendorstatus =  isset($market_vendor_marketvendorstatus['marketvendorstatus']) ? $market_vendor_marketvendorstatus['marketvendorstatus'] : 0;
+$market_vendor_marketvendorstatus =  isset($market_vendor_marketvendorstatus['marketvendorstatus']) ? $market_vendor_marketvendorstatus['marketvendorstatus'] : 0;
 
-  $vendor_storestatus =  isset($vendor_storestatus['storestatus']) ? $vendor_storestatus['storestatus'] : 0;
+$vendor_storestatus =  isset($vendor_storestatus['storestatus']) ? $vendor_storestatus['storestatus'] : 0;
 
-  
 
-  $membership_status = $this->Product_model->getSettings('membership', 'status');
 
-  $store_status = $this->Product_model->getSettings('store', 'status');
+$membership_status = $this->Product_model->getSettings('membership', 'status');
 
-  $market_tools_status = $this->Product_model->getSettings('market_tools', 'status');
+$store_status = $this->Product_model->getSettings('store', 'status');
 
-  $award_level_status = $this->Product_model->getSettings('award_level','status');
+$market_tools_status = $this->Product_model->getSettings('market_tools', 'status');
 
-  $admin_side_bar_text_color = $this->Product_model->getSettings('theme','admin_side_bar_text_color');
+$award_level_status = $this->Product_model->getSettings('award_level', 'status');
 
-  $admin_side_bar_text_hover_color = $this->Product_model->getSettings('theme','admin_side_bar_text_hover_color');
+$admin_side_bar_text_color = $this->Product_model->getSettings('theme', 'admin_side_bar_text_color');
 
-  
+$admin_side_bar_text_hover_color = $this->Product_model->getSettings('theme', 'admin_side_bar_text_hover_color');
 
-  $sidebar_data = array (
 
-      'mlm_is_enable' => isset($referlevel_status['status']) ? $referlevel_status['status'] : 0,
 
-      'saas_is_enable' => ($market_vendor_marketvendorstatus == 1 || $vendor_storestatus == 1) ? 1 : 0,
+$sidebar_data = array(
 
-      'membership_is_enable' => isset($membership_status['status']) ? $membership_status['status'] : 0,
+  'mlm_is_enable' => isset($referlevel_status['status']) ? $referlevel_status['status'] : 0,
 
-      'store_is_enable' => isset($store_status['status']) ? $store_status['status'] : 0,
+  'saas_is_enable' => ($market_vendor_marketvendorstatus == 1 || $vendor_storestatus == 1) ? 1 : 0,
 
-      'award_level_is_enable' => isset($award_level_status['status']) ? $award_level_status['status'] : 0,
+  'membership_is_enable' => isset($membership_status['status']) ? $membership_status['status'] : 0,
 
-      'market_tools_is_enable' => isset($market_tools_status['status']) ? $market_tools_status['status'] : 1,
+  'store_is_enable' => isset($store_status['status']) ? $store_status['status'] : 0,
 
-  );
+  'award_level_is_enable' => isset($award_level_status['status']) ? $award_level_status['status'] : 0,
 
-?> 
+  'market_tools_is_enable' => isset($market_tools_status['status']) ? $market_tools_status['status'] : 1,
+
+);
+
+?>
 
 <style type="text/css">
-
   .menu-title {
 
     color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;
@@ -97,136 +96,135 @@
     color: <?= $admin_side_bar_text_hover_color['admin_side_bar_text_hover_color'] ?>;
 
   }
-
 </style>
 
 
 
 <div class="left-menu sidebar sidebar-offcanvas admin_side_bar_color">
 
-        <div class="admin-balance">
+  <div class="admin-balance">
 
-            <div class="profile-image">
+    <div class="profile-image">
 
-                 <?php $login_user_profile_avatar = (!empty($userdetails['avatar'])) ? base_url('assets/images/users/'.$userdetails['avatar']) : base_url('assets/vertical/assets/images/no-image.jpg'); ?> 
+      <?php $login_user_profile_avatar = (!empty($userdetails['avatar'])) ? base_url('assets/images/users/' . $userdetails['avatar']) : base_url('assets/vertical/assets/images/no-image.jpg'); ?>
 
-                <img src="<?= $login_user_profile_avatar; ?>">
+      <img src="<?= $login_user_profile_avatar; ?>">
 
-            </div>
+    </div>
 
-              <div class="profile-name">
+    <div class="profile-name">
 
-              <p class="name" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.menu_welcome') ?>! <?= $this->session->userdata('administrator')['firstname'].' '.$this->session->userdata('administrator')['lastname'] ?></p>
+      <p class="name" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.menu_welcome') ?>! <?= $this->session->userdata('administrator')['firstname'] . ' ' . $this->session->userdata('administrator')['lastname'] ?></p>
 
-              <p class="designation" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.super_admin') ?></p>
+      <p class="designation" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.super_admin') ?></p>
 
-            </div>
+    </div>
 
-        </div>
+  </div>
 
-      <div class="scroll-bar d-block sidebar">
+  <div class="scroll-bar d-block sidebar">
 
-            <ul class="navbar-nav scroll-wrap navbar-height admin_side_bar_color">
+    <ul class="navbar-nav scroll-wrap navbar-height admin_side_bar_color">
 
-            <li class="nav-item dropdown">
+      <li class="nav-item dropdown">
 
-              <a class="nav-link d-flex" href="
+        <a class="nav-link d-flex" href="
 
                 <?= base_url('admincontrol/dashboard') ?>">
 
-                <div class="color-blue">
+          <div class="color-blue">
 
-                  <i class="fas fa-home"></i>
+            <i class="fas fa-home"></i>
 
-                  <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.menu_dashboard') ?> </span>
+            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.menu_dashboard') ?> </span>
 
-                </div>
+          </div>
 
-              </a>
+        </a>
 
-            </li>
+      </li>
 
-            <li class="nav-item dropdown">
+      <li class="nav-item dropdown">
 
-              <a class="nav-link dropdown" href="javascript:void(0);" aria-haspopup="dropdown" data-bs-toggle="dropdown">
+        <a class="nav-link dropdown" href="javascript:void(0);" aria-haspopup="dropdown" data-bs-toggle="dropdown">
 
-                <div>
+          <div>
 
-                  <i class="fas fa-info-circle menu-icon"></i>
+            <i class="fas fa-info-circle menu-icon"></i>
 
-                 <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"> <?= __('admin.useful_links') ?></span>
+            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"> <?= __('admin.useful_links') ?></span>
 
-                </div>
+          </div>
 
-                <div>
+          <div>
 
-                  <i class="fas fa-angle-right"></i>
+            <i class="fas fa-angle-right"></i>
 
-                </div>
+          </div>
 
-              </a>
+        </a>
 
-              <div class="dropdown-menu">
+        <div class="dropdown-menu">
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/paymentsetting') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/paymentsetting') ?>">
 
-                  <i class="bi bi-gear"></i>
+            <i class="bi bi-gear"></i>
 
-                  <?= __('admin.menu_settings') ?></a>
-
-
-
-                <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/addons') ?>">
-
-                  <i class="bi bi-plugin"></i>
-
-                  <?= __('admin.menu_addons') ?></a> -->
+            <?= __('admin.menu_settings') ?></a>
 
 
 
-                <a class="dropdown-item" <?= $sidebar_data['award_level_is_enable'] == 0 ? 'style="display:none;"' : ''; ?> href="<?= base_url('admincontrol/award_level') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/addons') ?>">
 
-                  <i class="bi bi-award"></i>
+            <i class="bi bi-plugin"></i>
 
-                  <?= __('admin.award_level') ?>
-
-                </a>
-
-                
-
-                <a class="dropdown-item"  href="<?= base_url('admincontrol/reward') ?>">
-
-                <i class="bi bi-clipboard2-data-fill"></i>
-
-                  <?= __('Khen Thưởng') ?></a>
+            <?= __('admin.menu_addons') ?></a>
 
 
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/affiliate_theme') ?>">
+          <a class="dropdown-item" <?= $sidebar_data['award_level_is_enable'] == 0 ? 'style="display:none;"' : ''; ?> href="<?= base_url('admincontrol/award_level') ?>">
 
-                  <i class="bi bi-palette"></i>
+            <i class="bi bi-award"></i>
 
-                  <?= __('admin.affiliate_theme') ?></a>
+            <?= __('admin.award_level') ?>
 
-
-
-                <a class="dropdown-item" href="<?= base_url('admincontrol/language') ?>">
-
-                  <i class="bi bi-translate"></i>
-
-                  <?= __('admin.menu_language') ?></a>
+          </a>
 
 
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/currency_list') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/reward') ?>">
 
-                  <i class="bi bi-coin"></i>
+            <i class="bi bi-clipboard2-data-fill"></i>
 
-                  <?= __('admin.menu_currency') ?></a>
+            <?= __('Khen Thưởng') ?></a>
 
 
 
-                <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/system_status') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/affiliate_theme') ?>">
+
+            <i class="bi bi-palette"></i>
+
+            <?= __('admin.affiliate_theme') ?></a>
+
+
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/language') ?>">
+
+            <i class="bi bi-translate"></i>
+
+            <?= __('admin.menu_language') ?></a>
+
+
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/currency_list') ?>">
+
+            <i class="bi bi-coin"></i>
+
+            <?= __('admin.menu_currency') ?></a>
+
+
+
+          <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/system_status') ?>">
 
                   <i class="bi bi-life-preserver"></i>
 
@@ -234,7 +232,7 @@
 
 
 
-                <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/cron') ?>">
+          <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/cron') ?>">
 
                   <i class="bi bi-folder-symlink"></i>
 
@@ -242,7 +240,7 @@
 
 
 
-                <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/todolist') ?>">
+          <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/todolist') ?>">
 
                   <i class="bi bi-check2-all"></i>
 
@@ -250,23 +248,23 @@
 
 
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/tickets') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/tickets') ?>">
 
-                  <i class="bi bi-ticket"></i>
+            <i class="bi bi-ticket"></i>
 
-                  <?= __('admin.menu_tickets') ?></a>
-
-
-
-                <a class="dropdown-item" href="<?= base_url('admincontrol/countries_and_states') ?>">
-
-                  <i class="bi bi-flag"></i>
-
-                  <?= __('admin.countries_and_states') ?></a>
+            <?= __('admin.menu_tickets') ?></a>
 
 
 
-                <!-- <a class="dropdown-item" target= "_blank" href="<?= base_url('/api-document') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/countries_and_states') ?>">
+
+            <i class="bi bi-flag"></i>
+
+            <?= __('admin.countries_and_states') ?></a>
+
+
+
+          <!-- <a class="dropdown-item" target= "_blank" href="<?= base_url('/api-document') ?>">
 
                   <i class="bi bi-file-code"></i>
 
@@ -274,15 +272,15 @@
 
 
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/tutorial') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/tutorial') ?>">
 
-                  <i class="bi bi-file-person"></i>
+            <i class="bi bi-file-person"></i>
 
-                  <?= __('admin.tutorial') ?></a>
+            <?= __('admin.tutorial') ?></a>
 
 
 
-                <!-- <a class="dropdown-item" target="_blank" href="<?= base_url('debug/sysupdatereport') ?>">
+          <!-- <a class="dropdown-item" target="_blank" href="<?= base_url('debug/sysupdatereport') ?>">
 
                   <i class="bi bi-flag"></i>
 
@@ -290,7 +288,7 @@
 
 
 
-                <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/troubleshoot') ?>">
+          <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/troubleshoot') ?>">
 
                   <i class="bi bi-tropical-storm"></i>
 
@@ -298,185 +296,185 @@
 
 
 
-                <!-- <a class="dropdown-item" target="_blank" href="<?= base_url('/sitemap.xml') ?>">
+          <!-- <a class="dropdown-item" target="_blank" href="<?= base_url('/sitemap.xml') ?>">
 
                   <i class="bi bi-map"></i>
 
                   <?= __('admin.sitemap') ?></a> -->
 
-              </div>
+        </div>
 
-            </li>
+      </li>
 
-            <li class="nav-item dropdown">
+      <li class="nav-item dropdown">
 
-              <a class="nav-link dropdown" href="javascript:void(0);" aria-haspopup="dropdown" data-bs-toggle="dropdown">
+        <a class="nav-link dropdown" href="javascript:void(0);" aria-haspopup="dropdown" data-bs-toggle="dropdown">
 
-                <div>
+          <div>
 
-                  <i class="fas fa-credit-card"></i>
+            <i class="fas fa-credit-card"></i>
 
-                  <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.payments_system') ?></span>
+            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.payments_system') ?></span>
 
-                </div>
+          </div>
 
-                <div>
+          <div>
 
-                 <i class="fas fa-angle-right"></i>
+            <i class="fas fa-angle-right"></i>
 
-                </div>
+          </div>
 
-              </a>
+        </a>
 
-              <div class="dropdown-menu">
+        <div class="dropdown-menu">
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/payment_gateway') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/payment_gateway') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.payment_gateways') ?>
+            <?= __('admin.payment_gateways') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/all_transaction') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/all_transaction') ?>">
 
-                  <i class="fas fa-sliders-h"></i> 
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.menu_all_transactions') ?>
+            <?= __('admin.menu_all_transactions') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/uncompleted_payments') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/uncompleted_payments') ?>">
 
-                  <i class="fas fa-sliders-h"></i> 
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.menu_uncompleted_payments') ?>
+            <?= __('admin.menu_uncompleted_payments') ?>
 
-                </a>
+          </a>
 
-              </div>
+        </div>
 
-            </li>
+      </li>
 
-             <li class="nav-item dropdown">
+      <li class="nav-item dropdown">
 
-              <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
+        <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
 
-                <div>
+          <div>
 
-                  <i class="fas fa-users"></i>
+            <i class="fas fa-users"></i>
 
-                  <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.menu_members') ?></span>
+            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.menu_members') ?></span>
 
-                </div>
+          </div>
 
-                <div>
+          <div>
 
-                  <i class="fas fa-angle-right"></i>
+            <i class="fas fa-angle-right"></i>
 
-                </div>
+          </div>
 
-              </a>
+        </a>
 
-              <div class="dropdown-menu">
+        <div class="dropdown-menu">
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/userslist') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/userslist') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.menu_list_affiliates') ?>
+            <?= __('admin.menu_list_affiliates') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/usergroup') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/usergroup') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.menu_user_group') ?>
+            <?= __('admin.menu_user_group') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/userslisttree') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/userslisttree') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.menu_referring_tree') ?>
+            <?= __('admin.menu_referring_tree') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/userslistmail') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/userslistmail') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.menu_list_affiliates_email') ?>
+            <?= __('admin.menu_list_affiliates_email') ?>
 
-                </a> <?php if($userdetails['id'] == 1){ ?>
+          </a> <?php if ($userdetails['id'] == 1) { ?>
 
-                  <a class="dropdown-item" href="<?= base_url('admincontrol/admin_user') ?>">
+            <a class="dropdown-item" href="<?= base_url('admincontrol/admin_user') ?>">
 
-                    <i class="fas fa-sliders-h"></i>
+              <i class="fas fa-sliders-h"></i>
 
-                    <?= __('admin.menu_manage_admin') ?>
+              <?= __('admin.menu_manage_admin') ?>
 
-                  </a> 
+            </a>
 
-                <?php } ?>
+          <?php } ?>
 
-              </div>
+        </div>
 
-            </li>
+      </li>
 
-            <li id="sidebar_store" class="nav-item dropdown" <?= $sidebar_data['store_is_enable'] == 0 ? 'style="display:none;"' : ''; ?>>
+      <li id="sidebar_store" class="nav-item dropdown" <?= $sidebar_data['store_is_enable'] == 0 ? 'style="display:none;"' : ''; ?>>
 
-              <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
+        <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
 
-                <div>
+          <div>
 
-                  <i class="fas fa-shopping-bag"></i>
+            <i class="fas fa-shopping-bag"></i>
 
-                  <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;">
+            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;">
 
-                    <?= __('admin.menu_my_store') ?>
+              <?= __('admin.menu_my_store') ?>
 
-                  </span>
+            </span>
 
-                </div>
+          </div>
 
-                <div>
+          <div>
 
-                  <i class="fas fa-angle-right"></i>
+            <i class="fas fa-angle-right"></i>
 
-                </div>
+          </div>
 
-              </a>
+        </a>
 
-              <div class="dropdown-menu">
+        <div class="dropdown-menu">
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/store_dashboard') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/store_dashboard') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.store_home') ?>
+            <?= __('admin.store_home') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/store_setting') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/store_setting') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.store_settings') ?>
+            <?= __('admin.store_settings') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/listproduct') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/listproduct') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.store_cart_products') ?>
+            <?= __('admin.store_cart_products') ?>
 
-                </a>
+          </a>
 
-                <!-- <a class="dropdown-item" href="<?= base_url('Productsales/index') ?>">
+          <!-- <a class="dropdown-item" href="<?= base_url('Productsales/index') ?>">
 
                   <i class="fas fa-sliders-h"></i>
 
@@ -484,7 +482,7 @@
 
                 </a> -->
 
-                <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/listproduct/reviews') ?>">
+          <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/listproduct/reviews') ?>">
 
                   <i class="fas fa-sliders-h"></i>
 
@@ -492,155 +490,155 @@
 
                 </a> -->
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/store_category') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/store_category') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.store_categories') ?>
+            <?= __('admin.store_categories') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/listorders') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/listorders') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.store_orders') ?>
+            <?= __('admin.store_orders') ?>
 
-                </a>                
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/listclients') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/listclients') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.store_clients') ?>
+            <?= __('admin.store_clients') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/listbranchs') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/listbranchs') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.store_branchs') ?>
+            <?= __('admin.store_branchs') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/liststocks') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/liststocks') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.store_stocks') ?>
+            <?= __('admin.store_stocks') ?>
 
-                </a>
+          </a>
 
-              </div>
+        </div>
 
-            </li>
+      </li>
 
-           
 
 
 
-            <li id="sidebar_market_tools" class="nav-item dropdown" <?= $sidebar_data['market_tools_is_enable'] == 0 ? 'style="display:none;"' : ''; ?>>
 
-              <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
+      <li id="sidebar_market_tools" class="nav-item dropdown" <?= $sidebar_data['market_tools_is_enable'] == 0 ? 'style="display:none;"' : ''; ?>>
 
-                <div>
+        <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
 
-                 <i class="fas fa-cog"></i>
+          <div>
 
-                 <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.program_integrations') ?></span>
+            <i class="fas fa-cog"></i>
 
-                </div>
+            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.program_integrations') ?></span>
 
-                <div>
+          </div>
 
-                  <i class="fas fa-angle-right"></i>
+          <div>
 
-                </div>
+            <i class="fas fa-angle-right"></i>
 
-              </a>
+          </div>
 
-              <div class="dropdown-menu">
+        </a>
 
-                <a class="dropdown-item" href="<?= base_url('integration/integration_tools') ?>">
+        <div class="dropdown-menu">
 
-                  <i class="fas fa-sliders-h"></i>
+          <a class="dropdown-item" href="<?= base_url('integration/integration_tools') ?>">
 
-                  <?= __('admin.menu_affiliate_marketing') ?>
+            <i class="fas fa-sliders-h"></i>
 
-                </a>
+            <?= __('admin.menu_affiliate_marketing') ?>
 
-                <a class="dropdown-item" href="<?= base_url('integration/programs') ?>">
+          </a>
 
-                  <i class="fas fa-sliders-h"></i>
+          <a class="dropdown-item" href="<?= base_url('integration/programs') ?>">
 
-                  <?= __('admin.sub_menu_integration_programs') ?>
+            <i class="fas fa-sliders-h"></i>
 
-                </a>
+            <?= __('admin.sub_menu_integration_programs') ?>
 
-                <a class="dropdown-item" href="<?= base_url('integration/integration_category') ?>">
+          </a>
 
-                  <i class="fas fa-sliders-h"></i>
+          <a class="dropdown-item" href="<?= base_url('integration/integration_category') ?>">
 
-                  <?= __('admin.integration_category') ?>
+            <i class="fas fa-sliders-h"></i>
 
-                </a>
+            <?= __('admin.integration_category') ?>
 
-              </div>
+          </a>
 
-            </li>
+        </div>
 
-            <li class="nav-item dropdown">
+      </li>
 
-              <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
+      <li class="nav-item dropdown">
 
-                <div>
+        <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
 
-                  <i class="fas fa-hiking"></i>
+          <div>
 
-                  <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;">
+            <i class="fas fa-hiking"></i>
 
-                    <?= __('admin.system_activity') ?>
+            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;">
 
-                  </span>
+              <?= __('admin.system_activity') ?>
 
-                </div>
+            </span>
 
-                <div>
+          </div>
 
-                  <i class="fas fa-angle-right"></i>
+          <div>
 
-                </div>
+            <i class="fas fa-angle-right"></i>
 
-              </a>
+          </div>
 
-              <div class="dropdown-menu">
+        </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/store_orders') ?>">
+        <div class="dropdown-menu">
 
-                  <i class="fas fa-sliders-h"></i>
+          <a class="dropdown-item" href="<?= base_url('admincontrol/store_orders') ?>">
 
-                  <?= __('admin.my_all_orders') ?>
+            <i class="fas fa-sliders-h"></i>
 
-                </a>
+            <?= __('admin.my_all_orders') ?>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/store_logs') ?>">
+          </a>
 
-                  <i class="fas fa-sliders-h"></i>
+          <a class="dropdown-item" href="<?= base_url('admincontrol/store_logs') ?>">
 
-                  <?= __('admin.my_all_logs') ?>
+            <i class="fas fa-sliders-h"></i>
 
-                </a>
+            <?= __('admin.my_all_logs') ?>
 
-                <a class="dropdown-item" href="<?= base_url('incomereport') ?>">
+          </a>
 
-                  <i class="fas fa-sliders-h"></i>
+          <a class="dropdown-item" href="<?= base_url('incomereport') ?>">
 
-                  <?= __('admin.menu_users_statistics') ?>
+            <i class="fas fa-sliders-h"></i>
 
-                </a>
+            <?= __('admin.menu_users_statistics') ?>
 
-                <!-- <a class="dropdown-item" href="<?= base_url('reportController/admin_transaction') ?>">
+          </a>
+
+          <!-- <a class="dropdown-item" href="<?= base_url('reportController/admin_transaction') ?>">
 
                   <i class="fas fa-sliders-h"></i>
 
@@ -648,7 +646,7 @@
 
                 </a> -->
 
-                <!-- <a class="dropdown-item" href="<?= base_url('reportController/admin_statistics') ?>">
+          <!-- <a class="dropdown-item" href="<?= base_url('reportController/admin_statistics') ?>">
 
                   <i class="fas fa-sliders-h"></i>
 
@@ -656,268 +654,266 @@
 
                 </a> -->
 
-              </div>
+        </div>
 
-            </li>
+      </li>
 
-            <li class="nav-item dropdown">
+      <li class="nav-item dropdown">
 
-              <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
+        <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
 
-                <div>
+          <div>
 
-                  <i class="fas fa-wallet"></i>
+            <i class="fas fa-wallet"></i>
 
-                  <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;">
+            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;">
 
-                    <?= __('admin.menu_admin_wallet') ?>
+              <?= __('admin.menu_admin_wallet') ?>
 
-                  </span>
+            </span>
 
-                </div>
+          </div>
 
-                <div>
+          <div>
 
-                  <i class="fas fa-angle-right"></i>
+            <i class="fas fa-angle-right"></i>
 
-                </div>
+          </div>
 
-              </a>
+        </a>
 
-              <div class="dropdown-menu">
+        <div class="dropdown-menu">
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/mywallet') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/mywallet') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.menu_all_transactions') ?>
+            <?= __('admin.menu_all_transactions') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/wallet_requests_list') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/wallet_requests_list') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.menu_withdraw_request_v2') ?>
+            <?= __('admin.menu_withdraw_request_v2') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/withdrawal_payment_gateways') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/withdrawal_payment_gateways') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.withdrawal_payment_gateways') ?>
+            <?= __('admin.withdrawal_payment_gateways') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/wallet_setting') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/wallet_setting') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.wallet_setting') ?>
+            <?= __('admin.wallet_setting') ?>
 
-                </a>
+          </a>
 
-              </div>
+        </div>
 
-            </li>
+      </li>
 
 
 
-            <li id="sidebar_mlm" class="nav-item dropdown" <?= $sidebar_data['mlm_is_enable'] == 0 ? 'style="display:none;"' : ''; ?>>
+      <li id="sidebar_mlm" class="nav-item dropdown" <?= $sidebar_data['mlm_is_enable'] == 0 ? 'style="display:none;"' : ''; ?>>
 
-              <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
+        <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
 
-                <div>
+          <div>
 
-                  <i class="fas fa-drum-steelpan"></i>
+            <i class="fas fa-drum-steelpan"></i>
 
-                  <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;">
+            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;">
 
-                    <?= __('admin.menu_mlm') ?>
+              <?= __('admin.menu_mlm') ?>
 
-                  </span>
+            </span>
 
-                </div>
+          </div>
 
-                <div>
+          <div>
 
-                  <i class="fas fa-angle-right"></i>
+            <i class="fas fa-angle-right"></i>
 
-                </div>
+          </div>
 
-              </a>
+        </a>
 
-              <div class="dropdown-menu">
+        <div class="dropdown-menu">
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_settings') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_settings') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.menu_mlm_settings') ?>
+            <?= __('admin.menu_mlm_settings') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_levels') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_levels') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.menu_mlm_levels') ?>
+            <?= __('admin.menu_mlm_levels') ?>
 
-                </a>
+          </a>
 
-                  <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_levels_hang_hoa') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_levels_hang_hoa') ?>">
 
-                      <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                      <?= __('Cấp độ Affilicate Hàng Hoá') ?>
+            <?= __('Cấp độ Affilicate Hàng Hoá') ?>
 
-                  </a>
+          </a>
 
-                  <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_levels_te_bao_goc') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_levels_te_bao_goc') ?>">
 
-                      <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                      <?= __('Cấp độ Affilicate Tế Bào Gốc') ?>
+            <?= __('Cấp độ Affilicate Tế Bào Gốc') ?>
 
-                  </a>
+          </a>
 
-                  <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_levels_dich_vu') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_levels_dich_vu') ?>">
 
-                      <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                      <?= __('Cấp độ Affilicate Dịch Vụ') ?>
+            <?= __('Cấp độ Affilicate Dịch Vụ') ?>
 
-                  </a>
+          </a>
 
-                  <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_levels_dao_tao') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/mlm_levels_dao_tao') ?>">
 
-                      <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                      <?= __('Cấp độ Affilicate Đào Tạo') ?>
+            <?= __('Cấp độ Affilicate Đào Tạo') ?>
 
-                  </a>
+          </a>
 
-              </div>
+        </div>
 
-            </li>
+      </li>
 
 
 
-            <li id="sidebar_saas" class="nav-item dropdown" <?= $sidebar_data['saas_is_enable'] == 0 ? 'style="display:none;"' : ''; ?>>
+      <li id="sidebar_saas" class="nav-item dropdown" <?= $sidebar_data['saas_is_enable'] == 0 ? 'style="display:none;"' : ''; ?>>
 
-              <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
+        <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
 
-                <div>
+          <div>
 
-                <i class="fas fa-sliders-h"></i> <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.menu_saas') ?></span>
+            <i class="fas fa-sliders-h"></i> <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.menu_saas') ?></span>
 
-                </div>
+          </div>
 
-                <div>
+          <div>
 
-                  <i class="fas fa-angle-right"></i>
+            <i class="fas fa-angle-right"></i>
 
-                </div>
+          </div>
 
-              </a>
+        </a>
 
-              <div class="dropdown-menu">
+        <div class="dropdown-menu">
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/saas_setting') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/saas_setting') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.menu_saas_settings') ?>
+            <?= __('admin.menu_saas_settings') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('admincontrol/vendor_deposits') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/vendor_deposits') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.vendor_deposit') ?>
+            <?= __('admin.vendor_deposit') ?>
 
-                </a>
+          </a>
 
-              </div>
+        </div>
 
-            </li>
+      </li>
 
 
 
-            <li id="sidebar_membership" class="nav-item dropdown" <?= $sidebar_data['membership_is_enable'] == 0 ? 'style="display:none;"' : ''; ?>>
+      <li id="sidebar_membership" class="nav-item dropdown" <?= $sidebar_data['membership_is_enable'] == 0 ? 'style="display:none;"' : ''; ?>>
 
-              <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
+        <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
 
-                <div>
+          <div>
 
-                  <i class="fas fa-layer-group"></i>
+            <i class="fas fa-layer-group"></i>
 
-                  <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;">
+            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;">
 
-                    <?= __('admin.membership') ?>
+              <?= __('admin.membership') ?>
 
-                  </span>
+            </span>
 
-                </div>
+          </div>
 
-                <div>
+          <div>
 
-                  <i class="fas fa-angle-right"></i>
+            <i class="fas fa-angle-right"></i>
 
-                </div>
+          </div>
 
-              </a>
+        </a>
 
-              <div class="dropdown-menu">
+        <div class="dropdown-menu">
 
-                <a class="dropdown-item" href="<?= base_url('membership/plans') ?>">
+          <a class="dropdown-item" href="<?= base_url('membership/plans') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.membership_plans') ?>
+            <?= __('admin.membership_plans') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('membership/membership_orders') ?>">
+          <a class="dropdown-item" href="<?= base_url('membership/membership_orders') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.membership_orders') ?>
+            <?= __('admin.membership_orders') ?>
 
-                </a>
+          </a>
 
-                <a class="dropdown-item" href="<?= base_url('membership/settings') ?>">
+          <a class="dropdown-item" href="<?= base_url('membership/settings') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.membership_settings') ?>
+            <?= __('admin.membership_settings') ?>
 
-                </a>
+          </a>
 
-              </div>
+        </div>
 
-            </li>
+      </li>
 
 
 
-          </ul>
+    </ul>
 
-      </div>
+  </div>
 
 </div>
 
-  </div>
+</div>
 
 
 
 <script type="text/javascript">
-
   var localStorageValue = localStorage.getItem("close-sidebar");
 
   if (localStorageValue) $(".main .left-menu").addClass("deactive");
 
   else $(".main .left-menu").removeClass("deactive");
-
 </script>

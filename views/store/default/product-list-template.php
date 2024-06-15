@@ -362,7 +362,7 @@ Nuwa
 
 			<div class="">
 
-				<div class="price">{{product_price}}</div>
+				<div class="price">{{ product_price == 0 ? 'Sắp ra mắt' : product_price }}</div>
 
 				<!-- <div class="price">
 

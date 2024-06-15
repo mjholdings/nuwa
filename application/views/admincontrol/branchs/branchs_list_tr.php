@@ -1,30 +1,28 @@
-<?php foreach ($clientslist as $clients) { ?>
+<?php foreach ($branchlist as $branch) : ?>
 
   <tr>
 
-    <td class="text-center"><?php echo $clients['id']; ?></td>
+    <td class="text-center"><?php //echo $branch['id']; ?></td>
 
     <td>
 
-      <?php
+      <?php     
 
-      $clientFullName = $clients['firstname'] . " " . $clients['lastname'];
-
-      echo strlen($clientFullName) > 20 ? substr($clientFullName, 0, 20) . "..." : $clientFullName;
+      //echo $branch['name'];
 
       ?>
 
     </td>
 
-    <td class=""><?php echo $clients['email']; ?></td>
+    <td class=""><?php echo $branch['address']; ?></td>
 
-    <td class="text-center"><?php echo $clients['phone']; ?></td>
+    <td class="text-center"><?php echo $branch['phone']; ?></td>
 
-    <td class="text-center"><?php echo $clients['username']; ?></td>
+    <td class="text-center"><?php echo $branch['location']; ?></td>
 
     <td class="text-center">
 
-      <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#clientModel<?= $clients['id'] ?>">
+      <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#branchModel<?= $branch['id'] ?>">
 
         <i class="fas fa-info-circle" style="color:#ffffff"></i>
 
@@ -34,179 +32,153 @@
 
       <!-- Modal -->
 
-<div class="modal fade" id="clientModel<?= $clients['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="branchModel<?= $branch['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-  <div class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document">
 
-    <div class="modal-content">
+          <div class="modal-content">
 
-      <div class="modal-header">
+            <div class="modal-header">
 
-        <h5 class="modal-title"><?= __('admin.client_info') ?></h5>
+              <h5 class="modal-title"><?= __('admin.branch_info') ?></h5>
 
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
-      </div>
+            </div>
 
-      <div class="modal-body">
+            <div class="modal-body">
 
-        <div class="row">
+              <div class="row">
 
-          <div class="col-md-6">
+                <div class="col-md-6">
 
-            <strong><?= __('admin.firstname') ?></strong>
+                  <strong><?= __('admin.name') ?></strong>
 
-            <p><?php echo $clients['firstname']; ?></p>
+                  <p><?php echo $branch['name']; ?></p>
 
-          </div>
+                </div>
 
-          <div class="col-md-6">
+                <div class="col-md-6">
 
-            <strong><?= __('admin.lastname') ?></strong>
+                  <strong><?= __('admin.address') ?></strong>
 
-            <p><?php echo $clients['lastname']; ?></p>
+                  <p><?php echo $branch['address']; ?></p>
 
-          </div>
+                </div>
 
-        </div>
+              </div>
 
-        <div class="row">
+              <div class="row">
 
-          <div class="col-md-6">
+                <div class="col-md-6">
 
-            <strong><?= __('admin.refer_user') ?></strong>
+                  <strong><?= __('admin.phone') ?></strong>
 
-            <p><?php echo $clients['ref_user']; ?></p>
+                  <p><?php echo $branch['phone']; ?></p>
 
-          </div>
+                </div>
 
-          <div class="col-md-6">
+                <div class="col-md-6">
 
-            <strong><?= __('admin.email') ?></strong>
+                  <strong><?= __('admin.location') ?></strong>
 
-            <p><?php echo $clients['email']; ?></p>
+                  <p><?php echo $branch['location']; ?></p>
 
-          </div>
+                </div>
 
-        </div>
+              </div>
 
-        <div class="row">
+              <div class="row">
 
-          <div class="col-md-6">
+                <div class="col-md-6">
 
-            <strong><?= __('admin.phone') ?></strong>
+                  <strong><?= __('admin.phone') ?></strong>
 
-            <p><?php echo $clients['phone']; ?></p>
+                  <p><?php echo $branch['phone']; ?></p>
 
-          </div>
+                </div>
 
-          <div class="col-md-6">
+                <div class="col-md-6">
 
-            <strong><?= __('admin.username') ?></strong>
+                  <strong><?= __('admin.name') ?></strong>
 
-            <p><?php echo $clients['username']; ?></p>
+                  <p><?php echo $branch['name']; ?></p>
 
-          </div>
+                </div>
 
-        </div>
+              </div>
 
-        <div class="row">
+              <div class="row">
 
-          <div class="col-md-6">
+                <div class="col-md-6">
 
-            <strong><?= __('admin.sales') ?></strong>
+                  <strong><?= __('admin.sales') ?></strong>
 
-            <p><?php echo $clients['total_sale']; ?> / <?php echo c_format($clients['amount']); ?></p>
+                  <p><?php echo $branch['name']; ?> / <?php echo c_format($branch['name']); ?></p>
 
-          </div>
+                </div>
 
-          <div class="col-md-6">
+                <div class="col-md-6">
 
-            <strong><?= __('admin.type') ?></strong>
+                  <strong><?= __('admin.type') ?></strong>
 
-            <p><?php echo __('admin.type_' . $clients['type']); ?></p>
+                  <p><?php echo __('admin.type_' . $branch['name']); ?></p>
 
-          </div>
+                </div>
 
-        </div>
+              </div>
 
-        <div class="row">
+              <div class="row">
 
-        <div class="col-md-6">
+                <div class="col-md-6">
 
-            <strong><?= __('admin.country') ?></strong>
+                  <strong><?= __('admin.country') ?></strong>
 
-            <p>
+                  <p>
 
-            <?php
+                  </p>
 
-                $countryName = "<i class='text-muted'>" . __('admin.not_available') . "</i>";
+                </div>
 
-                if (!empty($clients['ucountry'])) {
+                <div class="col-md-6">
 
-                    foreach ($countries as $key => $value) {
+                  <strong><?= __('admin.state') ?></strong>
 
-                        if ($clients['ucountry'] == $value->id) {
 
-                            $countryName = $value->name;
 
-                            break;
+                </div>
 
-                        }
+              </div>
 
-                    }
+              <div class="row">
 
-                }
+                <div class="col-md-6">
 
-                echo $countryName;
+                  <strong><?= __('admin.city') ?></strong>
 
-            ?>
 
-            </p>
 
-        </div>
+                </div>
 
-          <div class="col-md-6">
+                <div class="col-md-6">
 
-            <strong><?= __('admin.state') ?></strong>
+                  <strong><?= __('admin.postal_code') ?></strong>
 
-            <p><?php echo !empty($clients['state']) ? $clients['state'] : "<i class='text-muted'>" . __('admin.not_available') . "</i>"; ?></p>
+                </div>
 
-          </div>
+                <div class="col-md-12">
 
-        </div>
+                  <strong><?= __('admin.full_address') ?></strong>
 
-        <div class="row">
+                  <p>
 
-          <div class="col-md-6">
+                  </p>
 
-            <strong><?= __('admin.city') ?></strong>
+                </div>
 
-            <p><?php echo !empty($clients['ucity']) ? $clients['ucity'] : "<i class='text-muted'>" . __('admin.not_available') . "</i>"; ?></p>
+              </div>
 
-          </div>
-
-          <div class="col-md-6">
-
-            <strong><?= __('admin.postal_code') ?></strong>
-
-            <p><?php echo !empty($clients['uzip']) ? $clients['uzip'] : "<i class='text-muted'>" . __('admin.not_available') . "</i>"; ?></p>
-
-          </div>
-
-          <div class="col-md-12">
-
-              <strong><?= __('admin.full_address') ?></strong>
-
-              <p>
-
-                  <?php 
-
-                  echo !empty($clients['twaddress']) ? nl2br($clients['twaddress']) : "<i class='text-muted'>" . __('admin.not_available') . "</i>"; 
-
-                  ?>
-
-              </p>
+            </div>
 
           </div>
 
@@ -214,85 +186,13 @@
 
       </div>
 
-    </div>
 
-  </div>
+      <a class="btn btn-danger deleteuser" data-url="<?php echo base_url(); ?>admincontrol/deleteusers/<?php echo $branch['id']; ?>/<?php echo $branch['name']; ?>" href="#"><i class="fa fa-trash-o cursors" aria-hidden="true" style="color:#ffffff"></i></a>
 
-</div>
-
-      <a class="btn btn-info viewShipping" data-id="<?php echo $clients['id']; ?>" href="#" title="Click to view Shipping details"><i class="fa fa-shopping-cart" aria-hidden="true" style="color:#ffffff"></i></a>
-
-      <a class="btn btn-danger deleteuser" data-url="<?php echo base_url(); ?>admincontrol/deleteusers/<?php echo $clients['id']; ?>/<?php echo $clients['type']; ?>" href="#"><i class="fa fa-trash-o cursors" aria-hidden="true" style="color:#ffffff"></i></a>
-
-      <a class="btn btn-primary" onclick="return confirm('<?php echo __('admin.are_you_sure_to_edit'); ?>');" href="<?php echo base_url(); ?>admincontrol/addbranch/<?php echo $clients['id']; ?>"><i class="fa fa-edit cursors" aria-hidden="true" style="color:#ffffff"></i></a>
+      <a class="btn btn-primary" onclick="return confirm('<?php echo __('admin.are_you_sure_to_edit'); ?>');" href="<?php echo base_url(); ?>admincontrol/addbranch/<?php echo $branch['id']; ?>"><i class="fa fa-edit cursors" aria-hidden="true" style="color:#ffffff"></i></a>
 
     </td>
 
   </tr>
 
-<?php } ?>
-
-
-
-<script type="text/javascript">
-
-    function isNumberKey(evt)
-
-    {
-
-      var charCode = (evt.which) ? evt.which : event.keyCode;
-
-        if (charCode != 46 && charCode != 45 && charCode > 31
-
-        && (charCode < 48 || charCode > 57))
-
-         return false;
-
-
-
-      return true;
-
-    }
-
-   renderStateAndCart('<?=$client->ucountry?>');
-
-   $("#country").change(function(){
-
-      renderStateAndCart($(this).val())
-
-   });
-
-   function renderStateAndCart(countryCode) {
-
-      $.ajax({
-
-         url:'<?= base_url('admincontrol/getState') ?>',
-
-         type:'POST',
-
-
-
-         data:{country_id:countryCode,isId:true},
-
-         beforeSend:function(){$('[name="state"]').prop("disabled",true);},
-
-         complete:function(){$('[name="state"]').prop("disabled",false);},
-
-         success:function(html){
-
-
-
-          $('[name="state"]').html(html);
-
-          if('<?=$client->state?>' !="")
-
-          $('[name="state"]').val('<?=$client->state?>')
-
-       },
-
-    });
-
-   } 
-
-</script>
-
+<?php endforeach; ?>

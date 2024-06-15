@@ -7,6 +7,7 @@ class Admincontrol extends MY_Controller {
 		parent::__construct();
 		$this->load->model('user_model', 'user');
 		$this->load->model('Product_model');
+		$this->load->model('Branch_model', 'Branch');
 		$this->load->model('Setting_model');
 		$this->load->model('Common_model');
 		$this->load->model('Review_model');
@@ -7733,300 +7734,70 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'clients/index');
 	}
 
-	public function addbranch($id = null) {
-
-
+	public function addbranch($branch_id = null) {
 
 		$userdetails = $this->userdetails();
-
-
 
 		if (empty($userdetails)) {
 
 			redirect($this->admin_domain_url);
 		}
 
-
-
 		$data = array();
-
-
 
 		if ($this->input->post()) {
 
-
-
 			$this->load->library('form_validation');
 
+			$details = array(
 
+				'name' => $this->input->post('name', true),
 
-			$checkmail = $this->Product_model->checkmail($this->input->post('email', true), $id);
+				'address'  => $this->input->post('address', true),
 
+				'location'  => $this->input->post('location', true),
 
+				'phone'  => '+' . $this->input->post('countrycode', true) . ' ' . $this->input->post('phone', true),
 
-			$checkuser = $this->Product_model->checkuser($this->input->post('username', true), $id);
-
-
-
-			if (!empty($checkmail)) {
-
-
-
-				$this->session->set_flashdata('error', __('admin.this_email_already_register'));
-
-
-
-				$this->session->set_flashdata('postdata', $this->input->post());
-
-
-
-				redirect('admincontrol/addbranch');
-
-			} elseif (!empty($checkuser)) {
+			);	
+			
+			if (!empty($checkuser)) {
 
 				$this->session->set_flashdata('error', __('admin.this_username_already_register'));
 
-
-
 				$this->session->set_flashdata('postdata', $this->input->post());
 
-
-
 				redirect('admincontrol/addbranch');
+
 			} else {
+			
 
-				if (empty($id)) {
+					if ($branch_id) {
 
+						$this->Product_model->update_data('branch', $details, array('id' => $branch_id));
 
+					} else {
 
-					$data = $this->user->insert(array(
-
-
-
-						'firstname' => $this->input->post('firstname', true),
-
-
-
-						'lastname'  => $this->input->post('lastname', true),
-
-
-
-						'email'     => $this->input->post('email', true),
-
-
-
-						'username'  => $this->input->post('username', true),
-
-
-
-						'status'  => $this->input->post('status', true),
-
-
-
-						'phone'  => '+' . $this->input->post('countrycode', true) . ' ' . $this->input->post('phone', true),
-
-
-
-						'ucountry'  => $this->input->post('country', true),
-
-
-
-						'state'  => $this->input->post('state', true),
-
-
-
-						'ucity'  => $this->input->post('ucity', true),
-
-
-
-						'uzip'  => $this->input->post('uzip', true),
-
-
-
-						'twaddress'  => $this->input->post('twaddress', true),
-
-
-
-						'password'  => sha1($this->input->post('password', true)),
-
-
-
-						'refid'     => 0,
-
-
-
-						'type'      => 'client',
-
-
-
-					));
-				} else {
-
-
-
-					$data = $id;
-				}
-
-
-
-				if (!empty($data)) {
-
-
-
-					$arrayName = array(
-
-
-
-						'firstname' => $this->input->post('firstname', true),
-
-
-
-						'lastname'  => $this->input->post('lastname', true),
-
-
-
-						'email'  => $this->input->post('email', true),
-
-
-
-						'status'  => $this->input->post('status', true),
-
-
-
-						'ucountry'  => $this->input->post('country', true),
-
-
-
-						'state'  => $this->input->post('state', true),
-
-
-
-						'ucity'  => $this->input->post('ucity', true),
-
-
-
-						'uzip'  => $this->input->post('uzip', true),
-
-
-
-						'twaddress'  => $this->input->post('twaddress', true),
-
-
-
-						'phone'  => '+' . $this->input->post('countrycode', true) . ' ' . $this->input->post('phone', true),
-
-
-
-
-
-					);
-
-
-
-					if ($this->input->post('password', true) != '') {
-
-
-
-						$arrayName['password'] = sha1($this->input->post('password', true));
-					}
-
-
-
-					$this->user->update_user($data, $arrayName);
-
-
+						$id = $this->Product_model->create_data('branch', $details);
+					}					
 
 					$this->session->set_flashdata('success', __('admin.updated_successfully'));
 
-
-
 					redirect('admincontrol/listbranchs/');
-				}
+			
 			}
 		}
 
-
-
-		$data['client'] 	= $this->Product_model->getUserDetailsObject($id);
-
-		$data['countries'] 	= $this->Product_model->getcountry('id,name');
-
-
+		$data['branch'] 	= $this->Branch->getUserDetailsObject($id);
 
 		$this->view($data, 'branchs/add_branch');
 	}
 
 	public function listbranchs($page = 1) {
 
-
-
 		$userdetails = $this->userdetails();
 
-
-
-		$data['countries'] 	= $this->Product_model->getcountry('id,name');
-
-
-
-		$data['user'] = $userdetails;
-
-
-
-		$store_setting = $this->Product_model->getSettings('store');
-
-
-
-		if (isset($_POST['listbranchs'])) {
-
-
-
-			$page = max((int)$page, 1);
-
-
-
-			$filter = array(
-
-				'limit' => 50,
-
-				'page' => $page
-
-			);
-
-
-
-			list($data['clientslist'], $total) = $this->Product_model->getAllClients($filter);
-
-			$data['start_from'] = (($page - 1) * $filter['limit']) + 1;
-
-			$json['html'] = $this->load->view("admincontrol/branchs/branchs_list_tr", $data, true);
-
-
-
-			$this->load->library('pagination');
-
-			$config['base_url'] = base_url('admincontrol/listbranchs/');
-
-			$config['per_page'] = $filter['limit'];
-
-			$config['total_rows'] = $total;
-
-			$config['use_page_numbers'] = TRUE;
-
-			$config['enable_query_strings'] = TRUE;
-
-			$this->pagination->initialize($config);
-
-			$json['pagination'] = $this->pagination->create_links();
-
-			echo json_encode($json);
-			die;
-
-
-
-			exit;
-		}
-
-
+		$data['branchs'] = $this->Branch->get_all_branch();
 
 		$this->view($data, 'branchs/index');
 	}

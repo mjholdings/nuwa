@@ -1,25 +1,20 @@
 <?php
 
-class Product_model extends MY_Model
-{
-    function create_data($table, $details)
-    {
+class Product_model extends MY_Model {
+    function create_data($table, $details) {
         $this->db->insert($table, $details);
         return $this->db->insert_id();
     }
 
-    function create_batch_data($table, $details)
-    {
+    function create_batch_data($table, $details) {
         $this->db->insert_batch($table, $details);
     }
 
-    public function getHtml($file, $data = [])
-    {
+    public function getHtml($file, $data = []) {
         return $this->load->view($file, $data, true);
     }
 
-    public function friendly_seo_string($vp_string)
-    {
+    public function friendly_seo_string($vp_string) {
         $vp_string = trim($vp_string);
         $vp_string = html_entity_decode($vp_string);
         $vp_string = strip_tags($vp_string);
@@ -30,8 +25,7 @@ class Product_model extends MY_Model
         return strtolower($vp_string);
     }
 
-    public function get_wishlist_products($data, $isCart = null)
-    {
+    public function get_wishlist_products($data, $isCart = null) {
         $where = "";
         if (isset($data)) {
             for ($i = 0; $i < sizeOf($data); $i++) {
@@ -52,8 +46,7 @@ class Product_model extends MY_Model
         }
     }
 
-    public function duplicateProduct($product_id, $status_review = false)
-    {
+    public function duplicateProduct($product_id, $status_review = false) {
         $product = $this->db->query("SELECT * FROM product WHERE product_id=" . (int) $product_id)->row_array();
 
         $product['product_name'] = $product['product_name'] . " - Duplicate";
@@ -109,11 +102,9 @@ class Product_model extends MY_Model
         );
 
         $this->db->insert('notification', $notificationData);
-
     }
 
-    public function calcVendorCommission($data)
-    {
+    public function calcVendorCommission($data) {
         $json = [];
         $product_price = (float) $data['product_price'];
         $vendor_setting = $this->getSettings('vendor');
@@ -154,7 +145,6 @@ class Product_model extends MY_Model
         } else if ($data['affiliate_sale_commission_type'] == 'percentage') {
 
             $affiliate_sale_com = ($product_price * (float) $data['affiliate_commission_value']) / 100;
-
         } else if ($data['affiliate_sale_commission_type'] == 'fixed') {
             $affiliate_sale_com = (float) $data['affiliate_commission_value'];
         }
@@ -168,8 +158,7 @@ class Product_model extends MY_Model
         ];
     }
 
-    public function assignToSeller($product_id, $product, $user_id, $admin_comment, $comment_from = 'affiliate', $comm = array())
-    {
+    public function assignToSeller($product_id, $product, $user_id, $admin_comment, $comment_from = 'affiliate', $comm = array()) {
         $data = [
             'product_id' => (int) $product_id,
             'user_id' => (int) $user_id,
@@ -218,8 +207,7 @@ class Product_model extends MY_Model
         }
     }
 
-    public function assignToSellerForce($product_id, $product, $user_id, $admin_comment, $comment_from = 'affiliate', $comm = array())
-    {
+    public function assignToSellerForce($product_id, $product, $user_id, $admin_comment, $comment_from = 'affiliate', $comm = array()) {
         $data = [
             'product_id' => (int) $product_id,
             'user_id' => (int) $user_id,
@@ -246,8 +234,7 @@ class Product_model extends MY_Model
         }
     }
 
-    public function getShippingCountry()
-    {
+    public function getShippingCountry() {
         $shipping_setting = $this->Product_model->getSettings('shipping_setting');
         $cost = (array) (isset($shipping_setting['cost']) ? json_decode($shipping_setting['cost'], 1) : []);
 
@@ -263,8 +250,7 @@ class Product_model extends MY_Model
         return 'all';
     }
 
-    public function upload_photo($fieldname, $path)
-    {
+    public function upload_photo($fieldname, $path) {
         $config['upload_path'] = $path;
         $config['allowed_types'] = 'png|gif|jpeg|jpg|PNG|GIF|JPEG|JPG|ICO|ico';
         $config['max_size'] = 2048;
@@ -290,8 +276,7 @@ class Product_model extends MY_Model
         return $data;
     }
 
-    public function getShippingRate($countryId)
-    {
+    public function getShippingRate($countryId) {
         $shipping_setting = $this->Product_model->getSettings('shipping_setting');
         $cost = (array) (isset($shipping_setting['cost']) ? json_decode($shipping_setting['cost'], 1) : []);
 
@@ -307,8 +292,7 @@ class Product_model extends MY_Model
         return 0;
     }
 
-    public function getTaxRate($countryId)
-    {
+    public function getTaxRate($countryId) {
         $tax = 0;
 
         $tax_setting = $this->Product_model->getSettings('tax_setting');
@@ -331,48 +315,38 @@ class Product_model extends MY_Model
         return $tax;
     }
 
-    public function insertOrDelete($data, $where)
-    {
+    public function insertOrDelete($data, $where) {
         $this->db->delete('order_proof', $where);
         $this->db->insert('order_proof', $data);
     }
 
-    public function getProductCategory($product_id)
-    {
+    public function getProductCategory($product_id) {
         return $this->db->query("SELECT pc.product_id,c.* FROM product_categories pc LEFT JOIN categories c ON c.id = pc.category_id WHERE pc.product_id = {$product_id}")->result_array();
     }
 
-    public function getProductTeBaoGoc()
-    {
+    public function getProductTeBaoGoc() {
         return $this->db->query('SELECT p.product_name, p.product_msrp, p.product_price, p.product_avg_rating, p.product_featured_image, p.product_slug FROM product_categories pc LEFT JOIN categories c ON c.id = pc.category_id LEFT JOIN product p ON p.product_id = pc.product_id WHERE c.mlm_categories LIKE "%te-bao-goc%" GROUP BY p.product_id ORDER BY RAND() LIMIT 6')->result_array();
     }
 
-    public function getProductDichVu()
-    {
+    public function getProductDichVu() {
         return $this->db->query('SELECT p.product_name, p.product_msrp, p.product_price, p.product_short_description, p.product_avg_rating, p.product_featured_image, p.product_slug FROM product_categories pc LEFT JOIN categories c ON c.id = pc.category_id LEFT JOIN product p ON p.product_id = pc.product_id WHERE c.mlm_categories LIKE "%dich-vu%" ORDER BY RAND() LIMIT 2')->result_array();
-
     }
-    public function getProductDaoTao()
-    {
+    public function getProductDaoTao() {
         return $this->db->query('SELECT p.product_name, p.product_msrp, p.product_price, p.product_short_description, p.product_avg_rating, p.product_featured_image, p.product_slug FROM product_categories pc LEFT JOIN categories c ON c.id = pc.category_id LEFT JOIN product p ON p.product_id = pc.product_id WHERE c.mlm_categories LIKE "%dao-tao%" ORDER BY RAND() LIMIT 5')->result_array();
     }
-    public function getProductPopular()
-    {
+    public function getProductPopular() {
         return $this->db->query('SELECT p.product_id, p.product_name, p.product_msrp, p.product_price, p.product_short_description, p.product_avg_rating, p.product_featured_image, p.product_slug FROM product p WHERE p.popular = 1 ORDER BY RAND() LIMIT 50')->result_array();
     }
 
-    public function getProductForAffiliate()
-    {
+    public function getProductForAffiliate() {
         return $this->db->query('SELECT p.product_id, p.product_name, p.product_msrp, p.product_price, p.product_short_description, p.product_avg_rating, p.product_featured_image, p.product_slug FROM product p WHERE p.product_price > 5000000 OR p.product_id = 126 ORDER BY RAND() LIMIT 50')->result_array();
     }
 
-    public function getProductPrice($product_id)
-    {
+    public function getProductPrice($product_id) {
         return $this->db->query("SELECT * FROM product WHERE product_id=" . (int) $product_id . "")->row();
     }
 
-    private function buildTreeForCategory(array $elements, $parentId = 0)
-    {
+    private function buildTreeForCategory(array $elements, $parentId = 0) {
         $branch = array();
 
         foreach ($elements as $element) {
@@ -389,15 +363,13 @@ class Product_model extends MY_Model
         return $branch;
     }
 
-    public function getCategoryTree($filter = array())
-    {
+    public function getCategoryTree($filter = array()) {
         $categories = $this->db->query("SELECT * FROM categories")->result_array();
         return $this->buildTreeForCategory($categories);
     }
 
 
-    public function getCategoriesHavingCartProducts($limit)
-    {
+    public function getCategoriesHavingCartProducts($limit) {
         $cats = $this->db->query("SELECT SQL_CALC_FOUND_ROWS c.*, pc.name as parent_name,(SELECT count(pc.category_id) FROM product_categories pc INNER JOIN product ON product.product_id=pc.product_id WHERE pc.category_id = c.id AND product.is_campaign_product!=1) as total_product FROM categories c LEFT JOIN categories pc ON pc.id = c.parent_id WHERE c.tag=1
             LIMIT " . $limit)->result_array();
 
@@ -426,8 +398,7 @@ class Product_model extends MY_Model
         return $level;
     }
 
-    public function getCategory($filter = array(), $isModeCheck = null)
-    {
+    public function getCategory($filter = array(), $isModeCheck = null) {
         $sql = "";
 
         $sql = "SELECT SQL_CALC_FOUND_ROWS c.*, pc.name as parent_name,(SELECT count(pc.category_id) FROM product_categories pc WHERE pc.category_id = c.id ) as total_product FROM categories c LEFT JOIN categories pc ON pc.id = c.parent_id WHERE 1";
@@ -472,14 +443,12 @@ class Product_model extends MY_Model
                 'created_at' => date("d-m-Y h:i A", strtotime($value['created_at'])),
                 // 'level' => $level // Thêm cấp độ vào dữ liệu
             );
-
         }
 
         return array($data, $total);
     }
 
-    public function getIntegrationCategory($filter = array())
-    {
+    public function getIntegrationCategory($filter = array()) {
         $sql = "SELECT SQL_CALC_FOUND_ROWS c.*, p.name as parent_name FROM integration_category c LEFT JOIN integration_category p on p.id = c.parent_id WHERE 1";
 
         $sql .= " ORDER BY c.id DESC ";
@@ -506,8 +475,7 @@ class Product_model extends MY_Model
         return array($data, $total);
     }
 
-    public function my_refer_status($user_id)
-    {
+    public function my_refer_status($user_id) {
         $referlevelSettings = $this->Product_model->getSettings('referlevel');
         $disabled_for = json_decode((isset($referlevelSettings['disabled_for']) ? $referlevelSettings['disabled_for'] : '[]'), 1);
         $refer_status = true;
@@ -520,13 +488,11 @@ class Product_model extends MY_Model
         return $refer_status;
     }
 
-    public function ping($user_id)
-    {
+    public function ping($user_id) {
         $this->db->query("UPDATE users SET last_ping = '" . date("Y-m-d H:i:s") . "' WHERE id = " . (int) $user_id);
     }
 
-    public function onlineCount()
-    {
+    public function onlineCount() {
         $data = array();
         $result = $this->db->query("
     SELECT SUM(IF(TIMESTAMPDIFF(SECOND, last_ping, '" . date("Y-m-d H:i:s") . "') < 60, 1, 0)) as online, count(*) as total, type, is_vendor
@@ -571,13 +537,11 @@ class Product_model extends MY_Model
         return $data;
     }
 
-    public function page_id()
-    {
+    public function page_id() {
         return str_replace("-", "_", $this->router->fetch_class() . '_' . $this->router->fetch_method());
     }
 
-    public function getUserWorldMap($isStore = null)
-    {
+    public function getUserWorldMap($isStore = null) {
         $where = $isStore != null ? " type IN ('client','guest') " : " type='user' ";
         $data = $this->db->query("
             SELECT c.name,c.sortname,count(u.id) as total
@@ -605,13 +569,11 @@ class Product_model extends MY_Model
         return $markers;
     }
 
-    public function getPaystackCurrencyValue()
-    {
+    public function getPaystackCurrencyValue() {
         return $this->db->query("SELECT value FROM currency WHERE title='Nigerian Naira'")->row();
     }
 
-    public function getSettingStatus()
-    {
+    public function getSettingStatus() {
 
         $this->load->model('PagebuilderModel');
 
@@ -698,7 +660,7 @@ class Product_model extends MY_Model
 
 
         //Email settings
-//This if need to run only if is smtp
+        //This if need to run only if is smtp
         if ($email['mail_type'] == 'smtp') {
 
             $json['email']['mail_type'] = __('admin.smtp');
@@ -830,8 +792,7 @@ class Product_model extends MY_Model
         return $json;
     }
 
-    public function hold_noti($filter = array())
-    {
+    public function hold_noti($filter = array()) {
         $where = ' 1 ';
         if (isset($filter['user_id'])) {
             $where .= '  AND user_id = ' . (int) $filter['user_id'];
@@ -843,8 +804,7 @@ class Product_model extends MY_Model
         return $data;
     }
 
-    public function getPaymentWarning()
-    {
+    public function getPaymentWarning() {
         $userdetails = $this->userdetails('user');
         $data['paymentlist'] = $this->Product_model->getAllPayment($userdetails['id']);
         if (isset($data['paymentlist'][0])) {
@@ -882,8 +842,7 @@ class Product_model extends MY_Model
 
     public $loginUser = [];
 
-    public function userdetails($guard = 'administrator', $force = 0)
-    {
+    public function userdetails($guard = 'administrator', $force = 0) {
 
         if ($force) {
             $this->loginUser[$guard] = $this->db->query("SELECT * FROM users WHERE id=" . (int) $this->session->userdata($guard)['id'])->row_array();
@@ -902,113 +861,91 @@ class Product_model extends MY_Model
         return $this->loginUser[$guard];
     }
 
-    public function getSiteSetting()
-    {
+    public function getSiteSetting() {
         return $this->getSettings('site');
     }
 
-    public function getLicese()
-    {
+    public function getLicese() {
         return $this->session->userdata('license');
     }
 
-    public function getMultipleProductById($product_id)
-    {
+    public function getMultipleProductById($product_id) {
         return $this->db->get_where('product_media_upload', array('product_media_upload_id' => $product_id))->row_object();
     }
 
-    public function getProductByIdArray($product_id)
-    {
+    public function getProductByIdArray($product_id) {
         return $this->db->get_where('product', array('product_id' => $product_id))->row_array();
     }
 
-    public function getAffiliateById($affiliateads_id = null)
-    {
+    public function getAffiliateById($affiliateads_id = null) {
         return $this->db->get_where('affiliateads', array('affiliateads_id' => $affiliateads_id))->row_array();
     }
 
-    public function getProductById($product_id)
-    {
+    public function getProductById($product_id) {
         return $this->db->get_where('product', array('product_id' => $product_id))->row_object();
     }
 
-    public function getSettingById($product_id)
-    {
+    public function getSettingById($product_id) {
         return $this->db->get_where('setting', array('setting_id' => $setting_id))->row_object();
     }
 
-    public function getProductBySlug($product_slug)
-    {
+    public function getProductBySlug($product_slug) {
         return $this->db->get_where('product', array('product_slug' => $product_slug))->row_array();
     }
 
-    public function getUserDetails($user_id)
-    {
+    public function getUserDetails($user_id) {
         return $this->db->get_where('users', array('id' => $user_id))->row_array();
     }
 
-    public function getProductDetails($product_id)
-    {
+    public function getProductDetails($product_id) {
         return $this->db->get_where('product', array('product_id' => $product_id))->row_array();
     }
 
-    public function getUserDetailsObject($user_id)
-    {
+    public function getUserDetailsObject($user_id) {
         return $this->db->get_where('users', array('id' => $user_id))->row_object();
     }
 
-    public function getAllImages($id)
-    {
+    public function getAllImages($id) {
         return $this->db->get_where('product_media_upload', array('product_media_upload_status' => 1, 'product_media_upload_type' => 'image', 'product_id' => $id))->result_array();
     }
 
-    public function getAllVideoImages($id)
-    {
+    public function getAllVideoImages($id) {
         return $this->db->get_where('product_media_upload', array('product_media_upload_status' => 1, 'product_media_upload_type' => 'video', 'product_id' => $id))->result_array();
     }
 
-    public function getAllVideos($id)
-    {
+    public function getAllVideos($id) {
         return $this->db->get_where('product_media_upload', array('product_media_upload_status' => 1, 'product_media_upload_type' => 'video', 'product_id' => $id))->result_array();
     }
 
-    public function getAllSettings()
-    {
+    public function getAllSettings() {
         return $this->db->get_where('setting', array('setting_status' => 1))->result_array();
     }
 
-    public function getAllProductrecord()
-    {
+    public function getAllProductrecord() {
         return $this->db->get_where('product', array('product_status' => 1))->result_array();
     }
 
-    public function getPaymentById($payment_id)
-    {
+    public function getPaymentById($payment_id) {
         return $this->db->get_where('payment_detail', array('payment_id' => $payment_id))->row_object();
     }
 
-    public function getRequestPaymentById($user_payment_request_id)
-    {
+    public function getRequestPaymentById($user_payment_request_id) {
         return $this->db->get_where('user_payment_request', array('user_payment_request_id' => $user_payment_request_id))->row_object();
     }
 
-    public function getAllPaymentRequest()
-    {
+    public function getAllPaymentRequest() {
         return $this->db->get_where('user_payment_request')->result_array();
     }
 
-    public function getUserPaymentRequest($id)
-    {
+    public function getUserPaymentRequest($id) {
         return $this->db->get_where('user_payment_request', array('user_payment_request_amount_status' => 'pending', 'user_payment_request_user_id' => $id))->result_array();
     }
 
-    public function getPaymentRequestById($id)
-    {
+    public function getPaymentRequestById($id) {
         return $this->db->get_where('user_payment_request', array('user_payment_request_id' => $id))->row_array();
     }
 
-    function update_data($product, $details, $where_data_array = NULL)
-    {
+    function update_data($product, $details, $where_data_array = NULL) {
         if ($where_data_array) {
             foreach ($where_data_array as $key => $data)
                 $this->db->where($key, $data);
@@ -1016,8 +953,7 @@ class Product_model extends MY_Model
         return $this->db->update($product, $details);
     }
 
-    function getProductByIds($product_ids)
-    {
+    function getProductByIds($product_ids) {
         $this->db->select('*');
         $this->db->from('product');
         $this->db->where_in('product_id', $product_ids);
@@ -1025,8 +961,7 @@ class Product_model extends MY_Model
     }
 
 
-    function getAllProducts($filter = [])
-    {
+    function getAllProducts($filter = []) {
 
         $sql = " SELECT DISTINCT p.*,seller.id seller_id FROM product p INNER JOIN users as seller ON seller.id =p.product_created_by WHERE 1 and seller.type='admin' and is_campaign_product=0 ";
 
@@ -1041,14 +976,12 @@ class Product_model extends MY_Model
         return $this->db->query($sql)->result();
     }
 
-    function getDeleteById($affiliateads_id)
-    {
+    function getDeleteById($affiliateads_id) {
         $this->db->where('affiliateads_id', $affiliateads_id);
         return $this->db->delete('affiliateads');
     }
 
-    function getLanguageHtmlUser($control = 'admincontrol', $theme = null, $isonlyList = null)
-    {
+    function getLanguageHtmlUser($control = 'admincontrol', $theme = null, $isonlyList = null) {
         $lang = $_SESSION['userLang'];
 
         if (!$lang) {
@@ -1058,8 +991,7 @@ class Product_model extends MY_Model
         } else {
             $selected = $this->db->query("SELECT * FROM language WHERE status=1 AND id=" . $lang)->row_array();
             $_SESSION['userLangName'] = $selected['name'];
-        }
-        ;
+        };
 
 
         $all = $this->db->query("SELECT * FROM language WHERE status=1")->result_array();
@@ -1130,8 +1062,7 @@ class Product_model extends MY_Model
     }
 
 
-    function getLanguageHtml($control = 'admincontrol', $theme = null, $isonlyList = null)
-    {
+    function getLanguageHtml($control = 'admincontrol', $theme = null, $isonlyList = null) {
         $lang = $_SESSION['userLang'];
 
         if (!$lang) {
@@ -1141,8 +1072,7 @@ class Product_model extends MY_Model
         } else {
             $selected = $this->db->query("SELECT * FROM language WHERE status=1 AND id=" . $lang)->row_array();
             $_SESSION['userLangName'] = $selected['name'];
-        }
-        ;
+        };
 
 
         $all = $this->db->query("SELECT * FROM language WHERE status=1")->result_array();
@@ -1211,8 +1141,7 @@ class Product_model extends MY_Model
     }
 
 
-    function getCurrencyHtmlUser($control = 'admincontrol', $theme = null, $onlyList = null)
-    {
+    function getCurrencyHtmlUser($control = 'admincontrol', $theme = null, $onlyList = null) {
         $lang = $_SESSION['userCurrency'];
         $selected = $this->db->query("SELECT * FROM currency WHERE code = '{$lang}' ")->row_array();
         if (!$selected) {
@@ -1261,8 +1190,7 @@ class Product_model extends MY_Model
         return $html;
     }
 
-    function getCurrencyHtml($control = 'admincontrol', $theme = null, $onlyList = null)
-    {
+    function getCurrencyHtml($control = 'admincontrol', $theme = null, $onlyList = null) {
         $lang = $_SESSION['userCurrency'];
         $selected = $this->db->query("SELECT * FROM currency WHERE code = '{$lang}' ")->row_array();
         if (!$selected) {
@@ -1304,8 +1232,7 @@ class Product_model extends MY_Model
         return $html;
     }
 
-    function getAffiliateByType($affiliateads_type, $user_id = 0)
-    {
+    function getAffiliateByType($affiliateads_type, $user_id = 0) {
         $where = '';
         if ($user_id > 0) {
             $where = " AND user_id =  {$user_id} ";
@@ -1327,8 +1254,7 @@ class Product_model extends MY_Model
         return $data;
     }
 
-    function getAffiliateUserByByType($affiliateads_type = null, $user_id = null)
-    {
+    function getAffiliateUserByByType($affiliateads_type = null, $user_id = null) {
         $this->db->select('affiliateads.affiliateads_id,SUM( clicks_views.clicks_views_click ) as total_click, SUM( clicks_views.clicks_views_view ) as total_view,SUM( clicks_views.clicks_views_click_commission ) as total_commission  ');
         $this->db->join('affiliateads', 'affiliateads.affiliateads_id = clicks_views.clicks_views_action_id');
         if ($affiliateads_type) {
@@ -1347,8 +1273,7 @@ class Product_model extends MY_Model
         return $getArray;
     }
 
-    function getAllTags()
-    {
+    function getAllTags() {
         $tags = [];
         $query = "SELECT product_tags FROM product";
         $data = $this->db->query($query)->result_array();
@@ -1361,8 +1286,7 @@ class Product_model extends MY_Model
         return array_unique($tags);
     }
 
-    function getAllColors()
-    {
+    function getAllColors() {
         $colors = [];
         $query = "SELECT product_variations FROM product";
         $data = $this->db->query($query)->result_array();
@@ -1379,8 +1303,7 @@ class Product_model extends MY_Model
         return array_unique($colors);
     }
 
-    function getAllProduct($user_id, $user_type, $filter = array())
-    {
+    function getAllProduct($user_id, $user_type, $filter = array()) {
 
         if ($user_type == 'admin')
             $clause = ' ';
@@ -1529,8 +1452,7 @@ class Product_model extends MY_Model
         return $data;
     }
 
-    public function getAllVendorProducts($user_id, $user_type)
-    {
+    public function getAllVendorProducts($user_id, $user_type) {
         if ($user_type == 'admin')
             $clause = ' ';
         else {
@@ -1570,8 +1492,7 @@ class Product_model extends MY_Model
         return $data;
     }
 
-    public function getAllProductForVendor($user_id, $user_type, $filter = array())
-    {
+    public function getAllProductForVendor($user_id, $user_type, $filter = array()) {
         if ($user_type == 'admin')
             $clause = ' ';
         else {
@@ -1637,8 +1558,7 @@ class Product_model extends MY_Model
         return $data;
     }
 
-    public function getAllSaleProductForVendor($user_id, $user_type, $filter = array())
-    {
+    public function getAllSaleProductForVendor($user_id, $user_type, $filter = array()) {
 
         if ($user_type == 'admin')
             $clause = ' ';
@@ -1778,18 +1698,15 @@ class Product_model extends MY_Model
         return $data;
     }
 
-    public function getSellerFromProduct($product_id)
-    {
+    public function getSellerFromProduct($product_id) {
         return $this->db->query("SELECT * FROM product_affiliate WHERE product_id=" . (int) $product_id . " ")->row();
     }
 
-    public function getSellerSetting($user_id)
-    {
+    public function getSellerSetting($user_id) {
         return $this->db->query("SELECT * FROM vendor_setting WHERE user_id=" . (int) $user_id . " ")->row();
     }
 
-    public function getAllUsersExport($filter = array())
-    {
+    public function getAllUsersExport($filter = array()) {
         $query = 'SELECT
     countries.sortname,
     users.*,
@@ -1810,8 +1727,7 @@ class Product_model extends MY_Model
         return $this->db->query($query)->result_array();
     }
 
-    public function getAllUsersNormal($filter = array())
-    {
+    public function getAllUsersNormal($filter = array()) {
         $where = '';
         if (isset($filter['country_id']) && (int) $filter['country_id'] > 0) {
             $where .= " AND countries.id = " . (int) $filter['country_id'];
@@ -1863,11 +1779,9 @@ class Product_model extends MY_Model
 
         $json['total'] = $this->db->query($query)->row()->total;
         return $json;
-
     }
 
-    function getPopulerUsers($filter = array(), $popular_aff_filter = '')
-    {
+    function getPopulerUsers($filter = array(), $popular_aff_filter = '') {
 
         $where = '';
         if (isset($filter['country_id']) && (int) $filter['country_id'] > 0) {
@@ -1943,11 +1857,9 @@ class Product_model extends MY_Model
         }
 
         return $filterData;
-
     }
 
-    function getAllUsers($filter = array())
-    {
+    function getAllUsers($filter = array()) {
 
         $where = '';
 
@@ -2044,7 +1956,6 @@ class Product_model extends MY_Model
             } else {
                 $user['groups_name'] = null;
             }
-
         }
 
         if (!isset($filter['page'])) {
@@ -2061,8 +1972,7 @@ class Product_model extends MY_Model
         }
     }
 
-    public function getAvatar($image)
-    {
+    public function getAvatar($image) {
         if ($image != '')
             return base_url('assets/images/users/' . $image);
         else
@@ -2071,8 +1981,7 @@ class Product_model extends MY_Model
 
     public $level_count = 0;
 
-    public function getAllUsersTree($filter = array())
-    {
+    public function getAllUsersTree($filter = array()) {
         $children = array();
         $this->level_count = 0;
 
@@ -2112,8 +2021,7 @@ class Product_model extends MY_Model
         return $tree;
     }
 
-    public function getAllUsersTreeV2($filter = array())
-    {
+    public function getAllUsersTreeV2($filter = array()) {
         $children = array();
         $this->level_count = 0;
 
@@ -2151,8 +2059,7 @@ class Product_model extends MY_Model
         return $children;
     }
 
-    private function buildTree(array $elements, $parentId = 0)
-    {
+    private function buildTree(array $elements, $parentId = 0) {
         $branch = array();
 
         foreach ($elements as $element) {
@@ -2168,8 +2075,7 @@ class Product_model extends MY_Model
         return $branch;
     }
 
-    public function getAllAwardLevel($limit = false, $offset = 0)
-    {
+    public function getAllAwardLevel($limit = false, $offset = 0) {
         $ci = &get_instance();
 
         $sql = "SELECT `child`.`id`,   
@@ -2196,8 +2102,7 @@ class Product_model extends MY_Model
         return $result;
     }
 
-    public function checkJumpLevel($jump_level, $id = false)
-    {
+    public function checkJumpLevel($jump_level, $id = false) {
         $ci = &get_instance();
 
         $sql = "SELECT `id`
@@ -2216,8 +2121,7 @@ class Product_model extends MY_Model
         return $result;
     }
 
-    public function getAllinOneQuery($filter = array())
-    {
+    public function getAllinOneQuery($filter = array()) {
         $_children = [];
 
         $admin_result = $this->db->query("SELECT id,username as name,avatar,refid FROM users WHERE type='admin'")->row_array();
@@ -2241,8 +2145,7 @@ class Product_model extends MY_Model
         return $this->buildTree($_children);
     }
 
-    public function getAllUsersTreeV3($filter = array(), $user_id = 0, $first_time = true, $is_admin = false)
-    {
+    public function getAllUsersTreeV3($filter = array(), $user_id = 0, $first_time = true, $is_admin = false) {
         $children = array();
 
         if (!$is_admin && $first_time) {
@@ -2293,8 +2196,7 @@ class Product_model extends MY_Model
         return $children;
     }
 
-    public function getAllUsersTreeV2ForUser($user_id, $first_time = true)
-    {
+    public function getAllUsersTreeV2ForUser($user_id, $first_time = true) {
         $children = array();
         $result = $this->db->query("SELECT id,username as name,avatar,refid FROM users WHERE type='user'  AND refid=" . (int) $user_id)->result_array();
 
@@ -2350,8 +2252,7 @@ class Product_model extends MY_Model
         return $children;
     }
 
-    public function getAllUsersTreeChildren($parent, $filter)
-    {
+    public function getAllUsersTreeChildren($parent, $filter) {
         $children = array();
         $this->level_count++;
 
@@ -2377,8 +2278,7 @@ class Product_model extends MY_Model
         return array();
     }
 
-    function getAllIdsRecursive($data)
-    {
+    function getAllIdsRecursive($data) {
         $ids = array();
         foreach ($data as $item) {
             if (isset($item['id'])) {
@@ -2392,8 +2292,7 @@ class Product_model extends MY_Model
         return $ids;
     }
 
-    public function getAllChildrenUserId($parent)
-    {
+    public function getAllChildrenUserId($parent) {
         $children = array();
         $this->level_count++;
 
@@ -2410,8 +2309,7 @@ class Product_model extends MY_Model
         return $children;
     }
 
-    public function getAllUserIdInBranch($child)
-    {
+    public function getAllUserIdInBranch($child) {
         $result = $this->db->query("SELECT id, refid FROM users WHERE id = {$child}")->row();
 
         if ($result->refid > 1) {
@@ -2422,8 +2320,7 @@ class Product_model extends MY_Model
         }
     }
 
-    function getAllClients($filter)
-    {
+    function getAllClients($filter) {
         $query = '
         SELECT
         users.*,
@@ -2450,8 +2347,7 @@ class Product_model extends MY_Model
         return array($list, $total);
     }
 
-    function getVendorClients($filter)
-    {
+    function getVendorClients($filter) {
 
         $vendor_id = $filter["vendor_id"];
         $query = '
@@ -2481,24 +2377,21 @@ class Product_model extends MY_Model
         return array($list, $total);
     }
 
-    function checkmail($email, $user_id = null)
-    {
+    function checkmail($email, $user_id = null) {
         if ($user_id) {
             $this->db->where('id !=', $user_id);
         }
         return $this->db->get_where('users', array('email' => $email))->result_array();
     }
 
-    function checkuser($username, $user_id = null)
-    {
+    function checkuser($username, $user_id = null) {
         if ($user_id) {
             $this->db->where('id !=', $user_id);
         }
         return $this->db->get_where('users', array('username' => $username))->result_array();
     }
 
-    function getAllUserrecord()
-    {
+    function getAllUserrecord() {
         $this->db->select('countries.*, users.*');
         $this->db->from('users');
         $this->db->where('users.type', 'user');
@@ -2508,8 +2401,7 @@ class Product_model extends MY_Model
     }
 
 
-    function process_approval($data)
-    {
+    function process_approval($data) {
         $where = "";
 
         if (is_array($data['users_ids'])) {
@@ -2540,8 +2432,7 @@ class Product_model extends MY_Model
         }
     }
 
-    function getApprovalCounts()
-    {
+    function getApprovalCounts() {
         $data = [];
         $this->db->select('count(*) as total');
         $this->db->from('users');
@@ -2569,8 +2460,7 @@ class Product_model extends MY_Model
         return $data;
     }
 
-    function getAllUserrecordCount()
-    {
+    function getAllUserrecordCount() {
         $this->db->select('count(*) as total');
         $this->db->from('users');
         $this->db->where('users.type', 'user');
@@ -2579,14 +2469,12 @@ class Product_model extends MY_Model
         return $query->row()->total;
     }
 
-    function getAllClientrecord($type = 'client')
-    {
+    function getAllClientrecord($type = 'client') {
         $this->db->order_by('created_at', 'desc');
         return $this->db->get_where('users', array('type' => "$type"))->result_array();
     }
 
-    function getAllUserNew()
-    {
+    function getAllUserNew() {
         $this->db->select(
             array(
                 'countries.*',
@@ -2611,8 +2499,7 @@ class Product_model extends MY_Model
         return $query->result_array();
     }
 
-    function getAllClientNew()
-    {
+    function getAllClientNew() {
         $this->db->select('
             countries.*,
             users.*,
@@ -2628,8 +2515,7 @@ class Product_model extends MY_Model
         return $query->result_array();
     }
 
-    function getReview($product_id)
-    {
+    function getReview($product_id) {
         $this->db->select('product.product_name, rating.*, users.avatar, users.firstname, users.lastname');
         $this->db->order_by('rating_created', 'desc');
         $this->db->from('rating');
@@ -2640,8 +2526,7 @@ class Product_model extends MY_Model
         return $query->result_array();
     }
 
-    function getReviewById($rating_id)
-    {
+    function getReviewById($rating_id) {
         $this->db->select('product.product_name, rating.*, users.avatar, users.firstname, users.lastname');
         $this->db->order_by('rating_created', 'desc');
         $this->db->from('rating');
@@ -2652,8 +2537,7 @@ class Product_model extends MY_Model
         return $query->result_array();
     }
 
-    function getAllReview($filter = null)
-    {
+    function getAllReview($filter = null) {
         $this->db->select('product.product_name, rating.*, users.avatar, users.firstname, users.lastname');
         $this->db->order_by('rating_created', 'desc');
         $this->db->from('rating');
@@ -2663,11 +2547,9 @@ class Product_model extends MY_Model
             $this->db->where('product.product_created_by', $filter['product_created_by']);
         $query = $this->db->get();
         return $query->result_array();
-
     }
 
-    function getAllReviewFilter($product_id = null, $limit = 20, $offset = 0, $filter = null)
-    {
+    function getAllReviewFilter($product_id = null, $limit = 20, $offset = 0, $filter = null) {
         $this->db->select('product.product_name, rating.*, users.avatar, users.firstname, users.lastname');
         $this->db->order_by('rating_created', 'desc');
         $this->db->from('rating');
@@ -2703,8 +2585,7 @@ class Product_model extends MY_Model
         return $res;
     }
 
-    function deleteReview($rating_id)
-    {
+    function deleteReview($rating_id) {
         $this->db->select('products_id');
         $this->db->where('rating_id', $rating_id);
         $this->db->from('rating');
@@ -2720,15 +2601,13 @@ class Product_model extends MY_Model
         return $res;
     }
 
-    function getAllUserOnline()
-    {
+    function getAllUserOnline() {
         $this->db->order_by('created_at', 'desc');
         $this->db->limit(7);
         return $this->db->get_where('users', array('type' => 'user', 'online' => 1))->result_array();
     }
 
-    function getSettings($type = '', $key = "")
-    {
+    function getSettings($type = '', $key = "") {
         $language = 0;
         if ($this->db->field_exists('language_id', 'setting'))
             $language = 1;
@@ -2755,8 +2634,7 @@ class Product_model extends MY_Model
         return $settingdata;
     }
 
-    function getSettingsWithLanaguage($type = '', $language_id = 1, $key = "")
-    {
+    function getSettingsWithLanaguage($type = '', $language_id = 1, $key = "") {
         $language = 0;
         if ($this->db->field_exists('language_id', 'setting'))
             $language = 1;
@@ -2786,8 +2664,7 @@ class Product_model extends MY_Model
         return $settingdata;
     }
 
-    function getFrontThemeSettings($type = '', $key = "")
-    {
+    function getFrontThemeSettings($type = '', $key = "") {
         $settingdata = array();
         if ($key != "") {
             $this->db->where(['setting_type' => $type, 'setting_key' => $key]);
@@ -2801,8 +2678,7 @@ class Product_model extends MY_Model
         return $settingdata;
     }
 
-    function getVendorSettings($user_id, $type = '', $key = "")
-    {
+    function getVendorSettings($user_id, $type = '', $key = "") {
         $settingdata = array();
         if ($key != "") {
             $this->db->where(['user_id' => $user_id, 'setting_type' => $type, 'setting_key' => $key]);
@@ -2816,8 +2692,7 @@ class Product_model extends MY_Model
         return $settingdata;
     }
 
-    function getSettingsWhereIn($array = '')
-    {
+    function getSettingsWhereIn($array = '') {
         $settingdata = array();
 
         $setting_types = implode("','", $array);
@@ -2835,8 +2710,7 @@ class Product_model extends MY_Model
         return $settingdata;
     }
 
-    function getVendorSettingsWhereIn($user_id, $array = '')
-    {
+    function getVendorSettingsWhereIn($user_id, $array = '') {
         $settingdata = array();
 
         $setting_types = implode("','", $array);
@@ -2855,46 +2729,40 @@ class Product_model extends MY_Model
         return $settingdata;
     }
 
-    function deletesetting($key, $value, $type)
-    {
+    function deletesetting($key, $value, $type) {
         $this->db->where('setting_key', $key);
         $this->db->where('setting_type', $type);
         return $this->db->delete('setting');
     }
 
-    function getrefUsers($user_id = null)
-    {
+    function getrefUsers($user_id = null) {
         if ($user_id) {
             return $this->db->get_where('users', array('refid' => $user_id, 'type' => 'user'))->result_array();
         }
         return false;
     }
 
-    function getRefid($user_id = null)
-    {
+    function getRefid($user_id = null) {
         if ($user_id) {
             return $this->db->get_where('users', array('id' => $user_id, 'type' => 'user'))->result_array();
         }
         return false;
     }
 
-    function getAllPayment($id)
-    {
+    function getAllPayment($id) {
         if ($id) {
             return $this->db->get_where('payment_detail', array('payment_status' => 1, 'payment_created_by' => $id))->result_array();
         }
         return false;
     }
 
-    function getPaypalAccounts($user_id)
-    {
+    function getPaypalAccounts($user_id) {
         $this->db->from("paypal_accounts");
         $this->db->where("user_id", (int) $user_id);
         return $this->db->get()->result_array();
     }
 
-    function getAllBuyProduct($payment_user_id = null)
-    {
+    function getAllBuyProduct($payment_user_id = null) {
         if ($payment_user_id) {
             $this->db->join('users', 'users.id=order.user_id');
             $this->db->join('order_products', 'order_products.order_id=order.id');
@@ -2905,8 +2773,7 @@ class Product_model extends MY_Model
         }
     }
 
-    function getAllRefBuyProduct($payment_user_id = null)
-    {
+    function getAllRefBuyProduct($payment_user_id = null) {
         if ($payment_user_id) {
             $this->db->join('users', 'users.id=payment.payment_ref_user_id');
             $this->db->join('product', 'product.product_id=payment.payment_item_id');
@@ -2915,8 +2782,7 @@ class Product_model extends MY_Model
         }
     }
 
-    function getorderById($order_id)
-    {
+    function getorderById($order_id) {
         if ($order_id) {
             $this->db->where('payment_id', $order_id);
             $this->db->join('users', 'users.id=payment.payment_user_id');
@@ -2925,16 +2791,14 @@ class Product_model extends MY_Model
         }
     }
 
-    function getcommentById($order_id)
-    {
+    function getcommentById($order_id) {
         if ($order_id) {
             $this->db->where('payment_comments_action_id', $order_id);
             return $this->db->get_where('payment_comments')->result_array();
         }
     }
 
-    function orderdelete($order_id = null)
-    {
+    function orderdelete($order_id = null) {
         if ($order_id) {
             $this->db->where('payment_id', $order_id);
             $this->db->delete('payment');
@@ -2945,8 +2809,7 @@ class Product_model extends MY_Model
         }
     }
 
-    function userdelete($user_id = null, $type = null)
-    {
+    function userdelete($user_id = null, $type = null) {
         if ($user_id) {
             $this->db->where('id', $user_id);
             $this->db->where('type', $type);
@@ -2956,14 +2819,12 @@ class Product_model extends MY_Model
         }
     }
 
-    function getallorders($user_id = null)
-    {
+    function getallorders($user_id = null) {
 
         return array();
     }
 
-    function getallsales($user_id = null)
-    {
+    function getallsales($user_id = null) {
         if (!empty($user_id)) {
             $this->db->where('payment_user_id', $user_id);
         }
@@ -2972,33 +2833,28 @@ class Product_model extends MY_Model
         return $this->db->get_where('payment', array('payment_item_status' => 'Completed'))->result_array();
     }
 
-    function getallPercentageByallorders($user_id = null)
-    {
+    function getallPercentageByallorders($user_id = null) {
         return 0;
     }
 
-    function getallPercentageByallsales($user_id = null)
-    {
+    function getallPercentageByallsales($user_id = null) {
         return 0;
     }
 
-    function getcountry($select = '*')
-    {
+    function getcountry($select = '*') {
         $this->db->select($select);
         $query = $this->db->get('countries');
         return $query->result();
     }
 
-    function getAllstate($country_id = '')
-    {
+    function getAllstate($country_id = '') {
         $this->db->select('states.*');
         $this->db->where('country_id', $country_id);
         $query = $this->db->get('states');
         return $query->result_array();
     }
 
-    function getnotification($viewfor = null, $user_id)
-    {
+    function getnotification($viewfor = null, $user_id) {
         $this->db->select('notification.*');
         $this->db->where('notification_view_user_id', $user_id);
         $this->db->where('notification_viewfor', $viewfor);
@@ -3009,8 +2865,7 @@ class Product_model extends MY_Model
         return $query->result_array();
     }
 
-    function getnotificationnew($viewfor = null, $user_id, $limit = 0, $filter = array())
-    {
+    function getnotificationnew($viewfor = null, $user_id, $limit = 0, $filter = array()) {
         $this->db->select('notification.*');
         if ($user_id > 0) {
             $this->db->where(" (notification_view_user_id = {$user_id} OR notification_view_user_id = 'all')  ", NULL, false);
@@ -3031,8 +2886,7 @@ class Product_model extends MY_Model
         return $query->result_array();
     }
 
-    function getnotificationnew_count($viewfor = null, $user_id)
-    {
+    function getnotificationnew_count($viewfor = null, $user_id) {
         $this->db->select('notification.notification_id');
         if ($user_id > 0) {
             $this->db->where(" (notification_view_user_id = {$user_id} OR notification_view_user_id = 'all')  ", NULL, false);
@@ -3047,8 +2901,7 @@ class Product_model extends MY_Model
         return $query->num_rows();
     }
 
-    function getnotificationall($viewfor = null, $user_id)
-    {
+    function getnotificationall($viewfor = null, $user_id) {
         $this->db->select('notification.*');
         $this->db->where('notification_view_user_id', $user_id);
         $this->db->where('notification_viewfor', $viewfor);
@@ -3057,8 +2910,7 @@ class Product_model extends MY_Model
         return $query->result_array();
     }
 
-    function deleteusers($id = null)
-    {
+    function deleteusers($id = null) {
         $membership_user = $this->db->query("SELECT GROUP_CONCAT(id) as ids FROM membership_user WHERE user_id = {$id}  GROUP BY user_id")->row();
 
         if (!empty($membership_user->ids)) {
@@ -3075,8 +2927,7 @@ class Product_model extends MY_Model
         return false;
     }
 
-    function deleteproducts($id = null)
-    {
+    function deleteproducts($id = null) {
         if (!empty($id)) {
             $this->db->query("DELETE FROM product_categories WHERE product_id = {$id} ");
             $this->db->query("DELETE FROM product_affiliate WHERE product_id = {$id} ");
@@ -3087,16 +2938,14 @@ class Product_model extends MY_Model
         return false;
     }
 
-    function deleteImage($id = null)
-    {
+    function deleteImage($id = null) {
         if (!empty($id)) {
             $this->db->where('product_media_upload_id', $id);
             return $this->db->delete('product_media_upload');
         }
     }
 
-    function getProductAction($product_id, $user_id, $viewer_id = 0)
-    {
+    function getProductAction($product_id, $user_id, $viewer_id = 0) {
         $ip_address = $_SERVER['REMOTE_ADDR'];
         $this->db->from('product_action');
         $this->db->where('product_id', $product_id);
@@ -3110,8 +2959,7 @@ class Product_model extends MY_Model
         return $result;
     }
 
-    function getFormAction($product_id, $user_id, $viewer_id = 0)
-    {
+    function getFormAction($product_id, $user_id, $viewer_id = 0) {
         $ip_address = $_SERVER['REMOTE_ADDR'];
         $this->db->from('form_action');
         $this->db->where('form_id', $product_id);
@@ -3123,8 +2971,7 @@ class Product_model extends MY_Model
         return $result;
     }
 
-    public function calcCommitions($product, $type = 'sale', $shareUser = [])
-    {
+    public function calcCommitions($product, $type = 'sale', $shareUser = []) {
 
         $product = (array) $product;
         $seller = $this->db->query("SELECT * FROM product_affiliate WHERE product_id=" . (int) $product['product_id'] . " ")->row();
@@ -3202,7 +3049,6 @@ class Product_model extends MY_Model
 
                     $data['type'] = 'Percentage (' . $affiliate_commission_value . '%) ';
                     $data['commission'] = max(($product_price * $affiliate_commission_value), 0) / 100;
-
                 } else if ($seller->affiliate_sale_commission_type == 'fixed') {
                     $data['type'] = 'Fixed';
                     $data['commission'] = (float) $seller->affiliate_commission_value;
@@ -3217,11 +3063,9 @@ class Product_model extends MY_Model
                     $data['admin_commission_type'] = 'Fixed';
                     $data['admin_commission'] = $vendor_setting['admin_commission_value'];
                 }
-
             } else if ($seller->admin_sale_commission_type == 'percentage') {
                 $data['admin_commission_type'] = 'Percentage (' . (float) $seller->admin_commission_value . '%) ';
                 $data['admin_commission'] = max(($product_price * (float) $seller->admin_commission_value), 0) / 100;
-
             } else if ($seller->admin_sale_commission_type == 'fixed') {
                 $data['admin_commission_type'] = 'Fixed';
                 $data['admin_commission'] = (float) $seller->admin_commission_value;
@@ -3349,8 +3193,7 @@ class Product_model extends MY_Model
         }
     }
 
-    public function formcalcCommitions($product, $type = 'sale', $shareUser = [], $form = null)
-    {
+    public function formcalcCommitions($product, $type = 'sale', $shareUser = [], $form = null) {
         $product = (array) $product;
 
         $product_price = ((int) $product['quantity'] * (float) $product['product_price']);
@@ -3447,11 +3290,9 @@ class Product_model extends MY_Model
             'type' => strtolower($commissionType),
             'commission' => (float) $commission,
         );
-
     }
 
-    function getProductActionIncrese($product_id, $user_id, $viewer_id = 0)
-    {
+    function getProductActionIncrese($product_id, $user_id, $viewer_id = 0) {
         $ip_address = $_SERVER['REMOTE_ADDR'];
         $this->db->from('product_action');
         $this->db->where('action_type', 'click');
@@ -3470,8 +3311,7 @@ class Product_model extends MY_Model
         }
     }
 
-    function getFormActionIncrese($form_id, $user_id, $viewer_id = 0)
-    {
+    function getFormActionIncrese($form_id, $user_id, $viewer_id = 0) {
         $ip_address = $_SERVER['REMOTE_ADDR'];
         $this->db->from('form_action');
         $this->db->where('action_type', 'click');
@@ -3490,8 +3330,7 @@ class Product_model extends MY_Model
         }
     }
 
-    public function giveAdminClickCommition($product, $wallet_group_id = null)
-    {
+    public function giveAdminClickCommition($product, $wallet_group_id = null) {
 
         $ip_address = $_SERVER['REMOTE_ADDR'];
         $productsetting = $this->getSettings('productsetting');
@@ -3594,17 +3433,13 @@ class Product_model extends MY_Model
                             )
                         );
                     }
-
-
                 }
-
             }
         }
         $this->db->query("UPDATE product_action_admin SET pay_commition = 1 WHERE user_id = 1");
     }
 
-    public function giveClickCommition($product, $user_id, $viewer_id = 0, $wallet_group_id = null)
-    {
+    public function giveClickCommition($product, $user_id, $viewer_id = 0, $wallet_group_id = null) {
         $transaction_id = 0;
 
         $product_id = $product['product_id'];
@@ -3713,8 +3548,7 @@ class Product_model extends MY_Model
         return 0;
     }
 
-    public function giveFormClickCommition($form, $user_id, $viewer_id = 0)
-    {
+    public function giveFormClickCommition($form, $user_id, $viewer_id = 0) {
         $form_id = $form['form_id'];
         $seo = $form['seo'];
         $totalClick = $this->db->query("SELECT * FROM  form_action WHERE pay_commition = 0 AND user_id = '{$user_id}' AND  form_id = '{$form_id}' ");
@@ -3778,13 +3612,11 @@ class Product_model extends MY_Model
                 );
                 $this->Product_model->formReferClick($form, $user_id, 0, $wallet_group_id);
                 $this->db->query("UPDATE  form_action SET pay_commition = 1 WHERE user_id = '{$user_id}' AND  form_id = '{$form_id}' ");
-
             }
         }
     }
 
-    function formReferClick($form, $user_id, $viewer_id = 0, $wallet_group_id)
-    {
+    function formReferClick($form, $user_id, $viewer_id = 0, $wallet_group_id) {
         if ((int) $form['vendor_id'] == 0) {
             $form_id = $form['form_id'];
             $seo = $form['seo'];
@@ -3831,11 +3663,9 @@ class Product_model extends MY_Model
                 $this->Wallet_model->addTransactionBatch($referComissionData);
             }
         }
-
     }
 
-    function setFormClicks($form_id, $user_id, $viewer_id = 0)
-    {
+    function setFormClicks($form_id, $user_id, $viewer_id = 0) {
         $ip_address = $_SERVER['REMOTE_ADDR'];
         $this->db->from('form_action');
         $this->db->where('action_type', 'click');
@@ -3860,8 +3690,7 @@ class Product_model extends MY_Model
         }
     }
 
-    function setClicks($product_id, $user_id, $viewer_id = 0)
-    {
+    function setClicks($product_id, $user_id, $viewer_id = 0) {
         $productsetting = $this->getSettings('productsetting');
 
         $ip_address = $_SERVER['REMOTE_ADDR'];
@@ -3893,8 +3722,7 @@ class Product_model extends MY_Model
         }
     }
 
-    public function referClick($product, $user_id, $viewer_id = 0, $wallet_group_id = null)
-    {
+    public function referClick($product, $user_id, $viewer_id = 0, $wallet_group_id = null) {
         $product_id = $product['product_id'];
         $product_created_by = $product['product_created_by'];
 
@@ -4078,8 +3906,7 @@ class Product_model extends MY_Model
         }
     }
 
-    public function getMyUnder($user_id, $first_time = true)
-    {
+    public function getMyUnder($user_id, $first_time = true) {
 
         if ($first_time) {
             $this->level_count = 0;
@@ -4153,11 +3980,9 @@ class Product_model extends MY_Model
         }
 
         return $children;
-
     }
 
-    public function getReferalTotals($user_id = 0)
-    {
+    public function getReferalTotals($user_id = 0) {
         $where = '';
         if ($user_id > 0) {
             $where .= " AND user_id=" . $user_id;
@@ -4223,8 +4048,7 @@ class Product_model extends MY_Model
         return $data;
     }
 
-    public function setAffiliateStoreClick($affiliate_id, $user_id, $affiliateads_type)
-    {
+    public function setAffiliateStoreClick($affiliate_id, $user_id, $affiliateads_type) {
 
         $store_commition_setting = $this->Product_model->getSettings('referlevel');
         $disabled_for = json_decode((isset($store_commition_setting['disabled_for']) ? $store_commition_setting['disabled_for'] : '[]'), 1);
@@ -4293,8 +4117,7 @@ class Product_model extends MY_Model
         }
     }
 
-    public function getMyLevel($user_id, $setting = null)
-    {
+    public function getMyLevel($user_id, $setting = null) {
         if ($setting == null) {
             $setting = $this->getSettings('referlevel');
         }
@@ -4320,8 +4143,7 @@ class Product_model extends MY_Model
         return $q;
     }
     //    nhadev
-    public function getMyLevelHangHoa($user_id, $setting = null)
-    {
+    public function getMyLevelHangHoa($user_id, $setting = null) {
         if ($setting == null) {
             $setting = $this->getSettings('referlevel_hang_hoa');
         }
@@ -4346,8 +4168,7 @@ class Product_model extends MY_Model
 
         return $q;
     }
-    public function getMyLevelTeBaoGoc($user_id, $setting = null)
-    {
+    public function getMyLevelTeBaoGoc($user_id, $setting = null) {
         if ($setting == null) {
             $setting = $this->getSettings('referlevel_te_bao_goc');
         }
@@ -4372,8 +4193,7 @@ class Product_model extends MY_Model
 
         return $q;
     }
-    public function getMyLevelDichVu($user_id, $setting = null)
-    {
+    public function getMyLevelDichVu($user_id, $setting = null) {
         if ($setting == null) {
             $setting = $this->getSettings('referlevel_dich_vu');
         }
@@ -4398,8 +4218,7 @@ class Product_model extends MY_Model
 
         return $q;
     }
-    public function getMyLevelDaoTao($user_id, $setting = null)
-    {
+    public function getMyLevelDaoTao($user_id, $setting = null) {
         if ($setting == null) {
             $setting = $this->getSettings('referlevel_dao_tao');
         }
@@ -4425,8 +4244,7 @@ class Product_model extends MY_Model
         return $q;
     }
 
-    public function ip_info($ip = false)
-    {
+    public function ip_info($ip = false) {
         $output = array('country_code' => '');
 
         if (!$ip) {
@@ -4467,8 +4285,7 @@ class Product_model extends MY_Model
         return $output;
     }
 
-    function setAffiliateClick($affiliate_id, $user_id, $affiliateads_type)
-    {
+    function setAffiliateClick($affiliate_id, $user_id, $affiliateads_type) {
 
         $ip_address = $_SERVER['REMOTE_ADDR'];
         $this->db->from('affiliate_action');
@@ -4525,20 +4342,17 @@ class Product_model extends MY_Model
                 );
                 $this->db->query("UPDATE  affiliate_action SET commission = 1 WHERE user_id = '{$user_id}' AND  affiliate_id = '{$affiliate_id}' ");
             }
-
         }
     }
 
-    function user_info($user_id)
-    {
+    function user_info($user_id) {
         $this->db->from('users');
         $this->db->where('id', $user_id);
         $query = $this->db->get()->row();
         return $query;
     }
 
-    function update_payment($cdate)
-    {
+    function update_payment($cdate) {
         $this->db->from('payment');
         $this->db->where('payment_created_date', $cdate);
         $this->db->update(
@@ -4549,8 +4363,7 @@ class Product_model extends MY_Model
         );
     }
 
-    function update_avg_rating($product_id)
-    {
+    function update_avg_rating($product_id) {
         $this->db->select('avg(rating_number) as avg');
         $this->db->from('rating');
         $this->db->where('products_id', $product_id);
@@ -4565,8 +4378,7 @@ class Product_model extends MY_Model
         return $this->db->update('product');
     }
 
-    function getProductCommission($user_id = null)
-    {
+    function getProductCommission($user_id = null) {
         if (empty($user_id)) {
             $sub_query = '1 = 1';
         } else {
@@ -4579,8 +4391,7 @@ class Product_model extends MY_Model
         return $value;
     }
 
-    function getAffiliateCommission($user_id = null)
-    {
+    function getAffiliateCommission($user_id = null) {
         if (empty($user_id)) {
             $sub_query = '1 = 1';
         } else {
@@ -4590,15 +4401,13 @@ class Product_model extends MY_Model
         return $this->db->query($query)->row_array();
     }
 
-    function getCommissionType()
-    {
+    function getCommissionType() {
         $this->db->from('setting');
         $this->db->where('setting_key', 'product_commission_type');
         return $this->db->get()->row()->setting_value;
     }
 
-    function add_product_media($user_id, $cdate)
-    {
+    function add_product_media($user_id, $cdate) {
         $this->db->from('product');
         $this->db->where('product_created_by', $user_id);
         $this->db->where('product_created_date', $cdate);
@@ -4627,8 +4436,7 @@ class Product_model extends MY_Model
         }
     }
 
-    public function parseDownloads($downloadable_files, $type = null)
-    {
+    public function parseDownloads($downloadable_files, $type = null) {
         $_data = json_decode($downloadable_files, 1);
         $data = [];
         if ($type == 'video' || $type == "videolink") {
@@ -4647,8 +4455,7 @@ class Product_model extends MY_Model
         return $data;
     }
 
-    private function get_types($filetype)
-    {
+    private function get_types($filetype) {
         switch (true) {
             case preg_match('/image/', $filetype):
                 return 'image';
@@ -4673,8 +4480,7 @@ class Product_model extends MY_Model
         }
     }
 
-    public function isMembershipAccess()
-    {
+    public function isMembershipAccess() {
         $membership = $this->getSettings('membership');
         $userdetails = $this->userdetails('user', 1);
 
@@ -4685,8 +4491,7 @@ class Product_model extends MY_Model
         }
     }
 
-    public function checkLevelForUser($id)
-    {
+    public function checkLevelForUser($id) {
         $sql = "SELECT `users`.`id`
     FROM `award_level`
     INNER JOIN `users`
@@ -4713,8 +4518,7 @@ class Product_model extends MY_Model
         return $result;
     }
 
-    public function checkJumpedUser($limit, $offset)
-    {
+    public function checkJumpedUser($limit, $offset) {
         $sql = 'SELECT `users`.`id`,
     `users`.`level_id`,
     `users`.`email`,
@@ -4804,8 +4608,7 @@ class Product_model extends MY_Model
         return false;
     }
 
-    public function checkJumpedUserWithId($id)
-    {
+    public function checkJumpedUserWithId($id) {
         $sql = 'SELECT `users`.`id`,
     `users`.`level_id`,
     `users`.`email`,
@@ -4890,14 +4693,12 @@ class Product_model extends MY_Model
         return;
     }
 
-    public function updateWithLike($table, $field, $like, $data)
-    {
+    public function updateWithLike($table, $field, $like, $data) {
         $this->db->like($field, $like);
         return $this->db->update($table, $data);
     }
 
-    public function getAll($table, $limit = false, $offset = 0, $orderby = false)
-    {
+    public function getAll($table, $limit = false, $offset = 0, $orderby = false) {
         $ci = get_instance();
         if ($limit != false) {
             $ci->db->limit($limit, $offset);
@@ -4912,8 +4713,7 @@ class Product_model extends MY_Model
         return $result;
     }
 
-    public function getAllFor($table, $field, $value, $limit = false, $offset = 0, $orderby = false)
-    {
+    public function getAllFor($table, $field, $value, $limit = false, $offset = 0, $orderby = false) {
         $ci = get_instance();
         if ($limit != false) {
             $ci->db->limit($limit, $offset);
@@ -4929,8 +4729,7 @@ class Product_model extends MY_Model
         return $result;
     }
 
-    public function getAllWithExcept($table, $field, $value, $limit = false, $offset = 0, $orderby = false)
-    {
+    public function getAllWithExcept($table, $field, $value, $limit = false, $offset = 0, $orderby = false) {
         $ci = get_instance();
         if ($limit != false) {
             $ci->db->limit($limit, $offset);
@@ -4946,8 +4745,7 @@ class Product_model extends MY_Model
         return $result;
     }
 
-    public function getByField($table, $field, $value)
-    {
+    public function getByField($table, $field, $value) {
         $ci = get_instance();
         $ci->db->select('*');
         $ci->db->from($table);
@@ -4958,8 +4756,7 @@ class Product_model extends MY_Model
         return $result;
     }
 
-    public function countByTable($table)
-    {
+    public function countByTable($table) {
         $ci = get_instance();
         $ci->db->from($table);
         $result = $ci->db->count_all_results();
@@ -4967,8 +4764,7 @@ class Product_model extends MY_Model
         return $result;
     }
 
-    public function countByField($table, $field, $value)
-    {
+    public function countByField($table, $field, $value) {
         $ci = get_instance();
         $ci->db->where($field, $value);
         $ci->db->from($table);
@@ -4977,8 +4773,7 @@ class Product_model extends MY_Model
         return $result;
     }
 
-    public function setBrowserLanguage()
-    {
+    public function setBrowserLanguage() {
         $languages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
 
         foreach ($languages as $lang) {
@@ -5005,8 +4800,7 @@ class Product_model extends MY_Model
         }
     }
 
-    public function getBlockedVendors()
-    {
+    public function getBlockedVendors() {
         $result = [];
         $restricted_vendors = $this->db->query('select id from users where status=0')->result();
         foreach ($restricted_vendors as $v) {
@@ -5015,8 +4809,7 @@ class Product_model extends MY_Model
         return $result;
     }
 
-    public function delete_wallet_integration_clicks_action($current_transaction)
-    {
+    public function delete_wallet_integration_clicks_action($current_transaction) {
         if (strpos($current_transaction->type, 'form_click') !== false && strpos($current_transaction->type, 'refer') === false) {
             if ($current_transaction->comm_from === 'store') {
                 $ct_record = $this->db->query('select action_id from form_action where 
@@ -5052,8 +4845,7 @@ class Product_model extends MY_Model
     }
 
 
-    public function productDataWithMeta($product)
-    {
+    public function productDataWithMeta($product) {
         $meta = $this->db->get_where('product_meta', ['related_product_id' => $product['product_id']])->result_array();
 
         foreach ($meta as $m) {
@@ -5063,15 +4855,13 @@ class Product_model extends MY_Model
         return $product;
     }
 
-    public function categoryInfo($categorySlug)
-    {
+    public function categoryInfo($categorySlug) {
         $categoryInfo = $this->db->query("select id from categories where slug='" . $categorySlug . "'")->result();
 
         return $categoryInfo;
     }
 
-    public function getUserInfo($id)
-    {
+    public function getUserInfo($id) {
 
         $userInfo = $this->db->query("select * from users where id='" . $id . "'")->result();
 
@@ -5079,8 +4869,7 @@ class Product_model extends MY_Model
     }
 
 
-    public function sendTicketNotification($data)
-    {
+    public function sendTicketNotification($data) {
         if (isset($data['admin_notification'])) {
             $notificationAdmin = array(
                 'notification_url' => 'ticketdetails/' . $data['id'],
@@ -5115,13 +4904,11 @@ class Product_model extends MY_Model
     }
 
 
-    public function getVendorSettingById($vendor_id)
-    {
+    public function getVendorSettingById($vendor_id) {
         return $this->db->get_where("vendor_setting", ["user_id" => (int) $vendor_id])->row();
     }
 
-    public function getUserPaymentMethodStatus($user_id, $PrimaryPaymentMethod)
-    {
+    public function getUserPaymentMethodStatus($user_id, $PrimaryPaymentMethod) {
         $status = false;
 
         if ($PrimaryPaymentMethod == 'paypal') {
@@ -5139,8 +4926,7 @@ class Product_model extends MY_Model
         return $status;
     }
 
-    public function save_view_logs($data)
-    {
+    public function save_view_logs($data) {
         $row = $this->db->get_where("product_view_logs", ["user_id" => $data['user_id'], "product_id" => $data['product_id'], "ip" => $data['ip'], "session_id" => $data['session_id']])->row();
 
         if (isset($row))
@@ -5174,11 +4960,9 @@ class Product_model extends MY_Model
         }
 
         return $result;
-
     }
 
-    public function getPaymentMethodsList($filter = array())
-    {
+    public function getPaymentMethodsList($filter = array()) {
         $files = array();
         foreach (glob(APPPATH . "/withdrawal_payment/controllers/*.php") as $file) {
             $files[] = $file;
@@ -5199,8 +4983,7 @@ class Product_model extends MY_Model
         return $payment_methods;
     }
 
-    public function getAllReward($limit = false, $offset = 0)
-    {
+    public function getAllReward($limit = false, $offset = 0) {
         $ci = &get_instance();
 
         $sql = "SELECT * FROM `reward`";

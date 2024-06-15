@@ -14,17 +14,18 @@
                     <button id="toggle-uploader" class="btn btn-light" type="submit"><?= __('admin.save') ?></button>
                 </div>
                 <div class="card-body">
+                    <input type="hidden" name="branch_id" value="<?= isset($branch['id']) ? $branch['id'] : '' ?>">
                     <div class="mb-3 row">
                         <label for="example-text-input" class="col-sm-2 col-form-label"><?= __('admin.branch_name') ?></label>
                         <div class="col-sm-10">
-                            <input name="firstname" value="<?php echo $client->firstname; ?>" class="form-control" required="required" type="text">
+                            <input name="name" value="<?php echo $branch->name; ?>" class="form-control" required="required" type="text">
                         </div>
                     </div>
 
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label"><?= __('admin.full_address') ?></label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" name="twaddress" placeholder="<?= __('admin.full_address') ?>" rows="4"><?= $client->twaddress ?></textarea>
+                            <textarea class="form-control" name="address" placeholder="<?= __('admin.full_address') ?>" rows="4"><?= $branch->address ?></textarea>
                         </div>
                     </div>
 
@@ -33,14 +34,14 @@
                         <div class="col-sm-10 form-group">
                             <input type="hidden" name='countrycode' id="countrycode" value="" class="form-control" placeholder="">
 
-                            <input onkeypress="return isNumberKey(event);" id="phone" class="form-control custom_input tel_input" name="phone" type="text" value="<?php echo $client->phone; ?>" <?php echo empty($client->phone) ?  'required="required"' : ''; ?>>
+                            <input onkeypress="return isNumberKey(event);" id="phone" class="form-control custom_input tel_input" name="phone" type="text" value="<?php echo $branch->phone; ?>" <?php echo empty($branch->phone) ?  'required="required"' : ''; ?>>
                         </div>
                     </div>
 
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label"><?= __('admin.location') ?></label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" name="twaddress" placeholder="<?= __('admin.location') ?>" rows="4"><?= $client->twaddress ?></textarea>
+                            <textarea class="form-control" name="location" placeholder="<?= __('admin.location') ?>" rows="4"><?= $branch->location ?></textarea>
                         </div>
                     </div>
 
@@ -137,7 +138,7 @@
 
         return true;
     }
-    renderStateAndCart('<?= $client->ucountry ?>');
+    renderStateAndCart('<?= $branch->ucountry ?>');
     $("#country").change(function() {
         renderStateAndCart($(this).val())
     });
@@ -160,8 +161,8 @@
             success: function(html) {
 
                 $('[name="state"]').html(html);
-                if ('<?= $client->state ?>' != "")
-                    $('[name="state"]').val('<?= $client->state ?>')
+                if ('<?= $branch->state ?>' != "")
+                    $('[name="state"]').val('<?= $branch->state ?>')
             },
         });
     }

@@ -2,6 +2,7 @@
 
 error_reporting(1);
 
+define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 
 /**
@@ -260,9 +261,7 @@ define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'producti
 
 
 
-switch (ENVIRONMENT)
-
-{
+switch (ENVIRONMENT) {
 
 	case 'development':
 
@@ -272,7 +271,7 @@ switch (ENVIRONMENT)
 
 
 
-	break;
+		break;
 
 
 
@@ -288,27 +287,17 @@ switch (ENVIRONMENT)
 
 
 
-		if (version_compare(PHP_VERSION, '5.3', '>='))
-
-		{
+		if (version_compare(PHP_VERSION, '5.3', '>=')) {
 
 			error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
-
-		}
-
-
-
-		else
-
-		{
+		} else {
 
 			error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE);
-
 		}
 
 
 
-	break;
+		break;
 
 
 
@@ -362,7 +351,7 @@ switch (ENVIRONMENT)
 
 
 
-	$system_path = 'system';
+$system_path = 'system';
 
 
 
@@ -430,7 +419,7 @@ switch (ENVIRONMENT)
 
 
 
-	$application_folder = 'application';
+$application_folder = 'application';
 
 
 
@@ -490,7 +479,7 @@ switch (ENVIRONMENT)
 
 
 
-	$view_folder = '';
+$view_folder = '';
 
 
 
@@ -578,27 +567,15 @@ switch (ENVIRONMENT)
 
 
 
-	// The directory name, relative to the "controllers" directory.  Leave blank
+// The directory name, relative to the "controllers" directory.  Leave blank
 
 
 
-	// if your controller is not in a sub-directory within the "controllers" one
+// if your controller is not in a sub-directory within the "controllers" one
 
 
 
-	// $routing['directory'] = '';
-
-
-
-
-
-
-
-	// The controller class file name.  Example:  mycontroller
-
-
-
-	// $routing['controller'] = '';
+// $routing['directory'] = '';
 
 
 
@@ -606,11 +583,23 @@ switch (ENVIRONMENT)
 
 
 
-	// The controller function you wish to be called.
+// The controller class file name.  Example:  mycontroller
 
 
 
-	// $routing['function']	= '';
+// $routing['controller'] = '';
+
+
+
+
+
+
+
+// The controller function you wish to be called.
+
+
+
+// $routing['function']	= '';
 
 
 
@@ -678,7 +667,7 @@ switch (ENVIRONMENT)
 
 
 
-	// $assign_to_config['name_of_config_item'] = 'value of config item';
+// $assign_to_config['name_of_config_item'] = 'value of config item';
 
 
 
@@ -734,111 +723,82 @@ switch (ENVIRONMENT)
 
 
 
-	// Set the current directory correctly for CLI requests
+// Set the current directory correctly for CLI requests
 
 
 
-	if (defined('STDIN'))
+if (defined('STDIN')) {
 
 
 
-	{
+	chdir(dirname(__FILE__));
+}
 
 
 
-		chdir(dirname(__FILE__));
 
 
 
-	}
 
+if (($_temp = realpath($system_path)) !== FALSE) {
 
 
 
+	$system_path = $_temp . DIRECTORY_SEPARATOR;
+} else {
 
 
 
-	if (($_temp = realpath($system_path)) !== FALSE)
+	// Ensure there's a trailing slash
 
 
 
-	{
+	$system_path = strtr(
 
 
 
-		$system_path = $_temp.DIRECTORY_SEPARATOR;
+		rtrim($system_path, '/\\'),
 
 
 
-	}
+		'/\\',
 
 
 
-	else
+		DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
 
 
 
-	{
+	) . DIRECTORY_SEPARATOR;
+}
 
 
 
-		// Ensure there's a trailing slash
 
 
 
-		$system_path = strtr(
 
+// Is the system path correct?
 
 
-			rtrim($system_path, '/\\'),
 
+if (!is_dir($system_path)) {
 
 
-			'/\\',
 
+	header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
 
 
-			DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
 
+	echo 'Your system folder path does not appear to be set correctly. Please open the following file and correct this: ' . pathinfo(__FILE__, PATHINFO_BASENAME);
 
 
-		).DIRECTORY_SEPARATOR;
 
+	exit(3); // EXIT_CONFIG
 
 
-	}
 
-
-
-
-
-
-
-	// Is the system path correct?
-
-
-
-	if ( ! is_dir($system_path))
-
-
-
-	{
-
-
-
-		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-
-
-
-		echo 'Your system folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME);
-
-
-
-		exit(3); // EXIT_CONFIG
-
-
-
-	}
+}
 
 
 
@@ -866,11 +826,11 @@ switch (ENVIRONMENT)
 
 
 
-	// The name of THIS file
+// The name of THIS file
 
 
 
-	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
+define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
 
 
@@ -878,11 +838,11 @@ switch (ENVIRONMENT)
 
 
 
-	// Path to the system directory
+// Path to the system directory
 
 
 
-	define('BASEPATH', $system_path);
+define('BASEPATH', $system_path);
 
 
 
@@ -890,11 +850,11 @@ switch (ENVIRONMENT)
 
 
 
-	// Path to the front controller (this file) directory
+// Path to the front controller (this file) directory
 
 
 
-	define('FCPATH', dirname(__FILE__).DIRECTORY_SEPARATOR);
+define('FCPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 
 
 
@@ -902,15 +862,15 @@ switch (ENVIRONMENT)
 
 
 
-	// Name of the "system" directory
+// Name of the "system" directory
 
 
 
-	define('SYSDIR', basename(BASEPATH));
+define('SYSDIR', basename(BASEPATH));
 
 
 
-	define('MAIN_PATH', __DIR__);
+define('MAIN_PATH', __DIR__);
 
 
 
@@ -918,79 +878,28 @@ switch (ENVIRONMENT)
 
 
 
-	// The path to the "application" directory
+// The path to the "application" directory
 
 
 
-	if (is_dir($application_folder))
+if (is_dir($application_folder)) {
 
 
 
-	{
+	if (($_temp = realpath($application_folder)) !== FALSE) {
 
 
 
-		if (($_temp = realpath($application_folder)) !== FALSE)
+		$application_folder = $_temp;
+	} else {
 
 
 
-		{
+		$application_folder = strtr(
 
 
 
-			$application_folder = $_temp;
-
-
-
-		}
-
-
-
-		else
-
-
-
-		{
-
-
-
-			$application_folder = strtr(
-
-
-
-				rtrim($application_folder, '/\\'),
-
-
-
-				'/\\',
-
-
-
-				DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
-
-
-
-			);
-
-		}
-
-	}
-
-
-
-	elseif (is_dir(BASEPATH.$application_folder.DIRECTORY_SEPARATOR))
-
-
-
-	{
-
-
-
-		$application_folder = BASEPATH.strtr(
-
-
-
-			trim($application_folder, '/\\'),
+			rtrim($application_folder, '/\\'),
 
 
 
@@ -998,141 +907,86 @@ switch (ENVIRONMENT)
 
 
 
-			DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+			DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
 
 
 
 		);
-
-
-
 	}
+} elseif (is_dir(BASEPATH . $application_folder . DIRECTORY_SEPARATOR)) {
 
 
 
-	else
+	$application_folder = BASEPATH . strtr(
 
 
 
-	{
+		trim($application_folder, '/\\'),
 
 
 
-		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		'/\\',
 
 
 
-		echo 'Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
+		DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
 
 
 
-		exit(3); // EXIT_CONFIG
+	);
+} else {
 
 
 
-	}
+	header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
 
 
 
-	define('APPPATH', $application_folder.DIRECTORY_SEPARATOR);
+	echo 'Your application folder path does not appear to be set correctly. Please open the following file and correct this: ' . SELF;
 
 
 
+	exit(3); // EXIT_CONFIG
 
 
-	// The path to the "views" directory
 
+}
 
 
-	if ( ! isset($view_folder[0]) && is_dir(APPPATH.'views'.DIRECTORY_SEPARATOR))
 
+define('APPPATH', $application_folder . DIRECTORY_SEPARATOR);
 
 
-	{
 
 
 
-		$view_folder = APPPATH.'views';
+// The path to the "views" directory
 
 
 
-	}
+if (!isset($view_folder[0]) && is_dir(APPPATH . 'views' . DIRECTORY_SEPARATOR)) {
 
 
 
-	elseif (is_dir($view_folder))
+	$view_folder = APPPATH . 'views';
+} elseif (is_dir($view_folder)) {
 
 
 
-	{
+	if (($_temp = realpath($view_folder)) !== FALSE) {
 
 
 
-		if (($_temp = realpath($view_folder)) !== FALSE)
+		$view_folder = $_temp;
+	} else {
 
 
 
-		{
+		$view_folder = strtr(
 
 
 
-			$view_folder = $_temp;
-
-
-
-		}
-
-
-
-		else
-
-
-
-		{
-
-
-
-			$view_folder = strtr(
-
-
-
-				rtrim($view_folder, '/\\'),
-
-
-
-				'/\\',
-
-
-
-				DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
-
-
-
-			);
-
-
-
-		}
-
-
-
-	}
-
-
-
-	elseif (is_dir(APPPATH.$view_folder.DIRECTORY_SEPARATOR))
-
-
-
-	{
-
-
-
-		$view_folder = APPPATH.strtr(
-
-
-
-			trim($view_folder, '/\\'),
+			rtrim($view_folder, '/\\'),
 
 
 
@@ -1140,43 +994,54 @@ switch (ENVIRONMENT)
 
 
 
-			DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+			DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
 
 
 
 		);
-
-
-
 	}
+} elseif (is_dir(APPPATH . $view_folder . DIRECTORY_SEPARATOR)) {
 
 
 
-	else
+	$view_folder = APPPATH . strtr(
 
 
 
-	{
+		trim($view_folder, '/\\'),
 
 
 
-		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		'/\\',
 
 
 
-		echo 'Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
+		DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
 
 
 
-		exit(3); // EXIT_CONFIG
+	);
+} else {
 
 
 
-	}
+	header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
 
 
 
-define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
+	echo 'Your view folder path does not appear to be set correctly. Please open the following file and correct this: ' . SELF;
+
+
+
+	exit(3); // EXIT_CONFIG
+
+
+
+}
+
+
+
+define('VIEWPATH', $view_folder . DIRECTORY_SEPARATOR);
 
 
 
@@ -1198,18 +1063,15 @@ header('X-XSS-Protection:0');
 
 error_reporting(E_ERROR | E_PARSE);
 
- 
 
-$php_version_infomration=phpversion();
 
-if ($php_version_infomration < 7.4) 
+$php_version_infomration = phpversion();
 
-{
+if ($php_version_infomration < 7.4) {
 
-  require APPPATH .'errors/error_php_version.php' ;
+	require APPPATH . 'errors/error_php_version.php';
 
 	exit();
-
 }
 
 
@@ -1218,13 +1080,13 @@ require APPPATH . "config/database.php";
 
 $config['db_debug'] = FALSE;
 
-if(!isset($db["default"]["database"])){
+if (!isset($db["default"]["database"])) {
 
-	header("location:install/index.php");die;
-
+	header("location:install/index.php");
+	die;
 }
 
- 
+
 
 
 
@@ -1250,54 +1112,46 @@ $connection = mysqli_connect(
 
 
 
-if($connection){
+if ($connection) {
 
 	$result = $connection->query("SELECT 1 FROM `ci_session`");
 
-    if(isset($result->num_rows) && $result->num_rows > 0){
+	if (isset($result->num_rows) && $result->num_rows > 0) {
 
-    	$sess_driver = 'database';
+		$sess_driver = 'database';
 
 		$sess_cookie_name = 'ci_session';
 
 		$sess_save_path = 'ci_session';
-
-    }
-
-}
-
-else
-
-{
+	}
+} else {
 
 
 
-	require APPPATH .'errors/error_db.php' ;
+	require APPPATH . 'errors/error_db.php';
 
 	exit();
-
 }
 
 
 
-define('SESS_DRIVER',$sess_driver);
+define('SESS_DRIVER', $sess_driver);
 
-define('SESS_COOKIE_NAME',$sess_cookie_name);
+define('SESS_COOKIE_NAME', $sess_cookie_name);
 
-define('SESS_SAVE_PATH',$sess_save_path);
-
-
+define('SESS_SAVE_PATH', $sess_save_path);
 
 
 
 
 
-require APPPATH.'third_party/eloquent.php';
 
-if (!file_exists(FCPATH."/install/version.php")) {
 
-    fopen(FCPATH."/install/version.php", 'w');
+require APPPATH . 'third_party/eloquent.php';
 
+if (!file_exists(FCPATH . "/install/version.php")) {
+
+	fopen(FCPATH . "/install/version.php", 'w');
 }
 
 
@@ -1306,6 +1160,4 @@ require_once 'install/version.php';
 
 
 
-require_once BASEPATH.'core/CodeIgniter.php';
-
- 
+require_once BASEPATH . 'core/CodeIgniter.php';

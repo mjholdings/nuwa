@@ -24,7 +24,7 @@ class Admincontrol extends MY_Controller {
 
 		$this->load->library('user_agent');
 
-		$this->load->model('Report_model');
+		$this->load->model('Report_model');		
 
 		$this->front_assets = APPPATH . 'views/auth/user/assets/';
 

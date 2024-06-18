@@ -4,7 +4,7 @@
 		<div class="card m-b-30">
 			<div class="card-header">
 				<div class="pull-right">
-					<a href="<?= base_url('admincontrol/addbranch/')  ?>" class="btn btn-primary add-new" id="<?= $lang['id'] ?>"><?= __("admin.add_new") ?></a>
+					<a href="<?= base_url('admincontrol/branch_form/')  ?>" class="btn btn-primary add-new" id="<?= $lang['id'] ?>"><?= __("admin.add_new") ?></a>
 				</div>
 			</div>
 			<div class="card-body">
@@ -13,28 +13,32 @@
 						<table class="table">
 							<thead>
 								<tr>
-									<th><?= __("admin.sn") ?></th>
+									<th><?= __("admin.id") ?></th>									
 									<th><?= __("admin.branch_name") ?></th>
-                  <th><?= __("admin.address") ?></th>
-									<th><?= __("admin.phone") ?></th>
-									<th><?= __("admin.location") ?></th>									
+									<th><?= __("admin.branch_phone") ?></th>
+									<th><?= __("admin.branch_address") ?></th>
+									<th width="180px"><?= __("admin.is_default") ?></th>
 									<th width="180px"><?= __("admin.action") ?></th>
 								</tr>
 							</thead>
 							<tbody id="user-groups">
-								<?php foreach($branchs as $branch): ?>                  
+								<?php foreach($branchs as $key=> $branch){ ?>
 									<tr>
-										<td><?= $branch["id"] ?></td>										
-										<td><?= $branch["name"] ?></td>
-										<td style="word-wrap: break-word;"><?= $branch["address"] ?></td>										
-										<td><?= $branch["phone"] ?></td>										
-										<td style="width:100;word-wrap: break-all;"><?= $branch["location"] ?></td>																				
+										<td><?= (++$key) ?></td>										
+										<td><?= $branch->name ?></td>
+										<td><?= $branch->phone ?></td>										
+										<td><?= $branch->address ?></td>										
 										<td>
-										<a href="<?= base_url('admincontrol/addbranch/'.$branch->id)  ?>" class="btn btn-warning bg-warning text-dark" data-toggle="tooltip" data-original-title="<?= __('admin.update') ?>"><?= __('admin.update') ?></a>
-										<button data-toggle="tooltip" data-original-title="<?= __("admin.delete") ?>" class="btn btn-danger detele-button" data-id="<?=$group->id?>"><?= __("admin.delete") ?></button>
+											<div class="form-check form-switch">
+											<input class="form-check-input btn_lang_toggle" type="checkbox" <?= ($branch->is_default == 1) ? "checked" : ""?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-lang_id="<?= $branch->id ?>" data-column="is_default">
+										</div>
+										</td>
+										<td>
+										<a href="<?= base_url('admincontrol/branch_form/'.$branch->id)  ?>" class="btn btn-warning bg-warning text-dark" data-toggle="tooltip" data-original-title="<?= __('admin.update') ?>"><?= __('admin.update') ?></a>
+										<button data-toggle="tooltip" data-original-title="<?= __("admin.delete") ?>" class="btn btn-danger detele-button" data-id="<?=$branch->id?>"><?= __("admin.delete") ?></button>
 										</td>
 									</tr>
-								<?php endforeach; ?>
+								<?php } ?>
 							</tbody>
 						</table>
 					</div>
@@ -59,7 +63,7 @@
 		}
 
 		$.ajax({
-			url: "<?= base_url('admincontrol/group_status_toggle')?>",
+			url: "<?= base_url('admincontrol/branch_status_toggle')?>",
 			type: "POST",
 			dataType: "json",
 			data: {

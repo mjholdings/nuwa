@@ -2136,8 +2136,6 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-
-
 	public function getSiteSetting() {
 
 		return $this->Product_model->getSettings('site');
@@ -7733,74 +7731,7 @@ class Admincontrol extends MY_Controller {
 
 		$this->view($data, 'clients/index');
 	}
-
-	public function addbranch($branch_id = null) {
-
-		$userdetails = $this->userdetails();
-
-		if (empty($userdetails)) {
-
-			redirect($this->admin_domain_url);
-		}
-
-		$data = array();
-
-		if ($this->input->post()) {
-
-			$this->load->library('form_validation');
-
-			$details = array(
-
-				'name' => $this->input->post('name', true),
-
-				'address'  => $this->input->post('address', true),
-
-				'location'  => $this->input->post('location', true),
-
-				'phone'  => '+' . $this->input->post('countrycode', true) . ' ' . $this->input->post('phone', true),
-
-			);	
-			
-			if (!empty($checkuser)) {
-
-				$this->session->set_flashdata('error', __('admin.this_username_already_register'));
-
-				$this->session->set_flashdata('postdata', $this->input->post());
-
-				redirect('admincontrol/addbranch');
-
-			} else {
-			
-
-					if ($branch_id) {
-
-						$this->Product_model->update_data('branch', $details, array('id' => $branch_id));
-
-					} else {
-
-						$id = $this->Product_model->create_data('branch', $details);
-					}					
-
-					$this->session->set_flashdata('success', __('admin.updated_successfully'));
-
-					redirect('admincontrol/listbranchs/');
-			
-			}
-		}
-
-		$data['branch'] 	= $this->Branch->getUserDetailsObject($id);
-
-		$this->view($data, 'branchs/add_branch');
-	}
-
-	public function listbranchs($page = 1) {
-
-		$userdetails = $this->userdetails();
-
-		$data['branchs'] = $this->Branch->get_all_branch();
-
-		$this->view($data, 'branchs/index');
-	}
+	
 
 	public function addstock($id = null) {
 
@@ -13860,6 +13791,119 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
+	// Branch
+	public function listbranchs() {
+		$userdetails = $this->userdetails();
+
+		$data['branchs'] = $this->user->getbranchlist();
+
+		$this->view($data, 'branchs/index');
+	}
+
+	public function branch_form($id = '') {
+		$userdetails = $this->userdetails();
+
+		if (!empty($id)) {
+			$data['branch'] = $this->user->getbranchdetails($id);
+		}
+
+		$this->view($data, 'branchs/form');
+	}
+
+	public function admin_branch_form() {
+
+		$userdetails = $this->userdetails();
+
+		if (empty($userdetails)) {
+			redirect($this->admin_domain_url);
+		}
+
+		if ($userdetails['id'] != 1) {
+			redirect($this->admin_domain_url);
+		}
+
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
+
+			$json = array();
+
+			$id = (int)$this->input->post("branch_id", true);
+
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('branch_name', __('admin.group_name'), 'required');
+			$post = $this->input->post(null, true);
+
+			if ($this->form_validation->run()) {
+
+				$errors = array();
+				$checkgroup = $this->user->checkgroup($this->input->post('branch_name', true), $id);
+
+				if (!empty($checkgroup)) {
+					$json['errors']['branch_name'] = __('admin.group_already_exists');
+				}
+
+				if (!isset($json['errors'])) {
+					$userArray = array(
+						'name' => $this->input->post('branch_name', true),
+						'address' => $this->input->post('branch_address', true),
+						'phone' => $this->input->post('branch_phone', true),
+						'location' => $this->input->post('branch_location', true)
+					);
+
+					if (!empty($avatar)) {
+						$userArray['avatar'] = $avatar;
+					}
+
+					if (empty($id)) {
+						$userArray['created_at'] = date("Y-m-d H:i:s");
+						$data = $this->user->groupinsert($userArray);
+						$id = $this->db->insert_id();
+					} else {
+						$userArray['updated_at'] = date("Y-m-d H:i:s");
+						$data = $this->user->update_group($id, $userArray);
+					}
+					$this->session->set_flashdata('success', __('admin.group_updated_successfully'));
+
+					$json['location'] = base_url('admincontrol/listbranchs');
+				}
+			} else {
+
+				$json['errors'] = $this->form_validation->error_array();
+			}
+			echo json_encode($json);
+			die;
+		}
+	}
+
+	public function branch_status_toggle() {
+		try {
+			$userdetails = $this->userdetails();
+			$json = array();
+			$column = $this->input->post("column", true);
+			$id = (int)$this->input->post("id", true);
+			$status = (int)$this->input->post('status', true);
+			if ($column == 'is_default') {
+				$this->db->query("UPDATE branch SET is_default = 0");
+				$this->db->query("UPDATE branch SET is_default = " . $status . " WHERE id =" . $id);
+			} else {
+				$this->db->query("UPDATE branch SET " . $column . "='" . $status . "' WHERE id =" . $id);
+			}
+			$json = array('status' => true, 'languages' => 'Is default status updated!');
+		} catch (\Throwable $th) {
+			$json = array('status' => false, 'message' => $th->getMessage());
+		}
+		echo json_encode($json);
+	}
+
+	public function delete_branch() {
+		$id = $this->input->post('id');
+		
+		$this->db->delete('branch', ['id' => $id]);
+		echo json_encode(array('status' => 1, 'message' => 'Group deleted successfully!'));
+		die;
+		
+	}
+
+	// Affiliate
 	public function doLoginAff() {
 		if (!$this->userdetails()) {
 			die('Unauthorized Access!');

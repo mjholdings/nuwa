@@ -217,3 +217,10 @@ if(!empty($DB_ROUTES)) $route = array_merge($route,$DB_ROUTES);
 
 $route['ref/(:any)'] = "RedirectTracking/external_integration/$1";
 $route['(:any)'] = "RedirectTracking/redirect_tracking_url/$1";
+
+// Branch
+// $route['adminbranch'] = 'AdminBranch/index';
+// $route['adminbranch/form/(:any)'] = 'AdminBranch/form/$1';
+// $route['adminbranch/form'] = 'AdminBranch/form';
+// $route['adminbranch/save'] = 'AdminBranch/save';
+// $route['adminbranch/delete'] = 'AdminBranch/delete';

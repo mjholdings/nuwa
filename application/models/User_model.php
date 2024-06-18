@@ -195,6 +195,40 @@ class User_model extends MY_Model {
 		return $data;
 	}
 
+
+	/*
+	* Branch 
+	*/
+	function checkbranch($branch_name, $id) {
+		$where['name'] = $branch_name;
+		if (!empty($id)) {
+			$where['id !='] = $id;
+		}
+		return $this->db->get_where('branch', $where)->row_array();
+	}
+
+	function branchinsert($data) {
+		return $this->db->insert('branch', $data);
+	}
+
+	function update_branch($id, $data) {
+		return  $this->db->update('branch', $data, ['id' => $id]);
+	}
+
+	function getbranchlist() {
+		return $this->db->query('select * from branch')->result();
+	}
+
+	function getDefaultBranch() {
+		return $this->db->get_where('branch', ['is_default' => 1])->row();
+	}
+
+	function getbranchdetails($id) {
+		return $this->db->get_where('branch', ['id' => $id])->row();
+	}
+
+
+
 	/*
 	* user group 
 	*/

@@ -3708,6 +3708,7 @@ class Admincontrol extends MY_Controller {
 		redirect('admincontrol/manageUsers');
 	}
 
+	// Award Level
 	public function award_level($offset = 0) {
 		$userdetails = $this->userdetails();
 		$award_level = $this->Product_model->getSettings('award_level', 'status');
@@ -3895,7 +3896,9 @@ class Admincontrol extends MY_Controller {
 		die();
 	}
 
-	// khen thưởng
+
+
+	// Khen thưởng
 	public function reward($offset = 0) {
 		$userdetails = $this->userdetails();
 		$this->load->library('pagination');
@@ -13791,117 +13794,48 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	// Branch
+
+	// Phương thức mới để gọi danh sách chi nhánh
 	public function listbranchs() {
-		$userdetails = $this->userdetails();
-
-		$data['branchs'] = $this->user->getbranchlist();
-
-		$this->view($data, 'branchs/index');
+		$this->load->view('admincontrol/branchs/index');
 	}
 
-	public function branch_form($id = '') {
-		$userdetails = $this->userdetails();
+	// Danh sách các chi nhánh
+    public function branches() {
+        $this->load->view('admincontrol/branchs/index');
+    }
 
-		if (!empty($id)) {
-			$data['branch'] = $this->user->getbranchdetails($id);
-		}
+    // Lấy danh sách các chi nhánh
+    public function get_branches() {
+        $branches = $this->Product_model->get_all_branches();
+        echo json_encode($branches);
+    }
 
-		$this->view($data, 'branchs/form');
-	}
+    // Thêm chi nhánh
+    public function add_branch() {
+        $data = $this->input->post();
+        $result = $this->Product_model->insert_branch($data);
+        echo json_encode($result);
+    }
 
-	public function admin_branch_form() {
+    // Sửa chi nhánh
+    public function update_branch($id) {
+        $data = $this->input->post();
+        $result = $this->Product_model->update_branch($id, $data);
+        echo json_encode($result);
+    }
 
-		$userdetails = $this->userdetails();
+    // Xóa chi nhánh
+    public function delete_branch($id) {
+        $result = $this->Product_model->delete_branch($id);
+        echo json_encode($result);
+    }
 
-		if (empty($userdetails)) {
-			redirect($this->admin_domain_url);
-		}
-
-		if ($userdetails['id'] != 1) {
-			redirect($this->admin_domain_url);
-		}
-
-		if ($this->input->server('REQUEST_METHOD') == 'POST') {
-
-			$json = array();
-
-			$id = (int)$this->input->post("branch_id", true);
-
-			$this->load->library('form_validation');
-			$this->form_validation->set_rules('branch_name', __('admin.group_name'), 'required');
-			$post = $this->input->post(null, true);
-
-			if ($this->form_validation->run()) {
-
-				$errors = array();
-				$checkgroup = $this->user->checkgroup($this->input->post('branch_name', true), $id);
-
-				if (!empty($checkgroup)) {
-					$json['errors']['branch_name'] = __('admin.group_already_exists');
-				}
-
-				if (!isset($json['errors'])) {
-					$userArray = array(
-						'name' => $this->input->post('branch_name', true),
-						'address' => $this->input->post('branch_address', true),
-						'phone' => $this->input->post('branch_phone', true),
-						'location' => $this->input->post('branch_location', true)
-					);
-
-					if (!empty($avatar)) {
-						$userArray['avatar'] = $avatar;
-					}
-
-					if (empty($id)) {
-						$userArray['created_at'] = date("Y-m-d H:i:s");
-						$data = $this->user->groupinsert($userArray);
-						$id = $this->db->insert_id();
-					} else {
-						$userArray['updated_at'] = date("Y-m-d H:i:s");
-						$data = $this->user->update_group($id, $userArray);
-					}
-					$this->session->set_flashdata('success', __('admin.group_updated_successfully'));
-
-					$json['location'] = base_url('admincontrol/listbranchs');
-				}
-			} else {
-
-				$json['errors'] = $this->form_validation->error_array();
-			}
-			echo json_encode($json);
-			die;
-		}
-	}
-
-	public function branch_status_toggle() {
-		try {
-			$userdetails = $this->userdetails();
-			$json = array();
-			$column = $this->input->post("column", true);
-			$id = (int)$this->input->post("id", true);
-			$status = (int)$this->input->post('status', true);
-			if ($column == 'is_default') {
-				$this->db->query("UPDATE branch SET is_default = 0");
-				$this->db->query("UPDATE branch SET is_default = " . $status . " WHERE id =" . $id);
-			} else {
-				$this->db->query("UPDATE branch SET " . $column . "='" . $status . "' WHERE id =" . $id);
-			}
-			$json = array('status' => true, 'languages' => 'Is default status updated!');
-		} catch (\Throwable $th) {
-			$json = array('status' => false, 'message' => $th->getMessage());
-		}
-		echo json_encode($json);
-	}
-
-	public function delete_branch() {
-		$id = $this->input->post('id');
-		
-		$this->db->delete('branch', ['id' => $id]);
-		echo json_encode(array('status' => 1, 'message' => 'Group deleted successfully!'));
-		die;
-		
-	}
+    // Lấy thông tin chi nhánh để cập nhật
+    public function get_branch($id) {
+        $branch = $this->Product_model->get_branch($id);
+        echo json_encode($branch);
+    }
 
 	// Affiliate
 	public function doLoginAff() {

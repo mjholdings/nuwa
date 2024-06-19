@@ -48,7 +48,7 @@
 		                        		<small class="text-muted"><?php echo $notification['notification_description']; ?>
 		                        	</small>
 								</td>
-								<td width="80px">
+								<td width="100px">
 									<a class="btn btn-primary" href="javascript:void(0)" onclick="shownofication(<?php echo $notification['notification_id'] . ',\'' . base_url('admincontrol') . $notification['notification_url'] . '\''; ?>)" class="dropdown-item notify-item"><?= __('admin.details') ?></a>
 								</td>
 							</tr>

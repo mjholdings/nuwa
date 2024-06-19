@@ -4999,4 +4999,27 @@ class Product_model extends MY_Model {
 
         return $result;
     }
+
+    // Branch Model
+    public function get_all_branches() {
+        return $this->db->get('branch')->result_array();
+    }
+
+    public function get_branch($id) {
+        return $this->db->where('id', $id)->get('branch')->row_array();
+    }
+
+    public function insert_branch($data) {
+        $data['is_default'] = isset($data['is_default']) ? 1 : 0;
+        return $this->db->insert('branch', $data);
+    }
+
+    public function update_branch($id, $data) {
+        $data['is_default'] = isset($data['is_default']) ? 1 : 0;
+        return $this->db->where('id', $id)->update('branch', $data);
+    }
+
+    public function delete_branch($id) {
+        return $this->db->where('id', $id)->delete('branch');
+    }
 }

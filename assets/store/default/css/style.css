@@ -3636,7 +3636,7 @@ a {
     font-family: 'Be Vietnam Pro';
     letter-spacing: 0px;
     color: var(--color-white);
-    background-color: #ed125f;
+    background-color: blue;
     transition: all 0.3s ease;
     font-size: 20px;
     font-weight: 700;

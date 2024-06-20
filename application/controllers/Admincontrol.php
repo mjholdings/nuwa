@@ -7,7 +7,6 @@ class Admincontrol extends MY_Controller {
 		parent::__construct();
 		$this->load->model('user_model', 'user');
 		$this->load->model('Product_model');
-		$this->load->model('Branch_model', 'Branch');
 		$this->load->model('Setting_model');
 		$this->load->model('Common_model');
 		$this->load->model('Review_model');
@@ -3896,7 +3895,130 @@ class Admincontrol extends MY_Controller {
 		die();
 	}
 
+	// Chi nhánh
+	public function branch($offset = 0) {
+		$userdetails = $this->userdetails();
+		$this->load->library('pagination');
+		$config['base_url'] = base_url('admincontrol/branch');
+		$config['uri_segment'] = 3;
+		$config['per_page'] = 10;
+		$config['total_rows'] = $this->Product_model->countByTable('branch');
+		$this->pagination->initialize($config);
+		$data['pagination'] = $this->pagination->create_links();
+		$data['branch'] = $this->Product_model->getAllBranch($config['per_page'], $offset);
+		$this->view($data, 'branch/index');
+	}
 
+	public function create_branch() {
+		$userdetails = $this->userdetails();
+
+		if ($this->input->method() == 'post') {
+			$result['status'] = 0;
+			$result['message'] = __('admin.something_went_wrong');
+
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('name', __('Tên chi nhánh'), 'trim|required|max_length[100]');
+			$this->form_validation->set_rules('address', __('Địa chỉ'), 'trim|required');
+			if ($this->form_validation->run() == TRUE) {
+				$insert['name'] = $this->input->post('name', true);
+				$insert['address'] = $this->input->post('address', true);
+				$insert['phone'] = $this->input->post('phone', true);
+				$insert['location'] = $this->input->post('location', true);
+				$insert['is_default'] = $this->input->post('is_default', true);
+
+				$success = true;
+
+				if ($success) {
+					$insertedId = $this->db->insert('branch', $insert);
+					if ($insertedId) {
+						$result['status'] = 1;
+						$result['message'] = __('Đã thêm mới thành công một chi nhánh');
+					}
+				}
+			} else {
+				$result['validation'] = $this->form_validation->error_array();
+			}
+
+			echo json_encode($result);
+			die();
+		}
+
+		$this->view($data, 'branch/create');
+	}
+
+	public function update_branch($id) {
+		$userdetails = $this->userdetails();
+
+		if (isset($id)) {
+			$id = (int) $id;
+			if ($id) {
+				$data['branch'] = $this->Product_model->getByField('branch', 'id', $id);
+				if ($data['branch']) {
+
+					if ($this->input->method() == 'post') {
+						$result['status'] = 0;
+						$result['message'] = __('admin.something_went_wrong');
+
+						$this->load->library('form_validation');
+						$this->form_validation->set_rules('name', __('Tên chi nhánh'), 'trim|required');
+						$this->form_validation->set_rules('address', __('Địa chỉ'), 'trim|required');
+						if ($this->form_validation->run() == TRUE) {
+							$update['name'] = $this->input->post('name', true);
+							$update['address'] = $this->input->post('address', true);
+							$update['phone'] = $this->input->post('phone', true);
+							$update['location'] = $this->input->post('location', true);
+							$update['is_default'] = $this->input->post('is_default', true);
+							$success = true;
+
+							if ($success) {
+								$success = $this->db->update('branch', $update, ['id' => $id]);
+								if ($success) {
+									$result['status'] = 1;
+									$result['message'] = __('Đã cập nhật thông tin chi nhánh xong');
+								}
+							}
+						} else {
+							$result['validation'] = $this->form_validation->error_array();
+						}
+
+						echo json_encode($result);
+						die();
+					}
+
+					$this->view($data, 'branch/update');
+				} else {
+					redirect('admincontrol/branch');
+				}
+			} else {
+				redirect('admincontrol/branch');
+			}
+		} else {
+			redirect('admincontrol/branch');
+		}
+	}
+
+	public function delete_branch($id) {
+		$userdetails = $this->userdetails();
+		$result['status'] = 0;
+		$result['message'] = __('admin.something_went_wrong');
+
+		if (isset($id)) {
+			$id = (int) $id;
+			if ($id) {
+				$award_level = $this->Product_model->getByField('branch', 'id', $id);
+				if ($award_level) {
+					$success = $this->db->delete('branch', ['id' => $id]);
+					if ($success)
+						$result['status'] = 1;
+					$this->session->set_flashdata('success', __('Đã xóa thành công chi nhánh'));
+				}
+			}
+		}
+
+		echo json_encode($result);
+		die();
+	}
+	// End chi nhánh
 
 	// Khen thưởng
 	public function reward($offset = 0) {
@@ -4022,7 +4144,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($result);
 		die();
 	}
-	//end khen thưởng
+	// End khen thưởng
+
 	public function addproduct() {
 
 		$userdetails = $this->userdetails();
@@ -13794,49 +13917,7 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-
-	// Phương thức mới để gọi danh sách chi nhánh
-	public function listbranchs() {
-		$this->load->view('admincontrol/branchs/index');
-	}
-
-	// Danh sách các chi nhánh
-    public function branches() {
-        $this->load->view('admincontrol/branchs/index');
-    }
-
-    // Lấy danh sách các chi nhánh
-    public function get_branches() {
-        $branches = $this->Product_model->get_all_branches();
-        echo json_encode($branches);
-    }
-
-    // Thêm chi nhánh
-    public function add_branch() {
-        $data = $this->input->post();
-        $result = $this->Product_model->insert_branch($data);
-        echo json_encode($result);
-    }
-
-    // Sửa chi nhánh
-    public function update_branch($id) {
-        $data = $this->input->post();
-        $result = $this->Product_model->update_branch($id, $data);
-        echo json_encode($result);
-    }
-
-    // Xóa chi nhánh
-    public function delete_branch($id) {
-        $result = $this->Product_model->delete_branch($id);
-        echo json_encode($result);
-    }
-
-    // Lấy thông tin chi nhánh để cập nhật
-    public function get_branch($id) {
-        $branch = $this->Product_model->get_branch($id);
-        echo json_encode($branch);
-    }
-
+	
 	// Affiliate
 	public function doLoginAff() {
 		if (!$this->userdetails()) {

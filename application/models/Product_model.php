@@ -5001,8 +5001,21 @@ class Product_model extends MY_Model {
     }
 
     // Branch Model
-    public function get_all_branches() {
-        return $this->db->get('branch')->result_array();
+    public function getAllBranch($limit = false, $offset = 0) {
+        $ci = &get_instance();
+
+        $sql = "SELECT * FROM `branch`";
+
+        if ($limit != false) {
+            $sql .= " LIMIT ? OFFSET ?";
+            $query = $ci->db->query($sql, array((int) $limit, (int) $offset));
+        } else {
+            $query = $ci->db->query($sql);
+        }
+
+        $result = $query->result_array();
+
+        return $result;
     }
 
     public function get_branch($id) {

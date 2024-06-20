@@ -1423,7 +1423,7 @@
             },
             "Admincontrol.php": {
               "type": "-",
-              "size": 519895,
+              "size": 522647,
               "lmtime": 1718383841353,
               "modified": true
             },
@@ -1443,6 +1443,12 @@
               "type": "-",
               "size": 23012,
               "lmtime": 1718329893773,
+              "modified": false
+            },
+            "Branch.php": {
+              "type": "-",
+              "size": 473,
+              "lmtime": 0,
               "modified": false
             },
             "Categories.php": {
@@ -21701,6 +21707,12 @@
               "lmtime": 1718329894670,
               "modified": false
             },
+            "BranchModel.php": {
+              "type": "-",
+              "size": 67,
+              "lmtime": 0,
+              "modified": false
+            },
             "Branch_model.php": {
               "type": "-",
               "size": 647,
@@ -21817,7 +21829,7 @@
             },
             "Product_model.php": {
               "type": "-",
-              "size": 223538,
+              "size": 223880,
               "lmtime": 1718352321117,
               "modified": true
             },
@@ -28392,6 +28404,94 @@
                   "modified": false
                 }
               },
+              "branch": {
+                "create.php": {
+                  "type": "-",
+                  "size": 5384,
+                  "lmtime": 1718898610677,
+                  "modified": false
+                },
+                "index.php": {
+                  "type": "-",
+                  "size": 3424,
+                  "lmtime": 1718898610677,
+                  "modified": false
+                },
+                "update.php": {
+                  "type": "-",
+                  "size": 5597,
+                  "lmtime": 1718898610677,
+                  "modified": false
+                }
+              },
+              "branchs": {
+                "_form.php": {
+                  "type": "-",
+                  "size": 5359,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "_index.php": {
+                  "type": "-",
+                  "size": 3488,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "add_branch.php": {
+                  "type": "-",
+                  "size": 893,
+                  "lmtime": 1718383841353,
+                  "modified": true
+                },
+                "branchs_list_tr.php": {
+                  "type": "-",
+                  "size": 4616,
+                  "lmtime": 1718383841353,
+                  "modified": true
+                },
+                "clients_list_tr.php": {
+                  "type": "-",
+                  "size": 6910,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "create.php": {
+                  "type": "-",
+                  "size": 7193,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "form.php": {
+                  "type": "-",
+                  "size": 5359,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "index copy.php": {
+                  "type": "-",
+                  "size": 40,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "index.php": {
+                  "type": "-",
+                  "size": 6917,
+                  "lmtime": 1718383841353,
+                  "modified": true
+                },
+                "update.php": {
+                  "type": "-",
+                  "size": 6810,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "update_branch.php": {
+                  "type": "-",
+                  "size": 935,
+                  "lmtime": 1718813389512,
+                  "modified": false
+                }
+              },
               "clients": {
                 "add_clients.php": {
                   "type": "-",
@@ -28587,9 +28687,9 @@
                 },
                 "sidebar.php": {
                   "type": "-",
-                  "size": 23289,
+                  "size": 23284,
                   "lmtime": 1718463046530,
-                  "modified": false
+                  "modified": true
                 },
                 "store.php": {
                   "type": "-",
@@ -29100,6 +29200,32 @@
                   "modified": false
                 }
               },
+              "stocks": {
+                "add_stock.php": {
+                  "type": "-",
+                  "size": 7648,
+                  "lmtime": 1718383841369,
+                  "modified": false
+                },
+                "clients_list_tr.php": {
+                  "type": "-",
+                  "size": 6910,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "index.php": {
+                  "type": "-",
+                  "size": 7475,
+                  "lmtime": 1718383841369,
+                  "modified": false
+                },
+                "stocks_list_tr.php": {
+                  "type": "-",
+                  "size": 6667,
+                  "lmtime": 1718383841369,
+                  "modified": false
+                }
+              },
               "store": {
                 "category_add.php": {
                   "type": "-",
@@ -29551,100 +29677,6 @@
                   "type": "-",
                   "size": 7965,
                   "lmtime": 1718329895177,
-                  "modified": false
-                }
-              },
-              "branchs": {
-                "_form.php": {
-                  "type": "-",
-                  "size": 5359,
-                  "lmtime": 0,
-                  "modified": false
-                },
-                "_index.php": {
-                  "type": "-",
-                  "size": 3488,
-                  "lmtime": 0,
-                  "modified": false
-                },
-                "add_branch.php": {
-                  "type": "-",
-                  "size": 893,
-                  "lmtime": 1718383841353,
-                  "modified": true
-                },
-                "branchs_list_tr.php": {
-                  "type": "-",
-                  "size": 4616,
-                  "lmtime": 1718383841353,
-                  "modified": true
-                },
-                "clients_list_tr.php": {
-                  "type": "-",
-                  "size": 6910,
-                  "lmtime": 0,
-                  "modified": false
-                },
-                "create.php": {
-                  "type": "-",
-                  "size": 7193,
-                  "lmtime": 0,
-                  "modified": false
-                },
-                "form.php": {
-                  "type": "-",
-                  "size": 5359,
-                  "lmtime": 0,
-                  "modified": false
-                },
-                "index copy.php": {
-                  "type": "-",
-                  "size": 40,
-                  "lmtime": 0,
-                  "modified": false
-                },
-                "index.php": {
-                  "type": "-",
-                  "size": 6917,
-                  "lmtime": 1718383841353,
-                  "modified": true
-                },
-                "update.php": {
-                  "type": "-",
-                  "size": 6810,
-                  "lmtime": 0,
-                  "modified": false
-                },
-                "update_branch.php": {
-                  "type": "-",
-                  "size": 935,
-                  "lmtime": 1718813389512,
-                  "modified": false
-                }
-              },
-              "stocks": {
-                "add_stock.php": {
-                  "type": "-",
-                  "size": 7648,
-                  "lmtime": 1718383841369,
-                  "modified": false
-                },
-                "clients_list_tr.php": {
-                  "type": "-",
-                  "size": 6910,
-                  "lmtime": 0,
-                  "modified": false
-                },
-                "index.php": {
-                  "type": "-",
-                  "size": 7475,
-                  "lmtime": 1718383841369,
-                  "modified": false
-                },
-                "stocks_list_tr.php": {
-                  "type": "-",
-                  "size": 6667,
-                  "lmtime": 1718383841369,
                   "modified": false
                 }
               }
@@ -60035,9 +60067,9 @@
         },
         "info.php": {
           "type": "-",
-          "size": 1251,
+          "size": 1217,
           "lmtime": 1718329897383,
-          "modified": false
+          "modified": true
         },
         "install": {
           "assets": {

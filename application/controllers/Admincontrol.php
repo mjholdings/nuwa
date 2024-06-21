@@ -4181,7 +4181,7 @@ class Admincontrol extends MY_Controller {
 		require($file);
 		return ob_get_clean();
 	}
-	
+
 
 	public function store_dashboard() {
 
@@ -4513,7 +4513,7 @@ class Admincontrol extends MY_Controller {
 
 			$this->view($data, 'product/index');
 		}
-	}	
+	}
 
 	public function stock_updateproduct($id = null) {
 
@@ -8720,7 +8720,7 @@ class Admincontrol extends MY_Controller {
 
 		$this->view($data, 'clients/index');
 	}
-	
+
 
 	public function addstock($id = null) {
 
@@ -8770,7 +8770,6 @@ class Admincontrol extends MY_Controller {
 
 
 				redirect('admincontrol/addstock');
-
 			} elseif (!empty($checkuser)) {
 
 				$this->session->set_flashdata('error', __('admin.this_username_already_register'));
@@ -14780,7 +14779,7 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	
+
 	// Affiliate
 	public function doLoginAff() {
 		if (!$this->userdetails()) {

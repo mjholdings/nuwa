@@ -2608,7 +2608,7 @@ class Product_model extends MY_Model {
     }
 
     function getSettings($type = '', $key = "") {
-        $language = 0;
+        $language = 2;
         if ($this->db->field_exists('language_id', 'setting'))
             $language = 1;
 

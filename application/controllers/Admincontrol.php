@@ -4507,11 +4507,9 @@ class Admincontrol extends MY_Controller {
 		$data['form_coupons'] = $this->Form_model->getFormCoupons();
 
 		if ($only_review == 'reviews') {
-
-			$this->view($data, 'product/reviews');
+			$this->view($data, 'product_stock/reviews');
 		} else {
-
-			$this->view($data, 'product/index');
+			$this->view($data, 'product_stock/index');
 		}
 	}
 
@@ -4544,7 +4542,7 @@ class Admincontrol extends MY_Controller {
 
 		$data['country_list'] = $this->db->query("SELECT name,id FROM countries")->result();
 
-		$this->view($data, 'product/add_product');
+		$this->view($data, 'product_stock/add_product');
 	}
 
 	public function stock_duplicateProduct($product_id) {
@@ -4555,7 +4553,7 @@ class Admincontrol extends MY_Controller {
 
 		$this->session->set_flashdata('success', __('admin.product_duplicate_successfully'));
 
-		redirect(base_url('admincontrol/listproduct'));
+		redirect(base_url('admincontrol/stock_listproduct'));
 	}
 
 	public function stock_editProduct() {
@@ -5268,6 +5266,78 @@ class Admincontrol extends MY_Controller {
 
 			die;
 		}
+	}
+
+	public function stock_listproduct_ajax($page = 1) {
+
+		$userdetails = $this->userdetails();
+
+		$get = $this->input->get(null, true);
+
+		$post = $this->input->post(null, true);
+
+		$filter = array(
+
+			'page' => isset($get['page']) ? $get['page'] : $page,
+
+			'limit' => 20,
+		);
+
+
+		if (isset($post['category_id']) && $post['category_id']) {
+
+			$filter['category_id'] = (int)$this->input->post('category_id');
+		}
+
+
+
+		if (isset($post['seller_id']) && $post['seller_id']) {
+
+			$filter['seller_id'] = (int)$this->input->post('seller_id');
+		}
+
+
+		$filter['product_status_in'] =	 '1';
+
+		if ($only_review == 'reviews') {
+
+			$filter['product_status_in'] =	 '0,2,3';
+		}
+
+
+		$data['default_commition'] = $this->Product_model->getSettings('productsetting');
+
+		$record = $this->Product_model->getAllProduct($userdetails['id'], $userdetails['type'], $filter);
+
+		$data['productlist'] = $record['data'];
+
+		$json['view'] = $this->load->view("admincontrol/product_stock/product_list", $data, true);
+
+		$this->load->library('pagination');
+
+		$this->pagination->cur_page = $filter['page'];
+
+		$config['base_url'] = base_url('admincontrol/stock_listproduct_ajax');
+
+		$config['per_page'] = $filter['limit'];
+
+		$config['total_rows'] = $record['total'];
+
+		$config['use_page_numbers'] = TRUE;
+
+		$config['page_query_string'] = TRUE;
+
+		$config['enable_query_strings'] = TRUE;
+
+		$_GET['page'] = $filter['page'];
+
+		$config['query_string_segment'] = 'page';
+
+		$this->pagination->initialize($config);
+
+		$json['pagination'] = $this->pagination->create_links();
+
+		echo json_encode($json);
 	}
 
 	// Product

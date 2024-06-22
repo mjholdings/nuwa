@@ -21,15 +21,15 @@
         <div class="table-responsive">
           <section class="empty-div d-none">
             <div class="d-flex justify-content-center align-items-center flex-column mt-5">
-                <i class="fas fa-exchange-alt fa-5x text-muted"></i>
-                <h3 class="text-muted"><?= __('admin.no_data_found') ?></h3>
+              <i class="fas fa-exchange-alt fa-5x text-muted"></i>
+              <h3 class="text-muted"><?= __('admin.no_data_found') ?></h3>
             </div>
           </section>
           <table id="clients-table" class="table table-striped">
             <thead>
               <tr>
                 <th><?= __('admin.id') ?></th>
-                <th><?= __('admin.branch_name') ?></th>                 
+                <th><?= __('admin.branch_name') ?></th>
                 <th><?= __('admin.address') ?></th>
                 <th><?= __('admin.phone') ?></th>
                 <th><?= __('admin.product_name') ?></th>
@@ -116,105 +116,105 @@
 </div>
 
 <script>
-    function shareinsocialmedia(url) {
+  function shareinsocialmedia(url) {
     window.open(url, 'sharein', 'toolbar=0,status=0,width=648,height=395');
     return true;
-    }
+  }
 
-    $(document).on('click', '.deleteuser', function(e) {
+  $(document).on('click', '.deleteuser', function(e) {
     var deleteaction = $(this).data('url');
     var message = '<?= __('admin.lost_all_data_are_you_sure_delete') ?>';
     Swal.fire({
-    icon: 'warning',
-    html: message,
-    showCancelButton: true,
-    confirmButtonColor: "#DD6B55",
-    confirmButtonText: '<?= __('admin.yes') ?>',
-    cancelButtonText: '<?= __('admin.no') ?>'
+      icon: 'warning',
+      html: message,
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: '<?= __('admin.yes') ?>',
+      cancelButtonText: '<?= __('admin.no') ?>'
     }).then((result) => {
-    if (result.value) window.location.href = deleteaction;
+      if (result.value) window.location.href = deleteaction;
     });
-    });
+  });
 
-    $(document).on('click', '.viewShipping', function(e) {
+  $(document).on('click', '.viewShipping', function(e) {
     $this = $(this);
     var id = $(this).data('id');
     $.ajax({
-    url: '<?= base_url('admincontrol/getShippingDetails') ?>',
-    type: 'POST',
-    dataType: 'json',
-    data: {
-      id
-    },
-    beforeSend: function() {
-      $this.prop("disabled", true);
-    },
-    complete: function() {
-      $this.prop("disabled", false);
-    },
-    success: function(data) {
-      if (data.status) {
-        $("#frm_shipping_address").trigger('reset');
-        $("#address").val(data.data.address);
-        $("#country_id").val(data.data.country_name);
-        $("#state_id").val(data.data.state_name);
-        $("#city").val(data.data.city);
-        $("#zip_code").val(data.data.zip_code);
-        $("#phone").val(data.data.phone);
-        $("#twaddress").val(data.data.twaddress);
-        $("#ShipingDetailsModal").modal('show');
-      } else {
-        Swal.fire({
-          icon: 'info',
-          text: '<?= __('admin.no_shipping_details_found') ?>',
-        })
-      }
-    },
+      url: '<?= base_url('admincontrol/getShippingDetails') ?>',
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        id
+      },
+      beforeSend: function() {
+        $this.prop("disabled", true);
+      },
+      complete: function() {
+        $this.prop("disabled", false);
+      },
+      success: function(data) {
+        if (data.status) {
+          $("#frm_shipping_address").trigger('reset');
+          $("#address").val(data.data.address);
+          $("#country_id").val(data.data.country_name);
+          $("#state_id").val(data.data.state_name);
+          $("#city").val(data.data.city);
+          $("#zip_code").val(data.data.zip_code);
+          $("#phone").val(data.data.phone);
+          $("#twaddress").val(data.data.twaddress);
+          $("#ShipingDetailsModal").modal('show');
+        } else {
+          Swal.fire({
+            icon: 'info',
+            text: '<?= __('admin.no_shipping_details_found') ?>',
+          })
+        }
+      },
     });
-    });
+  });
 
-    function getclientsRows(page, t) {
+  function getclientsRows(page, t) {
     $this = $(t);
 
     $.ajax({
-    url: "<?= base_url('admincontrol/liststocks'); ?>/" + page,
-    type: 'POST',
-    dataType: 'json',
-    data: {
-      liststocks: 1,
-      page: page
-    },
-    beforeSend: function() {
-      $this.addClass("loading");
-    },
-    complete: function() {
-      $this.removeClass("loading");
-    },
-    success: function(json) {
-      if (json['html']) {
-        $("#clients-table tbody").html(json['html']);
-        $("#clients-table").show();
-      } else {
-        $(".empty-div").removeClass("d-none");
-        $("#clients-table").hide();
-      }
+      url: "<?= base_url('admincontrol/liststocks'); ?>/" + page,
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        liststocks: 1,
+        page: page
+      },
+      beforeSend: function() {
+        $this.addClass("loading");
+      },
+      complete: function() {
+        $this.removeClass("loading");
+      },
+      success: function(json) {
+        if (json['html']) {
+          $("#clients-table tbody").html(json['html']);
+          $("#clients-table").show();
+        } else {
+          $(".empty-div").removeClass("d-none");
+          $("#clients-table").hide();
+        }
 
-      $(".card-footer").hide();
+        $(".card-footer").hide();
 
-      if (json['pagination']) {
-        $(".card-footer").show();
-        $(".card-footer .pagination").html(json['pagination'])
-      }
-    },
+        if (json['pagination']) {
+          $(".card-footer").show();
+          $(".card-footer .pagination").html(json['pagination'])
+        }
+      },
     })
-    }
+  }
 
-    $(".card-footer .pagination").on("click", "a", function(e) {
+  $(".card-footer .pagination").on("click", "a", function(e) {
     e.preventDefault();
     getclientsRows($(this).attr("data-ci-pagination-page"), $(this));
-    });
+  });
 
-    $(function() {
+  $(function() {
     getclientsRows(1, $(this));
-    });
+  });
 </script>

@@ -522,7 +522,7 @@ $sidebar_data = array(
 
           </a>
 
-          <a class="dropdown-item" href="<?= base_url('admincontrol/liststocks') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/stock_listproduct') ?>">
 
             <i class="fas fa-sliders-h"></i>
 

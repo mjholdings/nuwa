@@ -446,7 +446,7 @@ $Product_model = $db->Product_model;
                                                            onclick="checkAll(this)"></th>
                                                 <th width="130px"><?= __('admin.image') ?></th>
                                                 <th><?= __('admin.product_name') ?></th>
-                                                <th><?= __('Tồn kho') ?></th>
+                                                <th><?= __('Tồn') ?></th>
                                                 <th><?= __('admin.price') ?></th>
                                                 <th><?= __('admin.sku') ?></th>
                                                 <th><?= __('Danh mục') ?></th>                                                

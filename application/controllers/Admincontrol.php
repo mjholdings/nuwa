@@ -4519,6 +4519,8 @@ class Admincontrol extends MY_Controller {
 
 		$data['product'] = $this->Product_model->getProductById($id);
 
+		$data['branch_list'] = $this->db->query("SELECT * FROM branch")->result();
+
 		$data['tags'] = $this->Product_model->getAllTags();
 
 		if ($data['product']) {

@@ -5018,6 +5018,10 @@ class Product_model extends MY_Model {
         return $result;
     }
 
+    public function getAllBranchItem() {
+        return $this->db->get('branch')->result_array();
+    }
+
     public function get_branch($id) {
         return $this->db->where('id', $id)->get('branch')->row_array();
     }

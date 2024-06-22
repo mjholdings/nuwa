@@ -20,57 +20,6 @@ $vendor_setting = $this->Product_model->getSettings('vendor');
 			<div class="tooltip-copy">
 				<img width="50px" height="50px" src="<?php echo base_url('assets/images/product/upload/thumb/' . $product['product_featured_image']) ?>"><br>
 			</div>
-			<div class="give-rating m-2">
-				<span><?= $product['totalreviews']; ?> <?= __('admin.customer_reviews') ?></span><br />
-				<?php
-				$totalreviews = $product['totalreviews'];
-				$totalrating = $product['totalrating'];
-				if ($totalreviews > 0 && $totalrating > 0)
-					$ratingAvg = number_format(($totalrating / $totalreviews), 0);
-				else
-					$ratingAvg = 0;
-
-				if ($ratingAvg != "") {
-					for ($i = 0; $i < 5; $i++) {
-				?>
-						<div class="jq-star" style="width:15px;  height:15px;"><svg version="1.0" class="jq-star-svg" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="305px" height="305px" viewBox="60 -62 309 309" style="enable-background:new 64 -59 305 305; stroke-width:4px;" xml:space="preserve">
-								<style type="text/css">
-									.svg-empty-388 {
-										fill: url(#388_SVGID_1_);
-									}
-
-									.svg-hovered-388 {
-										fill: url(#388_SVGID_2_);
-									}
-
-									.svg-active-388 {
-										fill: url(#388_SVGID_3_);
-									}
-
-									.svg-rated-388 {
-										fill: crimson;
-									}
-								</style>
-								<linearGradient id="388_SVGID_1_" gradientUnits="userSpaceOnUse" x1="0" y1="-50" x2="0" y2="250">
-									<stop offset="0" style="stop-color:lightgray"></stop>
-									<stop offset="1" style="stop-color:lightgray"></stop>
-								</linearGradient>
-								<linearGradient id="388_SVGID_2_" gradientUnits="userSpaceOnUse" x1="0" y1="-50" x2="0" y2="250">
-									<stop offset="0" style="stop-color:orange"></stop>
-									<stop offset="1" style="stop-color:orange"></stop>
-								</linearGradient>
-								<linearGradient id="388_SVGID_3_" gradientUnits="userSpaceOnUse" x1="0" y1="-50" x2="0" y2="250">
-									<stop offset="0" style="stop-color:#FEF7CD"></stop>
-									<stop offset="1" style="stop-color:#FF9511"></stop>
-								</linearGradient>
-								<polygon data-side="center" class="svg-empty-388" points="281.1,129.8 364,55.7 255.5,46.8 214,-59 172.5,46.8 64,55.4 146.8,129.7 121.1,241 212.9,181.1 213.9,181 306.5,241 " style="fill: transparent; stroke: black;"></polygon>
-								<?php if ($i < $ratingAvg) { ?>
-									<polygon data-side="left" class="svg-active-388" points="281.1,129.8 364,55.7 255.5,46.8 214,-59 172.5,46.8 64,55.4 146.8,129.7 121.1,241 213.9,181.1 213.9,181 306.5,241 " style="stroke-opacity: 0;"></polygon><?php } ?>
-							</svg></div>
-				<?php }
-				}
-				?>
-			</div>
 		</td>
 		<td class="white-space-normal">
 			<div class="tooltip-copy">
@@ -80,23 +29,17 @@ $vendor_setting = $this->Product_model->getSettings('vendor');
 					</small></div>
 			</div>
 		</td>
-		<td class="txt-cntr"><?php echo $product['seller_username'] ? $product['seller_username'] : __('admin.admin'); ?></td>
+		<td class="txt-cntr"><?php echo '0'; ?></td>
 		<td class="txt-cntr"><?php echo c_format($product['product_price']); ?></td>
 		<td class="txt-cntr"><?php echo $product['product_sku']; ?></td>
 
 		<td class="txt-cntr">
 			<span class="badge bg-success text-light fs-6"> <?= $product['cat_name'] ?? 'Không xác định' ?> </span>
 		</td>		
-		<td>
-			<a class="btn btn-primary" onclick="return confirmpopup('<?= base_url(); ?>admincontrol/stock_updateproduct/<?php echo $product['product_id']; ?>');" href="<?php echo base_url(); ?>admincontrol/updateproduct/<?php echo $product['product_id']; ?>">
+		<td class="txt-cntr">
+			<a class="btn btn-primary" href="" onclick="return confirmpopup('<?= base_url(); ?>admincontrol/stock_updateproduct/<?php echo $product['product_id']; ?>');" href="<?php echo base_url(); ?>admincontrol/updateproduct/<?php echo $product['product_id']; ?>">
 				<i class="fa fa-edit cursors" aria-hidden="true"></i>
 			</a>
-			<?php if ((int)$product['seller_id'] == 0) { ?>
-				<a class="btn btn-primary" href="<?php echo base_url('admincontrol/stock_duplicateProduct'); ?>/<?php echo $product['product_id']; ?>"><i class="fa fa-clone cursors" aria-hidden="true"></i></a>
-			<?php } ?>
-			<a class="btn btn-primary" href="<?php echo base_url('admincontrol/stock_productupload/' . $product['product_id']); ?>"><i class="fa fa-image cursors"></i></a>
-			<a class="btn btn-primary" href="<?php echo base_url('admincontrol/stock_videoupload/' . $product['product_id']); ?>"><i class="fa fa-video-camera cursors"></i></a>
-			<span class="btn btn-primary" data-social-share data-share-url="<?= $productLink ?>" data-share-title="<?= $product['product_name']; ?>" data-share-desc="<?= $product['product_short_description']; ?>"><i class="fa fa-share-alt" aria-hidden="true"></i></span>
 			<a class="btn btn-danger delete-product" type="button" data-id="<?= $product['product_id'] ?>"> <i class="fa fa-trash"></i> </a>
 		</td>
 	</tr>

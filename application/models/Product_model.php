@@ -5083,4 +5083,34 @@ class Product_model extends MY_Model {
         }
     }
     
+    // Function to get product price based on location
+    public function getProductPriceByLocation($product_id, $current_location) {
+        // Check if product exists in branch_product
+        $normal = $this->db->where('product_id', $product_id);
+        $query = $this->db->get('product_branch');
+        
+
+        if ($query->num_rows() > 0) {
+            // Product exists in branch_product, check for price in current location
+            $row = $query->row();
+            $branch_id = $current_location; // Assuming $current_location is the branch_id
+            
+            $this->db->where('branch_id', $branch_id);
+            $this->db->where('product_id', $product_id);
+            $query = $this->db->get('product_branch');
+            
+            if ($query->num_rows() > 0) {
+                // Found price in current location
+                return $query->row()->product_price;
+            } else {
+                // No specific price found, return product price from product table
+                return $row->product_price;
+            }
+        } else {
+            // Product not found in branch_product, return product price from product table
+            $this->db->where('product_id', $product_id);
+            $query = $this->db->get('product');
+            return $query->row()->product_price;
+        }
+    }
 }

@@ -1,5 +1,5 @@
-<link rel="stylesheet" type="text/css" href="<?= base_url('assets/store/default/slick/') ?>slick.css"/>
-<link rel="stylesheet" type="text/css" href="<?= base_url('assets/store/default/slick/') ?>slick-theme.css"/>
+<link rel="stylesheet" type="text/css" href="<?= base_url('assets/store/default/slick/') ?>slick.css" />
+<link rel="stylesheet" type="text/css" href="<?= base_url('assets/store/default/slick/') ?>slick-theme.css" />
 <script type="text/javascript" src="<?= base_url('assets/store/default/slick/') ?>slick.js"></script>
 <?php
 $product_featured_image = ($product['product_featured_image'] != '') ? base_url('assets/images/product/upload/thumb/' . $product['product_featured_image']) : base_url('assets/store/default/img/pr-img.png');
@@ -14,13 +14,12 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
     <div class="container">
         <div class="breacrumb">
             <div class="inner-pages-breadcrumb">
-                <p><a href="<?= $home_link ?>"><?= __('store.home') ?></a> / <a
-                            href="<?= $base_url ?>category"><?= __('store.categories') ?></a> / <?php if ($categories) {
-                        foreach ($categories as $key => $value) {
-                            $categotyAvailble = true;
-                            echo "<a href='" . base_url('store/category/' . $value['slug']) . "'>" . $value['name'] . "</a> /";
-                        }
-                    } ?> <?= (!empty($product['product_name'])) ? $product['product_name'] : "Nuwa"; ?></p>
+                <p><a href="<?= $home_link ?>"><?= __('store.home') ?></a> / <a href="<?= $base_url ?>category"><?= __('store.categories') ?></a> / <?php if ($categories) {
+                                                                                                                                                        foreach ($categories as $key => $value) {
+                                                                                                                                                            $categotyAvailble = true;
+                                                                                                                                                            echo "<a href='" . base_url('store/category/' . $value['slug']) . "'>" . $value['name'] . "</a> /";
+                                                                                                                                                        }
+                                                                                                                                                    } ?> <?= (!empty($product['product_name'])) ? $product['product_name'] : "Nuwa"; ?></p>
             </div>
         </div>
 
@@ -38,32 +37,27 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
                        </div> -->
                         <div class="slider">
                             <div data-target="#productSlider" data-slide-to="0" class="active">
-                                <img src="<?= $product_featured_image; ?>" class=""
-                                     alt="<?= __('store.featured_image') ?>"
-                                     onerror="this.src='<?= base_url('assets/store/default/img/no-image.png') ?>';">
+                                <img src="<?= $product_featured_image; ?>" class="" alt="<?= __('store.featured_image') ?>" onerror="this.src='<?= base_url('assets/store/default/img/no-image.png') ?>';">
                             </div>
                             <?php
                             $i = 1;
                             foreach ($allimages as $images) {
                                 $img = (!empty($images['product_media_upload_path'])) ? base_url('assets/images/product/upload/thumb/' . $images['product_media_upload_path']) : base_url('assets/store/default/img/pr-img.png');
-                                ?>
+                            ?>
                                 <div data-target="#productSlider" data-slide-to="<?= $i ?>">
-                                    <img src="<?= $img; ?>" class="" alt="<?= __('store.product_image') ?> <?= $i ?>"
-                                         onerror="this.src='<?= base_url('assets/store/default/img/no-image.png') ?>';">
+                                    <img src="<?= $img; ?>" class="" alt="<?= __('store.product_image') ?> <?= $i ?>" onerror="this.src='<?= base_url('assets/store/default/img/no-image.png') ?>';">
                                 </div>
-                                <?php
+                            <?php
                                 $i++;
                             }
                             ?>
                             <?php foreach ($allvideo as $videos) {
                                 $img = (!empty($videos['product_media_upload_video_image'])) ? base_url('assets/images/product/upload/thumb/' . $videos['product_media_upload_video_image']) : base_url('assets/store/default/img/pr-img.png');
-                                ?>
+                            ?>
                                 <div data-target="#productSlider" data-slide-to="<?= $i ?>">
-                                    <img src="<?= $img; ?>" class=""
-                                         alt="<?= __('store.product_video_image') ?> <?= $i ?>"
-                                         onerror="this.src='<?= base_url('assets/store/default/img/no-image.png') ?>';">
+                                    <img src="<?= $img; ?>" class="" alt="<?= __('store.product_video_image') ?> <?= $i ?>" onerror="this.src='<?= base_url('assets/store/default/img/no-image.png') ?>';">
                                 </div>
-                                <?php
+                            <?php
                                 $i++;
                             }
                             ?>
@@ -72,62 +66,50 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
 
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="<?= $product_featured_image; ?>" class="d-block w-100"
-                                 alt="<?= __('store.featured_image') ?>"
-                                 onerror="this.src='<?= base_url('assets/store/default/img/no-image.png') ?>';">
+                            <img src="<?= $product_featured_image; ?>" class="d-block w-100" alt="<?= __('store.featured_image') ?>" onerror="this.src='<?= base_url('assets/store/default/img/no-image.png') ?>';">
                         </div>
                         <?php
                         $i = 1;
                         foreach ($allimages as $images) {
                             $img = (!empty($images['product_media_upload_path'])) ? base_url('assets/images/product/upload/thumb/' . $images['product_media_upload_path']) : base_url('assets/store/default/img/pr-img.png');
-                            ?>
+                        ?>
                             <div class="carousel-item">
-                                <img src="<?= $img; ?>" class="d-block w-100"
-                                     alt="<?= __('store.product_image') ?> <?= $i ?>"
-                                     onerror="this.src='<?= base_url('assets/store/default/img/no-image.png') ?>';">
+                                <img src="<?= $img; ?>" class="d-block w-100" alt="<?= __('store.product_image') ?> <?= $i ?>" onerror="this.src='<?= base_url('assets/store/default/img/no-image.png') ?>';">
                             </div>
-                            <?php
+                        <?php
                             $i++;
                         }
                         ?>
                         <?php foreach ($allvideo as $videos) {
                             $img = (!empty($videos['product_media_upload_video_image'])) ? base_url('assets/images/product/upload/thumb/' . $videos['product_media_upload_video_image']) : base_url('assets/store/default/img/pr-img.png');
                             $youtube = $videos['product_media_upload_path'];
-                            ?>
+                        ?>
                             <div data-src="<?php echo $youtube; ?>" data-poster="" class="carousel-item">
                                 <?php
                                 if (strpos($youtube, 'embed') !== false) {
-                                    ?>
-                                    <iframe width="100%" height="530" src="<?= $youtube ?>" frameborder="0"
-                                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                            allowfullscreen></iframe>
+                                ?>
+                                    <iframe width="100%" height="530" src="<?= $youtube ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                     <?php
                                 } else {
 
                                     if (strpos(strtolower($youtube), 'youtube') !== false) {
                                         $id = explode("v=", $youtube);
-                                        ?>
-                                        <iframe width="100%" height="530"
-                                                src="https://www.youtube.com/embed/<?= $id[1] ?>" frameborder="0"
-                                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                                allowfullscreen></iframe>
-                                        <?php
+                                    ?>
+                                        <iframe width="100%" height="530" src="https://www.youtube.com/embed/<?= $id[1] ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    <?php
                                     } else if (strpos(strtolower($youtube), 'youtu') !== false) {
                                         $id = explode("/", $youtube);
-                                        ?>
-                                        <iframe width="100%" height="530"
-                                                src="https://www.youtube.com/embed/<?= $id[3] ?>" frameborder="0"
-                                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                                allowfullscreen></iframe>
-                                        <?php
+                                    ?>
+                                        <iframe width="100%" height="530" src="https://www.youtube.com/embed/<?= $id[3] ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    <?php
                                     }
 
                                     ?>
-                                    <?php
+                                <?php
                                 }
                                 ?>
                             </div>
-                            <?php
+                        <?php
                             $i++;
                         }
                         ?>
@@ -167,16 +149,14 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
                         <span class="">
                             <?php
                             for ($i = 0; $i < $ratingAvg; $i++) {
-                                ?>
-                                <img alt="<?= __('store.image') ?>"
-                                     src="<?= base_url('assets/store/default/'); ?>img/st.png">
-                                <?php
+                            ?>
+                                <img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/st.png">
+                            <?php
                             }
                             while ($ratingAvg < 5) {
-                                ?>
-                                <img alt="<?= __('store.image') ?>"
-                                     src="<?= base_url('assets/store/default/'); ?>img/st1.png">
-                                <?php
+                            ?>
+                                <img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/st1.png">
+                            <?php
                                 $ratingAvg++;
                             }
 
@@ -203,49 +183,59 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
                     <div class="variation-row mt-1">
                         <div class="variations-pricing-row">
                             <div class="price">
-                                <div class="regular-price"
-                                     data-price="<?= $product['product_price']; ?>"><?= (!empty($product['product_price'])) ? c_format($product['product_price']) : '' ?></div>
 
-                                <!--                            (!empty($product['product_msrp'])) ? '<div class="sale-price" data-price="' . $product['product_msrp'] . '">' . c_format($product['product_msrp']) . '</div>' : '' ?>-->
+                                <?php
+                                // Lấy chuỗi query từ URL
+                                $queryString = $_SERVER['QUERY_STRING'];
+
+                                // Phân tích các tham số từ chuỗi query
+                                parse_str($queryString, $queryParameters);
+
+                                // Kiểm tra và lấy giá trị của tham số location
+                                if (isset($queryParameters['location'])) {
+                                    $location = htmlspecialchars($queryParameters['location']); // Sử dụng htmlspecialchars để tránh XSS attack
+
+                                    $product_id = $product['product_id']; // Assuming $product['product_id'] is the current product id
+                                    $current_location = $location; // Example: Replace with logic to get current location (branch_id)
+
+                                    $show_product_price = $this->Product_model->getProductPriceByLocation($product_id, $current_location);
+
+                                    echo c_format($show_product_price);
+                                }
+
+
+                                ?>
+                                <div class="regular-price" data-price="<?= $product['product_price']; ?>"><?= (!empty($product['product_price'])) ? c_format($product['product_price']) : '' ?></div>
+
+                                <?php echo (!empty($product['product_msrp'])) ? '<div class="sale-price" data-price="' . $product['product_msrp'] . '">' . c_format($product['product_msrp']) . '</div>' : '' ?>
                             </div>
                             <!-- quantity-area -->
                             <div class="quantity">
                                 <div class="quantity-area" id="field1">
-                                    <button type="button" id="sub"
-                                            class="sub" <?= ($product['product_type'] == 'video' || $product['product_type'] == 'videolink') ? 'disabled' : ''; ?>>
+                                    <button type="button" id="sub" class="sub" <?= ($product['product_type'] == 'video' || $product['product_type'] == 'videolink') ? 'disabled' : ''; ?>>
                                         <i class="fa fa-minus"></i></button>
-                                    <input id="product-quantity" type="text" id="1" min="1" name="quantity"
-                                           value="1" <?= ($product['product_type'] == 'video' || $product['product_type'] == 'videolink') ? 'disabled' : ''; ?>>
-                                    <button type="button" id="add"
-                                            class="add" <?= ($product['product_type'] == 'video' || $product['product_type'] == 'videolink') ? 'disabled' : ''; ?>>
+                                    <input id="product-quantity" type="text" id="1" min="1" name="quantity" value="1" <?= ($product['product_type'] == 'video' || $product['product_type'] == 'videolink') ? 'disabled' : ''; ?>>
+                                    <button type="button" id="add" class="add" <?= ($product['product_type'] == 'video' || $product['product_type'] == 'videolink') ? 'disabled' : ''; ?>>
                                         <i class="fa fa-plus"></i></button>
                                 </div>
                                 <div class="compair-icons">
                                     <!-- w-listed -->
-                                    <span id="btn-add-to-wishlist" class="<?= $is_wishlisted_class ?>"><i
-                                                class="fa fa-heart" aria-hidden="true"></i></span>
+                                    <span id="btn-add-to-wishlist" class="<?= $is_wishlisted_class ?>"><i class="fa fa-heart" aria-hidden="true"></i></span>
                                     <?php $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>
-                                    <span class="share" data-social-share data-share-url="<?= $actual_link; ?>"><i
-                                                class='bx bx-share-alt'></i></span>
+                                    <span class="share" data-social-share data-share-url="<?= $actual_link; ?>"><i class='bx bx-share-alt'></i></span>
                                 </div>
                             </div>
                             <?php if ($order_id && ($product['product_type'] == 'video' || $product['product_type'] == 'videolink')) : ?>
                                 <?php $urls = base_url('store/vieworderdetails/' . $order_id . "?referance=" . $product['product_id']); ?>
-                                <button class="btn btn-cart-detail bg-main2 "
-                                        onclick="location.href ='<?= $urls ?>'"><?= __('store.start_course') ?></button>
+                                <button class="btn btn-cart-detail bg-main2 " onclick="location.href ='<?= $urls ?>'"><?= __('store.start_course') ?></button>
                             <?php else : ?>
-                                <button data-product_id="<?= $product['product_id'] ?>"
-                                        data-product_name="<?= (!empty($product['product_name'])) ? $product['product_name'] : 'Nuwa' ?>"
-                                        class="button-cart btn btn-cart-detail btn-cart">
+                                <button data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= (!empty($product['product_name'])) ? $product['product_name'] : 'Nuwa' ?>" class="button-cart btn btn-cart-detail btn-cart">
                                     <span><?php echo __('store.add_to_cart') ?></span></button>
                             <?php endif ?>
                             <div class="apply-coupon input-coupon-mj">
-                                <input class="coupon-code" type="text" name="coupon"
-                                       placeholder="<?= __('store.enter_coupon_code') ?>">
-                                <button class="btn btn-apply-coupon bg-main text-white btn-apply-coupon"
-                                        title="<?= __('store.apply_coupon_code') ?>"><?= __('store.apply') ?></button>
-                                <img alt="<?= __('store.image') ?>"
-                                     src="<?= base_url('assets/store/default/'); ?>img/coupen.png" class="couponicon">
+                                <input class="coupon-code" type="text" name="coupon" placeholder="<?= __('store.enter_coupon_code') ?>">
+                                <button class="btn btn-apply-coupon bg-main text-white btn-apply-coupon" title="<?= __('store.apply_coupon_code') ?>"><?= __('store.apply') ?></button>
+                                <img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/coupen.png" class="couponicon">
                             </div>
 
                             <!-- COUPON -->
@@ -256,7 +246,7 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
                                 <div class="coupon-mj mt-4 coupon-slider">
                                     <?php foreach ($coupon as $c) { ?>
                                         <?php if ($c->date_end >= $date) : ?>
-                                            <?php if ($c->allow_for == 'S' && in_array($product['product_id'], $c->products)): ?>
+                                            <?php if ($c->allow_for == 'S' && in_array($product['product_id'], $c->products)) : ?>
                                                 <div class="coupon-items">
                                                     <div class="content-coupon">
                                                         <h4><?= $c->code ?></h4>
@@ -268,11 +258,10 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
                                                         </div>
                                                     </div>
                                                     <div class="btn-coupon-mj">
-                                                        <button class="btn-apply-code"
-                                                                title="<?= __('store.apply_coupon_code') ?>" data-coupon-code="<?= $c->code ?>"><?= __('store.apply') ?></button>
+                                                        <button class="btn-apply-code" title="<?= __('store.apply_coupon_code') ?>" data-coupon-code="<?= $c->code ?>"><?= __('store.apply') ?></button>
                                                     </div>
                                                 </div>
-                                            <?php elseif ($c->allow_for == 'A'): ?>
+                                            <?php elseif ($c->allow_for == 'A') : ?>
                                                 <div class="coupon-items">
                                                     <div class="content-coupon">
                                                         <h4><?= $c->code ?></h4>
@@ -284,8 +273,7 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
                                                         </div>
                                                     </div>
                                                     <div class="btn-coupon-mj">
-                                                        <button class="btn-apply-code"
-                                                                title="<?= __('store.apply_coupon_code') ?>" data-coupon-code="<?= $c->code ?>"><?= __('store.apply') ?></button>
+                                                        <button class="btn-apply-code" title="<?= __('store.apply_coupon_code') ?>" data-coupon-code="<?= $c->code ?>"><?= __('store.apply') ?></button>
                                                     </div>
                                                 </div>
                                             <?php endif; ?>
@@ -300,87 +288,75 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
 
                             <?php $this->load->helper('date');
                             $date = mdate('%Y-%m-%d', now()); ?>
-                            <?php if ($coupon != null): ?>
-                            <div class="row giam-gia">
-                                <div class="row">
-                                    <div class="col-12 mt-4">
-                                        <h3>Danh sách mã giảm giá</h3>
-                                    </div>
-                                    <?php foreach ($coupon as $c): ?>
-                                        <?php if ($c->date_end >= $date): ?>
-                                            <?php if ($c->allow_for == 'S' && in_array($product['product_id'], $c->products)): ?>
-                                                <div class="col-6">
-                                                    <hr>
-                                                    <h4 class="coupon-code-apply"
-                                                        style="color: #363949"><?= $c->code ?></h4>
-                                                    <span class="text-danger">Giảm giá: <?= (float)$c->discount ?>%</span>
-                                                    <!--                                                    <span class="text-danger">-----</span>-->
-                                                    <!--                                                    <span class="text-danger">Đơn giá tối thiểu: -->
-                                                    <? //= c_format($c->total_amount) ?><!--</span>-->
-                                                    <hr>
-                                                </div>
-                                                <div class="col-6">
-                                                    <button class="btn btn-apply-coupon bg-main text-white btn-apply-code"
-                                                            title="<?= __('store.apply_coupon_code') ?>"
-                                                            data-coupon-code="<?= $c->code ?>"><?= __('store.apply') ?></button>
-                                                </div>
-                                            <?php elseif ($c->allow_for == 'A'): ?>
-                                                <div class="col-6">
-                                                    <hr>
-                                                    <h4 class="coupon-code-apply"
-                                                        style="color: #363949"><?= $c->code ?></h4>
-                                                    <span class="text-danger">Giảm giá: <?= (float)$c->discount ?>%</span>
-                                                    <!--                                                    <span class="text-danger">-----</span>-->
-                                                    <!--                                                    <span class="text-danger">Đơn giá tối thiểu: -->
-                                                    <? //= c_format($c->total_amount) ?><!--</span>-->
-                                                    <hr>
-                                                </div>
-                                                <div class="col-6">
-                                                    <button class="btn btn-apply-coupon bg-main text-white btn-apply-code"
-                                                            title="<?= __('store.apply_coupon_code') ?>"
-                                                            data-coupon-code="<?= $c->code ?>"><?= __('store.apply') ?></button>
-                                                </div>
+                            <?php if ($coupon != null) : ?>
+                                <div class="row giam-gia">
+                                    <div class="row">
+                                        <div class="col-12 mt-4">
+                                            <h3>Danh sách mã giảm giá</h3>
+                                        </div>
+                                        <?php foreach ($coupon as $c) : ?>
+                                            <?php if ($c->date_end >= $date) : ?>
+                                                <?php if ($c->allow_for == 'S' && in_array($product['product_id'], $c->products)) : ?>
+                                                    <div class="col-6">
+                                                        <hr>
+                                                        <h4 class="coupon-code-apply" style="color: #363949"><?= $c->code ?></h4>
+                                                        <span class="text-danger">Giảm giá: <?= (float)$c->discount ?>%</span>
+                                                        <!--                                                    <span class="text-danger">-----</span>-->
+                                                        <!--                                                    <span class="text-danger">Đơn giá tối thiểu: -->
+                                                        <? //= c_format($c->total_amount) 
+                                                        ?><!--</span>-->
+                                                        <hr>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <button class="btn btn-apply-coupon bg-main text-white btn-apply-code" title="<?= __('store.apply_coupon_code') ?>" data-coupon-code="<?= $c->code ?>"><?= __('store.apply') ?></button>
+                                                    </div>
+                                                <?php elseif ($c->allow_for == 'A') : ?>
+                                                    <div class="col-6">
+                                                        <hr>
+                                                        <h4 class="coupon-code-apply" style="color: #363949"><?= $c->code ?></h4>
+                                                        <span class="text-danger">Giảm giá: <?= (float)$c->discount ?>%</span>
+                                                        <!--                                                    <span class="text-danger">-----</span>-->
+                                                        <!--                                                    <span class="text-danger">Đơn giá tối thiểu: -->
+                                                        <? //= c_format($c->total_amount) 
+                                                        ?><!--</span>-->
+                                                        <hr>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <button class="btn btn-apply-coupon bg-main text-white btn-apply-code" title="<?= __('store.apply_coupon_code') ?>" data-coupon-code="<?= $c->code ?>"><?= __('store.apply') ?></button>
+                                                    </div>
+                                                <?php endif; ?>
                                             <?php endif; ?>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                </div>
+                                        <?php endforeach; ?>
+                                    </div>
                                 <?php endif; ?>
                                 <div class="coupon-msg mt-1"></div>
-                            </div>
-                            <?php
-                            foreach ($variations as $key => $value) {
-                                ?>
-                                <div class="variation-row my-1 <?= ($key != "colors") ? "ft-variation-row" : "ft-color-row"; ?>">
-                                    <span class="varition-title"><?= ucwords(strtolower($key)) ?></span>
-                                    <div class="variations color ml-2">
-                                        <?php
-                                        for ($i = 0; $i < sizeOf($value); $i++) {
-                                            $this_price = isset($value[$i]->price) ? $value[$i]->price : 0;
-                                            if ($key == "colors") {
-                                                ?>
-                                                <span data-variation-type="<?= $key; ?>"
-                                                      data-variation-price="<?= $this_price; ?>"
-                                                      data-variation-code="<?= $value[$i]->code; ?>"
-                                                      data-variation-name="<?= $value[$i]->name; ?>" class=""
-                                                      style="color:<?= $value[$i]->code; ?>; <?= ($value[$i]->code == '#FFFFFF') ? "color:#000;" : ""; ?>"><i
-                                                            style="background:<?= $value[$i]->code; ?>;"></i> <?= $value[$i]->name; ?></span>
-                                                <?php
-                                            } else {
-                                                $this_name = isset($value[$i]->name) ? $value[$i]->name : $value[$i];
-                                                ?>
-                                                <span data-variation-type="<?= $key; ?>"
-                                                      data-variation-price="<?= $this_price; ?>"
-                                                      data-variation-option="<?= $this_name; ?>" class=""
-                                                      style="border-color:#fff;"> <?= $this_name ?></span>
-                                                <?php
-                                            }
-                                        }
-                                        ?>
-                                    </div>
                                 </div>
                                 <?php
-                            }
-                            ?>
+                                foreach ($variations as $key => $value) {
+                                ?>
+                                    <div class="variation-row my-1 <?= ($key != "colors") ? "ft-variation-row" : "ft-color-row"; ?>">
+                                        <span class="varition-title"><?= ucwords(strtolower($key)) ?></span>
+                                        <div class="variations color ml-2">
+                                            <?php
+                                            for ($i = 0; $i < sizeOf($value); $i++) {
+                                                $this_price = isset($value[$i]->price) ? $value[$i]->price : 0;
+                                                if ($key == "colors") {
+                                            ?>
+                                                    <span data-variation-type="<?= $key; ?>" data-variation-price="<?= $this_price; ?>" data-variation-code="<?= $value[$i]->code; ?>" data-variation-name="<?= $value[$i]->name; ?>" class="" style="color:<?= $value[$i]->code; ?>; <?= ($value[$i]->code == '#FFFFFF') ? "color:#000;" : ""; ?>"><i style="background:<?= $value[$i]->code; ?>;"></i> <?= $value[$i]->name; ?></span>
+                                                <?php
+                                                } else {
+                                                    $this_name = isset($value[$i]->name) ? $value[$i]->name : $value[$i];
+                                                ?>
+                                                    <span data-variation-type="<?= $key; ?>" data-variation-price="<?= $this_price; ?>" data-variation-option="<?= $this_name; ?>" class="" style="border-color:#fff;"> <?= $this_name ?></span>
+                                            <?php
+                                                }
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                <?php
+                                }
+                                ?>
                         </div>
                     </div>
                 </div>
@@ -405,11 +381,9 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
                         <?php if ($vendormanagereviewimage == 1) { ?>
                             <div class="reviews-img-wrap">
                                 <?php if (!empty($rating['avatar'])) { ?>
-                                    <img src="<?php echo base_url(); ?>assets/images/users/<?php echo $rating['avatar']; ?>"
-                                         onerror="this.src='<?= base_url('assets/images/no-user_image.jpg') ?>';"/>
+                                    <img src="<?php echo base_url(); ?>assets/images/users/<?php echo $rating['avatar']; ?>" onerror="this.src='<?= base_url('assets/images/no-user_image.jpg') ?>';" />
                                 <?php } else { ?>
-                                    <img src="<?= base_url('assets/images/no-user_image.jpg') ?>"
-                                         alt="<?= __('store.user') ?>"/>
+                                    <img src="<?= base_url('assets/images/no-user_image.jpg') ?>" alt="<?= __('store.user') ?>" />
                                 <?php } ?>
                             </div>
                         <?php } ?>
@@ -420,16 +394,14 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
                                     <?php
                                     $rating_count = (int)$rating['rating_number'];
                                     for ($i = 0; $i < $rating_count; $i++) {
-                                        ?>
-                                        <img alt="<?= __('store.image') ?>"
-                                             src="<?= base_url('assets/store/default/'); ?>img/st.png">
-                                        <?php
+                                    ?>
+                                        <img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/st.png">
+                                    <?php
                                     }
                                     while ($rating_count < 5) {
-                                        ?>
-                                        <img alt="<?= __('store.image') ?>"
-                                             src="<?= base_url('assets/store/default/'); ?>img/st1.png">
-                                        <?php
+                                    ?>
+                                        <img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/st1.png">
+                                    <?php
                                         $rating_count++;
                                     }
                                     ?>
@@ -451,31 +423,25 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
                     <div class="clearfix"></div>
                     <h2 class="write-review"><?= __('store.write_a_review') ?></h2><br>
                     <div id="createRatting" class="create_Rating">
-                        <input name="user_id" id="user_id" type="hidden"
-                               value="<?php echo !empty($session) ? $session['id'] : ''; ?>"/>
-                        <input name="product_id" value="<?php echo $product['product_id']; ?>" id="product_id"
-                               type="hidden"/>
+                        <input name="user_id" id="user_id" type="hidden" value="<?php echo !empty($session) ? $session['id'] : ''; ?>" />
+                        <input name="product_id" value="<?php echo $product['product_id']; ?>" id="product_id" type="hidden" />
                         <div class="form-group">
                             <label class="control-label"><?= __('store.your_review') ?></label>
-                            <textarea name="comment" id="comment" placeholder="<?= __('store.enter_your_review') ?>"
-                                      cols="80" class="form-control"></textarea>
-                            <div class="help-block"><span
-                                        class="text-danger"><?= __('store.note') ?></span> <?= __('store.html_is_not_translated') ?>
+                            <textarea name="comment" id="comment" placeholder="<?= __('store.enter_your_review') ?>" cols="80" class="form-control"></textarea>
+                            <div class="help-block"><span class="text-danger"><?= __('store.note') ?></span> <?= __('store.html_is_not_translated') ?>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label"><?= __('store.email') ?></label>
-                            <input name="email" id="post_email" placeholder="<?= __('store.enter_your_email') ?>"
-                                   type="text" value="" class="form-control"/>
+                            <input name="email" id="post_email" placeholder="<?= __('store.enter_your_email') ?>" type="text" value="" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label class="control-label"><?= __('store.rating') ?></label>
                             <div class="clearfix"></div>
                             <div class="give-rating"></div>
-                            <input name="rating" value="0" id="rating_star" type="hidden"/>
+                            <input name="rating" value="0" id="rating_star" type="hidden" />
                         </div>
-                        <button class="btn btn-success" name="submit" id="submit"
-                                onclick="processRating()"> <?= __('store.leave_a_review') ?> </button>
+                        <button class="btn btn-success" name="submit" id="submit" onclick="processRating()"> <?= __('store.leave_a_review') ?> </button>
                     </div>
                 </div>
             <?php } ?>
@@ -487,8 +453,7 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
     <div class="container">
         <div class="home-trend-top pt-0">
             <h2 class="section-title">
-                <img alt="<?= __('store.image') ?>"
-                     src="<?= base_url('assets/store/default/'); ?>img/package-b.png"> <?= __('store.similar_products') ?>
+                <img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/package-b.png"> <?= __('store.similar_products') ?>
             </h2>
         </div>
 
@@ -496,8 +461,7 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
 
         </div>
         <a href="javascript:void(0);" class="see-more see-more-related" data-next_page="1">
-            <img alt="<?= __('store.image') ?>"
-                 src="<?= base_url('assets/store/default/'); ?>img/loading.png"/> <?= __('store.show_more') ?>
+            <img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/loading.png" /> <?= __('store.show_more') ?>
         </a>
     </div>
 </section>
@@ -507,31 +471,31 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
 <?php include 'product-list-template.php'; ?>
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         load_Product(null, {
             product_id: $('#product-category').data('product_id'),
             category_id: $('#product-category').data('category_id')
         });
 
-        $(document).on('click', '#btn-add-to-wishlist', function () {
+        $(document).on('click', '#btn-add-to-wishlist', function() {
             <?php if ($login_usr == false) { ?>
-            window.location.replace('<?= base_url('store/login'); ?>');
+                window.location.replace('<?= base_url('store/login'); ?>');
             <?php } else { ?>
 
-            let status = $(this).hasClass('w-listed');
-            $(this).toggleClass('w-listed');
-            $.ajax({
-                url: '<?= base_url('Store/toggle_wishlist') ?>',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    product_id: <?= $product['product_id'] ?>
-                },
-                success: function (json) {
-                    // do nothing
-                },
-            });
+                let status = $(this).hasClass('w-listed');
+                $(this).toggleClass('w-listed');
+                $.ajax({
+                    url: '<?= base_url('Store/toggle_wishlist') ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        product_id: <?= $product['product_id'] ?>
+                    },
+                    success: function(json) {
+                        // do nothing
+                    },
+                });
             <?php } ?>
         });
 
@@ -548,22 +512,22 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
             nextArrow: $('.next-btn')
         });
 
-        $(".description-reviews-tabs a").click(function () {
+        $(".description-reviews-tabs a").click(function() {
             $(".description-reviews-tabs a").removeClass('active');
             $(this).addClass('active');
         });
 
-        $(".checkout-payments-wrapper a").click(function () {
+        $(".checkout-payments-wrapper a").click(function() {
             $(".checkout-payments-wrapper a").removeClass('active');
             $(this).addClass('active');
         });
 
-        $(".description-reviews-tabs a.rbtn").click(function () {
+        $(".description-reviews-tabs a.rbtn").click(function() {
             $(".discription-reviews-content").hide();
             $(".product-reviews-all").show();
         });
 
-        $(".description-reviews-tabs a.dbtn").click(function () {
+        $(".description-reviews-tabs a.dbtn").click(function() {
             $(".discription-reviews-content").show();
             $(".product-reviews-all").hide();
         });
@@ -574,13 +538,13 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
                 starSize: 20,
                 readOnly: false,
                 disableAfterRate: false,
-                callback: function (currentRating, $el) {
+                callback: function(currentRating, $el) {
                     $("#rating_star").val(currentRating);
                 }
             });
         }
 
-        $(document).on('click', '.see-more', function () {
+        $(document).on('click', '.see-more', function() {
             load_Product(null, {
                 next_page: $(this).data('next_page'),
                 product_id: $('#product-category').data('product_id'),
@@ -588,7 +552,7 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
             });
         });
 
-        $(document).on('click', ".btn-apply-coupon", function () {
+        $(document).on('click', ".btn-apply-coupon", function() {
             let coupon_code = $(".apply-coupon .coupon-code").val();
             let product_id = '<?= $product['product_id'] ?>';
             if (coupon_code != "" && coupon_code != null) {
@@ -601,13 +565,13 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
                         product_id: product_id,
                         coupon_code: coupon_code,
                     },
-                    beforeSend: function () {
+                    beforeSend: function() {
                         $this.btn("loading");
                     },
-                    complete: function () {
+                    complete: function() {
                         $this.btn("reset");
                     },
-                    success: function (json) {
+                    success: function(json) {
                         $(".coupon-msg").html('');
 
                         if (json['success']) {
@@ -621,7 +585,7 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
             }
         });
 
-        $(document).on('click', ".btn-apply-code", function () {
+        $(document).on('click', ".btn-apply-code", function() {
             let coupon_code = $(this).data("coupon-code");
             let product_id = '<?= $product['product_id'] ?>';
             if (coupon_code != "" && coupon_code != null) {
@@ -634,13 +598,13 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
                         product_id: product_id,
                         coupon_code: coupon_code,
                     },
-                    beforeSend: function () {
+                    beforeSend: function() {
                         $this.btn("loading");
                     },
-                    complete: function () {
+                    complete: function() {
                         $this.btn("reset");
                     },
-                    success: function (json) {
+                    success: function(json) {
                         $(".coupon-msg").html('');
 
                         if (json['success']) {
@@ -654,13 +618,13 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
             }
         });
 
-        $(document).on('click', '.variations-pricing-row .add', function () {
+        $(document).on('click', '.variations-pricing-row .add', function() {
             if ($(this).prev().val() < 350) {
                 $(this).prev().val(+$(this).prev().val() + 1);
             }
         });
 
-        $(document).on('click', '.variations-pricing-row .sub', function () {
+        $(document).on('click', '.variations-pricing-row .sub', function() {
             if ($(this).next().val() > 1) {
                 if ($(this).next().val() > 1) $(this).next().val(+$(this).next().val() - 1);
             }
@@ -685,7 +649,7 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
                 type: 'POST',
                 url: '<?php echo base_url(); ?>product/rating',
                 data: 'product_id=' + product_id + '&user_id=' + user_id + '&comment=' + comment + '&name=' + name + '&email=' + email + '&number=' + rating_star,
-                success: function (data) {
+                success: function(data) {
                     window.location.reload();
                     $("#submit").prop("disabled", false);
                 }
@@ -705,16 +669,16 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
             type: 'POST',
             dataType: 'JSON',
             data: data,
-            beforeSend: function () {
+            beforeSend: function() {
                 if (ajaxReq != 'ToCancelPrevReq' && ajaxReq.readyState < 4) {
                     ajaxReq.abort();
                 }
                 $('.btn-search').addClass('btn-loading');
             },
-            complete: function () {
+            complete: function() {
                 $('.btn-search').removeClass('btn-loading');
             },
-            success: function (res) {
+            success: function(res) {
                 if (res.related) {
                     if (postData.next_page && postData.next_page > 1) {
                         $('.product-list-related').append(Mustache.render($('#product-list-template').html(), res.related));
@@ -750,7 +714,7 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
             create a new DIV that will act as an option item:*/
             c = document.createElement("DIV");
             c.innerHTML = selElmnt.options[j].innerHTML;
-            c.addEventListener("click", function (e) {
+            c.addEventListener("click", function(e) {
                 /*when an item is clicked, update the original select box,
                 and the selected item:*/
                 var y, i, k, s, h, sl, yl;
@@ -775,7 +739,7 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
             b.appendChild(c);
         }
         x[i].appendChild(b);
-        a.addEventListener("click", function (e) {
+        a.addEventListener("click", function(e) {
             /*when the select box is clicked, close any other select boxes,
             and open/close the current select box:*/
             e.stopPropagation();
@@ -808,7 +772,7 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
     document.addEventListener("click", closeAllSelect);
 
 
-    $(document).on('click', '.variations span', function () {
+    $(document).on('click', '.variations span', function() {
         $(this).parent().find('.active').removeClass('active');
         $(this).addClass('active');
         $('.btn-cart').removeAttr('data-original-title');
@@ -819,7 +783,7 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
     function display_price_changes() {
         let variationSelectedPrice = 0;
         if ($('.variation-row .variations').length != 0) {
-            $('.variation-row .variations').each(function () {
+            $('.variation-row .variations').each(function() {
                 let type = $(this).find('span:first-child').data('variation-type');
                 let optionSpan = $(this).find('.active');
                 variationSelectedPrice += optionSpan.length ? parseFloat(optionSpan.data('variation-price')) : 0;
@@ -835,7 +799,7 @@ $allvideo = $this->Product_model->getAllVideos($product['product_id']);
             type: 'POST',
             url: '<?php echo base_url(); ?>product/displayprice',
             data: 'currencyRatio=' + currencyRatio + '&currency=' + currency + '&variationSelectedPrice=' + variationSelectedPrice + '&product_regular_price=' + product_regular_price + '&product_sale_price=' + product_sale_price,
-            success: function (response) {
+            success: function(response) {
                 console.log(response);
                 var obj = jQuery.parseJSON(response);
                 // response from PHP back-end PHP server

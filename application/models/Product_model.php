@@ -5039,4 +5039,48 @@ class Product_model extends MY_Model {
     public function delete_branch($id) {
         return $this->db->where('id', $id)->delete('branch');
     }
+
+    // Update Product Branch
+    public function updateProductBranch($branch_id, $product_id, $quantity, $price) {
+        // Kiểm tra xem bản ghi đã tồn tại chưa
+        $this->db->where('branch_id', $branch_id);
+        $this->db->where('product_id', $product_id);
+        $query = $this->db->get('product_branch');
+
+        if ($query->num_rows() > 0) {
+            // Nếu đã tồn tại, cập nhật số lượng bằng cách cộng thêm và cập nhật giá sản phẩm
+            $existing_record = $query->row();
+            $new_quantity = $existing_record->stock_quantity + $quantity;
+            $data = array(
+                'stock_quantity' => $new_quantity,
+                'product_price' => $price
+            );
+            $this->db->where('branch_id', $branch_id);
+            $this->db->where('product_id', $product_id);
+            $this->db->update('product_branch', $data);
+        } else {
+            // Nếu chưa tồn tại, thêm mới bản ghi
+            $data = array(
+                'branch_id' => $branch_id,
+                'product_id' => $product_id,
+                'stock_quantity' => $quantity,
+                'product_price' => $price
+            );
+            $this->db->insert('product_branch', $data);
+        }
+    }
+
+    // Get total stock quantity
+    public function getTotalStockQuantity($product_id) {
+        $this->db->select_sum('stock_quantity');
+        $this->db->where('product_id', $product_id);
+        $query = $this->db->get('product_branch');
+
+        if ($query->num_rows() > 0) {
+            return $query->row()->stock_quantity;
+        } else {
+            return 0;
+        }
+    }
+    
 }

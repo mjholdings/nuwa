@@ -4519,7 +4519,19 @@ class Admincontrol extends MY_Controller {
 
 		$data['product'] = $this->Product_model->getProductById($id);
 
-		$data['branch_list'] = $this->db->query("SELECT * FROM branch")->result();
+		//$data['branch_list'] = $this->db->query("SELECT * FROM branch")->result();
+
+		// Truy vấn để lấy danh sách chi nhánh cùng với số lượng và giá sản phẩm hiện tại
+		$data['branch_list'] = $this->db->query("
+        SELECT 
+            b.id, b.name, pb.stock_quantity, pb.product_price 
+        FROM 
+            branch b 
+        LEFT JOIN 
+            product_branch pb 
+        ON 
+            b.id = pb.branch_id AND pb.product_id = " . (int)$data['product']->product_id
+    )->result();
 
 		$data['tags'] = $this->Product_model->getAllTags();
 
@@ -4754,6 +4766,8 @@ class Admincontrol extends MY_Controller {
 					}
 				}
 
+
+				// Product Detail
 				$details = array(
 
 					'product_name'                 =>  $post['product_name'],
@@ -4812,6 +4826,7 @@ class Admincontrol extends MY_Controller {
 
 					'popular'                     =>  (int)$post['popular'],
 				);
+
 
 				if ($_FILES['product_featured_image']['error'] != 0 && $product_id == 0) {
 
@@ -5115,13 +5130,34 @@ class Admincontrol extends MY_Controller {
 
 					$old_product_data = [];
 
+					// Product Branch
+					$data['branch_list'] = $this->db->query("SELECT * FROM branch")->result();
+
 					if ($product_id) {
 
 						$old_product_data = $this->db->query("SELECT * FROM product WHERE product_id = " . (int)$product_id)->row_array();
 
 						$details['product_updated_date'] = date('Y-m-d H:i:s');
 
+						// Xử lý dữ liệu từ form
+						if ($this->input->post()) {
+							$quantities = $this->input->post('quantity');
+							$prices = $this->input->post('price');
 
+							foreach ($data['branch_list'] as $branch_item) {
+								$branch_id = $branch_item->id;
+								$quantity = isset($quantities[$branch_id]) ? $quantities[$branch_id] : 0;
+								$price = isset($prices[$branch_id]) ? $prices[$branch_id] : 0;
+								$stocks[$branch_id]['quantity'] = $quantity;
+								$stocks[$branch_id]['price'] = $price;
+								$stocks[$branch_id]['id'] = $product_id;
+
+								// Update Product Branch for current product
+								$this->Product_model->updateProductBranch($branch_id, $product_id, $quantity, $price);
+							}
+						}
+
+						// Update Product						
 						$this->Product_model->update_data('product', $details, array('product_id' => $product_id));
 					} else {
 
@@ -5129,11 +5165,32 @@ class Admincontrol extends MY_Controller {
 						$details['product_updated_date'] = date('Y-m-d H:i:s');
 						$details['product_created_date'] = date('Y-m-d H:i:s');
 
+						// New product
 						$product_id = $this->Product_model->create_data('product', $details);
 
+						// Update Product Branch for new product
+						// Xử lý dữ liệu từ form
+						if ($this->input->post()) {
+							$quantities = $this->input->post('quantity');
+							$prices = $this->input->post('price');
+
+							foreach ($data['branch_list'] as $branch_item) {
+								$branch_id = $branch_item->id;
+								$quantity = isset($quantities[$branch_id]) ? $quantities[$branch_id] : 0;
+								$price = isset($prices[$branch_id]) ? $prices[$branch_id] : 0;
+								$stocks[$branch_id]['quantity'] = $quantity;
+								$stocks[$branch_id]['price'] = $price;
+								$stocks[$branch_id]['id'] = $product_id;
+
+								// Update Product Branch for current product
+								$this->Product_model->updateProductBranch($branch_id, $product_id, $quantity, $price);
+							}
+						}
+
+						// Notification
 						$notificationData = array(
 
-							'notification_url'          => '/listproduct/' . $product_id,
+							'notification_url'          => '/stock_listproduct/' . $product_id,
 
 							'notification_type'         =>  'product',
 
@@ -5247,9 +5304,9 @@ class Admincontrol extends MY_Controller {
 
 
 					if ($post['action'] == 'save_close') {
-						$json['location'] = base_url('admincontrol/listproduct/');
+						$json['location'] = base_url('admincontrol/stock_listproduct/');
 					} else {
-						$json['location'] = base_url('admincontrol/updateproduct/' . $product_id);
+						$json['location'] = base_url('admincontrol/stock_updateproduct/' . $product_id);
 					}
 				} else {
 					$json['errors'] = $errors;

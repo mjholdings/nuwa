@@ -128,6 +128,13 @@ $userdetails = $db->userdetails();
 									</div>
 								</div>
 
+								<!-- Hiển thị thông báo thành công -->
+								<?php if ($this->session->flashdata('success')) : ?>
+									<div class="alert alert-success">
+										<?php echo $this->session->flashdata('import_success'); ?>
+									</div>
+								<?php endif; ?>
+
 								<!--  -->
 								<div class="col-sm-12">
 									<label class="col-form-label"><?= __('Nhập sản phẩm [' . $product->product_id . '] vào các kho') ?></label>
@@ -136,7 +143,7 @@ $userdetails = $db->userdetails();
 											<tr>
 												<th><?= __('#') ?></th>
 												<th><?= __('Chi nhánh') ?></th>
-												<th><?= __('Tồn') ?></th>
+												<th><?= __('Tồn (Nhập thêm)') ?></th>
 												<th><?= __('Giá') ?></th>
 											</tr>
 										</thead>
@@ -145,10 +152,14 @@ $userdetails = $db->userdetails();
 												<tr>
 													<td><?php echo $branch_item->id;  ?></td>
 													<td><?php echo $branch_item->name;  ?></td>
-													<td><input value="0" type="number" name="quantity[<?php echo $branch_item->id; ?>]" placeholder="Nhập số lượng">
+													<td>
+														<span><?php echo isset($branch_item->stock_quantity) ? $branch_item->stock_quantity : 0; ?></span>
+														<input value="0" type="number" name="quantity[<?php echo $branch_item->id; ?>]" placeholder="Nhập số lượng">
 													</td>
-													<td><input value="0" type="number" name="price[<?php echo $branch_item->id; ?>]" placeholder="Nhập giá sản phẩm" step="0.01">
+													<td>
+														<input value="<?php echo isset($branch_item->product_price) ? $branch_item->product_price : 0; ?>" type="number" name="price[<?php echo $branch_item->id; ?>]" placeholder="Nhập giá sản phẩm" step="0.01">
 													</td>
+													
 												</tr>
 											<?php endforeach; ?>
 										</tbody>
@@ -1713,7 +1724,7 @@ $userdetails = $db->userdetails();
 
 		$btn.btn("loading");
 		$.ajax({
-			url: '<?= base_url('admincontrol/editProduct') ?>',
+			url: '<?= base_url('admincontrol/stock_editProduct') ?>',
 			type: 'POST',
 			dataType: 'json',
 			cache: false,

@@ -1423,8 +1423,8 @@
             },
             "Admincontrol.php": {
               "type": "-",
-              "size": 556076,
-              "lmtime": 1718957480711,
+              "size": 556156,
+              "lmtime": 1719040668417,
               "modified": false
             },
             "Api.php": {
@@ -21829,8 +21829,8 @@
             },
             "Product_model.php": {
               "type": "-",
-              "size": 223880,
-              "lmtime": 1718942222559,
+              "size": 223989,
+              "lmtime": 1719040472244,
               "modified": false
             },
             "Report_model.php": {
@@ -28968,20 +28968,20 @@
               "product_stock": {
                 "add_product.php": {
                   "type": "-",
-                  "size": 98129,
-                  "lmtime": 1718935757614,
+                  "size": 103098,
+                  "lmtime": 1719044579043,
                   "modified": false
                 },
                 "index.php": {
                   "type": "-",
-                  "size": 94020,
-                  "lmtime": 1718957558128,
+                  "size": 94016,
+                  "lmtime": 1719035026910,
                   "modified": false
                 },
                 "product_list.php": {
                   "type": "-",
-                  "size": 5567,
-                  "lmtime": 1718956587828,
+                  "size": 2179,
+                  "lmtime": 1719034906738,
                   "modified": false
                 }
               },

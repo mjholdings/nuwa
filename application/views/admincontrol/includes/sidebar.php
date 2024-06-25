@@ -196,7 +196,7 @@ $sidebar_data = array(
 
             <i class="bi bi-clipboard2-data-fill"></i>
 
-            <?= __('Khen Thưởng') ?></a>
+            <?= __('Thưởng') ?></a>
 
 
 

@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
-                    <h5><?= __('Khen thưởng') ?></h5>
+                    <h5><?= __('Cài đặt Thưởng') ?></h5>
                     <div>
                         <a id="toggle-uploader" href="<?= base_url('admincontrol/create_reward') ?>" class="btn btn-light"><?= __("admin.add_new") ?></a>
                     </div>

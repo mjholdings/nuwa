@@ -2,7 +2,7 @@
 <div class="content-body">
         <div class="card award-level">
             <div class="card-header bg-secondary text-white d-flex justify-content-between">
-                <h5><?= __('Khen thưởng') ?></h5>
+                <h5><?= __('Cài đặt Thưởng') ?></h5>
                 <a id="toggle-uploader" href="<?= base_url('admincontrol/reward') ?>" class="btn btn-sm btn-light">
                     <?= __('Quay lại') ?>
                 </a>

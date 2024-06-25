@@ -2608,7 +2608,7 @@ class Product_model extends MY_Model {
     }
 
     function getSettings($type = '', $key = "") {
-        $language = 0;
+        $language = 2;
         if ($this->db->field_exists('language_id', 'setting'))
             $language = 1;
 
@@ -5018,6 +5018,10 @@ class Product_model extends MY_Model {
         return $result;
     }
 
+    public function getAllBranchItem() {
+        return $this->db->get('branch')->result_array();
+    }
+
     public function get_branch($id) {
         return $this->db->where('id', $id)->get('branch')->row_array();
     }
@@ -5034,5 +5038,79 @@ class Product_model extends MY_Model {
 
     public function delete_branch($id) {
         return $this->db->where('id', $id)->delete('branch');
+    }
+
+    // Update Product Branch
+    public function updateProductBranch($branch_id, $product_id, $quantity, $price) {
+        // Kiểm tra xem bản ghi đã tồn tại chưa
+        $this->db->where('branch_id', $branch_id);
+        $this->db->where('product_id', $product_id);
+        $query = $this->db->get('product_branch');
+
+        if ($query->num_rows() > 0) {
+            // Nếu đã tồn tại, cập nhật số lượng bằng cách cộng thêm và cập nhật giá sản phẩm
+            $existing_record = $query->row();
+            $new_quantity = $existing_record->stock_quantity + $quantity;
+            $data = array(
+                'stock_quantity' => $new_quantity,
+                'product_price' => $price
+            );
+            $this->db->where('branch_id', $branch_id);
+            $this->db->where('product_id', $product_id);
+            $this->db->update('product_branch', $data);
+        } else {
+            // Nếu chưa tồn tại, thêm mới bản ghi
+            $data = array(
+                'branch_id' => $branch_id,
+                'product_id' => $product_id,
+                'stock_quantity' => $quantity,
+                'product_price' => $price
+            );
+            $this->db->insert('product_branch', $data);
+        }
+    }
+
+    // Get total stock quantity
+    public function getTotalStockQuantity($product_id) {
+        $this->db->select_sum('stock_quantity');
+        $this->db->where('product_id', $product_id);
+        $query = $this->db->get('product_branch');
+
+        if ($query->num_rows() > 0) {
+            return $query->row()->stock_quantity;
+        } else {
+            return 0;
+        }
+    }
+    
+    // Function to get product price based on location
+    public function getProductPriceByLocation($product_id, $current_location) {
+        // Check if product exists in branch_product
+        $normal = $this->db->where('product_id', $product_id);
+        $query = $this->db->get('product_branch');
+        
+
+        if ($query->num_rows() > 0) {
+            // Product exists in branch_product, check for price in current location
+            $row = $query->row();
+            $branch_id = $current_location; // Assuming $current_location is the branch_id
+            
+            $this->db->where('branch_id', $branch_id);
+            $this->db->where('product_id', $product_id);
+            $query = $this->db->get('product_branch');
+            
+            if ($query->num_rows() > 0) {
+                // Found price in current location
+                return $query->row()->product_price;
+            } else {
+                // No specific price found, return product price from product table
+                return $row->product_price;
+            }
+        } else {
+            // Product not found in branch_product, return product price from product table
+            $this->db->where('product_id', $product_id);
+            $query = $this->db->get('product');
+            return $query->row()->product_price;
+        }
     }
 }

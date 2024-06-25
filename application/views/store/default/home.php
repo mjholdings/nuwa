@@ -379,11 +379,12 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 
 <!-- DỊCH VỤ -->
 <section class="container dichvu">
-	<h2 class="title-font text-custom-secondary text-start" style="color:var(color-pink);font-family:Yeseva One !important;font-weight:500">Dịch vụ</h2>
-	<!-- <div class="row my-auto">
-		<?php foreach ($productsDichVu as $key => $product) { ?>
-			<div class="col-12 col-lg-6 px-0">
-				<?php
+	<h2 class="title-font text-custom-secondary text-start"
+		style="color:var(color-pink);font-family:Yeseva One !important;font-weight:500">Dịch vụ</h2>
+	<div class="row my-auto">		
+		<?php foreach ($productsDichVu as $key => $product) { $i++ ?>
+			<div class="col-12 col-lg-6 px-0">				
+				<?php				
 				$href = base_url("store/" . base64_encode($user_id) . "/product/" . $product['product_slug']);
 				$image = (!empty($product['product_featured_image'])) ? base_url('assets/images/product/upload/thumb/' . $product['product_featured_image']) : 'https://res.cloudinary.com/dtiwyksp8/image/upload/v1700123969/woman-with-mask_vnj1sv.png" class="mr-1 product-thumbnail-img';
 				?>

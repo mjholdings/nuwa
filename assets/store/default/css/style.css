@@ -5476,3 +5476,44 @@ a {
 .register-mj {
     margin-bottom: 150px;
 }
+
+/* Branch */
+.branch-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e9ecef;
+    transition: border-color 0.3s;
+}
+
+.branch-info {
+    flex: 8;
+}
+
+.branch-name {
+    font-weight: bold;
+}
+
+.branch-address {
+    color: #6c757d;
+}
+
+.select-branch-btn {
+    flex: 2;
+    text-align: center; /* Căn giữa chữ trong nút */
+    white-space: nowrap; /* Giữ chữ trong một dòng, tránh việc xuống dòng */
+    padding: 10px 15px; /* Tăng kích thước nút để đảm bảo nội dung vừa đủ */
+    border-radius: 5px; /* Tùy chỉnh để nút có góc bo tròn nếu cần */
+}
+
+.modal-backdrop {
+    z-index: 97;
+}
+
+/* CSS cho hiệu ứng hover */
+.branch-item:hover {
+    border-color: #007bff; /* Màu viền xanh */
+    cursor: pointer;
+}
+

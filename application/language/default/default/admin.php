@@ -738,7 +738,7 @@ $lang['to_user_and'] = 'to user and';
 
 $lang['contact_us_message_sent_on'] = 'contact us message sent on';
 
-$lang['you_made_withdrawal_request'] = 'You made a withdrawal request ';
+$lang['you_made_withdrawal_request'] = 'Bạn tạo một yêu cầu rút tiền ';
 
 $lang['customer_reviews'] = 'Customer Reviews';
 

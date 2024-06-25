@@ -48,7 +48,7 @@ if($unique_id == 'subscription_buy'){
         'text'          => $user_text,
         'admin_text'    => $admin_text,
         'subject'       => 'Subscription Buy',
-        'admin_subject' => 'New Subscription Buy From [[firstname]] [[lastname]]',
+        'admin_subject' => 'Đăng ký Mua mới từ [[firstname]] [[lastname]]',
         'shortcode'     => 'planname,price,expire_at,started_at,firstname,lastname,email,username,website_url,website_name,website_logo,name',
     );
 

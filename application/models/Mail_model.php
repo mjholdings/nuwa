@@ -265,10 +265,10 @@ class Mail_model extends MY_Model{
         $notificationData = array(
             'notification_url'          => 'wallet_requests_list',
             'notification_type'         =>  'wallet',
-            'notification_title'        =>  $userdetails['firstname']. ' ' . $userdetails['lastname']. ' made a withdrawal request',
+            'notification_title'        =>  $userdetails['firstname']. ' ' . $userdetails['lastname']. ' tạo một yêu cầu rút tiền',
             'notification_viewfor'      =>  'admin',
             'notification_actionID'     =>  0,
-            'notification_description'  =>  $userdetails['firstname']. ' ' . $userdetails['lastname']. ' made a withdrawal request',
+            'notification_description'  =>  $userdetails['firstname']. ' ' . $userdetails['lastname']. ' tạo một yêu cầu rút tiền',
             'notification_is_read'      =>  '0',
             'notification_created_date' =>  date('Y-m-d H:i:s'),
             'notification_ipaddress'    =>  $_SERVER['REMOTE_ADDR']

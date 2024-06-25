@@ -124,7 +124,7 @@ class MembershipPlan extends \Illuminate\Database\Eloquent\Model
 			$notification = new Notification();
 			$notification->notification_url          = '/membership/membership_purchase_edit/'.$membership_user->id;
 			$notification->notification_type         =  'membership_order';
-			$notification->notification_title        =  'New Subscription Buy From '.$user->username;
+			$notification->notification_title        =  'Đăng ký Mua mới từ '.$user->username;
 			$notification->notification_viewfor      =  'admin';
 			$notification->notification_actionID     =  $membership_user->id;
 			$notification->notification_description  =  $user->firstname.' '.$user->lastname.' buy a new subscription at affiliate program on '.$cdate;

@@ -97,8 +97,8 @@ class Withdraw_Request extends REST_Controller {
                         $this->load->model('Mail_model');
                         $this->Mail_model->send_wallet_withdrawal_req($request['total'], $verify_data['userdata']);
 
-                        $title = 'You made a withdrawal request';
-                        $message = 'You made a withdrawal request';
+                        $title = 'Bạn đã tạo một yêu cầu rút tiền';
+                        $message = 'Bạn tạo một yêu cầu rút tiền';
 
                         if($device_type == 1)
                         {

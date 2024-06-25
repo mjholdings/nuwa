@@ -2972,6 +2972,7 @@ class Product_model extends MY_Model {
         return $result;
     }
 
+    // Tính toán hoa hồng
     public function calcCommitions($product, $type = 'sale', $shareUser = []) {
 
         $product = (array) $product;
@@ -3194,6 +3195,7 @@ class Product_model extends MY_Model {
         }
     }
 
+    // Form tính toán hoa hồng
     public function formcalcCommitions($product, $type = 'sale', $shareUser = [], $form = null) {
         $product = (array) $product;
 

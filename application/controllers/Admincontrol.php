@@ -3727,6 +3727,7 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'award_level/index');
 	}
 
+	// Tạo cấp độ thưởng
 	public function create_award_level() {
 		$userdetails = $this->userdetails();
 

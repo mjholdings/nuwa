@@ -976,6 +976,7 @@ public function getGrowthPercentage($a, $b) {
 		return $totals;
 	}
 
+	// Lấy tổng tăng trưởng theo thành viên
 	public function vendor_user_totals_week_growth($user_id, $filter = [],$current){
 		$wallet_where = ' AND 1 ';
 		$deposit_where = ' AND 1 ';
@@ -1101,6 +1102,7 @@ public function getGrowthPercentage($a, $b) {
 		return $user_balance;
 	}
 	
+	// Lấy số dư của thành viên
 	public function getUserBalance($user_id, $filter = []){
 		$wallet_where = ' AND 1 ';
 		$deposit_where = ' AND 1 ';

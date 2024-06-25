@@ -11,6 +11,7 @@ class Report_model extends MY_Model{
 	}
 
 
+	// Lấy toàn bộ giao dịch
 	public function getAllTransaction($filter = array()){
 		$where = array();
 

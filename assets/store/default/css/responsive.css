@@ -1554,7 +1554,7 @@ img.imgNavBar--Brand {
     .navbar .navbar-nav .nav-item.active::before {
         content: "";
         display: block;
-        background: #f95f7d;
+        background: #2763E9;
         position: absolute;
         border: none;
         bottom: -21px;

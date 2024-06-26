@@ -4031,7 +4031,6 @@ class Admincontrol extends MY_Controller {
 		$data['pagination'] = $this->pagination->create_links();
 		$data['branch'] = $this->Product_model->getAllBranch($config['per_page'], $offset);
 		$this->view($data, 'branch/branch_bonus');
-
 	}
 	// End chi nhánh
 
@@ -4318,6 +4317,16 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// End điều kiện thưởng
+
+	// Cài đặt tính thưởng hệ thống
+	public function commission() {
+		$config['base_url'] = base_url('admincontrol/commission');
+
+		$this->view($data, 'commission/index');
+	}
+	// End tính thưởng
+
+
 	public function addproduct() {
 
 		$userdetails = $this->userdetails();

@@ -13,12 +13,15 @@
                         <thead>
                             <tr>
                                 <th><?= __('Tên') ?></th>
-                                <th><?= __('DT Cá nhân (chu kỳ)') ?></th>
-                                <th><?= __('DT Tổng cá nhân') ?></th>
-                                <th><?= __('DT Dưới trực tiếp') ?></th>
-                                <th><?= __('DT Cấp dưới') ?></th>
-                                <th><?= __('DT Đội nhóm') ?></th>
-                                <th><?= __('Tạo Cấp dưới') ?></th>
+                                <th><?= __('Cá nhân (A)') ?></th>
+                                <th><?= __('Tổng cá nhân') ?></th>
+                                <th><?= __('Trực tiếp (B)') ?></th>
+                                <th><?= __('Gián tiếp (C)') ?></th>
+                                <th><?= __('Tuyến dưới (B+C)') ?></th>
+                                <th><?= __('Nhóm (A+B+C)') ?></th>
+                                <th><?= __('Tuyển trực tiếp (D)') ?></th>
+                                <th><?= __('Tuyển gián tiếp (E)') ?></th>
+                                <th><?= __('Tuyển Tuyến dưới (D+E)') ?></th>
                                 <th><?= __('Thưởng Hoa hồng (%)') ?></th>
                                 <th><?= __('Thưởng cứng') ?></th>
                                 <th>#</th>

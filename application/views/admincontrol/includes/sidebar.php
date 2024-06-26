@@ -202,7 +202,7 @@ $sidebar_data = array(
 
           <a class="dropdown-item" href="<?= base_url('admincontrol/branch_bonus') ?>">
 
-            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-shop"></i>
 
             <?= __('Thưởng Chi nhánh') ?></a>
 
@@ -211,6 +211,12 @@ $sidebar_data = array(
             <i class="bi bi-clipboard2-data-fill"></i>
 
             <?= __('Cài đặt Thưởng') ?></a>
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/commission') ?>">
+
+            <i class="bi bi-clipboard2-data-fill"></i>
+
+            <?= __('Tính Thưởng') ?></a>
 
           <a class="dropdown-item" href="<?= base_url('admincontrol/affiliate_theme') ?>">
 

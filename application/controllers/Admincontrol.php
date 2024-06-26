@@ -4019,9 +4019,23 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($result);
 		die();
 	}
+
+	public function branch_bonus($offset = 0) {
+		$userdetails = $this->userdetails();
+		$this->load->library('pagination');
+		$config['base_url'] = base_url('admincontrol/branch_bonus');
+		$config['uri_segment'] = 3;
+		$config['per_page'] = 10;
+		$config['total_rows'] = $this->Product_model->countByTable('branch');
+		$this->pagination->initialize($config);
+		$data['pagination'] = $this->pagination->create_links();
+		$data['branch'] = $this->Product_model->getAllBranch($config['per_page'], $offset);
+		$this->view($data, 'branch/branch_bonus');
+
+	}
 	// End chi nhánh
 
-	// Khen thưởng
+	// Khen thưởng 
 	public function reward($offset = 0) {
 		$userdetails = $this->userdetails();
 		$this->load->library('pagination');
@@ -4051,7 +4065,15 @@ class Admincontrol extends MY_Controller {
 			if ($this->form_validation->run() == TRUE) {
 				$insert['name'] = $this->input->post('name', true);
 				$insert['minimum_earning'] = $this->input->post('minimum_earning', true);
+				$insert['con_revenue_personal'] = $this->input->post('con_revenue_personal', true);
+				$insert['con_revenue_direct_members'] = $this->input->post('con_revenue_direct_members', true);
+				$insert['con_revenue_members'] = $this->input->post('con_revenue_members', true);
+				$insert['con_revenue_total'] = $this->input->post('con_revenue_total', true);
+				$insert['con_refer_number'] = $this->input->post('con_refer_number', true);
+				$insert['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
 				$insert['sale_comission_rate'] = $this->input->post('sale_comission_rate', true);
+				$insert['sale_comission_fixed'] = $this->input->post('sale_comission_fixed', true);
+				$insert['con_and'] = $this->input->post('con_and', true);
 
 				$success = true;
 
@@ -4147,6 +4169,155 @@ class Admincontrol extends MY_Controller {
 	}
 	// End khen thưởng
 
+	// Cài đặt sao
+	public function star($offset = 0) {
+		$userdetails = $this->userdetails();
+		$this->load->library('pagination');
+		$config['base_url'] = base_url('admincontrol/star');
+		$config['uri_segment'] = 3;
+		$config['per_page'] = 10;
+		$config['total_rows'] = $this->Product_model->countByTable('star_level');
+		$this->pagination->initialize($config);
+		$data['pagination'] = $this->pagination->create_links();
+		$data['star'] = $this->Product_model->getAllStar($config['per_page'], $offset);
+		$data['CurrencySymbol'] = $this->currency->getSymbol();
+		$this->view($data, 'star/index');
+	}
+
+	public function create_star() {
+		$userdetails = $this->userdetails();
+		$data['CurrencySymbol'] = $this->currency->getSymbol();
+
+		if ($this->input->method() == 'post') {
+			$result['status'] = 0;
+			$result['message'] = __('admin.something_went_wrong');
+
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('star', __('Số sao'), 'trim|required|max_length[100]');
+			$this->form_validation->set_rules('con_revenue_personal', __('Doanh thu cá nhân'), 'trim|required');
+			$this->form_validation->set_rules('sale_commission_rate', __('Thưởng Hoa hồng'), 'trim|required|greater_than_equal_to[0]|less_than_equal_to[100]');
+			if ($this->form_validation->run() == TRUE) {
+				$insert['star'] = $this->input->post('star', true);
+				$insert['con_revenue_personal'] = $this->input->post('con_revenue_personal', true);
+				$insert['con_revenue_members'] = $this->input->post('con_revenue_members', true);
+				$insert['con_revenue_direct_members'] = $this->input->post('con_revenue_direct_members', true);
+				$insert['con_revenue_total'] = $this->input->post('con_revenue_total', true);
+				$insert['con_refer_number'] = $this->input->post('con_refer_number', true);
+				$insert['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
+				$insert['con_and'] = $this->input->post('con_and', true);
+				$insert['sale_commission_rate'] = $this->input->post('sale_commission_rate', true);
+				$insert['sale_commission_fixed'] = $this->input->post('sale_commission_fixed', true);
+
+				$success = true;
+
+				if ($success) {
+					$insertedId = $this->db->insert('star_level', $insert);
+					if ($insertedId) {
+						$result['status'] = 1;
+						$result['message'] = __('admin.award_level_saved_successfully');
+					}
+				}
+			} else {
+				$result['validation'] = $this->form_validation->error_array();
+			}
+
+			echo json_encode($result);
+			die();
+		}
+
+		$this->view($data, 'star/create');
+	}
+
+	public function update_star($id) {
+		$userdetails = $this->userdetails();
+
+		if (isset($id)) {
+			$id = (int) $id;
+			if ($id) {
+				$data['star'] = $this->Product_model->getByField('star_level', 'id', $id);
+				if ($data['star']) {
+					$data['CurrencySymbol'] = $this->currency->getSymbol();
+
+					if ($this->input->method() == 'post') {
+						$result['status'] = 0;
+						$result['message'] = __('admin.something_went_wrong');
+
+						$this->load->library('form_validation');
+						$this->form_validation->set_rules('star', __('Tên'), 'trim|required');
+						$this->form_validation->set_rules('con_revenue_personal', __('Doanh thu cá nhân'), 'trim|required');
+						$this->form_validation->set_rules('sale_commission_rate', __('Thưởng Hoa hồng'), 'trim|required|greater_than_equal_to[0]|less_than_equal_to[100]');
+						if ($this->form_validation->run() == TRUE) {
+							$update['star'] = $this->input->post('star', true);
+							$update['con_revenue_personal'] = $this->input->post('con_revenue_personal', true);
+							$update['con_revenue_members'] = $this->input->post('con_revenue_members', true);
+							$update['con_revenue_direct_members'] = $this->input->post('con_revenue_direct_members', true);
+							$update['con_revenue_total'] = $this->input->post('con_revenue_total', true);
+							$update['con_refer_number'] = $this->input->post('con_refer_number', true);
+							$update['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
+							$update['con_and'] = $this->input->post('con_and', true);
+							$update['sale_commission_rate'] = $this->input->post('sale_commission_rate', true);
+							$update['sale_commission_fixed'] = $this->input->post('sale_commission_fixed', true);
+
+							$success = true;
+
+							if ($success) {
+								$success = $this->db->update('star_level', $update, ['id' => $id]);
+								if ($success) {
+									$result['status'] = 1;
+									$result['message'] = __('admin.award_level_saved_successfully');
+								}
+							}
+						} else {
+							$result['validation'] = $this->form_validation->error_array();
+						}
+
+						echo json_encode($result);
+						die();
+					}
+
+					$this->view($data, 'star/update');
+				} else {
+					redirect('admincontrol/star');
+				}
+			} else {
+				redirect('admincontrol/star');
+			}
+		} else {
+			redirect('admincontrol/star');
+		}
+	}
+
+	public function delete_star($id) {
+		$userdetails = $this->userdetails();
+		$result['status'] = 0;
+		$result['message'] = __('admin.something_went_wrong');
+
+		if (isset($id)) {
+			$id = (int) $id;
+			if ($id) {
+				$award_level = $this->Product_model->getByField('star_level', 'id', $id);
+				if ($award_level) {
+					$success = $this->db->delete('star_level', ['id' => $id]);
+					if ($success)
+						$result['status'] = 1;
+					$this->session->set_flashdata('success', __('admin.award_level_deleted_successfully'));
+				}
+			}
+		}
+
+		echo json_encode($result);
+		die();
+	}
+	// End star
+
+	// Cài đặt điều kiện thưởng
+	public function condition($offset = 0) {
+		$config['base_url'] = base_url('admincontrol/condition');
+
+		$this->view($data, 'condition/index');
+	}
+
+	// End điều kiện thưởng
 	public function addproduct() {
 
 		$userdetails = $this->userdetails();

@@ -5003,6 +5003,25 @@ class Product_model extends MY_Model {
         return $result;
     }
 
+    // Star
+    public function getAllStar($limit = false, $offset = 0) {
+        $ci = &get_instance();
+
+        $sql = "SELECT * FROM `star_level`";
+
+        if ($limit != false) {
+            $sql .= " LIMIT ? OFFSET ?";
+            $query = $ci->db->query($sql, array((int) $limit, (int) $offset));
+        } else {
+            $query = $ci->db->query($sql);
+        }
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+
     // Branch Model
     public function getAllBranch($limit = false, $offset = 0) {
         $ci = &get_instance();

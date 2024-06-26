@@ -180,8 +180,6 @@ $sidebar_data = array(
 
             <?= __('admin.menu_addons') ?></a>
 
-
-
           <a class="dropdown-item" <?= $sidebar_data['award_level_is_enable'] == 0 ? 'style="display:none;"' : ''; ?> href="<?= base_url('admincontrol/award_level') ?>">
 
             <i class="bi bi-award"></i>
@@ -190,23 +188,35 @@ $sidebar_data = array(
 
           </a>
 
-
-
           <a class="dropdown-item" href="<?= base_url('admincontrol/reward') ?>">
 
             <i class="bi bi-clipboard2-data-fill"></i>
 
-            <?= __('Thưởng') ?></a>
+            <?= __('Thưởng Chức') ?></a>
 
+          <a class="dropdown-item" href="<?= base_url('admincontrol/star') ?>">
 
+            <i class="bi bi-star-fill"></i>
+
+            <?= __('Thưởng Sao') ?></a>
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/branch_bonus') ?>">
+
+            <i class="bi bi-star-fill"></i>
+
+            <?= __('Thưởng Chi nhánh') ?></a>
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/condition') ?>">
+
+            <i class="bi bi-clipboard2-data-fill"></i>
+
+            <?= __('Cài đặt Thưởng') ?></a>
 
           <a class="dropdown-item" href="<?= base_url('admincontrol/affiliate_theme') ?>">
 
             <i class="bi bi-palette"></i>
 
             <?= __('admin.affiliate_theme') ?></a>
-
-
 
           <a class="dropdown-item" href="<?= base_url('admincontrol/language') ?>">
 

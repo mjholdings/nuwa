@@ -31,10 +31,11 @@
                                 <p class="error-message"></p>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-md-6 mb-3"> <label class="form-label">
-                                    <?= __('Doanh thu cá nhân (theo chu kỳ)') ?>
-                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu cá nhân') ?>"></span>
+                                    <?= __('Doanh thu cá nhân yêu cầu') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu cá nhân yêu cầu') ?>"></span>
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
@@ -53,8 +54,8 @@
                                 <p class="error-message"></p>
                             </div>
                             <div class="col-md-6 mb-3"> <label class="form-label">
-                                    <?= __('Doanh thu tổng cộng cấp dưới yêu cầu') ?>
-                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu cấp dưới') ?>"></span>
+                                    <?= __('Doanh thu tổng tuyến dưới yêu cầu') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu tổng tuyến dưới yêu cầu') ?>"></span>
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
@@ -63,8 +64,18 @@
                                 <p class="error-message"></p>
                             </div>
                             <div class="col-md-6 mb-3"> <label class="form-label">
-                                    <?= __('Doanh thu tổng cộng cấp dưới trực tiếp yêu cầu') ?>
-                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu cấp dưới trực tiếp (1 cấp)') ?>"></span>
+                                    <?= __('Doanh thu tổng nhóm yêu cầu') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu nhóm yêu cầu') ?>"></span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                    <input value="0" type="number" class="form-control" name="con_revenue_team" min="0" step="0.01" placeholder="<?= __('Nhập tổng cấp dưới yêu cầu') ?>">
+                                </div>
+                                <p class="error-message"></p>
+                            </div>
+                            <div class="col-md-6 mb-3"> <label class="form-label">
+                                    <?= __('Doanh thu tổng trực tiếp yêu cầu') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu trực tiếp yêu cầu') ?>"></span>
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
@@ -72,15 +83,35 @@
                                 </div>
                                 <p class="error-message"></p>
                             </div>
+                            <div class="col-md-6 mb-3"> <label class="form-label">
+                                    <?= __('Doanh thu tổng gián tiếp yêu cầu') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu gián tiếp yêu cầu') ?>"></span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                    <input value="0" type="number" class="form-control" name="con_revenue_indirect_members" min="0" step="0.01" placeholder="<?= __('Nhập tổng cấp trực tiếp dưới yêu cầu') ?>">
+                                </div>
+                                <p class="error-message"></p>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3"> <label class="form-label">
-                                    <?= __('Số lượng thành viên mời yêu cầu') ?>
-                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Số lượng thành viên mời yêu cầu') ?>"></span>
+                                    <?= __('Số lượng thành viên mời gián tiếp yêu cầu') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Số lượng thành viên mời gián tiếp yêu cầu') ?>"></span>
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text refer-reg-symball">#</span>
                                     <input value="0" type="number" class="form-control" name="con_refer_number" min="0" step="1" placeholder="<?= __('Nhập Số lượng thành viên mời yêu cầu') ?>">
+                                </div>
+                                <p class="error-message"></p>
+                            </div>
+                            <div class="col-md-6 mb-3"> <label class="form-label">
+                                    <?= __('Số lượng thành viên mời trực tiếp yêu cầu') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Số lượng thành viên mời trực tiếp yêu cầu') ?>"></span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text refer-reg-symball">#</span>
+                                    <input value="0" type="number" class="form-control" name="con_refer_direct_number" min="0" step="1" placeholder="<?= __('Nhập Số lượng thành viên mời yêu cầu') ?>">
                                 </div>
                                 <p class="error-message"></p>
                             </div>
@@ -103,18 +134,19 @@
                                 </select>
                                 <p class="error-message"></p>
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    <?= __('Điều kiện kết hợp') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Chọn điều kiện kết hợp') ?>"></span>
+                                </label>
+                                <select class="form-control" name="con_and">
+                                    <option value="1" <?= $reward['con_and'] ? 'selected="selected"' : ''; ?>><?= __('Và') ?></option>
+                                    <option value="0" <?= $reward['con_and'] != true ? 'selected="selected"' : ''; ?>><?= __('Hoặc') ?></option>
+                                </select>
+                                <p class="error-message"></p>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">
-                                <?= __('Điều kiện kết hợp') ?>
-                                <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Chọn điều kiện kết hợp') ?>"></span>
-                            </label>
-                            <select class="form-control" name="con_and">
-                                <option value="1"><?= __('Và') ?></option>
-                                <option value="0"><?= __('Hoặc') ?></option>
-                            </select>
-                            <p class="error-message"></p>
-                        </div>
+
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">

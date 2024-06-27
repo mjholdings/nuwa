@@ -2084,9 +2084,21 @@ class Product_model extends MY_Model {
     `child`.`jump_level`, 
     `parent`.`level_number` as 'jump_level_name',  
     `child`.`minimum_earning`,
+    `child`.`con_revenue_team`,
+    `child`.`con_revenue_personal`,
+    `child`.`con_revenue_direct_members`,
+    `child`.`con_revenue_indirect_members`,
+    `child`.`con_revenue_members`,
+    `child`.`con_revenue_team`,
+    `child`.`con_revenue_total`,
+    `child`.`con_refer_number`,
+    `child`.`con_refer_direct_number`,
+    `child`.`con_refer_reward_id`,
     `child`.`sale_comission_rate`,
+    `child`.`con_and`,
     `child`.`bonus`,
-    `child`.`default_registration_level`
+    `child`.`split_branch`,
+    `child`.`default_registration_level`    
     FROM `award_level` as `child` 
     LEFT JOIN `award_level` as `parent` 
     ON `parent`.`id` = `child`.`jump_level`";

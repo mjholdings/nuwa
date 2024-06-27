@@ -46,7 +46,7 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
     <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url('assets/images/AppIcons/appstore.png'); ?>">
 
 
-    <title><?= $store_setting['name'] ?> <?= isset($meta_title) ? '- ' . $meta_title : '' ?></title>
+    <!-- <title><?= $store_setting['name'] ?> <?= isset($meta_title) ? '- ' . $meta_title : '' ?></title> -->
 
     <!--  CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
@@ -250,20 +250,20 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
     if (isset($store_setting['notification']) && sizeOf(json_decode($store_setting['notification'])) > 0 && !empty(json_decode($store_setting['notification'])[0])) {
     ?>
         <!-- Top notification bar -->
-        <div class="top-bar bg-main text-white text-center">
+        <!-- <div class="top-bar bg-main text-white text-center">
             <div class="container">
                 <img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/top-icon.png" /> <?= json_decode($store_setting['notification'])[0]; ?>
             </div>
-        </div>
+        </div> -->
     <?php
     } else {
     ?>
         <!-- Dummy Top notification bar -->
-        <div class="top-bar bg-main text-white text-center">
+        <!-- <div class="top-bar bg-main text-white text-center">
             <div class="container">
                 <img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/top-icon.png" /> Nuwa is simply dummy text of the printing and typesetting industry.
             </div>
-        </div>
+        </div> -->
 
     <?php
 
@@ -282,9 +282,13 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
         <div class="container-fluid">
             <!--nav bar start here-->
             <nav class="navbar navbar-expand-lg">
-                <?php $logo = ($store_setting['logo']) ? base_url('assets/images/site/' . $store_setting['logo']) : base_url('assets/store/default/') . 'img/logo.png'; ?>
-                <a class="navbar-brand" href="<?= $home_link ?>"><img class="imgNavBar--Brand" alt="<?= __('store.image') ?>" src="<?= $logo ?>" onerror="this.src='<?= base_url('assets/store/default/') . 'img/logo.png' ?>';" height="<?php echo $storelogoheight; ?>" <?php echo $storelogowidthstr;  ?> /></a>
-
+           
+                <?php $logo = ($store_setting['logo']) ? base_url('assets/images/site/' . $store_setting['logo']) : base_url('assets/store/default/') . 'img/logonuwa.png'; ?> 
+                <a class="navbar-brand" href="<?= $home_link ?>"><img class="imgNavBar--Brand" alt="<?= __('store.image') ?>" src="<?= $logo ?>" onerror="this.src='<?= base_url('assets/store/default/') . 'img/logonuwa.png' ?>';" height="<?php echo $storelogoheight; ?>" <?php echo $storelogowidthstr;  ?> /></a>
+               
+                <!-- <a class="navbar-brand" href="">
+                <img class="imgNavBar--Brand" src="<?= base_url('assets/store/default/'); ?>img/logonuwa.png" alt="" height="50" width="180">
+               </a> -->
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><img src="<?= base_url('assets/store/default/'); ?>img/menu.png" class="img-toggler" alt="<?= __('store.menu') ?>"></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto">

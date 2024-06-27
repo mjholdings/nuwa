@@ -144,9 +144,9 @@ img.imgNavBar--Brand {
 }
 
 @media only screen and (max-width: 767px) {
-    .headerbar {
+    /* .headerbar {
         height: 63px;
-    }
+    } */
     /* contact page responsive */
     .contact-page-wrapper h1 {
         /* font: normal normal bold 36px/35px Jost; */

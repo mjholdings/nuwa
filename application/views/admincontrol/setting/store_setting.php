@@ -838,7 +838,7 @@
 
 
 	<!--store_notifications-->
-	<fieldset class="mb-3">
+	<!-- <fieldset class="mb-3">
 	    <legend class="bg-light px-2"><?= __('admin.store_notifications') ?></legend>
 	    <div id="notifications-list">
 	        <?php
@@ -863,7 +863,7 @@
 	        ?>                                         
 	    </div>
 	    <button type="button" class="btn btn-md btn-primary btn-add-more"><?= __('admin.add_more') ?></button>
-	</fieldset>
+	</fieldset> -->
 	<!--store_notifications-->
 
 

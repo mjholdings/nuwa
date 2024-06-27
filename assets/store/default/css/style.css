@@ -68,12 +68,12 @@ body {
     align-items: center;
 }
 
-.headerbar {
+/* .headerbar {
     background: transparent;
     display: block;
     height: 70px;
     width: 100%;
-}
+} */
 
 .nav-item.active .nav-link,
 .nav-item:hover .nav-link {
@@ -100,8 +100,8 @@ header {
 }
 
 #myHeader {
-    position: absolute;
-    top: 39px;
+    /* position: absolute; */
+   
     z-index: 99;
     width: 100%;
     left: 0;

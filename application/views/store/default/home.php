@@ -55,7 +55,7 @@
 </section>
 
 <!-- Top tags -->
-<section class="category-tag">
+<!-- <section class="category-tag">
 	<div class="container">
 		<h3><?= __('store.top_tags') ?>:</h3>
 		<div class="container-flex-category">
@@ -84,12 +84,13 @@
 			</ul>
 		</div>
 	</div>
-</section>
+</section> -->
 
 <!-- Top tags -->
 <section class="category-tag">
 	<div class="container">
-		<h3 class="text-center"><?= __('store.top_tags') ?></h3>
+		<!-- <h3 class="text-center"><?= __('store.top_tags') ?></h3> -->
+		 <h3 class="text-center" style="color:#2763E9;"><b>SẢN PHẨM TỐT BÁN CHẠY</b></h3>
 		<div class="row categories-listing-row-strategy d-flex justify-content-center">
 			<div class="col">
 				<?php
@@ -405,7 +406,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 				</div>
 			</div>
 		<?php } ?>
-	</div> -->
+	</div> 
 </section>
 
 <!-- TẾ BÀO GỐC -->
@@ -416,11 +417,11 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 				<img src="<?= base_url('assets/store/default/'); ?>img/banner1.jpg" class="card-img" />
 				<div class="card-img-overlay p-5 d-flex flex-column justify-content-between">
 					<div class="rejuvenation">
-						<h2 class="card-title title-font mt-5" style="color: #FFF">Trẻ hóa cấp tế bào</h2>
+						<h2 class="card-title title-font mt-5" style="color: #FFF">Ion Kiềm-Khoáng kiềm</h2>
 						<p class="card-text">
-							Nuwa mang sắc đẹp đến với mọi người
+							TĂNG CƯỜNG SỨC KHOẺ
 						</p>
-						<h3 class="title-font mb-3 title-nameMain" style="color:#FFF">Nuwa</h3>
+						<h3 class="title-font mb-3 title-nameMain" style="color:#FFF">Chỉ nhờ uống nước mỗi ngày</h3>
 						<a href="<?= base_url('store/category/' . $row['slug']) ?>" class="btn btn-custom-skin title-font btn-service">XEM THÊM</a>
 					</div>
 					<!-- <p class="card-text font-weight-light mb-5">
@@ -432,11 +433,11 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 				<img src="<?= base_url('assets/store/default/'); ?>img/banner1.jpg" class="card-img" />
 				<div class="card-img-overlay p-5 d-flex flex-column justify-content-between">
 					<div class="rejuvenation">
-						<h2 class="card-title title-font mt-5" style="color: #FFF">Trẻ hóa cấp tế bào</h2>
+						<h2 class="card-title title-font mt-5" style="color: #FFF">Collagen Beauty Nano</h2>
 						<p class="card-text">
-							Nuwa mang sắc đẹp đến với mọi người
+							NGỪA LÃO HOÁ VƯỢT TRỘI
 						</p>
-						<h3 class="title-font mb-3 title-nameMain" style="color:#FFF">Nuwa</h3>
+						<h3 class="title-font mb-3 title-nameMain" style="color:#FFF">Với công nghệ Nano mới</h3>
 						<a href="<?= base_url('store/category/' . $row['slug']) ?>" class="btn btn-custom-skin title-font btn-service">XEM THÊM</a>
 					</div>
 					<!-- <p class="card-text font-weight-light mb-5">

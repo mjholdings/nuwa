@@ -4365,10 +4365,52 @@ class Admincontrol extends MY_Controller {
 	// End star
 
 	// Cài đặt điều kiện thưởng
-	public function condition($offset = 0) {
+	public function condition() {
 		$config['base_url'] = base_url('admincontrol/condition');
 
-		$this->view($data, 'condition/index');
+		$userdetails = $this->userdetails();
+		if (empty($userdetails)) {
+			redirect($this->admin_domain_url);
+		}
+
+		$store_mode = $this->Product_model->getSettings('store', 'store_mode');
+		$data['store_mode'] = $store_mode['store_mode'] ?? 'cart'; //changing the store mode
+
+		$market_vendor_marketvendorstatus = $this->Product_model->getSettings('market_vendor', 'marketvendorstatus');
+		$vendor_storestatus = $this->Product_model->getSettings('vendor', 'storestatus');
+		$market_vendor_marketvendorstatus =  isset($market_vendor_marketvendorstatus['marketvendorstatus']) ? $market_vendor_marketvendorstatus['marketvendorstatus'] : 0;
+		$vendor_storestatus =  isset($vendor_storestatus['storestatus']) ? $vendor_storestatus['storestatus'] : 0;
+
+		$data['saas_status'] = ($market_vendor_marketvendorstatus == 1 || $vendor_storestatus == 1) ? 1 : 0;
+		if ($data['saas_status']) {
+			$commonSetting = array('market_vendor', 'vendor', 'site');
+			$post = $this->input->post(null, true);
+			if (!empty($post)) {
+				$json = array();
+				if (!isset($json['errors'])) {
+					if (!isset($post['marketpostback']['static'])) {
+						$post['marketpostback']['static'] = [];
+					}
+					foreach ($post as $key => $value) {
+						if (in_array($key, $commonSetting)) {
+							$this->Setting_model->save($key, $value);
+						}
+					}
+					if (!isset($json['errors'])) {
+						$json['success'] =  __('admin.setting_saved_successfully');
+					}
+				}
+				echo json_encode($json);
+				die;
+			}
+
+			$data['CurrencySymbol'] = $this->currency->getSymbol();
+			foreach ($commonSetting as $key => $value) {
+				$data[$value] 	= $this->Product_model->getSettings($value);
+			}
+		}
+
+		$this->view($data, 'setting/policy_setting');
 	}
 
 	// End điều kiện thưởng
@@ -4377,7 +4419,49 @@ class Admincontrol extends MY_Controller {
 	public function commission() {
 		$config['base_url'] = base_url('admincontrol/commission');
 
-		$this->view($data, 'commission/index');
+		$userdetails = $this->userdetails();
+		if (empty($userdetails)) {
+			redirect($this->admin_domain_url);
+		}
+
+		$store_mode = $this->Product_model->getSettings('store', 'store_mode');
+		$data['store_mode'] = $store_mode['store_mode'] ?? 'cart'; //changing the store mode
+
+		$market_vendor_marketvendorstatus = $this->Product_model->getSettings('market_vendor', 'marketvendorstatus');
+		$vendor_storestatus = $this->Product_model->getSettings('vendor', 'storestatus');
+		$market_vendor_marketvendorstatus =  isset($market_vendor_marketvendorstatus['marketvendorstatus']) ? $market_vendor_marketvendorstatus['marketvendorstatus'] : 0;
+		$vendor_storestatus =  isset($vendor_storestatus['storestatus']) ? $vendor_storestatus['storestatus'] : 0;
+
+		$data['saas_status'] = ($market_vendor_marketvendorstatus == 1 || $vendor_storestatus == 1) ? 1 : 0;
+		if ($data['saas_status']) {
+			$commonSetting = array('market_vendor', 'vendor', 'site');
+			$post = $this->input->post(null, true);
+			if (!empty($post)) {
+				$json = array();
+				if (!isset($json['errors'])) {
+					if (!isset($post['marketpostback']['static'])) {
+						$post['marketpostback']['static'] = [];
+					}
+					foreach ($post as $key => $value) {
+						if (in_array($key, $commonSetting)) {
+							$this->Setting_model->save($key, $value);
+						}
+					}
+					if (!isset($json['errors'])) {
+						$json['success'] =  __('admin.setting_saved_successfully');
+					}
+				}
+				echo json_encode($json);
+				die;
+			}
+
+			$data['CurrencySymbol'] = $this->currency->getSymbol();
+			foreach ($commonSetting as $key => $value) {
+				$data[$value] 	= $this->Product_model->getSettings($value);
+			}
+		}
+
+		$this->view($data, 'setting/commission_setting');
 	}
 	// End tính thưởng
 

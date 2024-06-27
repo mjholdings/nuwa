@@ -180,9 +180,146 @@ $sidebar_data = array(
 
             <?= __('admin.menu_addons') ?></a>
 
+          <a class="dropdown-item" href="<?= base_url('admincontrol/affiliate_theme') ?>">
+
+            <i class="bi bi-palette"></i>
+
+            <?= __('admin.affiliate_theme') ?></a>
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/language') ?>">
+
+            <i class="bi bi-translate"></i>
+
+            <?= __('admin.menu_language') ?></a>
+
+
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/currency_list') ?>">
+
+            <i class="bi bi-coin"></i>
+
+            <?= __('admin.menu_currency') ?></a>
+
+
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/system_status') ?>">
+
+            <i class="bi bi-life-preserver"></i>
+
+            <?= __('admin.server') ?></a>
+
+
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/cron') ?>">
+
+            <i class="bi bi-folder-symlink"></i>
+
+            <?= __('admin.cron_job') ?></a>
+
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/todolist') ?>">
+
+            <i class="bi bi-check2-all"></i>
+
+            <?= __('admin.menu_to_do_list') ?></a>
+
+
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/tickets') ?>">
+
+            <i class="bi bi-ticket"></i>
+
+            <?= __('admin.menu_tickets') ?></a>
+
+
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/countries_and_states') ?>">
+
+            <i class="bi bi-flag"></i>
+
+            <?= __('admin.countries_and_states') ?></a>
+
+
+
+          <a class="dropdown-item" target="_blank" href="<?= base_url('/api-document') ?>">
+
+            <i class="bi bi-file-code"></i>
+
+            <?= __('admin.user_api') ?></a>
+
+
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/tutorial') ?>">
+
+            <i class="bi bi-file-person"></i>
+
+            <?= __('admin.tutorial') ?></a>
+
+
+
+          <a class="dropdown-item" target="_blank" href="<?= base_url('debug/sysupdatereport') ?>">
+
+            <i class="bi bi-flag"></i>
+
+            <?= __('admin.system_update_logs') ?></a>
+
+
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/troubleshoot') ?>">
+
+            <i class="bi bi-tropical-storm"></i>
+
+            <?= __('admin.troubleshoot') ?></a>
+
+
+
+          <a class="dropdown-item" target="_blank" href="<?= base_url('/sitemap.xml') ?>">
+
+            <i class="bi bi-map"></i>
+
+            <?= __('admin.sitemap') ?></a>
+
+        </div>
+
+      </li>
+
+      <li class="nav-item dropdown">
+
+        <a class="nav-link dropdown" href="javascript:void(0);" aria-haspopup="dropdown" data-bs-toggle="dropdown">
+
+          <div>
+
+            <i class="fas fa-medal"></i>
+
+            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('Hoa hồng') ?></span>
+
+          </div>
+
+          <div>
+
+            <i class="fas fa-angle-right"></i>
+
+          </div>
+
+        </a>
+
+        <div class="dropdown-menu">
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/commission') ?>">
+
+            <i class="bi bi-sliders"></i>
+
+            <?= __('Áp dụng') ?></a>
+
+            <a class="dropdown-item" href="<?= base_url('admincontrol/condition') ?>">
+
+            <i class="bi bi-gear-fill"></i>
+
+            <?= __('Chính sách') ?></a>
+
           <a class="dropdown-item" <?= $sidebar_data['award_level_is_enable'] == 0 ? 'style="display:none;"' : ''; ?> href="<?= base_url('admincontrol/award_level') ?>">
 
-            <i class="bi bi-award"></i>
+            <i class="bi bi-bar-chart-line"></i>
 
             <?= __('admin.award_level') ?>
 
@@ -206,117 +343,7 @@ $sidebar_data = array(
 
             <?= __('Thưởng Chi nhánh') ?></a>
 
-          <a class="dropdown-item" href="<?= base_url('admincontrol/condition') ?>">
 
-            <i class="bi bi-clipboard2-data-fill"></i>
-
-            <?= __('Cài đặt Thưởng') ?></a>
-
-          <a class="dropdown-item" href="<?= base_url('admincontrol/commission') ?>">
-
-            <i class="bi bi-clipboard2-data-fill"></i>
-
-            <?= __('Tính Thưởng') ?></a>
-
-          <a class="dropdown-item" href="<?= base_url('admincontrol/affiliate_theme') ?>">
-
-            <i class="bi bi-palette"></i>
-
-            <?= __('admin.affiliate_theme') ?></a>
-
-          <a class="dropdown-item" href="<?= base_url('admincontrol/language') ?>">
-
-            <i class="bi bi-translate"></i>
-
-            <?= __('admin.menu_language') ?></a>
-
-
-
-          <a class="dropdown-item" href="<?= base_url('admincontrol/currency_list') ?>">
-
-            <i class="bi bi-coin"></i>
-
-            <?= __('admin.menu_currency') ?></a>
-
-
-
-          <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/system_status') ?>">
-
-                  <i class="bi bi-life-preserver"></i>
-
-                  <?= __('admin.server') ?></a> -->
-
-
-
-          <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/cron') ?>">
-
-                  <i class="bi bi-folder-symlink"></i>
-
-                  <?= __('admin.cron_job') ?></a> -->
-
-
-
-          <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/todolist') ?>">
-
-                  <i class="bi bi-check2-all"></i>
-
-                  <?= __('admin.menu_to_do_list') ?></a> -->
-
-
-
-          <a class="dropdown-item" href="<?= base_url('admincontrol/tickets') ?>">
-
-            <i class="bi bi-ticket"></i>
-
-            <?= __('admin.menu_tickets') ?></a>
-
-
-
-          <a class="dropdown-item" href="<?= base_url('admincontrol/countries_and_states') ?>">
-
-            <i class="bi bi-flag"></i>
-
-            <?= __('admin.countries_and_states') ?></a>
-
-
-
-          <!-- <a class="dropdown-item" target= "_blank" href="<?= base_url('/api-document') ?>">
-
-                  <i class="bi bi-file-code"></i>
-
-                  <?= __('admin.user_api') ?></a> -->
-
-
-
-          <a class="dropdown-item" href="<?= base_url('admincontrol/tutorial') ?>">
-
-            <i class="bi bi-file-person"></i>
-
-            <?= __('admin.tutorial') ?></a>
-
-
-
-          <!-- <a class="dropdown-item" target="_blank" href="<?= base_url('debug/sysupdatereport') ?>">
-
-                  <i class="bi bi-flag"></i>
-
-                  <?= __('admin.system_update_logs') ?></a> -->
-
-
-
-          <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/troubleshoot') ?>">
-
-                  <i class="bi bi-tropical-storm"></i>
-
-                  <?= __('admin.troubleshoot') ?></a> -->
-
-
-
-          <!-- <a class="dropdown-item" target="_blank" href="<?= base_url('/sitemap.xml') ?>">
-
-                  <i class="bi bi-map"></i>
-
-                  <?= __('admin.sitemap') ?></a> -->
 
         </div>
 
@@ -551,9 +578,6 @@ $sidebar_data = array(
       </li>
 
 
-
-
-
       <li id="sidebar_market_tools" class="nav-item dropdown" <?= $sidebar_data['market_tools_is_enable'] == 0 ? 'style="display:none;"' : ''; ?>>
 
         <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -654,21 +678,21 @@ $sidebar_data = array(
 
           </a>
 
-          <!-- <a class="dropdown-item" href="<?= base_url('reportController/admin_transaction') ?>">
+          <a class="dropdown-item" href="<?= base_url('reportController/admin_transaction') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.menu_report_transactions') ?>
+            <?= __('admin.menu_report_transactions') ?>
 
-                </a> -->
+          </a>
 
-          <!-- <a class="dropdown-item" href="<?= base_url('reportController/admin_statistics') ?>">
+          <a class="dropdown-item" href="<?= base_url('reportController/admin_statistics') ?>">
 
-                  <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-sliders-h"></i>
 
-                  <?= __('admin.menu_report_graphs') ?>
+            <?= __('admin.menu_report_graphs') ?>
 
-                </a> -->
+          </a>
 
         </div>
 

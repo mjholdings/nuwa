@@ -3912,6 +3912,7 @@ class Admincontrol extends MY_Controller {
 
 	public function create_branch() {
 		$userdetails = $this->userdetails();
+		$ref = $this->input->get('ref'); // Lấy giá trị ref từ URL
 
 		if ($this->input->method() == 'post') {
 			$result['status'] = 0;
@@ -3926,6 +3927,10 @@ class Admincontrol extends MY_Controller {
 				$insert['phone'] = $this->input->post('phone', true);
 				$insert['location'] = $this->input->post('location', true);
 				$insert['is_default'] = $this->input->post('is_default', true);
+				$insert['con_revenue_branch'] = $this->input->post('con_revenue_branch', true);
+				$insert['con_revenue_branch_total'] = $this->input->post('con_revenue_branch_total', true);
+				$insert['sale_commission_rate'] = $this->input->post('sale_commission_rate', true);
+				$insert['sale_commission_fixed'] = $this->input->post('sale_commission_fixed', true);
 
 				$success = true;
 
@@ -3949,6 +3954,7 @@ class Admincontrol extends MY_Controller {
 
 	public function update_branch($id) {
 		$userdetails = $this->userdetails();
+		$ref = $this->input->get('ref'); // Lấy giá trị ref từ URL
 
 		if (isset($id)) {
 			$id = (int) $id;
@@ -3969,6 +3975,10 @@ class Admincontrol extends MY_Controller {
 							$update['phone'] = $this->input->post('phone', true);
 							$update['location'] = $this->input->post('location', true);
 							$update['is_default'] = $this->input->post('is_default', true);
+							$update['con_revenue_branch'] = $this->input->post('con_revenue_branch', true);
+							$update['con_revenue_branch_total'] = $this->input->post('con_revenue_branch_total', true);
+							$update['sale_commission_rate'] = $this->input->post('sale_commission_rate', true);
+							$update['sale_commission_fixed'] = $this->input->post('sale_commission_fixed', true);
 							$success = true;
 
 							if ($success) {
@@ -3988,18 +3998,21 @@ class Admincontrol extends MY_Controller {
 
 					$this->view($data, 'branch/update');
 				} else {
-					redirect('admincontrol/branch');
+					redirect('admincontrol/' . $ref);
 				}
 			} else {
-				redirect('admincontrol/branch');
+				redirect('admincontrol/' . $ref);
 			}
 		} else {
-			redirect('admincontrol/branch');
+			redirect('admincontrol/' . $ref);
 		}
 	}
 
 	public function delete_branch($id) {
 		$userdetails = $this->userdetails();
+		$ref = $this->input->get('ref'); // Lấy giá trị ref từ URL
+
+
 		$result['status'] = 0;
 		$result['message'] = __('admin.something_went_wrong');
 
@@ -4200,8 +4213,11 @@ class Admincontrol extends MY_Controller {
 				$insert['con_revenue_personal'] = $this->input->post('con_revenue_personal', true);
 				$insert['con_revenue_members'] = $this->input->post('con_revenue_members', true);
 				$insert['con_revenue_direct_members'] = $this->input->post('con_revenue_direct_members', true);
+				$insert['con_revenue_indirect_members'] = $this->input->post('con_revenue_indirect_members', true);
 				$insert['con_revenue_total'] = $this->input->post('con_revenue_total', true);
+				$insert['con_revenue_team'] = $this->input->post('con_revenue_team', true);
 				$insert['con_refer_number'] = $this->input->post('con_refer_number', true);
+				$insert['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 				$insert['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
 				$insert['con_and'] = $this->input->post('con_and', true);
 				$insert['sale_commission_rate'] = $this->input->post('sale_commission_rate', true);
@@ -4250,8 +4266,11 @@ class Admincontrol extends MY_Controller {
 							$update['con_revenue_personal'] = $this->input->post('con_revenue_personal', true);
 							$update['con_revenue_members'] = $this->input->post('con_revenue_members', true);
 							$update['con_revenue_direct_members'] = $this->input->post('con_revenue_direct_members', true);
+							$update['con_revenue_indirect_members'] = $this->input->post('con_revenue_indirect_members', true);
 							$update['con_revenue_total'] = $this->input->post('con_revenue_total', true);
+							$update['con_revenue_team'] = $this->input->post('con_revenue_team', true);
 							$update['con_refer_number'] = $this->input->post('con_refer_number', true);
+							$update['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 							$update['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
 							$update['con_and'] = $this->input->post('con_and', true);
 							$update['sale_commission_rate'] = $this->input->post('sale_commission_rate', true);

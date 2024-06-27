@@ -54,18 +54,18 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-3"> <label class="form-label">
-                                    <?= __('Doanh thu cá nhân (theo chu kỳ)') ?>
-                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu nhánh theo chu kỳ') ?>"></span>
+                                    <?= __('Doanh thu chi nhánh') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu chi nhánh yêu cầu') ?>"></span>
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
-                                    <input type="number" class="form-control" name="con_revenue_branch" min="0" step="0.01" placeholder="<?= __('Nhập doanh thu nhánh yêu cầu') ?>">
+                                    <input type="number" class="form-control" name="con_revenue_branch" min="0" step="0.01" placeholder="<?= __('Nhập doanh thu chi nhánh yêu cầu') ?>">
                                 </div>
                                 <p class="error-message"></p>
                             </div>
                             <div class="col-md-6 mb-3"> <label class="form-label">
                                     <?= __('Doanh thu tổng cộng') ?>
-                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tổng doanh thu nhánh') ?>"></span>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tổng doanh thu chi nhánh yêu cầu') ?>"></span>
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
@@ -83,7 +83,7 @@
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text refer-reg-symball">%</span>
-                                    <input type="number" class="form-control" name="sale_comission_rate" min="0" step="0.01" placeholder="<?= __('Thưởng Hoa hồng') ?>">
+                                    <input type="number" class="form-control" name="sale_commission_rate" min="0" step="0.01" placeholder="<?= __('Thưởng Hoa hồng') ?>">
                                 </div>
                                 <p class="error-message"></p>
                             </div>
@@ -94,7 +94,7 @@
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text refer-reg-symball">%</span>
-                                    <input type="number" class="form-control" name="sale_comission_fixed" min="0" step="1" placeholder="<?= __('Thưởng cứng') ?>">
+                                    <input type="number" class="form-control" name="sale_commission_fixed" min="0" step="1" placeholder="<?= __('Thưởng cứng') ?>">
                                 </div>
                                 <p class="error-message"></p>
                             </div>
@@ -111,7 +111,9 @@
         </div>
     </div>
     </div>
-
+    <?php
+    $ref = $this->input->get('ref'); // Lấy giá trị ref từ URL  
+    ?>
     <script type="text/javascript">
         $("button[type='submit']").on('click', function(e) {
             e.preventDefault();
@@ -141,7 +143,7 @@
                             let redirect = $this.data('redirect');
                             if (redirect) {
                                 setTimeout(function() {
-                                    window.location = '<?= base_url("admincontrol/branch") ?>';
+                                    window.location = '<?= base_url("admincontrol/" . $ref) ?>';
                                 }, 1000);
                             }
                         } else {

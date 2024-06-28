@@ -23,7 +23,7 @@
 
                 <div class="col-sm-12">
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane p-3 active show" id="vendor_permission_setting">
+                        <div role="tabpanel" class="tab-pane py-3 active show" id="vendor_permission_setting">
                             <div class="form-group">
                                 <div class="text-wrap rounded bg-info text-white mb-2 px-2 py-1">
                                     <?= __('BẬT/TẮT những loại Thưởng sẽ áp dụng cho Thành viên') ?>
@@ -339,7 +339,7 @@
 
                             </div>
                         </div>
-                        <div class="tab-pane p-3" id="market_vendor-setting" role="tabpanel">
+                        <div class="tab-pane py-3" id="market_vendor-setting" role="tabpanel">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="card h-100">
@@ -761,13 +761,13 @@
 
                         </div>
 
-                        <div role="tabpanel" class="tab-pane p-3" id="vendor_deposite_setting">
+                        <div role="tabpanel" class="tab-pane py-3" id="vendor_deposite_setting">
                             <div class="form-group">
 
                                 <h6>
                                     <div class="mybadge bg-info text-white mb-2 text-wrap rounded px-2 py-1 vendor-deposit-on-message <?= ($vendor['depositstatus']) ? '' : 'd-none' ?>">
                                         <?= __('Thưởng lên cấp đang được Áp dụng. Cài đặt chi tiết về % thưởng mỗi khi lên cấp vào phần Nhảy cấp cài đặt.') ?>
-                                        <p class="mt-3"><a href="/admincontrol/award_level">Cài đặt nhảy cấp ở đây</a></p>
+                                        <p class="mt-3"><a class="btn btn-secondary" href="<?= base_url('admincontrol/award_level'); ?>">Cài đặt nhảy cấp ở đây</a></p>
                                     </div>
                                 </h6>
 

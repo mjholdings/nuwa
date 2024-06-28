@@ -11,7 +11,7 @@
                             <a class="nav-link active bg-secondary show" data-bs-toggle="tab" href="#market_vendor-setting" role="tab"><?= __('Thưởng Duy Trì') ?></a>
                         </li>
                         <li class="nav-item flex-sm-fill text-sm-center">
-                            <a class="nav-link" href="#vendor_setting" role="tab" data-bs-toggle="tab"><?= __('Thưởng Nhóm') ?></a>
+                            <a class="nav-link" href="#vendor_setting" role="tab" data-bs-toggle="tab"><?= __('Thưởng Nhóm - Hệ Thống') ?></a>
                         </li>
                         <li class="nav-item flex-sm-fill text-sm-center">
                             <a class="nav-link" href="#vendor_deposite_setting" role="tab" data-bs-toggle="tab"><?= __('Thưởng Đồng Chia') ?></a>
@@ -24,19 +24,19 @@
 
                 <div class="col-sm-12">
                     <div class="tab-content">
-                        <div class="tab-pane p-3 active show" id="market_vendor-setting" role="tabpanel">
+                        <div class="tab-pane py-3 active show" id="market_vendor-setting" role="tabpanel">
                             <div class="form-group">
-                                <label class="control-label"><?= __('admin.vendor_status') ?></label>
+                                <label class="control-label"><?= __('Kích hoạt') ?></label>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['marketvendorstatus'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="marketvendorstatus" data-setting_type="market_vendor">
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <div class="card h-100">
                                         <div class="card-header bg-secondary text-white text-center">
-                                            <h5><?= __('admin.admin_sale_settings_from_vendors') ?>
+                                            <h5><?= __('Chính sách thưởng duy trì Doanh số - Tuyển dụng') ?>
                                             </h5>
                                         </div>
 
@@ -44,18 +44,97 @@
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
-                                                        <label class="control-label"><?= __('admin.commission_type') ?></label>
-                                                        <select name="market_vendor[commission_type]" class="form-control">
-                                                            <option value=""><?= __('admin.select_product_commission_type') ?></option>
-                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
-                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
-                                                        </select>
+                                                        <label class="control-label">
+                                                            <?= __('Duy trì theo tháng') ?>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text currency-symbol">#</span>
+                                                            </div>
+                                                            <input class="form-control" name="market_vendor[commission_sale]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_sale'] : '' ?>">
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">
-                                                            <?= __('admin.commission_for_sale') ?>
+                                                            <?= __('Duy trì theo ngày') ?>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text currency-symbol">#</span>
+                                                            </div>
+                                                            <input class="form-control" name="market_vendor[commission_sale]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_sale'] : '' ?>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3 py-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Điều kiện doanh thu') ?></label>
+                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn loại doanh thu') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('Doanh thu Cá nhân') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('Doanh thu Trực tiếp') ?></option>
+                                                            <option value=""><?= __('Doanh thu Gián tiếp') ?></option>
+                                                            <option value=""><?= __('Doanh thu tuyến Dưới') ?></option>
+                                                            <option value=""><?= __('Doanh thu Nhóm') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3 py-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            <?= __('Mục tiêu') ?>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text currency-symbol">
+                                                                    <?= ($market_vendor['commission_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
+                                                                </span>
+                                                            </div>
+                                                            <input class="form-control" name="market_vendor[commission_sale]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_sale'] : '' ?>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3 py-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Điều kiện tuyển dụng') ?></label>
+                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn loại tuyển dụng') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('Tuyển trực tiếp') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('Tuyển gián tiếp') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('Tuyển tuyến dưới') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3 py-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            <?= __('Số lượng mục tiêu') ?>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text currency-symbol">#</span>
+                                                            </div>
+                                                            <input class="form-control" name="market_vendor[commission_sale]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_sale'] : '' ?>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6 py-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Loại Hoa hồng') ?></label>
+                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn loại Hoa hồng') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            <?= __('Thưởng Hoa hồng') ?>
                                                         </label>
                                                         <div class="input-group">
                                                             <div class="input-group-prepend">
@@ -68,173 +147,202 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="form-group">
-                                                <label class="control-label"><?= __('admin.sale_status') ?></label>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['sale_status'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="sale_status" data-setting_type="market_vendor">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class="card h-100">
-                                        <div class="card-header bg-secondary text-white text-center">
-                                            <h5 class="text-center"><?= __('admin.admin_click_settings_from_vendors') ?></h5>
-                                        </div>
-
-                                        <div class="card-body">
-
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="control-label"><?= __('admin.click_allow') ?></label>
-                                                        <select name="market_vendor[click_allow]" class="form-control">
-                                                            <option <?php if ($market_vendor['click_allow'] == 'single') { ?> selected <?php } ?> value="single"><?= __('admin.allow_single_click') ?></option>
-                                                            <option <?php if ($market_vendor['click_allow'] == 'multiple') { ?> selected <?php } ?> value="multiple"><?= __('admin.allow_multi_click') ?></option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label"><?= __('admin.number_of_click') ?></label>
-                                                        <input class="form-control" name="market_vendor[commission_number_of_click]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_number_of_click'] : '' ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label"><?= __('admin.amount_per_click') ?></label>
-                                                        <div class="input-group">
-                                                            <div class="currency-symbol"><?= $CurrencySymbol ?></div>
-                                                            <input class="form-control" name="market_vendor[commission_click_commission]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_click_commission'] : '' ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="form-group">
-                                                <label class="control-label"><?= __('admin.click_status') ?></label>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['click_status'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="click_status" data-setting_type="market_vendor">
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div role="tabpanel" class="tab-pane p-3" id="vendor_setting">
-                            <div class="form-group">
-                                <label class="control-label"><?= __('admin.vendor_status') ?></label>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input update_all_settings" type="checkbox" <?= $vendor['storestatus'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="storestatus" data-setting_type="vendor">
-                                </div>
-                            </div>
+                        <div role="tabpanel" class="tab-pane py-3" id="vendor_setting">
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label"><?= __('Kích hoạt') ?></label>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input update_all_settings" type="checkbox" <?= $vendor['storestatus'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="storestatus" data-setting_type="vendor">
+                                        </div>
+                                    </div>
                                     <div class="card">
                                         <div class="card-header bg-secondary text-white text-center">
                                             <h5 class="text-center">
-                                                <?= __('admin.store_admin_fee_settings_from_vendors') ?></h5>
+                                                <?= __('Chính sách Thưởng Doanh Thu Nhóm') ?></h5>
                                         </div>
-
                                         <div class="card-body">
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-sm-5">
-                                                        <label class="control-label"><?= __('admin.click_commission'); ?></label>
-                                                        <div class="form-group">
-                                                            <div class="input-group mt-2">
-                                                                <div class="input-group-prepend"><span class="input-group-text">
-                                                                        <?= __('admin.click'); ?></span></div>
-                                                                <input name="vendor[admin_click_count]" class="form-control" value="<?php echo $vendor['admin_click_count']; ?>" type="text" placeholder='<?= __('admin.clicks'); ?>'>
+                                            <div class="row">
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Điều kiện hưởng doanh thu') ?></label>
+                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn loại doanh thu') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('Doanh thu Cá nhân') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('Doanh thu Trực tiếp') ?></option>
+                                                            <option value=""><?= __('Doanh thu Gián tiếp') ?></option>
+                                                            <option value=""><?= __('Doanh thu tuyến Dưới') ?></option>
+                                                            <option value=""><?= __('Doanh thu Nhóm') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            <?= __('Doanh thu mục tiêu') ?>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text currency-symbol">
+                                                                    <?= ($market_vendor['commission_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
+                                                                </span>
                                                             </div>
+                                                            <input class="form-control" name="market_vendor[commission_sale]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_sale'] : '' ?>">
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-5">
-                                                        <div class="form-group">
-                                                            <label class="control-label m-0 d-block">&nbsp;</label>
-                                                            <div class="input-group mt-2">
-                                                                <div class="currency-symbol mt-2"><?= $CurrencySymbol ?></div>
-                                                                <input name="vendor[admin_click_amount]" class="form-control mt-2" value="<?php echo c_format($vendor['admin_click_amount'], false); ?>" type="number" placeholder='<?= __('admin.amount'); ?>'>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Điều kiện tuyển dụng') ?></label>
+                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn loại tuyển dụng') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('Tuyển trực tiếp') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('Tuyển gián tiếp') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('Tuyển tuyến dưới') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            <?= __('Số lượng mục tiêu') ?>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text currency-symbol">#</span>
                                                             </div>
+                                                            <input class="form-control" name="market_vendor[commission_sale]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_sale'] : '' ?>">
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-2">
-                                                        <div class="form-group">
-                                                            <label class="control-label"><?= __('admin.status') ?></label>
-                                                            <div class="form-check form-switch">
-                                                                <input class="form-check-input update_all_settings" type="checkbox" <?= $vendor['admin_click_status'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="admin_click_status" data-setting_type="vendor">
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                </div>
 
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Loại Hoa hồng từ Doanh thu Nhóm') ?></label>
+                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn loại Hoa hồng') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            <?= __('Thưởng Hoa hồng') ?>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text currency-symbol">
+                                                                    <?= ($market_vendor['commission_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
+                                                                </span>
+                                                            </div>
+                                                            <input class="form-control" name="market_vendor[commission_sale]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_sale'] : '' ?>">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-sm-5">
-                                                        <label class="control-label"><?= __('admin.sale_commission'); ?></label>
-                                                        <div>
-                                                            <?php
-                                                            $commission_type = array(
-                                                                'percentage' => __('admin.percentage'),
-                                                                'fixed'      => __('admin.fixed'),
-                                                            );
-                                                            ?>
-                                                            <select name="vendor[admin_sale_commission_type]" class="form-control admin_sale_commission_type">
-                                                                <?php foreach ($commission_type as $key => $value) { ?>
-                                                                    <option <?= $vendor['admin_sale_commission_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
-                                                                <?php } ?>
-                                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label"><?= __('Kích hoạt') ?></label>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input update_all_settings" type="checkbox" <?= $vendor['storestatus'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="storestatus" data-setting_type="vendor">
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header bg-secondary text-white text-center">
+                                            <h5 class="text-center">
+                                                <?= __('Chính sách Thưởng Doanh Thu Toàn Hệ Thống') ?></h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Điều kiện hưởng doanh thu') ?></label>
+                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn loại doanh thu') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('Doanh thu Cá nhân') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('Doanh thu Trực tiếp') ?></option>
+                                                            <option value=""><?= __('Doanh thu Gián tiếp') ?></option>
+                                                            <option value=""><?= __('Doanh thu tuyến Dưới') ?></option>
+                                                            <option value=""><?= __('Doanh thu Nhóm') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            <?= __('Doanh thu mục tiêu') ?>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text currency-symbol">
+                                                                    <?= ($market_vendor['commission_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
+                                                                </span>
+                                                            </div>
+                                                            <input class="form-control" name="market_vendor[commission_sale]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_sale'] : '' ?>">
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-5">
-                                                        <div class="toggle-container">
-                                                            <div class="percentage-value d-none">
-                                                                <div class="form-group">
-                                                                    <label class="control-label m-0 d-block">&nbsp;</label>
-                                                                    <div class="input-group">
-                                                                        <div class="currency-symbol mt-2"><?= $vendor['admin_sale_commission_type'] == 'percentage' ? '%' : $CurrencySymbol ?></div>
-                                                                        <input name="vendor[admin_commission_value]" id="admin_commission_value" class="form-control mt-2" value="<?php echo $vendor['admin_commission_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Điều kiện tuyển dụng') ?></label>
+                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn loại tuyển dụng') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('Tuyển trực tiếp') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('Tuyển gián tiếp') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('Tuyển tuyến dưới') ?></option>
+                                                        </select>
                                                     </div>
-                                                    <div class="col-sm-2">
-                                                        <div class="form-group">
-                                                            <label class="control-label"><?= __('admin.status') ?></label>
-                                                            <div class="form-check form-switch">
-                                                                <input class="form-check-input update_all_settings" type="checkbox" <?= $vendor['admin_sale_status'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="admin_sale_status" data-setting_type="vendor">
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            <?= __('Số lượng mục tiêu') ?>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text currency-symbol">#</span>
                                                             </div>
+                                                            <input class="form-control" name="market_vendor[commission_sale]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_sale'] : '' ?>">
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <script type="text/javascript">
-                                                    $("select.admin_sale_commission_type").on("change", function() {
-                                                        $con = $(this).parents(".form-group");
-                                                        $con.find(".toggle-container .percentage-value, .toggle-container .default-value").addClass('d-none');
-                                                        if ($(this).val() == 'default') {
-                                                            $con.find(".toggle-container .default-value").removeClass("d-none");
-                                                        } else {
-                                                            $con.find(".toggle-container .percentage-value").removeClass("d-none");
-                                                        }
-
-                                                        if ($(this).val() == 'percentage')
-                                                            $("input[name='vendor[admin_commission_value]']").siblings('.currency-symbol').text('%');
-                                                        else
-                                                            $("input[name='vendor[admin_commission_value]']").siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
-                                                    })
-
-                                                    $("select.admin_sale_commission_type").trigger("change");
-                                                </script>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Loại Hoa hồng từ Doanh thu Nhóm') ?></label>
+                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn loại Hoa hồng') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            <?= __('Thưởng Hoa hồng') ?>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text currency-symbol">
+                                                                    <?= ($market_vendor['commission_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
+                                                                </span>
+                                                            </div>
+                                                            <input class="form-control" name="market_vendor[commission_sale]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_sale'] : '' ?>">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -242,155 +350,157 @@
                             </div>
                         </div>
 
-                        <div role="tabpanel" class="tab-pane p-3" id="vendor_deposite_setting">
+                        <div role="tabpanel" class="tab-pane py-3" id="vendor_deposite_setting">
                             <div class="form-group">
-
-                                <h5>
+                                <h6>
                                     <div class="mybadge bg-info text-white mb-2 text-wrap rounded px-2 py-1 vendor-deposit-on-message <?= ($vendor['depositstatus']) ? '' : 'd-none' ?>">
-                                        <?= __('admin.vendor_deposit_on_message') ?>
+                                        <?= __('Đang bật áp dụng thưởng đồng chia cho các thành viên đạt điều kiện Cấp bậc - Doanh số - Tuyển dụng') ?>
                                     </div>
-                                </h5>
+                                </h6>
 
-                                <h5>
+                                <h6>
                                     <div class="mybadge bg-danger text-white rounded mb-2 text-wrap px-2 py-1 vendor-deposit-off-message <?= ($vendor['depositstatus']) ? 'd-none' : '' ?>">
-                                        <?= __('admin.vendor_deposit_off_message') ?>
+                                        <?= __('Đang không áp dụng thưởng đồng chia') ?>
                                     </div>
-                                </h5>
-
-                                <label class="control-label">
-                                    <?= __('admin.vendor_status') ?>
-                                </label>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input update_all_settings" type="checkbox" <?= $vendor['depositstatus'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="depositstatus" data-setting_type="vendor">
-                                </div>
+                                </h6>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label"><?= __('admin.vendor_min_deposit') ?></label>
-                                <div class="input-group">
-                                    <div class="currency-symbol"><?= $CurrencySymbol ?></div>
-                                    <input name="site[vendor_min_deposit]" value="<?php echo empty($site['vendor_min_deposit']) ? 0 : $site['vendor_min_deposit']; ?>" class="form-control" type="number">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label"><?= __('Kích hoạt') ?></label>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input update_all_settings" type="checkbox" <?= $vendor['storestatus'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="storestatus" data-setting_type="vendor">
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header bg-secondary text-white text-center">
+                                            <h5 class="text-center">
+                                                <?= __('Chính sách đồng chia') ?></h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-4 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Nguồn trả thưởng đồng chia') ?></label>
+                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn nguồn trả thưởng') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('Doanh thu Toàn hệ thống') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('Doanh thu Chi nhánh') ?></option>
+                                                            <option value=""><?= __('Doanh thu Nhánh') ?></option>
+                                                            <option value=""><?= __('Doanh thu Nhóm') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Người được hưởng đồng chia') ?></label>
+                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn người hưởng') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('Mọi người') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('Thành viên Chi nhánh') ?></option>
+                                                            <option value=""><?= __('Thành viên Nhánh') ?></option>
+                                                            <option value=""><?= __('Thành viên Nhóm') ?></option>
+                                                            <option value=""><?= __('Thành viên Cấp') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Chọn cấp ') ?></label>
+                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn người hưởng') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('Mọi người') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('Thành viên Chi nhánh') ?></option>
+                                                            <option value=""><?= __('Thành viên Nhánh') ?></option>
+                                                            <option value=""><?= __('Thành viên Nhóm') ?></option>
+                                                            <option value=""><?= __('Thành viên Cấp') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Điều kiện hưởng đồng chia') ?></label>
+                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn điều kiện doanh thu') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('Doanh thu Cá nhân') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('Doanh thu Trực tiếp') ?></option>
+                                                            <option value=""><?= __('Doanh thu Gián tiếp') ?></option>
+                                                            <option value=""><?= __('Doanh thu tuyến Dưới') ?></option>
+                                                            <option value=""><?= __('Doanh thu Nhóm') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            <?= __('Doanh thu mục tiêu') ?>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text currency-symbol">
+                                                                    <?= ($market_vendor['commission_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
+                                                                </span>
+                                                            </div>
+                                                            <input class="form-control" name="market_vendor[commission_sale]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_sale'] : '' ?>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Điều kiện tuyển dụng đồng chia') ?></label>
+                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn điều kiện tuyển dụng') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('Tuyển trực tiếp') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('Tuyển gián tiếp') ?></option>
+                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('Tuyển tuyến dưới') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            <?= __('Số lượng mục tiêu') ?>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text currency-symbol">#</span>
+                                                            </div>
+                                                            <input class="form-control" name="market_vendor[commission_sale]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_sale'] : '' ?>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
 
-                        <div role="tabpanel" class="tab-pane p-3" id="vendor_permission_setting">
+                        <div role="tabpanel" class="tab-pane py-3" id="vendor_permission_setting">
                             <div class="form-group">
                                 <div class="text-wrap rounded bg-info text-white mb-2 px-2 py-1">
-                                    <?= __('admin.admin_approval_for_vendor') ?>
+                                    <?= __('Cài đặt các cấu hình và chính sách cho tính Thưởng khác.') ?>
                                 </div>
                                 <div class="form-group row mt-4">
-                                    <label class="control-label col-sm-2">
-                                        <?= __('admin.vendor_market_tool') ?>
-                                    </label>
-                                    <label class="control-label col-sm-3">
-                                        <?= __('admin.vendor_add_new_program') ?>
+                                    <label class="control-label col-sm-5">
+                                        <?= __('Tính hoa hồng doanh thu sau chiết khấu') ?>
                                     </label>
                                     <div class="form-check form-switch col-sm-2">
                                         <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['marketaddnewprogram'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="marketaddnewprogram" data-setting_type="market_vendor">
                                     </div>
                                 </div>
                                 <div class="form-group row mt-4">
-                                    <label class="control-label col-sm-2">
-                                        <?= __('admin.vendor_market_tool') ?>
-                                    </label>
-                                    <label class="control-label col-sm-3">
-                                        <?= __('admin.vendor_add_new_campaign') ?>
+                                    <label class="control-label col-sm-5">
+                                        <?= __('Tính hoa hồng doanh thu sau thuế') ?>
                                     </label>
                                     <div class="form-check form-switch col-sm-2">
                                         <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['marketaddnewcampaign'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="marketaddnewcampaign" data-setting_type="market_vendor">
                                     </div>
                                 </div>
-                                <div class="form-group row mt-4">
-                                    <label class="control-label col-sm-2">
-                                        <?= __('admin.vendor_market_tool') ?>
-                                    </label>
-                                    <label class="control-label col-sm-3">
-                                        <?= __('admin.vendor_external_order_campaign') ?>
-                                    </label>
-                                    <div class="form-check form-switch col-sm-2">
-                                        <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['marketvendorexternalordercampaign'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="marketvendorexternalordercampaign" data-setting_type="market_vendor">
-                                    </div>
-                                </div>
-                                <div class="form-group row mt-4">
-                                    <label class="control-label col-sm-2">
-                                        <?= __('admin.vendor_market_tool') ?>
-                                    </label>
-                                    <label class="control-label col-sm-3">
-                                        <?= __('admin.vendor_actions_campaign') ?>
-                                    </label>
-                                    <div class="form-check form-switch col-sm-2">
-                                        <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['marketvendoractionscampaign'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="marketvendoractionscampaign" data-setting_type="market_vendor">
-                                    </div>
-                                </div>
-                                <div class="form-group row mt-4">
-                                    <label class="control-label col-sm-2">
-                                        <?= __('admin.vendor_market_tool') ?>
-                                    </label>
-                                    <label class="control-label col-sm-3">
-                                        <?= __('admin.vendor_click_campaign') ?>
-                                    </label>
-                                    <div class="form-check form-switch col-sm-2">
-                                        <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['marketvendorclickcampaign'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="marketvendorclickcampaign" data-setting_type="market_vendor">
-                                    </div>
-                                </div>
-                                <div class="form-group row mt-4">
-                                    <label class="control-label col-sm-2">
-                                        <?= __('admin.vendor_store_tool') ?>
-                                    </label>
-                                    <label class="control-label col-sm-3">
-                                        <?= __('admin.vendor_add_new_store_product') ?>
-                                    </label>
-                                    <div class="form-check form-switch col-sm-2">
-                                        <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['marketaddnewstoreproduct'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="marketaddnewstoreproduct" data-setting_type="market_vendor">
-                                    </div>
-                                </div>
 
-                                <div class="form-group row mt-4">
-                                    <label class="control-label col-sm-2">
-                                        <?= __('admin.vendor_store_review_') ?>
-                                    </label>
-                                    <label class="control-label col-sm-3">
-                                        <?= __('admin.allow_vendor_manage_review') ?>
-                                    </label>
-                                    <div class="form-check form-switch col-sm-2">
-                                        <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['vendormanagereview'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="vendormanagereview" data-setting_type="market_vendor">
-                                    </div>
-                                </div>
-                                <div class="form-group row mt-4">
-                                    <label class="control-label col-sm-2">
-                                        <?= __('admin.vendor_store_review_image') ?>
-                                    </label>
-                                    <label class="control-label col-sm-3">
-                                        <?= __('admin.allow_vendor_manage_review_image') ?>
-                                    </label>
-                                    <div class="form-check form-switch col-sm-2">
-                                        <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['vendormanagereviewimage'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="vendormanagereviewimage" data-setting_type="market_vendor">
-                                    </div>
-                                </div>
 
-                                <div class="form-group row mt-4">
-                                    <label class="control-label col-sm-2">
-                                        <?= __('admin.vendor_mlm_module') ?>
-                                    </label>
-                                    <label class="control-label col-sm-3">
-                                        <?= __('admin.allow_vendor_mlm_module') ?>
-                                    </label>
-                                    <div class="form-check form-switch col-sm-2">
-                                        <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['vendormlmmodule'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="vendormlmmodule" data-setting_type="market_vendor">
-                                    </div>
-                                </div>
 
-                                <div class="form-group row mt-4">
-                                    <label class="control-label col-sm-2">
-                                        <?= __('admin.vendor_panel_sections') ?>
-                                    </label>
-                                    <label class="control-label col-sm-3">
-                                        <?= __('admin.enable_disable_marketlinks_topaffs_section') ?>
-                                    </label>
-                                    <div class="form-check form-switch col-sm-2">
-                                        <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['marketvendorpanelmode'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="marketvendorpanelmode" data-setting_type="market_vendor">
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
@@ -506,51 +616,3 @@
         })
     });
 </script>
-
-
-<h2>Cài đặt Thưởng (Chức - Sao - Chi nhánh)</h2>
-<ul>
-    <li>Thưởng duy trì liên tiếp => Điều kiện trong các kỳ tính hoa hồng
-        <ul>
-            <li>Trong n tháng liên tiếp</li>
-            <li>Duy trì (x) doanh số A, B, C, E, F (cá nhân, gián tiếp, trực tiếp, tuyến dưới, nhóm) và / hoặc</li>
-            <li>Duy trì (n) số lượng tuyển dụng (trực tiếp, gián tiếp, tuyến dưới)</li>
-            <li>Được trả Fixed thưởng</li>
-        </ul>
-    </li>
-    <li>Thưởng nhóm => Điều kiện trong các kỳ tính hoa hồng
-        <ul>
-            <li>Duy trì (x) doanh số A, B, C, E, F (cá nhân, gián tiếp, trực tiếp, tuyến dưới, nhóm) và / hoặc</li>
-            <li>Duy trì (n) số lượng tuyển dụng (trực tiếp, gián tiếp, tuyến dưới)</li>
-            <li>Được trả Fixed thưởng</li>
-        </ul>
-    </li>
-    <li>Thưởng doanh số toàn hệ thống (đồng chia)
-        <ul>
-            <li>Điều kiện member đạt một trong các điều kiện</li>
-            <li>Tất cả thành viên đạt điều kiện/ Thành viên nhóm đạt điều kiện / Thành viên cùng cấp đạt / Thành viên thuộc nhóm đạt</li>
-            <li>Thành viên duy trì (x) doanh số A, B, C, E, F (cá nhân, gián tiếp, trực tiếp, tuyến dưới, nhóm) và / hoặc</li>
-            <li>Thành viên duy trì (n) số lượng tuyển dụng (trực tiếp, gián tiếp, tuyến dưới)</li>
-            <li>Đồng chia từ chia đều cho Thành viên đạt
-                <ul>
-                    <li>TBC Đồng chia toàn bộ (hệ thống)</li>
-                    <li>TBC Đồng chia cùng cấp (ngang)</li>
-                    <li>TBC Đồng chia đội nhóm (dọc - tính từ bản thân mời trực tiếp và gián tiếp)</li>
-                    <li>TBC Đồng chia nhánh (từ cấp 0 gốc mà bản thân được mời)</li>
-                    <li>TBC Đồng chia chi nhánh (shop - gian hàng)</li>
-                </ul>
-            </li>
-        </ul>
-    </li>
-    <li>Tách nhánh
-        <ul>
-            <li>Điều kiện tách nhánh (đạt doanh thu, đạt mời số lượng member)</li>
-            <li>Tách nhánh thì người bảo trợ không còn nhận hoa hồng từ người tách nhánh (người mời vào hệ thống trước đó ấy)</li>
-            <li>Và các thành viên cấp dưới sẽ đi theo</li>
-        </ul>
-    </li>
-    <li>Tính (doanh thu, mời) theo tháng / năm / quý</li>
-    <li>Tính hoa hồng từ sau thuế / trước thuế</li>
-    <li>Tính hoa hồng từ doanh thu trước chiết khấu / sau chiết khấu</li>
-    <li>Thời điểm tính hoa hồng (sau hoàn thành đơn hàng / sau nhảy cấp - chức - sao)</li>
-</ul>

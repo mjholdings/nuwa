@@ -1423,8 +1423,8 @@
             },
             "Admincontrol.php": {
               "type": "-",
-              "size": 538302,
-              "lmtime": 1719478632041,
+              "size": 522368,
+              "lmtime": 1719755244327,
               "modified": false
             },
             "Api.php": {
@@ -19686,9 +19686,9 @@
             "2": {
               "admin.php": {
                 "type": "-",
-                "size": 250924,
+                "size": 254514,
                 "lmtime": 1719333875237,
-                "modified": false
+                "modified": true
               },
               "client.php": {
                 "type": "-",
@@ -28380,8 +28380,8 @@
                 "create.php": {
                   "type": "-",
                   "size": 18123,
-                  "lmtime": 1719473517118,
-                  "modified": false
+                  "lmtime": 1718329895115,
+                  "modified": true
                 },
                 "index.php": {
                   "type": "-",
@@ -28405,22 +28405,40 @@
                 }
               },
               "branch": {
+                "branch_bonus.php": {
+                  "type": "-",
+                  "size": 3657,
+                  "lmtime": 1719412745070,
+                  "modified": true
+                },
+                "branch_update.php": {
+                  "type": "-",
+                  "size": 5701,
+                  "lmtime": 0,
+                  "modified": false
+                },
                 "create.php": {
                   "type": "-",
-                  "size": 5384,
+                  "size": 9236,
                   "lmtime": 1718898610677,
-                  "modified": false
+                  "modified": true
                 },
                 "index.php": {
                   "type": "-",
-                  "size": 3424,
+                  "size": 3474,
                   "lmtime": 1718898610677,
+                  "modified": true
+                },
+                "update copy.php": {
+                  "type": "-",
+                  "size": 5701,
+                  "lmtime": 0,
                   "modified": false
                 },
                 "update.php": {
                   "type": "-",
-                  "size": 5597,
-                  "lmtime": 1718898610677,
+                  "size": 8878,
+                  "lmtime": 1719755244336,
                   "modified": false
                 }
               },
@@ -28517,6 +28535,14 @@
                   "type": "-",
                   "size": 1057,
                   "lmtime": 1718329895115,
+                  "modified": false
+                }
+              },
+              "condition": {
+                "index.php": {
+                  "type": "-",
+                  "size": 3289,
+                  "lmtime": 1719417302236,
                   "modified": false
                 }
               },
@@ -28688,8 +28714,8 @@
                 "sidebar.php": {
                   "type": "-",
                   "size": 24363,
-                  "lmtime": 1719475597598,
-                  "modified": false
+                  "lmtime": 1719416674340,
+                  "modified": true
                 },
                 "store.php": {
                   "type": "-",
@@ -29044,6 +29070,26 @@
                   "modified": false
                 }
               },
+              "product_stock": {
+                "add_product.php": {
+                  "type": "-",
+                  "size": 103638,
+                  "lmtime": 1718383739443,
+                  "modified": true
+                },
+                "index.php": {
+                  "type": "-",
+                  "size": 94050,
+                  "lmtime": 1718383739458,
+                  "modified": true
+                },
+                "product_list.php": {
+                  "type": "-",
+                  "size": 2423,
+                  "lmtime": 1718383739458,
+                  "modified": true
+                }
+              },
               "registration_builder": {
                 "index.php": {
                   "type": "-",
@@ -29055,21 +29101,21 @@
               "reward": {
                 "create.php": {
                   "type": "-",
-                  "size": 4632,
+                  "size": 15348,
                   "lmtime": 1718329895146,
                   "modified": true
                 },
                 "index.php": {
                   "type": "-",
-                  "size": 3293,
-                  "lmtime": 1718329895146,
+                  "size": 4802,
+                  "lmtime": 1719414708162,
                   "modified": true
                 },
                 "update.php": {
                   "type": "-",
-                  "size": 5396,
-                  "lmtime": 1718329895146,
-                  "modified": true
+                  "size": 15194,
+                  "lmtime": 1719755244345,
+                  "modified": false
                 }
               },
               "script_details": {
@@ -29081,30 +29127,17 @@
                 }
               },
               "setting": {
-                "commission": {
-                  "tab_header.php": {
-                    "type": "-",
-                    "size": 765,
-                    "lmtime": 1719560493176,
-                    "modified": false
-                  },
-                  "1.php": {
-                    "type": "-",
-                    "size": 0,
-                    "lmtime": 1719561483722,
-                    "modified": false
-                  }
-                },
+                "commission": {},
                 "commission_setting.php": {
                   "type": "-",
-                  "size": 76650,
-                  "lmtime": 1719566954632,
+                  "size": 75699,
+                  "lmtime": 1719755244345,
                   "modified": false
                 },
                 "index.php": {
                   "type": "-",
                   "size": 40980,
-                  "lmtime": 1719477967729,
+                  "lmtime": 0,
                   "modified": false
                 },
                 "install_new_version.php": {
@@ -29163,8 +29196,8 @@
                 },
                 "policy_setting.php": {
                   "type": "-",
-                  "size": 51079,
-                  "lmtime": 1719560192659,
+                  "size": 50462,
+                  "lmtime": 1719755244345,
                   "modified": false
                 },
                 "saas_setting.php": {
@@ -29208,8 +29241,8 @@
                 "store_setting.php": {
                   "type": "-",
                   "size": 150800,
-                  "lmtime": 1719563945129,
-                  "modified": false
+                  "lmtime": 1718329895162,
+                  "modified": true
                 },
                 "themesetting.php": {
                   "type": "-",
@@ -29230,6 +29263,32 @@
                   "size": 687,
                   "lmtime": 1718329895162,
                   "modified": false
+                }
+              },
+              "star": {
+                "create.php": {
+                  "type": "-",
+                  "size": 14401,
+                  "lmtime": 1719412745070,
+                  "modified": true
+                },
+                "index copy.php": {
+                  "type": "-",
+                  "size": 4416,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "index.php": {
+                  "type": "-",
+                  "size": 4629,
+                  "lmtime": 1719414724122,
+                  "modified": true
+                },
+                "update.php": {
+                  "type": "-",
+                  "size": 14871,
+                  "lmtime": 1719412745086,
+                  "modified": true
                 }
               },
               "stocks": {
@@ -29712,31 +29771,11 @@
                   "modified": false
                 }
               },
-              "product_stock": {
-                "add_product.php": {
-                  "type": "-",
-                  "size": 103638,
-                  "lmtime": 1718383739443,
-                  "modified": true
-                },
+              "commission": {
                 "index.php": {
                   "type": "-",
-                  "size": 94050,
-                  "lmtime": 1718383739458,
-                  "modified": true
-                },
-                "product_list.php": {
-                  "type": "-",
-                  "size": 2423,
-                  "lmtime": 1718383739458,
-                  "modified": true
-                }
-              },
-              "condition": {
-                "index.php": {
-                  "type": "-",
-                  "size": 40980,
-                  "lmtime": 1719477967729,
+                  "size": 2726,
+                  "lmtime": 1719417245085,
                   "modified": false
                 }
               }

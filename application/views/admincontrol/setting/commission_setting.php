@@ -461,6 +461,8 @@
 
                         <div class="tab-pane py-3" id="bonus_recruitment_setting" role="tabpanel">
                             <div class="row">
+                                <!-- Tuyển dụng trực tiếp -->
+
                                 <div class="col-sm-6">
                                     <div class="card h-100">
                                         <div class="card-header bg-secondary text-white text-center">
@@ -471,23 +473,23 @@
                                             <div class="form-group">
                                                 <label class="control-label"><?= __('Kích hoạt') ?></label>
                                                 <div class="form-check form-switch">
-                                                    <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['sale_status'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="sale_status" data-setting_type="market_vendor">
+                                                    <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['bonus_recruitment_direct'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="bonus_recruitment_direct" data-setting_type="market_vendor">
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label"><?= __('Số thành viên mời vào') ?></label>
-                                                        <input class="form-control" name="market_vendor[commission_number_of_click]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_number_of_click'] : '' ?>">
+                                                        <input class="form-control" name="market_vendor[bonus_recruitment_direct_number]" type="number" value="<?= isset($market_vendor) ? $market_vendor['bonus_recruitment_direct_number'] : '' ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label"><?= __('admin.commission_type') ?></label>
-                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                        <select name="market_vendor[bonus_recruitment_direct_type]" class="form-control">
                                                             <option value=""><?= __('admin.select_product_commission_type') ?></option>
-                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
-                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
+                                                            <option <?= ($market_vendor['bonus_recruitment_direct_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
+                                                            <option <?= ($market_vendor['bonus_recruitment_direct_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -499,20 +501,38 @@
                                                         <div class="input-group">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text currency-symbol">
-                                                                    <?= ($market_vendor['commission_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
+                                                                    <?= ($market_vendor['bonus_recruitment_direct_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
                                                                 </span>
                                                             </div>
-                                                            <input class="form-control" name="market_vendor[commission_sale]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_sale'] : '' ?>">
+                                                            <input class="form-control" name="market_vendor[bonus_recruitment_direct_value]" type="number" value="<?= isset($market_vendor) ? $market_vendor['bonus_recruitment_direct_value'] : '' ?>">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <script type="text/javascript">
+                                                $("select.bonus_recruitment_direct_type").on("change", function() {
+                                                    $con = $(this).parents(".form-group");
+                                                    $con.find(".toggle-container .percentage-value, .toggle-container .default-value").addClass('d-none');
+                                                    if ($(this).val() == 'default') {
+                                                        $con.find(".toggle-container .default-value").removeClass("d-none");
+                                                    } else {
+                                                        $con.find(".toggle-container .percentage-value").removeClass("d-none");
+                                                    }
 
+                                                    if ($(this).val() == 'percentage')
+                                                        $("input[name='vendor[bonus_recruitment_direct_value]']").siblings('.currency-symbol').text('%');
+                                                    else
+                                                        $("input[name='vendor[bonus_recruitment_direct_value]']").siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
+                                                })
+
+                                                $("select.bonus_recruitment_direct_type").trigger("change");
+                                            </script>
 
                                         </div>
                                     </div>
                                 </div>
 
+                                <!-- Tuyển dụng gián tiếp -->
                                 <div class="col-sm-6">
                                     <div class="card h-100">
                                         <div class="card-header bg-secondary text-white text-center">
@@ -523,23 +543,23 @@
                                             <div class="form-group">
                                                 <label class="control-label"><?= __('Kích hoạt') ?></label>
                                                 <div class="form-check form-switch">
-                                                    <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['sale_status'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="sale_status" data-setting_type="market_vendor">
+                                                    <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['bonus_recruitment_indirect'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="bonus_recruitment_indirect" data-setting_type="market_vendor">
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label"><?= __('Số thành viên mời vào') ?></label>
-                                                        <input class="form-control" name="market_vendor[commission_number_of_click]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_number_of_click'] : '' ?>">
+                                                        <input class="form-control" name="market_vendor[bonus_recruitment_indirect_number]" type="number" value="<?= isset($market_vendor) ? $market_vendor['bonus_recruitment_indirect_number'] : '' ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label"><?= __('admin.commission_type') ?></label>
-                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                        <select name="market_vendor[bonus_recruitment_indirect_type]" class="form-control">
                                                             <option value=""><?= __('admin.select_product_commission_type') ?></option>
-                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
-                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
+                                                            <option <?= ($market_vendor['bonus_recruitment_indirect_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
+                                                            <option <?= ($market_vendor['bonus_recruitment_indirect_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -551,19 +571,39 @@
                                                         <div class="input-group">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text currency-symbol">
-                                                                    <?= ($market_vendor['commission_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
+                                                                    <?= ($market_vendor['bonus_recruitment_indirect_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
                                                                 </span>
                                                             </div>
-                                                            <input class="form-control" name="market_vendor[commission_sale]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_sale'] : '' ?>">
+                                                            <input class="form-control" name="market_vendor[bonus_recruitment_indirect_value]" type="number" value="<?= isset($market_vendor) ? $market_vendor['bonus_recruitment_indirect_value'] : '' ?>">
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
+                                            </div>
+                                            <script type="text/javascript">
+                                                $("select.bonus_recruitment_direct_type").on("change", function() {
+                                                    $con = $(this).parents(".form-group");
+                                                    $con.find(".toggle-container .percentage-value, .toggle-container .default-value").addClass('d-none');
+                                                    if ($(this).val() == 'default') {
+                                                        $con.find(".toggle-container .default-value").removeClass("d-none");
+                                                    } else {
+                                                        $con.find(".toggle-container .percentage-value").removeClass("d-none");
+                                                    }
+
+                                                    if ($(this).val() == 'percentage')
+                                                        $("input[name='vendor[bonus_recruitment_direct_value]']").siblings('.currency-symbol').text('%');
+                                                    else
+                                                        $("input[name='vendor[bonus_recruitment_direct_value]']").siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
+                                                })
+
+                                                $("select.bonus_recruitment_direct_type").trigger("change");
+                                            </script>
 
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Tuyển dụng gián tiếp + trực tiếp -->
                                 <div class="col-sm-12 mt-3">
                                     <div class="card h-100">
                                         <div class="card-header bg-secondary text-white text-center">
@@ -574,23 +614,23 @@
                                             <div class="form-group">
                                                 <label class="control-label"><?= __('Kích hoạt') ?></label>
                                                 <div class="form-check form-switch">
-                                                    <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['sale_status'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="sale_status" data-setting_type="market_vendor">
+                                                    <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['bonus_recruitment_downline'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="bonus_recruitment_downline" data-setting_type="market_vendor">
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label"><?= __('Số thành viên mời vào') ?></label>
-                                                        <input class="form-control" name="market_vendor[commission_number_of_click]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_number_of_click'] : '' ?>">
+                                                        <input class="form-control" name="market_vendor[bonus_recruitment_downline_number]" type="number" value="<?= isset($market_vendor) ? $market_vendor['bonus_recruitment_downline_number'] : '' ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label"><?= __('admin.commission_type') ?></label>
-                                                        <select name="market_vendor[commission_type]" class="form-control">
+                                                        <select name="market_vendor[bonus_recruitment_downline_type]" class="form-control">
                                                             <option value=""><?= __('admin.select_product_commission_type') ?></option>
-                                                            <option <?= ($market_vendor['commission_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
-                                                            <option <?= ($market_vendor['commission_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
+                                                            <option <?= ($market_vendor['bonus_recruitment_downline_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
+                                                            <option <?= ($market_vendor['bonus_recruitment_downline_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -602,15 +642,32 @@
                                                         <div class="input-group">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text currency-symbol">
-                                                                    <?= ($market_vendor['commission_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
+                                                                    <?= ($market_vendor['bonus_recruitment_downline_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
                                                                 </span>
                                                             </div>
-                                                            <input class="form-control" name="market_vendor[commission_sale]" type="number" value="<?= isset($market_vendor) ? $market_vendor['commission_sale'] : '' ?>">
+                                                            <input class="form-control" name="market_vendor[bonus_recruitment_downline_value]" type="number" value="<?= isset($market_vendor) ? $market_vendor['bonus_recruitment_downline_value'] : '' ?>">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <script type="text/javascript">
+                                                $("select.bonus_recruitment_downline_type").on("change", function() {
+                                                    $con = $(this).parents(".form-group");
+                                                    $con.find(".toggle-container .percentage-value, .toggle-container .default-value").addClass('d-none');
+                                                    if ($(this).val() == 'default') {
+                                                        $con.find(".toggle-container .default-value").removeClass("d-none");
+                                                    } else {
+                                                        $con.find(".toggle-container .percentage-value").removeClass("d-none");
+                                                    }
 
+                                                    if ($(this).val() == 'percentage')
+                                                        $("input[name='vendor[bonus_recruitment_downline_value]']").siblings('.currency-symbol').text('%');
+                                                    else
+                                                        $("input[name='vendor[bonus_recruitment_downline_value]']").siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
+                                                })
+
+                                                $("select.bonus_recruitment_downline_type").trigger("change");
+                                            </script>
 
                                         </div>
                                     </div>

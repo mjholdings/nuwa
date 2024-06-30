@@ -942,14 +942,14 @@
                             <div class="form-group">
 
                                 <h6>
-                                    <div class="mybadge bg-info text-white mb-2 text-wrap rounded px-2 py-1 vendor-deposit-on-message <?= ($vendor['depositstatus']) ? '' : 'd-none' ?>">
+                                    <div class="mybadge bg-info text-white mb-2 text-wrap rounded px-2 py-1 vendor-deposit-on-message <?= ($vendor['bonus_up_rank']) ? '' : 'd-none' ?>">
                                         <?= __('Thưởng lên cấp đang được Áp dụng. Cài đặt chi tiết về % thưởng mỗi khi lên cấp vào phần Nhảy cấp cài đặt.') ?>
                                         <p class="mt-3"><a class="btn btn-secondary" href="<?= base_url('admincontrol/award_level'); ?>">Cài đặt nhảy cấp ở đây</a></p>
                                     </div>
                                 </h6>
 
                                 <h6>
-                                    <div class="mybadge bg-danger text-white rounded mb-2 text-wrap px-2 py-1 vendor-deposit-off-message <?= ($vendor['depositstatus']) ? 'd-none' : '' ?>">
+                                    <div class="mybadge bg-danger text-white rounded mb-2 text-wrap px-2 py-1 vendor-deposit-off-message <?= ($vendor['bonus_up_rank']) ? 'd-none' : '' ?>">
                                         <?= __('Thưởng lên cấp đang không được Áp dụng. Muốn hoa hồng thưởng cho mỗi khi lên cấp kích hoạt lên') ?>
                                     </div>
                                 </h6>
@@ -958,7 +958,7 @@
                                     <?= __('Kích hoạt') ?>
                                 </label>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input update_all_settings" type="checkbox" <?= $vendor['depositstatus'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="depositstatus" data-setting_type="vendor">
+                                    <input class="form-check-input update_all_settings" type="checkbox" <?= $vendor['bonus_up_rank'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="bonus_up_rank" data-setting_type="vendor">
                                 </div>
                             </div>
                         </div>

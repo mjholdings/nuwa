@@ -640,7 +640,7 @@ class IntegrationModel extends MY_Model{
 		}
 	}
 
-
+	// Thêm click
 	public function addClick($data){
 
 		if(!isset($data['ip'])){ $data['ip'] = $_SERVER['REMOTE_ADDR']; }
@@ -1251,6 +1251,7 @@ class IntegrationModel extends MY_Model{
 		}
 	}
 
+	// Thêm history log
 	public function addLogBatch($logs){
 		$logDataBatch = [];
 
@@ -1284,6 +1285,7 @@ class IntegrationModel extends MY_Model{
 		}
 	}
 
+	// Thêm log
 	public function addLog($data){
 		$logData = $this->prepareLogsUagentData();		
 
@@ -1336,6 +1338,7 @@ class IntegrationModel extends MY_Model{
 		return $logData;
 	}
 
+	// Thêm tham khảo link giới thiệu
 	public function referClick($product_id, $user_id,$base_url, $ip_details, $data, $tran_group_id) {
 
 		if($data['main_commission_type'] == 'custom'){
@@ -1649,6 +1652,7 @@ class IntegrationModel extends MY_Model{
 		return $data;
     }
 
+	// Lấy quảng cáo ads theo ID
 	public function getAdsByID($ads_id, $active = false){
 
 		$select = "
@@ -1723,6 +1727,7 @@ class IntegrationModel extends MY_Model{
 		return $data;
 	}
 
+	// Tính toán hoa hồng
     private function calcCommitions($data, $user_id, $ads_id, $active = false){
     	$commissionSetting = $this->getAdsByID($ads_id, $active);
 
@@ -1800,6 +1805,7 @@ class IntegrationModel extends MY_Model{
     	}
     }
 
+	// Lấy Chương trình theo ID
     public function getProgramByID($program_id){
     	return $this->db->select("integration_programs.*,users.username,users.email, CONCAT(users.firstname,' ',users.lastname) as vendor_name")
     	->from("integration_programs")
@@ -1807,7 +1813,8 @@ class IntegrationModel extends MY_Model{
     	->where("integration_programs.id",(int)$program_id)->get()->row_array();
     }
     
-    public function getPrograms($filter = array()){
+    // Lấy danh sách Chương trình
+	public function getPrograms($filter = array()){
     	$query =  $this->db->select("integration_programs.*,users.username,count(integration_tools.id) as associate_programns")->from("integration_programs");
 
     	$query->join("users","users.id=integration_programs.vendor_id","left");
@@ -1849,6 +1856,7 @@ class IntegrationModel extends MY_Model{
     	return $programs;
     }
 
+	// Sửa Chương trình
     public function editProgram($data, $program_id = 0,$editBy='admin', $vendor_id= 0){
 		$old = $this->db->query("SELECT * FROM integration_programs WHERE id=". (int)$program_id)->row();
 
@@ -2011,6 +2019,7 @@ class IntegrationModel extends MY_Model{
 		
     }
 
+	// Thêm tham số
     public function addParams($url, $key, $value) {
 		$url = preg_replace('/(.*)(?|&)'. $key .'=[^&]+?(&)(.*)/i', '$1$2$4', $url .'&');
 		$url = substr($url, 0, -1);

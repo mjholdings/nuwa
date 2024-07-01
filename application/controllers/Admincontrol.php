@@ -6535,6 +6535,7 @@ class Admincontrol extends MY_Controller {
 	}
 
 
+	// Xem chi tiết đơn hàng
 	public function vieworder($order_id = null) {
 		$this->db->db_debug = FALSE;
 		try {
@@ -13850,6 +13851,7 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
+	// Tính toán hoa hồng
 	public function calc_commission() {
 
 		$data = $this->input->post(null, true);

@@ -1051,6 +1051,7 @@
 
 			var xhrCommission;
 
+			// Hàm thực hiện tính hoa hồng
 			function calcCommission(){
 				$this = $(this);
 				if(xhrCommission && xhrCommission.readyState != 4){

@@ -2837,6 +2837,7 @@ class Product_model extends MY_Model {
         return array();
     }
 
+    // Lấy toàn bộ Doanh thu từ những đơn hàng đã hoàn thành
     function getallsales($user_id = null) {
         if (!empty($user_id)) {
             $this->db->where('payment_user_id', $user_id);
@@ -4367,6 +4368,7 @@ class Product_model extends MY_Model {
         return $query;
     }
 
+    // Cập nhật thanh toán
     function update_payment($cdate) {
         $this->db->from('payment');
         $this->db->where('payment_created_date', $cdate);

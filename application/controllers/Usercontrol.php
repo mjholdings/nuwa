@@ -4079,6 +4079,7 @@ public function sales_products(){
 	$this->view($data,'store/sale_products','usercontrol');
 }
 
+// Cập nhật doanh thu sản phẩm
 public function update_sale_products($id = null){
 
 		$userdetails = $this->userdetails();
@@ -5173,6 +5174,7 @@ public function contact_us(){
 
 	$this->view($data,'store/store_contact','usercontrol');
 }
+
 
 public function create(){
 	$userdetails = $this->userdetails();
@@ -6536,6 +6538,7 @@ public function deleteALLSaleproducts(){
 
 
 
+	// Tính toán hoa hồng
 	public function calc_commission(){
 		$data = $this->input->post(null,true);
 		$userdetails = $this->userdetails();

@@ -285,7 +285,7 @@ class Wallet_model extends MY_Model{
 		return $this->db->update('wallet', array('status' => $status), array('id' => (int)$id));
 	}
 
-	// Lấy giao dịch
+	// Lấy giao dịch - Từ những nguồn đã tính sẵn wallet, users, wallet_recursion, order
 	public function getTransaction($filter = array(), $olnyNumRows = false , $additional = null){
 		if($olnyNumRows === true) {
 			$select = array(

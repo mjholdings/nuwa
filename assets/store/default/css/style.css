@@ -5517,3 +5517,13 @@ a {
     cursor: pointer;
 }
 
+.action-banner-new{
+ display: flex;
+ flex-direction: row;
+}
+
+@media (max-width: 768px) {
+    .action-banner-new{
+        flex-direction: column;
+    }
+}

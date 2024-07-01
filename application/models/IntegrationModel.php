@@ -56,6 +56,7 @@ class IntegrationModel extends MY_Model{
 		}
 	}
 
+	// Dừng việc cập nhật thưởng vào ví
 	public function stopRecurring($data){
 		$o_order_id = (int)$data['order_id'];
 		$domain_name = url_to_domain(base64_decode($data['base_url']));
@@ -76,6 +77,7 @@ class IntegrationModel extends MY_Model{
 
 	}
 
+	// Thêm đơn hàng
 	public function addOrder($data){
 
 		if(!isset($data['ip'])){ $data['ip'] = $_SERVER['REMOTE_ADDR']; }

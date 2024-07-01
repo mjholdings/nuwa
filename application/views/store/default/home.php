@@ -412,7 +412,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 <!-- TẾ BÀO GỐC -->
 <article class="container py-5 tebaogoc">
 	<section class="row">
-		<div class="col-12 action-banner d-flex " style="gap:24px;">
+		<div class="col-12 action-banner d-flex flex-column col-lg-flex-row" style="gap:24px;">
 			<div class="card h-100 text-white">
 				<img src="<?= base_url('assets/store/default/'); ?>img/banner1.jpg" class="card-img" />
 				<div class="card-img-overlay p-5 d-flex flex-column justify-content-between">

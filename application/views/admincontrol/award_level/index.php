@@ -24,7 +24,7 @@
                                 <tr>
                                     <th><?= __('Cấp') ?></th>
                                     <th><?= __('Nhảy') ?></th>
-                                    <th><?= __('Tối thiểu') ?></th>
+                                    <!-- <th><?= __('Tối thiểu') ?></th>
                                     <th><?= __('Cá nhân') ?></th>
                                     <th><?= __('Tổng') ?></th>
                                     <th><?= __('Trực tiếp') ?></th>
@@ -33,7 +33,7 @@
                                     <th><?= __('Nhóm') ?></th>
                                     <th><?= __('Tuyển trực tiếp') ?></th>
                                     <th><?= __('Tuyển gián tiếp') ?></th>
-                                    <th><?= __('Thưởng HH (%)') ?></th>
+                                    <th><?= __('Thưởng HH (%)') ?></th> -->
                                     <th><?= __('Thưởng cứng (đ)') ?></th>
                                     <th><?= __('Tách nhóm') ?></th>
                                     <th><?= __('Cấp mặc định') ?></th>
@@ -52,7 +52,7 @@
                                                 echo $value['jump_level_name'];
                                             ?>
                                         </td>
-                                        <td><?= c_format($value['minimum_earning']); ?></td>
+                                        <!-- <td><?= c_format($value['minimum_earning']); ?></td>
                                         <td><?= c_format($value['con_revenue_personal']); ?></td>
                                         <td><?= c_format($value['con_revenue_total']); ?></td>
                                         <td><?= c_format($value['con_revenue_direct_members']); ?></td>
@@ -60,7 +60,7 @@
                                         <td><?= c_format($value['con_revenue_members']); ?></td>
                                         <td><?= c_format($value['con_revenue_team']); ?></td>
                                         <td><?= c_format($value['con_refer_direct_number']); ?></td>
-                                        <td><?= c_format($value['con_refer_number']); ?></td>
+                                        <td><?= c_format($value['con_refer_number']); ?></td> -->
                                         <td><?= $value['sale_comission_rate'] . '%'; ?></td>
                                         <td><?= c_format($value['bonus']) . 'đ'; ?></td>
                                         <td><?= $value['split_branch'] ? 'Tách' : 'Không'; ?></td>

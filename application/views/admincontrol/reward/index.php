@@ -13,7 +13,7 @@
                         <thead>
                             <tr>
                                 <th><?= __('Tên') ?></th>
-                                <th><?= __('Cá nhân') ?></th>
+                                <!-- <th><?= __('Cá nhân') ?></th>
                                 <th><?= __('Tổng cá nhân') ?></th>
                                 <th><?= __('Trực tiếp') ?></th>
                                 <th><?= __('Gián tiếp') ?></th>
@@ -21,7 +21,7 @@
                                 <th><?= __('Nhóm') ?></th>
                                 <th><?= __('Tuyển trực tiếp') ?></th>
                                 <th><?= __('Tuyển gián tiếp') ?></th>
-                                <th><?= __('Tuyển tuyến dưới') ?></th>
+                                <th><?= __('Tuyển tuyến dưới') ?></th> -->
                                 <th><?= __('Thưởng HH (%)') ?></th>
                                 <th><?= __('Thưởng cứng') ?></th>
                                 <th>#</th>
@@ -31,7 +31,7 @@
                             <?php foreach ($reward as $key => $value) { ?>
                                 <tr>
                                     <td><?= $value['name'] ?></td>
-                                    <td><?= c_format($value['con_revenue_personal']); ?></td>
+                                    <!-- <td><?= c_format($value['con_revenue_personal']); ?></td>
                                     <td><?= c_format($value['con_revenue_total']); ?></td>
                                     <td><?= c_format($value['con_revenue_direct_members']); ?></td>
                                     <td><?= c_format($value['con_revenue_indirect_members']); ?></td>
@@ -39,7 +39,7 @@
                                     <td><?= c_format($value['con_revenue_team']); ?></td>
                                     <td><?= $value['con_refer_direct_number']; ?></td>
                                     <td><?= $value['con_refer_number']; ?></td>
-                                    <td><?= $value['con_refer_number'] + $value['con_refer_direct_number']; ?></td>
+                                    <td><?= $value['con_refer_number'] + $value['con_refer_direct_number']; ?></td> -->
                                     <td><?= $value['sale_comission_rate'] . '%'; ?></td>
                                     <td><?= c_format($value['sale_comission_fixed']) . 'đ'; ?></td>
 

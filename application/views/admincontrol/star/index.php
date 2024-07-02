@@ -13,14 +13,14 @@
                         <thead>
                             <tr>
                                 <th><?= __('Số sao') ?></th>
-                                <th><?= __('YC Cá nhân') ?></th>
-                                <th><?= __('YC DT Tổng') ?></th>
-                                <th><?= __('YC Trực tiếp') ?></th>
-                                <th><?= __('YC Gián tiếp') ?></th>
-                                <th><?= __('YC Tuyến dưới') ?></th>
-                                <th><?= __('YC DT Nhóm') ?></th>
-                                <th><?= __('YC Tuyển trực tiếp') ?></th>
-                                <th><?= __('YC Tuyển gián tiếp') ?></th>
+                                <!-- <th><?= __('Cá nhân') ?></th>
+                                <th><?= __('DT Tổng') ?></th>
+                                <th><?= __('Trực tiếp') ?></th>
+                                <th><?= __('Gián tiếp') ?></th>
+                                <th><?= __('Tuyến dưới') ?></th>
+                                <th><?= __('DT Nhóm') ?></th>
+                                <th><?= __('Tuyển trực tiếp') ?></th>
+                                <th><?= __('Tuyển gián tiếp') ?></th> -->
                                 <th><?= __('Thưởng HH (%)') ?></th>
                                 <th><?= __('Thưởng cứng (đ)') ?></th>
                                 <th>#</th>
@@ -30,14 +30,14 @@
                             <?php foreach ($star as $key => $value) { ?>
                                 <tr>
                                     <td><?= $value['star'] ?></td>
-                                    <td><?= c_format($value['con_revenue_personal']); ?></td>
+                                    <!-- <td><?= c_format($value['con_revenue_personal']); ?></td>
                                     <td><?= c_format($value['con_revenue_total']); ?></td>
                                     <td><?= c_format($value['con_revenue_direct_members']); ?></td>
                                     <td><?= c_format($value['con_revenue_indirect_members']); ?></td>
                                     <td><?= c_format($value['con_revenue_members']); ?></td>
                                     <td><?= c_format($value['con_revenue_team']); ?></td>
                                     <td><?= $value['con_refer_direct_number']; ?></td>
-                                    <td><?= $value['con_refer_number']; ?></td>
+                                    <td><?= $value['con_refer_number']; ?></td> -->
                                     <td><?= $value['sale_commission_rate'] . '%'; ?></td>
                                     <td><?= c_format($value['sale_commission_fixed']) . 'đ'; ?></td>
 

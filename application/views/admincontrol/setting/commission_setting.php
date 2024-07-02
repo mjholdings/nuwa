@@ -93,8 +93,73 @@
                                     </script>
 
                                 </div>
-                                <!-- Doanh thu trực tiếp -->
 
+                                <!-- Tiêu dùng cá nhân -->
+                                <div class="form-group row mt-4">
+                                    <label class="control-label col-sm-3">
+                                        <?= __('Hoa hồng từ tiêu dùng Cá nhân') ?>
+                                    </label>
+                                    <label class="control-label col-sm-7">
+                                        <?= __('Thành viên nhận hoa hồng dựa trên tiêu dùng từ việc mua sản phẩm hoặc dịch vụ của chính họ.') ?>
+                                    </label>
+                                    <div class="form-check form-switch col-sm-2">
+                                        <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['bonus_from_consum_personal'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="bonus_from_consum_personal" data-setting_type="market_vendor">
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-3 pt-2">
+                                            <div>
+                                                <?php
+                                                $commission_type = array(
+                                                    'percentage' => __('admin.percentage'),
+                                                    'fixed'      => __('admin.fixed'),
+                                                );
+                                                ?>
+                                                <select name="vendor[bonus_from_consum_personal_type]" class="form-control bonus_from_consum_personal_type">
+                                                    <?php foreach ($commission_type as $key => $value) { ?>
+                                                        <option <?= $vendor['bonus_from_consum_personal_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="toggle-container">
+                                                <div class="percentage-value d-none">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="currency-symbol mt-2"><?= $vendor['admin_consum_commission_type'] == 'percentage' ? '%' : $CurrencySymbol ?></div>
+                                                            <input name="vendor[bonus_from_consum_personal_value]" id="bonus_from_consum_personal_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_consum_personal_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <script type="text/javascript">
+                                        $("select.bonus_from_consum_personal_type").on("change", function() {
+                                            $con = $(this).parents(".form-group");
+                                            $con.find(".toggle-container .percentage-value, .toggle-container .default-value").addClass('d-none');
+                                            if ($(this).val() == 'default') {
+                                                $con.find(".toggle-container .default-value").removeClass("d-none");
+                                            } else {
+                                                $con.find(".toggle-container .percentage-value").removeClass("d-none");
+                                            }
+
+                                            if ($(this).val() == 'percentage')
+                                                $("input[name='vendor[bonus_from_consum_personal_value]']").siblings('.currency-symbol').text('%');
+                                            else
+                                                $("input[name='vendor[bonus_from_consum_personal_value]']").siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
+                                        })
+
+                                        $("select.bonus_from_consum_personal_type").trigger("change");
+                                    </script>
+
+                                </div>
+
+
+                                <!-- Doanh thu trực tiếp -->
                                 <div class="form-group row mt-4">
                                     <label class="control-label col-sm-3">
                                         <?= __('Hoa hồng từ doanh thu Trực tiếp') ?>
@@ -153,8 +218,68 @@
                                         </script>
                                     </div>
                                 </div>
-                                <!-- Doanh thu gián tiếp -->
 
+                                <!-- Tiêu dùng trực tiếp -->
+                                <div class="form-group row mt-4">
+                                    <label class="control-label col-sm-3">
+                                        <?= __('Hoa hồng từ tiêu dùng Trực tiếp') ?>
+                                    </label>
+                                    <label class="control-label col-sm-7">
+                                        <?= __('Thành viên nhận hoa hồng từ tiêu dùng của các thành viên họ trực tiếp tuyển dụng vào hệ thống') ?>
+                                    </label>
+                                    <div class="form-check form-switch col-sm-2">
+                                        <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['bonus_from_consum_direct_members'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="bonus_from_consum_direct_members" data-setting_type="market_vendor">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3 pt-2">
+                                            <div>
+                                                <?php
+                                                $commission_type = array(
+                                                    'percentage' => __('admin.percentage'),
+                                                    'fixed'      => __('admin.fixed'),
+                                                );
+                                                ?>
+                                                <select name="vendor[bonus_from_consum_direct_members_type]" class="form-control bonus_from_consum_direct_members_type">
+                                                    <?php foreach ($commission_type as $key => $value) { ?>
+                                                        <option <?= $vendor['bonus_from_consum_direct_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="toggle-container">
+                                                <div class="percentage-value d-none">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="currency-symbol mt-2"><?= $vendor['bonus_from_consum_direct_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?></div>
+                                                            <input name="vendor[bonus_from_consum_direct_members_value]" id="bonus_from_consum_direct_members_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_consum_direct_members_value']; ?>" type="number" placeholder='<?= __('Hoa hồng tiêu dùng') ?>'>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $("select.bonus_from_consum_direct_members_type").on("change", function() {
+                                                $con = $(this).parents(".form-group");
+                                                $con.find(".toggle-container .percentage-value, .toggle-container .default-value").addClass('d-none');
+                                                if ($(this).val() == 'default') {
+                                                    $con.find(".toggle-container .default-value").removeClass("d-none");
+                                                } else {
+                                                    $con.find(".toggle-container .percentage-value").removeClass("d-none");
+                                                }
+
+                                                if ($(this).val() == 'percentage')
+                                                    $("input[name='vendor[bonus_from_consum_direct_members_value]']").siblings('.currency-symbol').text('%');
+                                                else
+                                                    $("input[name='vendor[bonus_from_consum_direct_members_value]']").siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
+                                            })
+
+                                            $("select.bonus_from_consum_direct_members_type").trigger("change");
+                                        </script>
+                                    </div>
+                                </div>
+
+                                <!-- Doanh thu gián tiếp -->
                                 <div class="form-group row mt-4">
                                     <label class="control-label col-sm-3">
                                         <?= __('Hoa hồng từ doanh thu Gián tiếp') ?>
@@ -213,8 +338,68 @@
                                         </script>
                                     </div>
                                 </div>
-                                <!-- Doanh thu tuyến dưới -->
 
+                                <!-- Tiêu dùng gián tiếp -->
+                                <div class="form-group row mt-4">
+                                    <label class="control-label col-sm-3">
+                                        <?= __('Hoa hồng từ tiêu dùng Gián tiếp') ?>
+                                    </label>
+                                    <label class="control-label col-sm-7">
+                                        <?= __('Thành viên nhận hoa hồng từ tiêu dùng của các thành viên được Thành viên trực tiếp tuyển dụng và các thành viên được cấp dưới tuyển dụng vào hệ thống') ?>
+                                    </label>
+                                    <div class="form-check form-switch col-sm-2">
+                                        <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['bonus_from_consum_indirect_members'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="bonus_from_consum_indirect_members" data-setting_type="market_vendor">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3 pt-2">
+                                            <div>
+                                                <?php
+                                                $commission_type = array(
+                                                    'percentage' => __('admin.percentage'),
+                                                    'fixed'      => __('admin.fixed'),
+                                                );
+                                                ?>
+                                                <select name="vendor[bonus_from_consum_indirect_members_type]" class="form-control bonus_from_consum_indirect_members_type">
+                                                    <?php foreach ($commission_type as $key => $value) { ?>
+                                                        <option <?= $vendor['bonus_from_consum_indirect_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="toggle-container">
+                                                <div class="percentage-value d-none">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="currency-symbol mt-2"><?= $vendor['bonus_from_consum_indirect_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?></div>
+                                                            <input name="vendor[bonus_from_consum_indirect_members_value1]" id="bonus_from_consum_indirect_members_value1" class="form-control mt-2" value="<?php echo $vendor['bonus_from_consum_indirect_members_value1']; ?>" type="number" placeholder='<?= __('Hoa hồng tiêu dùng') ?>'>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $("select.bonus_from_consum_indirect_members_type").on("change", function() {
+                                                $con = $(this).parents(".form-group");
+                                                $con.find(".toggle-container .percentage-value, .toggle-container .default-value").addClass('d-none');
+                                                if ($(this).val() == 'default') {
+                                                    $con.find(".toggle-container .default-value").removeClass("d-none");
+                                                } else {
+                                                    $con.find(".toggle-container .percentage-value").removeClass("d-none");
+                                                }
+
+                                                if ($(this).val() == 'percentage')
+                                                    $("input[name='vendor[bonus_from_consum_indirect_members_value]']").siblings('.currency-symbol').text('%');
+                                                else
+                                                    $("input[name='vendor[bonus_from_consum_indirect_members_value]']").siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
+                                            })
+
+                                            $("select.bonus_from_consum_indirect_members_type").trigger("change");
+                                        </script>
+                                    </div>
+                                </div>
+
+                                <!-- Doanh thu tuyến dưới -->
                                 <div class="form-group row mt-4">
                                     <label class="control-label col-sm-3">
                                         <?= __('Hoa hồng từ doanh thu Tuyến dưới') ?>
@@ -274,8 +459,67 @@
                                     </div>
                                 </div>
 
-                                <!-- Doanh thu nhóm -->
+                                <!-- Tiêu dùng tuyến dưới -->
+                                <div class="form-group row mt-4">
+                                    <label class="control-label col-sm-3">
+                                        <?= __('Hoa hồng từ tiêu dùng Tuyến dưới') ?>
+                                    </label>
+                                    <label class="control-label col-sm-7">
+                                        <?= __('Thành viên nhận hoa hồng từ tiêu dùng của các thành viên họ trực tiếp hoặc gián tiếp tuyển dụng vào hệ thống.') ?>
+                                    </label>
+                                    <div class="form-check form-switch col-sm-2">
+                                        <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['bonus_from_consum_members'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="bonus_from_consum_members" data-setting_type="market_vendor">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3 pt-2">
+                                            <div>
+                                                <?php
+                                                $commission_type = array(
+                                                    'percentage' => __('admin.percentage'),
+                                                    'fixed'      => __('admin.fixed'),
+                                                );
+                                                ?>
+                                                <select name="vendor[bonus_from_consum_members_type]" class="form-control bonus_from_consum_members_type">
+                                                    <?php foreach ($commission_type as $key => $value) { ?>
+                                                        <option <?= $vendor['bonus_from_consum_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="toggle-container">
+                                                <div class="percentage-value d-none">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="currency-symbol mt-2"><?= $vendor['bonus_from_consum_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?></div>
+                                                            <input name="vendor[bonus_from_consum_members_value]" id="bonus_from_consum_members_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_consum_members_value']; ?>" type="number" placeholder='<?= __('Hoa hồng tiêu dùng') ?>'>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $("select.bonus_from_consum_members_type").on("change", function() {
+                                                $con = $(this).parents(".form-group");
+                                                $con.find(".toggle-container .percentage-value, .toggle-container .default-value").addClass('d-none');
+                                                if ($(this).val() == 'default') {
+                                                    $con.find(".toggle-container .default-value").removeClass("d-none");
+                                                } else {
+                                                    $con.find(".toggle-container .percentage-value").removeClass("d-none");
+                                                }
 
+                                                if ($(this).val() == 'percentage')
+                                                    $("input[name='vendor[bonus_from_consum_members_value]']").siblings('.currency-symbol').text('%');
+                                                else
+                                                    $("input[name='vendor[bonus_from_consum_members_value]']").siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
+                                            })
+
+                                            $("select.bonus_from_consum_members_type").trigger("change");
+                                        </script>
+                                    </div>
+                                </div>
+
+                                <!-- Doanh thu nhóm -->
                                 <div class="form-group row mt-4">
                                     <label class="control-label col-sm-3">
                                         <?= __('Hoa hồng từ doanh thu Nhóm') ?>
@@ -335,8 +579,67 @@
                                     </div>
                                 </div>
 
-                                <!-- Doanh thu nhánh -->
+                                <!-- Tiêu dùng Nhóm -->
+                                <div class="form-group row mt-4">
+                                    <label class="control-label col-sm-3">
+                                        <?= __('Hoa hồng từ tiêu dùng Nhóm') ?>
+                                    </label>
+                                    <label class="control-label col-sm-7">
+                                        <?= __('Thành viên nhận hoa hồng dựa trên tổng tiêu dùng của cả nhóm do họ dẫn dắt, bao gồm của cá nhân họ và cả doanh thu của các tuyến dưới.') ?>
+                                    </label>
+                                    <div class="form-check form-switch col-sm-2">
+                                        <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['bonus_from_consum_team'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="bonus_from_consum_team" data-setting_type="market_vendor">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3 pt-2">
+                                            <div>
+                                                <?php
+                                                $commission_type = array(
+                                                    'percentage' => __('admin.percentage'),
+                                                    'fixed'      => __('admin.fixed'),
+                                                );
+                                                ?>
+                                                <select name="vendor[bonus_from_consum_team_type]" class="form-control bonus_from_consum_team_type">
+                                                    <?php foreach ($commission_type as $key => $value) { ?>
+                                                        <option <?= $vendor['bonus_from_consum_team_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="toggle-container">
+                                                <div class="percentage-value d-none">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="currency-symbol mt-2"><?= $vendor['bonus_from_consum_team_type'] == 'percentage' ? '%' : $CurrencySymbol ?></div>
+                                                            <input name="vendor[bonus_from_consum_team_value]" id="bonus_from_consum_team_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_consum_team_value']; ?>" type="number" placeholder='<?= __('Hoa hồng tiêu dùng') ?>'>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $("select.bonus_from_consum_team_type").on("change", function() {
+                                                $con = $(this).parents(".form-group");
+                                                $con.find(".toggle-container .percentage-value, .toggle-container .default-value").addClass('d-none');
+                                                if ($(this).val() == 'default') {
+                                                    $con.find(".toggle-container .default-value").removeClass("d-none");
+                                                } else {
+                                                    $con.find(".toggle-container .percentage-value").removeClass("d-none");
+                                                }
 
+                                                if ($(this).val() == 'percentage')
+                                                    $("input[name='vendor[bonus_from_consum_team_value]']").siblings('.currency-symbol').text('%');
+                                                else
+                                                    $("input[name='vendor[bonus_from_consum_team_value]']").siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
+                                            })
+
+                                            $("select.bonus_from_consum_team_type").trigger("change");
+                                        </script>
+                                    </div>
+                                </div>
+
+                                <!-- Doanh thu Nhánh -->
                                 <div class="form-group row mt-4">
                                     <label class="control-label col-sm-3">
                                         <?= __('Hoa hồng từ doanh thu Nhánh') ?>
@@ -392,6 +695,66 @@
                                             })
 
                                             $("select.bonus_from_sales_branch_members_type").trigger("change");
+                                        </script>
+                                    </div>
+                                </div>
+
+                                <!-- Tiêu dùng Nhánh -->
+                                <div class="form-group row mt-4">
+                                    <label class="control-label col-sm-3">
+                                        <?= __('Hoa hồng từ tiêu dùng Nhánh') ?>
+                                    </label>
+                                    <label class="control-label col-sm-7">
+                                        <?= __('Thành viên nhận hoa hồng dựa trên tổng tiêu dùng của cả Nhánh họ tham gia tính từ Gốc') ?>
+                                    </label>
+                                    <div class="form-check form-switch col-sm-2">
+                                        <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['bonus_from_consum_branch_members'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="bonus_from_consum_branch_members" data-setting_type="market_vendor">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3 pt-2">
+                                            <div>
+                                                <?php
+                                                $commission_type = array(
+                                                    'percentage' => __('admin.percentage'),
+                                                    'fixed'      => __('admin.fixed'),
+                                                );
+                                                ?>
+                                                <select name="vendor[bonus_from_consum_branch_members_type]" class="form-control bonus_from_consum_branch_members_type">
+                                                    <?php foreach ($commission_type as $key => $value) { ?>
+                                                        <option <?= $vendor['bonus_from_consum_branch_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="toggle-container">
+                                                <div class="percentage-value d-none">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="currency-symbol mt-2"><?= $vendor['bonus_from_consum_branch_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?></div>
+                                                            <input name="vendor[bonus_from_consum_branch_members_value]" id="bonus_from_consum_branch_members_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_consum_branch_members_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $("select.bonus_from_consum_branch_members_type").on("change", function() {
+                                                $con = $(this).parents(".form-group");
+                                                $con.find(".toggle-container .percentage-value, .toggle-container .default-value").addClass('d-none');
+                                                if ($(this).val() == 'default') {
+                                                    $con.find(".toggle-container .default-value").removeClass("d-none");
+                                                } else {
+                                                    $con.find(".toggle-container .percentage-value").removeClass("d-none");
+                                                }
+
+                                                if ($(this).val() == 'percentage')
+                                                    $("input[name='vendor[bonus_from_consum_branch_members_value]']").siblings('.currency-symbol').text('%');
+                                                else
+                                                    $("input[name='vendor[bonus_from_consum_branch_members_value]']").siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
+                                            })
+
+                                            $("select.bonus_from_consum_branch_members_type").trigger("change");
                                         </script>
                                     </div>
                                 </div>
@@ -461,8 +824,8 @@
 
                         <div class="tab-pane py-3" id="bonus_recruitment_setting" role="tabpanel">
                             <div class="row">
-                                <!-- Tuyển dụng trực tiếp -->
 
+                                <!-- Tuyển dụng trực tiếp -->
                                 <div class="col-sm-6">
                                     <div class="card h-100">
                                         <div class="card-header bg-secondary text-white text-center">
@@ -763,7 +1126,7 @@
                                     </div>
                                 </div>
                             </div>
-                           
+
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="card-body">

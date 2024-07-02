@@ -30,8 +30,10 @@
                         </div>
                         <p class="error-message"></p>
                     </div>
+
+                    <!-- Điều kiện doanh thu -->
                     <div class="row">
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Doanh thu cá nhân yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu cá nhân yêu cầu') ?>"></span>
                             </label>
@@ -41,7 +43,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Doanh thu tổng cộng') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tổng doanh thu cá nhân') ?>"></span>
                             </label>
@@ -51,7 +53,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Doanh thu tổng tuyến dưới yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu tổng tuyến dưới yêu cầu') ?>"></span>
                             </label>
@@ -61,7 +63,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Doanh thu tổng nhóm yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu nhóm yêu cầu') ?>"></span>
                             </label>
@@ -71,7 +73,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Doanh thu tổng trực tiếp yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu trực tiếp yêu cầu') ?>"></span>
                             </label>
@@ -81,7 +83,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Doanh thu tổng gián tiếp yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu gián tiếp yêu cầu') ?>"></span>
                             </label>
@@ -92,8 +94,74 @@
                             <p class="error-message"></p>
                         </div>
                     </div>
+
+                    <!-- Điều kiện tiêu dùng -->
                     <div class="row">
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
+                                <?= __('Tiêu dùng cá nhân yêu cầu') ?>
+                                <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng cá nhân yêu cầu') ?>"></span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                <input value="<?= $reward['con_consum_personal'] ?>" type="number" class="form-control" name="con_consum_personal" min="0" step="0.01" placeholder="<?= __('Nhập doanh thu cá nhân yêu cầu') ?>">
+                            </div>
+                            <p class="error-message"></p>
+                        </div>
+                        <div class="col-md-4 mb-3"> <label class="form-label">
+                                <?= __('Tiêu dùng tổng cộng') ?>
+                                <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tổng doanh thu cá nhân') ?>"></span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                <input value="<?= $reward['con_consum_total'] ?>" type="number" class="form-control" name="con_consum_total" min="0" step="0.01" placeholder="<?= __('Nhập tổng doanh thu cá nhân yêu cầu') ?>">
+                            </div>
+                            <p class="error-message"></p>
+                        </div>
+                        <div class="col-md-4 mb-3"> <label class="form-label">
+                                <?= __('Tiêu dùng tổng tuyến dưới yêu cầu') ?>
+                                <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng tổng tuyến dưới yêu cầu') ?>"></span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                <input value="<?= $reward['con_consum_members'] ?>" type="number" class="form-control" name="con_consum_members" min="0" step="0.01" placeholder="<?= __('Nhập tổng cấp dưới yêu cầu') ?>">
+                            </div>
+                            <p class="error-message"></p>
+                        </div>
+                        <div class="col-md-4 mb-3"> <label class="form-label">
+                                <?= __('Tiêu dùng tổng nhóm yêu cầu') ?>
+                                <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng nhóm yêu cầu') ?>"></span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                <input value="<?= $reward['con_consum_team'] ?>" type="number" class="form-control" name="con_consum_team" min="0" step="0.01" placeholder="<?= __('Nhập tổng cấp dưới yêu cầu') ?>">
+                            </div>
+                            <p class="error-message"></p>
+                        </div>
+                        <div class="col-md-4 mb-3"> <label class="form-label">
+                                <?= __('Tiêu dùng tổng trực tiếp yêu cầu') ?>
+                                <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng trực tiếp yêu cầu') ?>"></span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                <input value="<?= $reward['con_consum_direct_members'] ?>" type="number" class="form-control" name="con_consum_direct_members" min="0" step="0.01" placeholder="<?= __('Nhập tổng cấp trực tiếp dưới yêu cầu') ?>">
+                            </div>
+                            <p class="error-message"></p>
+                        </div>
+                        <div class="col-md-4 mb-3"> <label class="form-label">
+                                <?= __('Tiêu dùng tổng gián tiếp yêu cầu') ?>
+                                <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng gián tiếp yêu cầu') ?>"></span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                <input value="<?= $reward['con_consum_indirect_members'] ?>" type="number" class="form-control" name="con_consum_indirect_members" min="0" step="0.01" placeholder="<?= __('Nhập tổng cấp trực tiếp dưới yêu cầu') ?>">
+                            </div>
+                            <p class="error-message"></p>
+                        </div>
+                    </div>
+
+                    <!-- Điều kiện tuyển -->
+                    <div class="row">
+                        <div class="col-md-3 mb-3"> <label class="form-label">
                                 <?= __('Số lượng thành viên mời gián tiếp yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Số lượng thành viên mời gián tiếp yêu cầu') ?>"></span>
                             </label>
@@ -103,7 +171,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-3 mb-3"> <label class="form-label">
                                 <?= __('Số lượng thành viên mời trực tiếp yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Số lượng thành viên mời trực tiếp yêu cầu') ?>"></span>
                             </label>
@@ -120,7 +188,7 @@
                         $rewards = $this->Product_model->getAllReward();
                         ?>
 
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-3 mb-3"> <label class="form-label">
                                 <?= __('Chọn Chức danh') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Chọn Chức danh') ?>"></span>
                             </label>
@@ -132,7 +200,7 @@
                             </select>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-3 mb-3">
                             <label class="form-label">
                                 <?= __('Điều kiện kết hợp') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Chọn điều kiện kết hợp') ?>"></span>
@@ -145,9 +213,35 @@
                         </div>
                     </div>
 
-
+                    <!-- Thưởng hoa hồng -->
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">
+                                <?= __('Nguồn thưởng doanh thu / tiêu dùng') ?>
+                                <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Thưởng Hoa hồng từ đâu') ?>"></span>
+                            </label>
+                            <div class="input-group">
+                                <select name="market_vendor[bonus_comission_source]" class="form-control">
+                                    <option value=""><?= __('Chọn nguồn trả thưởng') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'sales_personal') ? 'selected' : '' ?> value="sales_personal"><?= __('Doanh thu Toàn hệ thống') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'sales_direct') ? 'selected' : '' ?> value="sales_direct"><?= __('Doanh thu Toàn hệ thống') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'sales_indirect') ? 'selected' : '' ?> value="sales_indirect"><?= __('Doanh thu Toàn hệ thống') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'sales_members') ? 'selected' : '' ?> value="sales_members"><?= __('Doanh thu Toàn hệ thống') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'sales_shop') ? 'selected' : '' ?> value="sales_shop"><?= __('Doanh thu Chi nhánh') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'sales_branch') ? 'selected' : '' ?> value="sales_branch"><?= __('Doanh thu Nhánh') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'sales_team') ? 'selected' : '' ?> value="sales_team"><?= __('Doanh thu Nhóm') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Toàn hệ thống') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Toàn hệ thống') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'consum_indirect') ? 'selected' : '' ?> value="consum_indirect"><?= __('Tiêu dùng Toàn hệ thống') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'consum_members') ? 'selected' : '' ?> value="consum_members"><?= __('Tiêu dùng Toàn hệ thống') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'consum_shop') ? 'selected' : '' ?> value="consum_shop"><?= __('Tiêu dùng Chi nhánh') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'consum_branch') ? 'selected' : '' ?> value="consum_branch"><?= __('Tiêu dùng Nhánh') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'consum_team') ? 'selected' : '' ?> value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
+                                </select>
+                            </div>
+                            <p class="error-message"></p>
+                        </div>
+                        <div class="col-md-4 mb-3">
                             <label class="form-label">
                                 <?= __('Thưởng Hoa hồng') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Thưởng Hoa hồng') ?>"></span>
@@ -159,7 +253,7 @@
                             <p class="error-message"></p>
                         </div>
 
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label class="form-label">
                                 <?= __('Thưởng cứng') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Thưởng cứng') ?>"></span>

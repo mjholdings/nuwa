@@ -48,6 +48,7 @@
                             </div>
                         </div>
 
+                        <!-- Doanh số yêu cầu -->
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">
@@ -121,6 +122,82 @@
                             </div>
                         </div>
 
+                        <!-- Tiêu dùng yêu cầu -->
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">
+                                    <?= __('Tiêu dùng cá nhân yêu cầu') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng cá nhân yêu cầu') ?>"></span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                    <input value="0" type="number" class="form-control" name="con_consum_personal" min="0" step="0.01" placeholder="<?= __('Tiêu dùng cá nhân yêu cầu') ?>">
+                                </div>
+                                <p class="error-message"></p>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">
+                                    <?= __('Tiêu dùng cá nhân Tổng yêu cầu') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng cá nhân Tổng yêu cầu') ?>"></span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                    <input v type="number" class="form-control" name="con_consum_total" min="0" step="0.01" placeholder="<?= __('Tiêu dùng cá nhân Tổng yêu cầu') ?>">
+                                </div>
+                                <p class="error-message"></p>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">
+                                    <?= __('Tiêu dùng nhóm yêu cầu') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng nhóm yêu cầu') ?>"></span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                    <input value="0" type="number" class="form-control" name="con_consum_team" min="0" step="0.01" placeholder="<?= __('Tiêu dùng nhóm yêu cầu') ?>">
+                                </div>
+                                <p class="error-message"></p>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">
+                                    <?= __('Tiêu dùng tuyến dưới yêu cầu') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng tuyến dưới yêu cầu') ?>"></span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                    <input value="0" type="number" class="form-control" name="con_consum_members" min="0" step="0.01" placeholder="<?= __('Tiêu dùng tuyến dưới yêu cầu') ?>">
+                                </div>
+                                <p class="error-message"></p>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">
+                                    <?= __('Tiêu dùng trực tiếp yêu cầu') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng trực tiếp yêu cầu') ?>"></span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                    <input value="0" type="number" class="form-control" name="con_consum_direct_members" min="0" step="0.01" placeholder="<?= __('Tiêu dùng trực tiếp yêu cầu') ?>">
+                                </div>
+                                <p class="error-message"></p>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">
+                                    <?= __('Tiêu dùng gián tiếp yêu cầu') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng gián tiếp yêu cầu') ?>"></span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                    <input value="0" type="number" class="form-control" name="con_consum_indirect_members" min="0" step="0.01" placeholder="<?= __('Tiêu dùng gián tiếp yêu cầu') ?>">
+                                </div>
+                                <p class="error-message"></p>
+                            </div>
+                        </div>
+
+
+                        <!-- Tuyển dụng yêu cầu -->
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">

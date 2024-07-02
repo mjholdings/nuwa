@@ -2625,10 +2625,10 @@ i.fas.fa-bell {
     margin-left: 10%;
 }
 .product_commission_title {
-    width: 37%;
+    width: auto;
 }
 .form_commission_title {
-    width: 32%;
+    width: auto;
 }
 .cron-input {
     background-color: black;

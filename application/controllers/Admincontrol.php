@@ -3767,6 +3767,12 @@ class Admincontrol extends MY_Controller {
 						$insert['con_revenue_indirect_members'] = $this->input->post('con_revenue_indirect_members', true);
 						$insert['con_revenue_members'] = $this->input->post('con_revenue_members', true);
 						$insert['con_revenue_total'] = $this->input->post('con_revenue_total', true);
+						$insert['con_consum_team'] = $this->input->post('con_consum_team', true);
+						$insert['con_consum_personal'] = $this->input->post('con_consum_personal', true);
+						$insert['con_consum_direct_members'] = $this->input->post('con_consum_direct_members', true);
+						$insert['con_consum_indirect_members'] = $this->input->post('con_consum_indirect_members', true);
+						$insert['con_consum_members'] = $this->input->post('con_consum_members', true);
+						$insert['con_consum_total'] = $this->input->post('con_consum_total', true);
 
 						$success = true;
 						if ($insert['default_registration_level']) {
@@ -3832,6 +3838,12 @@ class Admincontrol extends MY_Controller {
 									$update['con_revenue_members'] = $this->input->post('con_revenue_members', true);
 									$update['con_revenue_total'] = $this->input->post('con_revenue_total', true);
 									$update['con_revenue_team'] = $this->input->post('con_revenue_team', true);
+									$update['con_consum_personal'] = $this->input->post('con_consum_personal', true);
+									$update['con_consum_direct_members'] = $this->input->post('con_consum_direct_members', true);
+									$update['con_consum_indirect_members'] = $this->input->post('con_consum_indirect_members', true);
+									$update['con_consum_members'] = $this->input->post('con_consum_members', true);
+									$update['con_consum_total'] = $this->input->post('con_consum_total', true);
+									$update['con_consum_team'] = $this->input->post('con_consum_team', true);
 									$update['con_refer_number'] = $this->input->post('con_refer_number', true);
 									$update['minimum_earning'] = $this->input->post('minimum_earning', true);
 									$update['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
@@ -4105,9 +4117,16 @@ class Admincontrol extends MY_Controller {
 				$insert['con_revenue_members'] = $this->input->post('con_revenue_members', true);
 				$insert['con_revenue_total'] = $this->input->post('con_revenue_total', true);
 				$insert['con_revenue_team'] = $this->input->post('con_revenue_team', true);
+				$insert['con_consum_personal'] = $this->input->post('con_consum_personal', true);
+				$insert['con_consum_direct_members'] = $this->input->post('con_consum_direct_members', true);
+				$insert['con_consum_indirect_members'] = $this->input->post('con_consum_indirect_members', true);
+				$insert['con_consum_members'] = $this->input->post('con_consum_members', true);
+				$insert['con_consum_total'] = $this->input->post('con_consum_total', true);
+				$insert['con_consum_team'] = $this->input->post('con_consum_team', true);
 				$insert['con_refer_number'] = $this->input->post('con_refer_number', true);
 				$insert['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 				$insert['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
+				$insert['bonus_comission_source'] = $this->input->post('bonus_comission_source', true);
 				$insert['sale_comission_rate'] = $this->input->post('sale_comission_rate', true);
 				$insert['sale_comission_fixed'] = $this->input->post('sale_comission_fixed', true);
 				$insert['con_and'] = $this->input->post('con_and', true);
@@ -4159,9 +4178,16 @@ class Admincontrol extends MY_Controller {
 							$update['con_revenue_members'] = $this->input->post('con_revenue_members', true);
 							$update['con_revenue_total'] = $this->input->post('con_revenue_total', true);
 							$update['con_revenue_team'] = $this->input->post('con_revenue_team', true);
+							$update['con_consum_personal'] = $this->input->post('con_consum_personal', true);
+							$update['con_consum_direct_members'] = $this->input->post('con_consum_direct_members', true);
+							$update['con_consum_indirect_members'] = $this->input->post('con_consum_indirect_members', true);
+							$update['con_consum_members'] = $this->input->post('con_consum_members', true);
+							$update['con_consum_total'] = $this->input->post('con_consum_total', true);
+							$update['con_consum_team'] = $this->input->post('con_consum_team', true);
 							$update['con_refer_number'] = $this->input->post('con_refer_number', true);
 							$update['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 							$update['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
+							$update['bonus_comission_source'] = $this->input->post('bonus_comission_source', true);
 							$update['sale_comission_rate'] = $this->input->post('sale_comission_rate', true);
 							$update['sale_comission_fixed'] = $this->input->post('sale_comission_fixed', true);
 							$update['con_and'] = $this->input->post('con_and', true);

@@ -78,6 +78,11 @@
                                                             <option <?= ($market_vendor['condition_bonus_retention'] == 'sales_indirect') ? 'selected' : '' ?> value="sales_indirect"><?= __('Doanh thu Gián tiếp') ?></option>
                                                             <option <?= ($market_vendor['condition_bonus_retention'] == 'sales_downline') ? 'selected' : '' ?> value="sales_downline"><?= __('Doanh thu tuyến Dưới') ?></option>
                                                             <option <?= ($market_vendor['condition_bonus_retention'] == 'sales_team') ? 'selected' : '' ?> value="sales_team"><?= __('Doanh thu Nhóm') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'consum_indirect') ? 'selected' : '' ?> value="consum_indirect"><?= __('Tiêu dùng Gián tiếp') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'consum_downline') ? 'selected' : '' ?> value="consum_downline"><?= __('Tiêu dùng tuyến Dưới') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'consum_team') ? 'selected' : '' ?> value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -155,6 +160,7 @@
 
                         <div role="tabpanel" class="tab-pane py-3" id="bonus_team_system_setting">
                             <div class="row">
+                                <!-- Team Bonus -->
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="control-label"><?= __('Kích hoạt') ?></label>
@@ -179,6 +185,11 @@
                                                             <option <?= ($market_vendor['condition_bonus_sales_team_type'] == 'sales_indirect') ? 'selected' : '' ?> value="sales_indirect"><?= __('Doanh thu Gián tiếp') ?></option>
                                                             <option <?= ($market_vendor['condition_bonus_sales_team_type'] == 'sales_downline') ? 'selected' : '' ?> value="sales_downline"><?= __('Doanh thu tuyến Dưới') ?></option>
                                                             <option <?= ($market_vendor['condition_bonus_sales_team_type'] == 'sales_team') ? 'selected' : '' ?> value="sales_team"><?= __('Doanh thu Nhóm') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_consum_team_type'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_consum_team_type'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_consum_team_type'] == 'consum_indirect') ? 'selected' : '' ?> value="consum_indirect"><?= __('Tiêu dùng Gián tiếp') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_consum_team_type'] == 'consum_downline') ? 'selected' : '' ?> value="consum_downline"><?= __('Tiêu dùng tuyến Dưới') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_consum_team_type'] == 'consum_team') ? 'selected' : '' ?> value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -225,10 +236,10 @@
                                                 <div class="col-sm-6 py-2">
                                                     <div class="form-group">
                                                         <label class="control-label"><?= __('Loại Hoa hồng từ Doanh thu Nhóm') ?></label>
-                                                        <select name="market_vendor[bonus_recruitment_team_get_type]" class="form-control">
+                                                        <select name="market_vendor[bonus_sales_team_get_type]" class="form-control">
                                                             <option value=""><?= __('Chọn loại Hoa hồng') ?></option>
-                                                            <option <?= ($market_vendor['bonus_recruitment_team_get_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
-                                                            <option <?= ($market_vendor['bonus_recruitment_team_get_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_team_get_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_team_get_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -240,10 +251,35 @@
                                                         <div class="input-group">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text currency-symbol">
-                                                                    <?= ($market_vendor['bonus_recruitment_team_get_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
+                                                                    <?= ($market_vendor['bonus_sales_team_get_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
                                                                 </span>
                                                             </div>
-                                                            <input class="form-control" name="market_vendor[bonus_recruitment_team_get_value]" type="number" value="<?= isset($market_vendor) ? $market_vendor['bonus_recruitment_team_get_value'] : '' ?>">
+                                                            <input class="form-control" name="market_vendor[bonus_sales_team_get_value]" type="number" value="<?= isset($market_vendor) ? $market_vendor['bonus_sales_team_get_value'] : '' ?>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Loại Hoa hồng từ Tiêu dùng Nhóm') ?></label>
+                                                        <select name="market_vendor[bonus_consum_team_get_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn loại Hoa hồng') ?></option>
+                                                            <option <?= ($market_vendor['bonus_consum_team_get_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
+                                                            <option <?= ($market_vendor['bonus_consum_team_get_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            <?= __('Thưởng Hoa hồng tiêu dùng') ?>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text currency-symbol">
+                                                                    <?= ($market_vendor['bonus_consum_team_get_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
+                                                                </span>
+                                                            </div>
+                                                            <input class="form-control" name="market_vendor[bonus_consum_team_get_value]" type="number" value="<?= isset($market_vendor) ? $market_vendor['bonus_consum_team_get_value'] : '' ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -276,13 +312,18 @@
                                                             <option <?= ($market_vendor['condition_sales_all_system_type'] == 'sales_indirect') ? 'selected' : '' ?> value="sales_indirect"><?= __('Doanh thu Gián tiếp') ?></option>
                                                             <option <?= ($market_vendor['condition_sales_all_system_type'] == 'sales_downline') ? 'selected' : '' ?> value="sales_downline"><?= __('Doanh thu tuyến Dưới') ?></option>
                                                             <option <?= ($market_vendor['condition_sales_all_system_type'] == 'sales_team') ? 'selected' : '' ?> value="sales_team"><?= __('Doanh thu Nhóm') ?></option>
+                                                            <option <?= ($market_vendor['condition_consum_all_system_type'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?></option>
+                                                            <option <?= ($market_vendor['condition_consum_all_system_type'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?></option>
+                                                            <option <?= ($market_vendor['condition_consum_all_system_type'] == 'consum_indirect') ? 'selected' : '' ?> value="consum_indirect"><?= __('Tiêu dùng Gián tiếp') ?></option>
+                                                            <option <?= ($market_vendor['condition_consum_all_system_type'] == 'consum_downline') ? 'selected' : '' ?> value="consum_downline"><?= __('Tiêu dùng tuyến Dưới') ?></option>
+                                                            <option <?= ($market_vendor['condition_consum_all_system_type'] == 'consum_team') ? 'selected' : '' ?> value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 py-2">
                                                     <div class="form-group">
                                                         <label class="control-label">
-                                                            <?= __('Doanh thu mục tiêu') ?>
+                                                            <?= __('Doanh thu || Tiêu dùng mục tiêu') ?>
                                                         </label>
                                                         <div class="input-group">
                                                             <div class="input-group-prepend">
@@ -321,7 +362,7 @@
 
                                                 <div class="col-sm-6 py-2">
                                                     <div class="form-group">
-                                                        <label class="control-label"><?= __('Loại Hoa hồng từ Doanh thu Nhóm') ?></label>
+                                                        <label class="control-label"><?= __('Loại Hoa hồng từ Doanh thu Hệ thống') ?></label>
                                                         <select name="market_vendor[recuitment_all_system_sales_bonus_type]" class="form-control">
                                                             <option value=""><?= __('Chọn loại Hoa hồng') ?></option>
                                                             <option <?= ($market_vendor['recuitment_all_system_sales_bonus_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
@@ -341,6 +382,31 @@
                                                                 </span>
                                                             </div>
                                                             <input class="form-control" name="market_vendor[recuitment_all_system_sales_bonus_value]" type="number" value="<?= isset($market_vendor) ? $market_vendor['recuitment_all_system_sales_bonus_value'] : '' ?>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Loại Hoa hồng từ Tiêu dùng Hệ thống') ?></label>
+                                                        <select name="market_vendor[recuitment_all_system_consum_bonus_type]" class="form-control">
+                                                            <option value=""><?= __('Chọn loại Hoa hồng') ?></option>
+                                                            <option <?= ($market_vendor['recuitment_all_system_consum_bonus_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
+                                                            <option <?= ($market_vendor['recuitment_all_system_consum_bonus_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            <?= __('Thưởng Hoa hồng tiêu dùng') ?>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text currency-symbol">
+                                                                    <?= ($market_vendor['recuitment_all_system_consum_bonus_type'] == 'percentage') ? '%'  : $CurrencySymbol ?>
+                                                                </span>
+                                                            </div>
+                                                            <input class="form-control" name="market_vendor[recuitment_all_system_consum_bonus_value]" type="number" value="<?= isset($market_vendor) ? $market_vendor['recuitment_all_system_consum_bonus_value'] : '' ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -389,6 +455,10 @@
                                                             <option <?= ($market_vendor['bonus_shared_source'] == 'sales_shop') ? 'selected' : '' ?> value="sales_shop"><?= __('Doanh thu Chi nhánh') ?></option>
                                                             <option <?= ($market_vendor['bonus_shared_source'] == 'sales_branch') ? 'selected' : '' ?> value="sales_branch"><?= __('Doanh thu Nhánh') ?></option>
                                                             <option <?= ($market_vendor['bonus_shared_source'] == 'sales_team') ? 'selected' : '' ?> value="sales_team"><?= __('Doanh thu Nhóm') ?></option>
+                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'consum_system') ? 'selected' : '' ?> value="consum_system"><?= __('Tiêu dùng Toàn hệ thống') ?></option>
+                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'consum_shop') ? 'selected' : '' ?> value="consum_shop"><?= __('Tiêu dùng Chi nhánh') ?></option>
+                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'consum_branch') ? 'selected' : '' ?> value="consum_branch"><?= __('Tiêu dùng Nhánh') ?></option>
+                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'consum_team') ? 'selected' : '' ?> value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -429,6 +499,11 @@
                                                             <option <?= ($market_vendor['condition_get_bonus_shared'] == 'sale_inderect') ? 'selected' : '' ?> value="sale_inderect"><?= __('Doanh thu Gián tiếp') ?></option>
                                                             <option <?= ($market_vendor['condition_get_bonus_shared'] == 'sale_downline') ? 'selected' : '' ?> value="sale_downline"><?= __('Doanh thu tuyến Dưới') ?></option>
                                                             <option <?= ($market_vendor['condition_get_bonus_shared'] == 'sale_team') ? 'selected' : '' ?> value="sale_team"><?= __('Doanh thu Nhóm') ?></option>
+                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?></option>
+                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?></option>
+                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'consum_inderect') ? 'selected' : '' ?> value="consum_inderect"><?= __('Tiêu dùng Gián tiếp') ?></option>
+                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'consum_downline') ? 'selected' : '' ?> value="consum_downline"><?= __('Tiêu dùng tuyến Dưới') ?></option>
+                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'consum_team') ? 'selected' : '' ?> value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -486,7 +561,7 @@
                                 </div>
                                 <div class="form-group row mt-4">
                                     <label class="control-label col-sm-5">
-                                        <?= __('Tính hoa hồng doanh thu sau chiết khấu') ?>
+                                        <?= __('Tính hoa hồng doanh thu / tiêu dùng sau chiết khấu') ?>
                                     </label>
                                     <div class="form-check form-switch col-sm-2">
                                         <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['calculator_bonus_after_discount'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="calculator_bonus_after_discount" data-setting_type="market_vendor">
@@ -500,9 +575,6 @@
                                         <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['calculator_bonus_after_tax'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="calculator_bonus_after_tax" data-setting_type="market_vendor">
                                     </div>
                                 </div>
-
-
-
                             </div>
                         </div>
 

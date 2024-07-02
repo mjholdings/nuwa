@@ -61,7 +61,7 @@ class Order_model extends MY_Model {
         ];
     }
 
-    // Thay đổi trạng thái đơn hàng
+    // Thay đổi trạng thái đơn hàng ============
     public function changeStatus($order_id, $status, $comment = '') {
         $this->load->model('Mail_model');
         $this->load->model('Product_model');
@@ -82,16 +82,20 @@ class Order_model extends MY_Model {
         $this->db->where('id', $order_id);
         $this->db->update('order');
 
-        if ($status == 1) {
+        if ($status == 1) {         // Nếu là trạng thái hoàn thành đơn hàng
             $this->User_model->setStarForUser();
 
             $sql = "UPDATE `orders_history` SET `paypal_status` = 'Complete' WHERE `orders_history`.`order_id` = ? AND `orders_history`.`history_type` = 'payment'";
             $this->db->query($sql, (int) $order_id);
 
+            // Chỉ cấp nhật nếu loại hoa hồng là sale, refer, vendor, admin_sale...
+            // Cập nhật ví là Hoàn tiền nếu người dùng không phải Admin
             $this->db->query("UPDATE `wallet` SET status = 1 WHERE status = 0 AND user_id != 1 AND type IN('sale_commission','refer_sale_commission','vendor_sale_commission', 'admin_sale_commission') AND reference_id_2 = {$order_id} ");
 
+            // Cập nhật trạng thái 3 nếu là Admin
             $this->db->query("UPDATE `wallet` SET status = 3 WHERE status = 0 AND user_id = 1 AND type IN('sale_commission','refer_sale_commission','vendor_sale_commission','admin_sale_commission') AND reference_id_2 = {$order_id} ");
 
+            // Gửi email thông báo cam kết
             $this->Mail_model->send_commition_mail($order_id, true);
 
 

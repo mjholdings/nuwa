@@ -4535,6 +4535,7 @@ class Product_model extends MY_Model {
         return $result;
     }
 
+    // Kiểm tra đối chiếu bảng Users và Bảng Award_Level xem User đã nhảy cấp chưa nếu đạt điều kiện
     public function checkJumpedUser($limit, $offset) {
         $sql = 'SELECT `users`.`id`,
     `users`.`level_id`,
@@ -4625,6 +4626,7 @@ class Product_model extends MY_Model {
         return false;
     }
 
+    // Kiểm tra nhảy cấp một User cụ thể
     public function checkJumpedUserWithId($id) {
         $sql = 'SELECT `users`.`id`,
     `users`.`level_id`,

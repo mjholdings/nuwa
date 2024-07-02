@@ -2151,8 +2151,6 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-
-
 	public function notification() {
 
 		$userdetails = $this->userdetails();
@@ -2204,8 +2202,6 @@ class Admincontrol extends MY_Controller {
 
 		$this->view($data, 'dashboard/notification');
 	}
-
-
 
 	public function register($refid = null) {
 
@@ -2328,6 +2324,7 @@ class Admincontrol extends MY_Controller {
 	}
 
 
+	// Hỏi lại việc rút tiền
 	public function ask_again_withdrawal() {
 
 		$this->db->query("UPDATE wallet SET status=1 WHERE (wv != 'V2' OR wv IS NULL) AND status = 2");
@@ -2350,7 +2347,7 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-
+	// Danh sách yêu cầu rút tiền
 	public function wallet_withdraw() {
 
 		$userdetails = $this->userdetails();
@@ -2536,7 +2533,7 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-
+	// Chi tiết yêu cầu rút
 	public function wallet_requests_details($id) {
 
 		$userdetails = $this->userdetails();
@@ -2603,8 +2600,7 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'users/wallet_requests_details');
 	}
 
-
-
+	// Lấy lịch sử rút tiền
 	public function get_withdrwal_history($id) {
 		$status_history = $this->db->query("SELECT * FROM wallet_requests_history WHERE req_id={$id} ORDER BY id DESC ")->result_array();
 
@@ -2626,7 +2622,6 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 		die;
 	}
-
 
 
 	public function wallet_requests_list() {
@@ -2830,6 +2825,7 @@ class Admincontrol extends MY_Controller {
 	}
 
 
+	// Liệt kê các giao dịch vô ví
 	public function mywallet() {
 
 		$userdetails = $this->userdetails();
@@ -2897,6 +2893,7 @@ class Admincontrol extends MY_Controller {
 
 		$config['base_url'] = base_url('admincontrol/mywallet/');
 
+		// Lấy tổng số giao dịch đã phát sinh
 		$config['total_rows'] = $this->Wallet_model->getTransaction($filter, true, 'ONLY_PARENTS');
 
 		$config['per_page'] = 100;
@@ -3030,6 +3027,7 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
+	// Lấy đệ quy giao dịch
 	public function getRecurringTransaction() {
 
 		$id = (int)$this->input->post("id");
@@ -3707,7 +3705,7 @@ class Admincontrol extends MY_Controller {
 		redirect('admincontrol/manageUsers');
 	}
 
-	// Award Level
+	// Award Level - Kiểm tra nhảy cấp
 	public function award_level($offset = 0) {
 		$userdetails = $this->userdetails();
 		$award_level = $this->Product_model->getSettings('award_level', 'status');
@@ -4096,6 +4094,7 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'reward/index');
 	}
 
+	// Tạo chức vụ
 	public function create_reward() {
 		$userdetails = $this->userdetails();
 		$data['CurrencySymbol'] = $this->currency->getSymbol();
@@ -4152,6 +4151,7 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'reward/create');
 	}
 
+	// Cập nhật chức vụ
 	public function update_reward($id) {
 		$userdetails = $this->userdetails();
 
@@ -4259,6 +4259,7 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'star/index');
 	}
 
+	// Thêm sao
 	public function create_star() {
 		$userdetails = $this->userdetails();
 		$data['CurrencySymbol'] = $this->currency->getSymbol();
@@ -4285,8 +4286,8 @@ class Admincontrol extends MY_Controller {
 				$insert['con_consum_members'] = $this->input->post('con_consum_members', true);
 				$insert['con_consum_total'] = $this->input->post('con_consum_total', true);
 				$insert['con_consum_team'] = $this->input->post('con_consum_team', true);
-				$insert['bonus_comission_source'] = $this->input->post('bonus_comission_source', true);				
-				$insert['con_refer_number'] = $this->input->post('con_refer_number', true);				
+				$insert['bonus_comission_source'] = $this->input->post('bonus_comission_source', true);
+				$insert['con_refer_number'] = $this->input->post('con_refer_number', true);
 				$insert['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 				$insert['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
 				$insert['con_and'] = $this->input->post('con_and', true);
@@ -4313,6 +4314,7 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'star/create');
 	}
 
+	// Cập nhật sao
 	public function update_star($id) {
 		$userdetails = $this->userdetails();
 
@@ -4382,6 +4384,7 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
+	// Xóa sao
 	public function delete_star($id) {
 		$userdetails = $this->userdetails();
 		$result['status'] = 0;
@@ -6698,7 +6701,7 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-
+	// Thêm user
 	public function addusers($id = null) {
 
 		$userdetails = $this->userdetails();
@@ -9797,7 +9800,7 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-
+	// Cấp độ AFF hệ thống từng nhóm sản phẩm
 	public function mlm_levels() {
 
 		$userdetails = $this->userdetails();
@@ -9846,6 +9849,7 @@ class Admincontrol extends MY_Controller {
 
 		$this->view($data, 'setting/mlm_levels');
 	}
+	
 	//                custom
 	public function mlm_levels_hang_hoa() {
 
@@ -14966,6 +14970,7 @@ class Admincontrol extends MY_Controller {
 		exit;
 	}
 
+	// Kiểm tra nhảy cấp
 	public function check_award_level() {
 		if (!$this->userdetails()) {
 			die();

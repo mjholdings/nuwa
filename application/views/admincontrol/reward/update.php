@@ -221,19 +221,19 @@
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Thưởng Hoa hồng từ đâu') ?>"></span>
                             </label>
                             <div class="input-group">
-                                <select name="market_vendor[bonus_comission_source]" class="form-control">
+                                <select name="bonus_comission_source" class="form-control">
                                     <option value=""><?= __('Chọn nguồn trả thưởng') ?></option>
-                                    <option <?= ($reward['bonus_comission_source'] == 'sales_personal') ? 'selected' : '' ?> value="sales_personal"><?= __('Doanh thu Toàn hệ thống') ?></option>
-                                    <option <?= ($reward['bonus_comission_source'] == 'sales_direct') ? 'selected' : '' ?> value="sales_direct"><?= __('Doanh thu Toàn hệ thống') ?></option>
-                                    <option <?= ($reward['bonus_comission_source'] == 'sales_indirect') ? 'selected' : '' ?> value="sales_indirect"><?= __('Doanh thu Toàn hệ thống') ?></option>
-                                    <option <?= ($reward['bonus_comission_source'] == 'sales_members') ? 'selected' : '' ?> value="sales_members"><?= __('Doanh thu Toàn hệ thống') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'sales_personal') ? 'selected' : '' ?> value="sales_personal"><?= __('Doanh thu Cá nhân') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'sales_direct') ? 'selected' : '' ?> value="sales_direct"><?= __('Doanh thu Trực tiếp') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'sales_indirect') ? 'selected' : '' ?> value="sales_indirect"><?= __('Doanh thu Gián tiếp') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'sales_members') ? 'selected' : '' ?> value="sales_members"><?= __('Doanh thu Tuyến dưới') ?></option>
                                     <option <?= ($reward['bonus_comission_source'] == 'sales_shop') ? 'selected' : '' ?> value="sales_shop"><?= __('Doanh thu Chi nhánh') ?></option>
                                     <option <?= ($reward['bonus_comission_source'] == 'sales_branch') ? 'selected' : '' ?> value="sales_branch"><?= __('Doanh thu Nhánh') ?></option>
                                     <option <?= ($reward['bonus_comission_source'] == 'sales_team') ? 'selected' : '' ?> value="sales_team"><?= __('Doanh thu Nhóm') ?></option>
-                                    <option <?= ($reward['bonus_comission_source'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Toàn hệ thống') ?></option>
-                                    <option <?= ($reward['bonus_comission_source'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Toàn hệ thống') ?></option>
-                                    <option <?= ($reward['bonus_comission_source'] == 'consum_indirect') ? 'selected' : '' ?> value="consum_indirect"><?= __('Tiêu dùng Toàn hệ thống') ?></option>
-                                    <option <?= ($reward['bonus_comission_source'] == 'consum_members') ? 'selected' : '' ?> value="consum_members"><?= __('Tiêu dùng Toàn hệ thống') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'consum_indirect') ? 'selected' : '' ?> value="consum_indirect"><?= __('Tiêu dùng Gián tiếp') ?></option>
+                                    <option <?= ($reward['bonus_comission_source'] == 'consum_members') ? 'selected' : '' ?> value="consum_members"><?= __('Tiêu dùng Tuyến dưới') ?></option>
                                     <option <?= ($reward['bonus_comission_source'] == 'consum_shop') ? 'selected' : '' ?> value="consum_shop"><?= __('Tiêu dùng Chi nhánh') ?></option>
                                     <option <?= ($reward['bonus_comission_source'] == 'consum_branch') ? 'selected' : '' ?> value="consum_branch"><?= __('Tiêu dùng Nhánh') ?></option>
                                     <option <?= ($reward['bonus_comission_source'] == 'consum_team') ? 'selected' : '' ?> value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>

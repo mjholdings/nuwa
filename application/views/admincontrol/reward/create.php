@@ -39,7 +39,7 @@
                                     <?= __('Cấp độ yêu cầu') ?>
                                     <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Chọn cấp độ yêu cầu') ?>"></span>
                                 </label>
-                                <select class="form-control" name="con_refer_award_id">
+                                <select class="form-control" name="con_award_level_id">
                                     <option value=""><?= __('Chọn cấp độ') ?></option>
                                     <?php foreach ($award_level as $level) : ?>
                                         <option value="<?= $level['id'] ?>"><?= $level['level_number'] ?></option>

@@ -23,16 +23,18 @@
                         <?php
                         // Truy vấn danh sách cấp độ từ bảng award_level
                         $award_level = $this->Product_model->getAllAward();
+                        $current_level = $star['con_award_level_id'];
+
                         ?>
 
                         <div class="col-md-6 mb-3"> <label class="form-label">
                                 <?= __('Cấp độ yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Chọn cấp độ yêu cầu') ?>"></span>
                             </label>
-                            <select class="form-control" name="con_refer_award_id">
+                            <select class="form-control" name="con_award_level_id">
                                 <option value=""><?= __('Chọn cấp độ') ?></option>
                                 <?php foreach ($award_level as $level) : ?>
-                                    <option value="<?= $level['id'] ?>"><?= $level['level_number'] ?></option>
+                                    <option value="<?= $level['id'] ?>" <?= $current_level == $level['id'] ? 'selected="selected"' : ''; ?>><?= $level['level_number'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <p class="error-message"></p>

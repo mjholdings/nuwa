@@ -32,8 +32,8 @@
                                     <th><?= __('Tuyến dưới') ?></th>
                                     <th><?= __('Nhóm') ?></th>
                                     <th><?= __('Tuyển trực tiếp') ?></th>
-                                    <th><?= __('Tuyển gián tiếp') ?></th>
-                                    <th><?= __('Thưởng HH (%)') ?></th> -->
+                                    <th><?= __('Tuyển gián tiếp') ?></th>-->
+                                    <th><?= __('Thưởng HH (%)') ?></th> 
                                     <th><?= __('Thưởng cứng (đ)') ?></th>
                                     <th><?= __('Tách nhóm') ?></th>
                                     <th><?= __('Cấp mặc định') ?></th>

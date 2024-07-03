@@ -25,7 +25,7 @@
             </div>
           <?php } else if (isset($plan) && $plan) { ?>
             <div class="card-body">
-              <h4 class="text-success"><?= __('admin.plan') ?>: <?= $plan->plan ? $plan->plan->name : '' ?></h4>
+              <h4 class="text-success m-3"><?= __('admin.plan') ?>: <?= $plan->plan ? $plan->plan->name : '' ?></h4>
             </div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
@@ -70,7 +70,7 @@
         </div>
 
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="mmi-newplan">
-          <form class="change-plan-form">
+          <form class="change-plan-form mt-2">
             <ul class="list-group">
               <?php foreach ($plan_lists as $key => $p) { ?>
                 <?php if (($p->user_type == 1 && $is_vendor == 0) || ($p->user_type == 2 && $is_vendor == 1)) { ?>

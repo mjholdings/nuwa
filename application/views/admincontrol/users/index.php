@@ -111,11 +111,11 @@
 											<th><input type="checkbox" class="selectall-wallet-checkbox"></th>
 											<th><?= __('admin.user_details') ?></th>
 											<th><?= __('admin.user_level') ?></th>
-											<th><?= __('admin.membership_details') ?></th>
-											<th><?= __('admin.plan_status') ?></th>
+											<th><?= __('Sửa gói') ?></th>
+											<th><?= __('Trạng thái') ?></th>
 											<th><?= __('admin.country') ?></th>
 											<th><?= __('admin.groups') ?></th>
-											<th><?= __('admin.vendor') ?></th>
+											<th><?= __('NCC') ?></th>
 											<th><?= __('admin.referred_by') ?></th>
 											<th><?= __('admin.action') ?></th>
 										</tr>

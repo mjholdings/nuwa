@@ -2076,6 +2076,25 @@ class Product_model extends MY_Model {
         return $branch;
     }
 
+    // Lấy toàn bộ Award
+    public function getAllAward($limit = false, $offset = 0) {
+        $ci = &get_instance();
+
+        $sql = "SELECT * FROM `award_level`";
+
+        if ($limit != false) {
+            $sql .= " LIMIT ? OFFSET ?";
+            $query = $ci->db->query($sql, array((int) $limit, (int) $offset));
+        } else {
+            $query = $ci->db->query($sql);
+        }
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+    // Lấy toàn bộ Award
     public function getAllAwardLevel($limit = false, $offset = 0) {
         $ci = &get_instance();
 
@@ -5002,6 +5021,7 @@ class Product_model extends MY_Model {
         return $payment_methods;
     }
 
+    // Lấy danh sách Chức danh
     public function getAllReward($limit = false, $offset = 0) {
         $ci = &get_instance();
 

@@ -7281,6 +7281,7 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'users/downline');
 	}
 
+	// Danh sách User
 	public function userslist() {
 
 		$userdetails = $this->userdetails();

@@ -9,26 +9,50 @@
         <div class="card-body">
             <form>
                 <div class="form-content">
-                    <div class="mb-3">
-                        <label class="form-label">
-                            <?= __('Tên') ?>
-                            <span class="field-description" data-bs-toggle="tooltip" title="<?= __('admin.award_level_minimum_earning_desc') ?>"></span>
-                        </label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="name" value="<?= $reward['name'] ?>" placeholder="<?= __('admin.minimum_earning') ?>">
+                    <!-- Thông tin điều kiện cơ bản -->
+                    <div class="row">
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">
+                                <?= __('Tên') ?>
+                                <span class="field-description" data-bs-toggle="tooltip" title="<?= __('admin.award_level_minimum_earning_desc') ?>"></span>
+                            </label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="name" value="<?= $reward['name'] ?>" placeholder="<?= __('admin.minimum_earning') ?>">
+                            </div>
+                            <p class="error-message"></p>
                         </div>
-                        <p class="error-message"></p>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">
-                            <?= __('Doanh thu tối thiểu') ?>
-                            <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu tối thiểu') ?>"></span>
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
-                            <input type="number" class="form-control" name="minimum_earning" min="0" step="0.01" value="<?= $reward['minimum_earning'] ?>" placeholder="<?= __('admin.minimum_earning') ?>">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">
+                                <?= __('Doanh thu tối thiểu') ?>
+                                <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu tối thiểu') ?>"></span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                <input type="number" class="form-control" name="minimum_earning" min="0" step="0.01" value="<?= $reward['minimum_earning'] ?>" placeholder="<?= __('admin.minimum_earning') ?>">
+                            </div>
+                            <p class="error-message"></p>
                         </div>
-                        <p class="error-message"></p>
+
+
+                        <?php
+                        // Truy vấn danh sách cấp độ từ bảng award_level
+                        $award_level = $this->Product_model->getAllAward();
+                        ?>
+
+                        <div class="col-md-4 mb-3"> <label class="form-label">
+                                <?= __('Cấp độ yêu cầu') ?>
+                                <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Chọn cấp độ yêu cầu') ?>"></span>
+                            </label>
+                            <select class="form-control" name="con_refer_award_id">
+                                <option value=""><?= __('Chọn cấp độ') ?></option>
+                                <?php foreach ($award_level as $level) : ?>
+                                    <option value="<?= $level['id'] ?>"><?= $level['level_number'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <p class="error-message"></p>
+                        </div>
+
                     </div>
 
                     <!-- Điều kiện doanh thu -->
@@ -212,6 +236,8 @@
                             <p class="error-message"></p>
                         </div>
                     </div>
+
+                    <!-- Điều kiện cấp độ - Sao  -->
 
                     <!-- Thưởng hoa hồng -->
                     <div class="row">

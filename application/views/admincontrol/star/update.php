@@ -20,10 +20,29 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
+                        <?php
+                        // Truy vấn danh sách cấp độ từ bảng award_level
+                        $award_level = $this->Product_model->getAllAward();
+                        ?>
+
+                        <div class="col-md-6 mb-3"> <label class="form-label">
+                                <?= __('Cấp độ yêu cầu') ?>
+                                <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Chọn cấp độ yêu cầu') ?>"></span>
+                            </label>
+                            <select class="form-control" name="con_refer_award_id">
+                                <option value=""><?= __('Chọn cấp độ') ?></option>
+                                <?php foreach ($award_level as $level) : ?>
+                                    <option value="<?= $level['id'] ?>"><?= $level['level_number'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <p class="error-message"></p>
+                        </div>
                     </div>
+
+
                     <!-- Điều kiện Doanh thu -->
                     <div class="row">
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Doanh thu cá nhân yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu cá nhân yêu cầu') ?>"></span>
                             </label>
@@ -33,7 +52,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Doanh thu tổng yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tổng doanh thu cá nhân yêu cầu') ?>"></span>
                             </label>
@@ -43,7 +62,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Doanh thu nhánh dưới yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu nhánh dưới') ?>"></span>
                             </label>
@@ -53,7 +72,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Doanh thu tổng trực tiếp') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu cấp dưới trực tiếp yêu cầu') ?>"></span>
                             </label>
@@ -63,7 +82,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Doanh thu tổng gián tiếp') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu cấp dưới gián tiếp yêu cầu') ?>"></span>
                             </label>
@@ -73,7 +92,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Doanh thu tổng nhóm') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu nhóm yêu cầu') ?>"></span>
                             </label>
@@ -86,7 +105,7 @@
                     </div>
                     <!-- Điều kiện Tiêu dùng -->
                     <div class="row">
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Tiêu dùng cá nhân yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng cá nhân yêu cầu') ?>"></span>
                             </label>
@@ -96,7 +115,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Tiêu dùng tổng yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tổng doanh thu cá nhân yêu cầu') ?>"></span>
                             </label>
@@ -106,7 +125,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Tiêu dùng nhánh dưới yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng nhánh dưới') ?>"></span>
                             </label>
@@ -116,7 +135,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Tiêu dùng tổng trực tiếp') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng cấp dưới trực tiếp yêu cầu') ?>"></span>
                             </label>
@@ -126,7 +145,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Tiêu dùng tổng gián tiếp') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng cấp dưới gián tiếp yêu cầu') ?>"></span>
                             </label>
@@ -136,7 +155,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-4 mb-3"> <label class="form-label">
                                 <?= __('Tiêu dùng tổng nhóm') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng nhóm yêu cầu') ?>"></span>
                             </label>
@@ -150,7 +169,7 @@
 
                     <!-- Điều kiện tuyển dụng -->
                     <div class="row">
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-3 mb-3"> <label class="form-label">
                                 <?= __('Số lượng thành viên mời trực tiếp yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Số lượng thành viên mời trực tiếp yêu cầu') ?>"></span>
                             </label>
@@ -160,7 +179,7 @@
                             </div>
                             <p class="error-message"></p>
                         </div>
-                        <div class="col-md-6 mb-3"> <label class="form-label">
+                        <div class="col-md-3 mb-3"> <label class="form-label">
                                 <?= __('Số lượng thành viên mời gián tiếp yêu cầu') ?>
                                 <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Số lượng thành viên mời gián tiếp yêu cầu') ?>"></span>
                             </label>

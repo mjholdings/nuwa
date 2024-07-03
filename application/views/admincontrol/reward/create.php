@@ -10,7 +10,7 @@
                 <form>
                     <div class="form-content">
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label class="form-label">
                                     <?= __('Tên') ?>
                                     <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tên') ?>"></span>
@@ -20,7 +20,7 @@
                                 </div>
                                 <p class="error-message"></p>
                             </div>
-                            <div class="col-md-6 mb-3"> <label class="form-label">
+                            <div class="col-md-4 mb-3"> <label class="form-label">
                                     <?= __('Doanh thu tối thiểu') ?>
                                     <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu tối thiểu') ?>"></span>
                                 </label>
@@ -28,6 +28,23 @@
                                     <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
                                     <input value="0" type="number" class="form-control" name="minimum_earning" min="0" step="0.01" placeholder="<?= __('Nhập doanh thu tối thiểu yêu cầu') ?>">
                                 </div>
+                                <p class="error-message"></p>
+                            </div>
+                            <?php
+                            // Truy vấn danh sách cấp độ từ bảng award_level
+                            $award_level = $this->Product_model->getAllAward();
+                            ?>
+
+                            <div class="col-md-4 mb-3"> <label class="form-label">
+                                    <?= __('Cấp độ yêu cầu') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Chọn cấp độ yêu cầu') ?>"></span>
+                                </label>
+                                <select class="form-control" name="con_refer_award_id">
+                                    <option value=""><?= __('Chọn cấp độ') ?></option>
+                                    <?php foreach ($award_level as $level) : ?>
+                                        <option value="<?= $level['id'] ?>"><?= $level['level_number'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                                 <p class="error-message"></p>
                             </div>
                         </div>

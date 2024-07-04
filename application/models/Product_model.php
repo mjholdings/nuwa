@@ -1,6 +1,8 @@
 <?php
 
 class Product_model extends MY_Model {
+
+    
     function create_data($table, $details) {
         $this->db->insert($table, $details);
         return $this->db->insert_id();
@@ -5170,5 +5172,33 @@ class Product_model extends MY_Model {
             $query = $this->db->get('product');
             return $query->row()->product_price;
         }
+    }
+
+
+    // Insert user tree data into users_direct table
+    public function insert_users_direct($data) {
+        $this->db->insert('users_direct', $data);
+        return $this->db->insert_id();
+    }
+
+    // Insert user tree data into users_indirect table
+    public function insert_users_indirect($data) {
+        $this->db->insert('users_indirect', $data);
+        return $this->db->insert_id();
+    }
+
+    // Get all users
+    public function get_all_users() {
+        $query = $this->db->get('users');
+        return $query->result_array();
+    }
+
+    // Get direct referrals of a user
+    public function get_direct_referrals($user_id) {
+        $this->db->select('id');
+        $this->db->where('refid', $user_id);
+        $query = $this->db->get('users');
+        $result = $query->result_array();
+        return array_column($result, 'id');
     }
 }

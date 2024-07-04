@@ -7555,6 +7555,7 @@ class Admincontrol extends MY_Controller {
 	}
 
 
+	// Thay đổi trạng thái đơn hàng
 	public function order_change_status() {
 
 		$order_id = (int)$this->input->post("id", true);
@@ -8285,6 +8286,7 @@ class Admincontrol extends MY_Controller {
 		$register_form = $this->PagebuilderModel->getSettings('registration_builder');
 
 		$data['data'] = json_decode($register_form['registration_builder'], 1);
+		
 
 		if ($this->input->post()) {
 
@@ -8597,6 +8599,9 @@ class Admincontrol extends MY_Controller {
 		$data['user_groups'] = $this->user->getgrouplist();
 		$data['approvals_count'] = $this->Product_model->getApprovalCounts();
 
+		// Make tree table refs
+		//$this->make_users_reftree();
+
 		$this->view($data, 'users/index');
 	}
 
@@ -8803,6 +8808,49 @@ class Admincontrol extends MY_Controller {
 
 		$this->view($data, 'users/tree');
 	}
+
+	// Tạo cây mời
+	public function make_users_reftree() {
+		$this->load->model('Product_model');
+
+        $users = $this->Product_model->get_all_users();
+
+        foreach ($users as $user) {
+            $direct_referrals = $this->get_direct_referrals_recursive($user['id']);
+            $indirect_referrals = $this->get_indirect_referrals_recursive($user['id']);
+
+            $direct_data = array(
+                'user_id' => $user['id'],
+                'refids_direct' => empty($direct_referrals) ? null : implode(',', $direct_referrals),
+            );
+            $this->Product_model->insert_users_direct($direct_data);
+
+            $indirect_data = array(
+                'user_id' => $user['id'],
+                'refids_indirect' => empty($indirect_referrals) ? null : implode(',', $indirect_referrals),
+            );
+            $this->Product_model->insert_users_indirect($indirect_data);
+        }
+
+        echo "User tree populated successfully!";
+    }
+
+    private function get_direct_referrals_recursive($user_id) {
+        $direct_referrals = $this->Product_model->get_direct_referrals($user_id);
+        return $direct_referrals;
+    }
+
+    private function get_indirect_referrals_recursive($user_id) {
+        $direct_referrals = $this->Product_model->get_direct_referrals($user_id);
+        $all_indirect_referrals = [];
+
+        foreach ($direct_referrals as $direct_referral) {
+            $indirect_referrals = $this->get_indirect_referrals_recursive($direct_referral);
+            $all_indirect_referrals = array_merge($all_indirect_referrals, $indirect_referrals, [$direct_referral]);
+        }
+
+        return $all_indirect_referrals;
+    }
 
 	public function addons() {
 

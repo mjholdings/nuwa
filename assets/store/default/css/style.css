@@ -11,7 +11,7 @@
     --color-black: #000;
     --color-light: rgba(132, 139, 200, 0.18);
     --color-dark-variant: #677483;
-    --color-pink: #f95f7d;
+    --color-pink: #2763E9;
     --color-background: #f6f6f9;
     --card-border-radius: 2rem;
     --border-radius-1: 0.4rem;
@@ -68,16 +68,16 @@ body {
     align-items: center;
 }
 
-.headerbar {
+/* .headerbar {
     background: transparent;
     display: block;
     height: 70px;
     width: 100%;
-}
+} */
 
 .nav-item.active .nav-link,
 .nav-item:hover .nav-link {
-    color: var(--color-pink) !important;
+    color: var(#2763E9) !important;
 }
 
 #myHeader.sticky {
@@ -100,8 +100,8 @@ header {
 }
 
 #myHeader {
-    position: absolute;
-    top: 39px;
+    /* position: absolute; */
+   
     z-index: 99;
     width: 100%;
     left: 0;
@@ -270,7 +270,7 @@ header .navbar-expand-lg .navbar-nav .nav-link {
 .top-login-btn {
     padding: 5px 14px;
     border-radius: 5px;
-    background: var(--color-dark);
+    background: var(--color-pink);
 }
 
 .header-right-listing ul li.cart-top span {
@@ -382,7 +382,7 @@ li.childrenDropDown {
 }
 
 .category-listing li a {
-    background: var(--color-dark);
+    background: var(--color-pink);
     border-radius: 10px;
     padding: 4px 22px;
     display: block;
@@ -591,7 +591,7 @@ center / cover no-repeat;
     width: 51%;
     min-width: 100px;
     height: 33px;
-    background-color: #ed125f;
+    background-color: #2763E9;
 }
 
 .product-buttons {
@@ -648,7 +648,7 @@ center / cover no-repeat;
 .stats-text h4 {
     font: normal normal bold 20px/27px;
     letter-spacing: 0px;
-    color: #f95f7d;
+    color: #2763E9;
     opacity: 1;
     margin: 4px 0;
 }
@@ -688,7 +688,7 @@ center / cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #ed125f;
+    background-color: #2763E9;
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     height: 48px;
     font: normal normal 16px/21px;
@@ -1429,7 +1429,7 @@ footer {
 }
 
 header .navbar-expand-lg .navbar-nav .nav-link:hover {
-    color: rgb(239, 130, 34);
+    color: #2763E9;
 }
 
 
@@ -1636,7 +1636,7 @@ header .navbar-expand-lg .navbar-nav .nav-link:hover {
 }
 
 .variation-row .variations span:hover {
-    border: 2px solid rgb(68, 39, 129) !important;
+    border: 2px solid #2763E9 !important;
 }
 
 .variations span {
@@ -1644,7 +1644,7 @@ header .navbar-expand-lg .navbar-nav .nav-link:hover {
 }
 
 .variations span.active {
-    border: 2px solid rgb(68, 39, 129) !important;
+    border: 2px solid #2763E9 !important;
 }
 
 .variations-payment-row .pg-listing li {
@@ -3636,7 +3636,7 @@ a {
     font-family: 'Be Vietnam Pro';
     letter-spacing: 0px;
     color: var(--color-white);
-    background-color: #ed125f;
+    background-color: #2763E9;
     transition: all 0.3s ease;
     font-size: 20px;
     font-weight: 700;
@@ -5309,11 +5309,11 @@ a {
 }
 
 .dichvu {
-    margin-top: 80px
+    margin-top: 60px
 }
 
 .tebaogoc {
-    margin-top: 80px;
+    margin-top: 20px;
 }
 
 @media screen and (max-width: 768px) {
@@ -5475,4 +5475,55 @@ a {
 
 .register-mj {
     margin-bottom: 150px;
+}
+
+/* Branch */
+.branch-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e9ecef;
+    transition: border-color 0.3s;
+}
+
+.branch-info {
+    flex: 8;
+}
+
+.branch-name {
+    font-weight: bold;
+}
+
+.branch-address {
+    color: #6c757d;
+}
+
+.select-branch-btn {
+    flex: 2;
+    text-align: center; /* Căn giữa chữ trong nút */
+    white-space: nowrap; /* Giữ chữ trong một dòng, tránh việc xuống dòng */
+    padding: 10px 15px; /* Tăng kích thước nút để đảm bảo nội dung vừa đủ */
+    border-radius: 5px; /* Tùy chỉnh để nút có góc bo tròn nếu cần */
+}
+
+.modal-backdrop {
+    z-index: 97;
+}
+
+/* CSS cho hiệu ứng hover */
+.branch-item:hover {
+    border-color: #007bff; /* Màu viền xanh */
+    cursor: pointer;
+}
+
+.action-banner-new{
+ display: flex;
+ flex-direction: row;
+}
+
+@media (max-width: 768px) {
+    .action-banner-new{
+        flex-direction: column;
+    }
 }

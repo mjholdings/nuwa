@@ -1361,8 +1361,8 @@ Buttons
     color: #ffffff;
 }
 .btn-pink:hover, .btn-pink:focus, .btn-pink:active, .btn-pink.active, .btn-pink.focus, .btn-pink:active, .btn-pink:focus, .btn-pink:hover, .open>.dropdown-toggle.btn-pink, .btn-outline-pink.active, .btn-outline-pink:active, .show>.btn-outline-pink.dropdown-toggle, .btn-outline-pink:hover {
-    background-color: #ee4b82;
-    border: 1px solid #ee4b82;
+    background-color: #2763E9;
+    border: 1px solid #2763E9;
     color: #ffffff;
 }
 .btn-pink.focus, .btn-pink:focus, .btn-outline-pink.focus, .btn-outline-pink:focus {

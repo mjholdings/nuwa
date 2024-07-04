@@ -1788,6 +1788,182 @@
 </div>
 <!-- modal footer menu section -->
 
+	<!--top_tags_limit-->
+	<div class="mb-3">
+		<label class="form-label"><?= __('admin.top_tags_limit') ?></label>
+		<input type="number" name="store[top_tags_limit]" class="form-control" value="<?= $store_setting['top_tags_limit'] ? $store_setting['top_tags_limit'] : 10 ?>">
+	</div>
+	<!--top_tags_limit-->
+
+
+	<!--store_notifications-->
+	<!-- <fieldset class="mb-3">
+	    <legend class="bg-light px-2"><?= __('admin.store_notifications') ?></legend>
+	    <div id="notifications-list">
+	        <?php
+	            $notis = json_decode($store_setting['notification']);
+	            if(isset($notis)) {
+	                for ($i=0; $i < sizeOf($notis); $i++) { 
+	        ?>
+	        <div class="row align-items-center mb-2">
+	            <div class="col-md-11">
+	                <div class="form-group">
+	                    <label class="control-label"><?= __('admin.notification') ?> <?= ($i+1) ?></label>
+	                    <input name="store[notification][]" class="form-control" type="text" value="<?= $notis[$i] ?>">
+	                </div>
+	            </div>
+	            <div class="col-md-1">
+	                <button type="button" class="btn btn-danger btn-md remove-notification-btn"><i class="fa fa-trash"></i></button>
+	            </div>
+	        </div>
+	        <?php  
+	                }
+	            }
+	        ?>                                         
+	    </div>
+	    <button type="button" class="btn btn-md btn-primary btn-add-more"><?= __('admin.add_more') ?></button>
+	</fieldset> -->
+	<!--store_notifications-->
+
+
+	<!--Home page slider-->
+	<fieldset class="mb-3">
+	    <legend class="bg-light px-2"><?= __('admin.homepage_slider') ?></legend>
+	    <div class="row">
+	        <div class="col-12">
+	            <table class="table">
+	                <tbody id="homepage_sliders_list">
+	                    <?php
+	                    $homepage_slider = json_decode($store_setting['homepage_slider']);
+
+	                    if(!sizeof($homepage_slider) > 0) {
+	                        echo "<tr class='empty'><td colspan='100%'><h6 class='text-center text-muted'>".__('admin.sliders_not_available')."</h6></td></tr>";
+	                    }
+
+	                    foreach($homepage_slider as $hs) { ?>
+	                        <tr>
+	                            <th scope="row"><?= $hs->index; ?></th>
+	                            <td><?= $hs->title; ?></td>
+	                            <td><?= $hs->sub_title; ?></td>
+	                            <?php $img = (!empty($hs->slider_background_image)) ? base_url('assets/images/site/'. $hs->slider_background_image) : base_url('assets/store/default/img/banner.png'); ?>
+	                            <td style="width: 200px;"><img style="width: 100px; height: 50px;" src="<?= $img; ?>" class='img-fluid'></td>
+	                            <td style="width: 87px; padding: 5px 0px !important;">
+	                                <input type="hidden" name="store[homepage_slider][edited][]" value="0">
+	                                <input type="hidden" name="store[homepage_slider][index][]" value="<?= $hs->index; ?>">
+	                                <input type="hidden" name="store[homepage_slider][title][]" value="<?= $hs->title; ?>">
+	                                <input type="hidden" name="store[homepage_slider][sub_title][]" value="<?= $hs->sub_title; ?>">
+	                                <textarea name="store[homepage_slider][content][]" style="display:none;"><?= $hs->content; ?></textarea>
+	                                <input type="hidden" name="store[homepage_slider][slider_background_image][]" value="<?= $hs->slider_background_image; ?>">
+	                                <input type="hidden" name="store[homepage_slider][button_text][]" value="<?= $hs->button_text; ?>">
+	                                <input type="hidden" name="store[homepage_slider][button_link][]" value="<?= $hs->button_link; ?>">
+	                                <input type="hidden" name="store[homepage_slider][slider_text_color][]" value="<?= $hs->slider_text_color; ?>">
+	                                <input type="hidden" name="store[homepage_slider][button_text_color][]" value="<?= $hs->button_text_color; ?>">
+	                                <input type="hidden" name="store[homepage_slider][button_bg_color][]" value="<?= $hs->button_bg_color; ?>">
+	                                <button type="button" class="btn btn-primary btn-slider-form-modal-edit"><i class="fa fa-pencil"></i></button>
+	                                <button type="button" class="btn btn-danger remove-slider-btn"><i class="fa fa-trash"></i></button>
+	                            </td>
+	                        </tr>
+	                    <?php } ?>
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	    <button type="button" class="btn btn-primary btn-slider-form-modal"><?= __('admin.add_more') ?></button>
+	</fieldset>
+	<!--Home page slider-->
+
+
+	<!--Homepage features-->
+	<fieldset class="mb-3">
+	    <legend class="bg-light px-2"><?= __('admin.homepage_features') ?></legend>
+	    <div class="row">
+	        <div class="col-12">
+	            <table class="table">
+	                <tbody id="homepage_features_list">
+	                    <?php
+	                    $homepage_features = json_decode($store_setting['homepage_features']);
+
+	                    if(!sizeof($homepage_features) > 0) {
+	                        echo "<tr class='empty'><td colspan='100%'><h6 class='text-center text-muted'>".__('admin.features_not_available')."</h6></td></tr>";
+	                    }
+
+	                    foreach($homepage_features as $hf) { ?>
+	                        <tr>
+	                            <th scope="row"><?= $hf->index; ?></th>
+	                            <td><?= $hf->title; ?></td>
+	                            <td><?= $hf->sub_title; ?></td>
+	                            <?php $img = (!empty($hf->feature_image)) ? base_url('assets/images/site/'. $hf->feature_image) : base_url('assets/store/default/img/banner.png'); ?>
+	                            <td style="width: 200px;"><img style="width: 100px; height: 50px;" src="<?= $img; ?>" class='img-fluid'></td>
+	                            <td style="width: 87px; padding: 5px 0px !important;">
+	                                <input type="hidden" name="store[homepage_features][edited][]" value="0">
+	                                <input type="hidden" name="store[homepage_features][index][]" value="<?= $hf->index; ?>">
+	                                <input type="hidden" name="store[homepage_features][title][]" value="<?= $hf->title; ?>">
+	                                <input type="hidden" name="store[homepage_features][sub_title][]" value="<?= $hf->sub_title; ?>">
+	                                <input type="hidden" name="store[homepage_features][feature_image][]" value="<?= $hf->feature_image; ?>">
+	                                <button type="button" class="btn btn-primary btn-features-form-modal-edit"><i class="fa fa-pencil"></i></button>
+	                                <button type="button" class="btn btn-danger remove-features-btn"><i class="fa fa-trash"></i></button>
+	                            </td>
+	                        </tr>
+	                    <?php } ?>
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	    <button type="button" class="btn btn-primary btn-features-form-modal"><?= __('admin.add_more') ?></button>
+	</fieldset>
+	<!--Homepage features-->
+
+
+	<!--Home page bottom banner-->
+	<fieldset class="mb-3">
+	    <legend class="bg-light px-2"><?= __('admin.homepage_bottom_banner') ?></legend>
+	    <div class="row">
+	        <?php $homepage_banner = json_decode($store_setting['homepage_banner']); ?>
+	        
+	        <div class="col-12">
+	            <div class="mb-3">
+	                <label class="form-label"><?= __('admin.banner_title') ?></label>
+	                <input name="store[homepage_banner][title]" value="<?= $homepage_banner->title; ?>" class="form-control" type="text">
+	            </div>
+	        </div>
+	        
+	        <div class="col-12">
+	            <div class="mb-3">
+	                <label class="form-label"><?= __('admin.banner_content') ?></label>
+	                <textarea name="store[homepage_banner][content]" class="form-control"><?= $homepage_banner->content; ?></textarea>
+	            </div>
+	        </div>
+	        
+	        <div class="col-md-4">
+	            <div class="mb-3">
+	                <label class="form-label"><?= __('admin.banner_bottom_text') ?></label>
+	                <input name="store[homepage_banner][button_text]" value="<?= $homepage_banner->button_text; ?>" class="form-control" type="text">
+	            </div>
+	        </div>
+	        
+	        <div class="col-md-8">
+	            <div class="mb-3">
+	                <label class="form-label"><?= __('admin.banner_bottom_link') ?></label>
+	                <input name="store[homepage_banner][button_link]" value="<?= $homepage_banner->button_link; ?>" class="form-control" type="text">
+	            </div>
+	        </div>
+	    </div>
+
+	    <div class="row mt-2">
+	        <div class="col-12">
+	            <div class="row g-3">
+	                <div class="col-md-6">
+	                    <div class="mb-3">
+	                        <label for="store_hbanimage" class="form-label"><?= __('admin.banner_bottom_image') ?></label>
+	                        <input class="form-control" type="file" id="store_hbanimage" name="store_hbanimage">
+	                    </div>
+	                </div>
+	                
+	                <input type="hidden" id="homepage_bootom_banner_image" name="store[hbanimage]" value="<?= $store['hbanimage'] ?>">
+	                
+	                <div class="col-md-4">
+	                    <img id="store_hbanimage_container" src="<?= ($store['hbanimage'] != "") ? base_url('assets/images/site/'.$store['hbanimage'].'') : base_url('assets/store/default/img/ad-bg.jpg') ?>" alt="<?= base_url('assets/store/default/img/ad-bg.jpg') ?>" style="width: 100%; height:100px;" class='img-responsive'>
+	                </div>
 
 <script type="text/javascript">
 	$('.store_status').on('change', function() {

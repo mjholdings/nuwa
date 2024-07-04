@@ -4513,7 +4513,1259 @@ class Admincontrol extends MY_Controller {
 	}
 	// End tính thưởng
 
+	public function lmsResourceupdate() {
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$id  		 = $this->input->post('id');
+			$product_id  = $this->input->post('product_id');
+			$product_details = $this->Product_model->getProductById($product_id);
 
+			$_downloads = $this->Product_model->parseDownloads($product_details->downloadable_files, $product_details->product_type);
+			foreach ($_downloads as $sectionKey => $sectionValue) {
+				foreach ($sectionValue['data'] as $key => $value) {
+					if ($value['name'] == $id) {
+
+						if (!empty($value['zip']['mask'])) {
+							if (file_exists(APPPATH . '/downloads/' . $value['zip']['mask'])) {
+								@unlink(APPPATH . '/downloads/' . $value['zip']['mask']);
+							}
+						}
+						unset($_downloads[$sectionKey]['data'][$key]['zip']);
+						$_downloads[$sectionKey]['data'][$key]['zip'] = [];
+					}
+				}
+			}
+
+			$this->db->where('product_id', $product_id);
+			$this->db->update('product', ['downloadable_files' => json_encode($_downloads)]);
+			echo json_encode(['status' => true]);
+		}
+	}
+
+	private function getSettings($file, $data) {
+		extract($data);
+		ob_start();
+		require($file);
+		return ob_get_clean();
+	}
+
+
+	public function store_dashboard() {
+
+		$userdetails = $this->userdetails();
+
+		$this->load->model('Form_model');
+
+		$post = $this->input->post(null, true);
+
+		$data['CurrencySymbol'] = $this->currency->getSymbol();
+
+		if (isset($post['renderChart'])) {
+
+			if (isset($post['selectedyear'])) {
+
+				$data = $this->Order_model->getSaleChart(array('selectedyear' => $post['selectedyear']), $post['renderChart']);
+			} else {
+
+				$data = $this->Order_model->getSaleChart(array(), $post['renderChart']);
+			}
+
+			echo json_encode($data);
+			die;
+		}
+
+
+		/* Getting total order count */
+
+		$data['total']['order_count'] = $this->db->query('SELECT COUNT(op.id) as total FROM `order_products` op LEFT JOIN `order` as o ON o.id = op.order_id WHERE o.status > 0 ')->row()->total;
+
+		$data['form_count'] = $this->db->query('SELECT COUNT(*) as total FROM `form`')->row()->total;
+
+		$data['coupon_count'] = $this->db->query('SELECT COUNT(*) as total FROM `coupon`')->row()->total;
+
+		$data['form_coupon_count'] = $this->db->query('SELECT COUNT(*) as total FROM `form_coupon`')->row()->total;
+
+		$data['product_count'] = $this->db->query('SELECT COUNT(*) as total FROM `product`')->row()->total;
+
+		$data['category_count'] = $this->db->query('SELECT COUNT(*) as total FROM `categories`')->row()->total;
+
+		$data['payment_gateway_count'] = count(glob(APPPATH . "/payment_gateway/controllers/*.php"));
+
+
+		/* Getting total admin shipping */
+		$data['local_store_shipping_cost'] = $this->db->query("SELECT SUM(shipping_cost) as total FROM `order`")->row()->total;
+
+		/* Getting total admin tax */
+		$data['local_store_tax_cost'] = $this->db->query("SELECT SUM(tax_cost) as total FROM `order`")->row()->total;
+
+
+		/* Getting total clients count */
+
+		$data['client_count'] = $this->db->query('SELECT count(*) as total FROM users WHERE type like "client"')->row()->total;
+
+		$data['client_count'] = $this->Product_model->getAllClientrecord();
+
+		$data['guest_count'] = $this->Product_model->getAllClientrecord('guest');
+
+		$data['ordercount']      = $this->Order_model->getCount();
+
+		$data['salescount']      = $this->Order_model->getSale();
+
+		$data['formcount']       = $this->Form_model->formcount();
+
+		$data['userworldmap']    = $this->Product_model->getUserWorldMap(1);
+
+		$this->load->model('Wallet_model');
+
+		$this->load->model('IntegrationModel');
+
+
+		$data['integration_logs']   = $this->IntegrationModel->getLogs(array('page' => 1, 'limit' => 5))['records'];
+
+		$filter_date = date('Y-m-01') . ' - ' . date('Y-m-t');
+
+		$data['totals'] = $this->Wallet_model->getTotals(array(
+
+			'total_commision_filter_month' => 'all',
+
+			'total_commision_filter_year' => date("Y"),
+
+		), true);
+
+
+
+		$data['refer_total']        = $this->Product_model->getReferalTotals();
+
+		$data['online_count']        = $this->Product_model->onlineCount();
+
+		$data['integration_orders'] = $this->IntegrationModel->getOrders(array("limit" => 5));
+
+
+		$totals = $this->Wallet_model->getTotals(array(), true);
+
+
+
+		/* Getting total balance */
+
+		$data['totals']['full_total_balance'] = c_format($totals['total_balance']);
+
+		$data['totals']['total_sale_balance'] = c_format($totals['total_sale_balance']);
+
+
+
+		/* Getting total order count */
+
+		$data['totals']['full_local_store_hold_orders'] = $totals['store']['hold_orders'];
+
+
+
+		$data['totals']['full_all_clicks_comm']            = $totals['all_clicks'] . "/" . c_format($totals['all_clicks_comm']);
+
+		$data['totals']['full_action_count_action_amount'] = (int)$totals['integration']['action_count'] . '/' . c_format($totals['integration']['action_amount']);
+
+		$data['totals']['full_hold_action_count']          = $totals['integration']['hold_action_count'];
+
+		$data['totals']['full_hold_orders']                = $totals['integration']['hold_orders'];
+
+		$data['totals']['full_weekly_balance']             = c_format($totals['weekly_balance']);
+
+		$data['totals']['full_monthly_balance']            = c_format($totals['monthly_balance']);
+
+		$data['totals']['full_yearly_balance']             = c_format($totals['yearly_balance']);
+
+
+
+		$this->load->model('Report_model');
+
+		$data['live_window'] = $this->Report_model->combine_window($data);
+
+
+
+		require APPPATH . '/core/latlong.php';
+
+		$data['_countryCode'] = $_countryCode;
+
+
+		$data['months'] = array('All', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12');
+
+		$data['years'] = array('All', date("Y", strtotime("-3 year")), date("Y", strtotime("-2 year")), date("Y", strtotime("-1 year")), date("Y", strtotime("0 year")));
+
+
+		$this->view($data, 'store/dashboard');
+	}
+
+	public function store_dashboard_order_list() {
+
+		$userdetails = $this->userdetails();
+
+		$get = $this->input->get(null, true);
+
+		$post = $this->input->post(null, true);
+
+		$filter = array(
+
+			'limit' => 50,
+
+			'page' => isset($get['page']) ? (int)$get['page'] : 1,
+
+		);
+
+		$this->load->model('Order_model');
+
+		$data['status'] = $this->Order_model->status();
+
+		$getallorders = $this->Order_model->getOrders($filter);
+
+		$data['orders'] = $getallorders['data'];
+
+		$this->load->library('pagination');
+
+		$this->pagination->cur_page = $filter['page'];
+
+		$config['base_url'] = base_url('admincontrol/store_dashboard_order_list');
+
+		$config['per_page'] = $filter['limit'];
+
+		$config['total_rows'] = $getallorders['total'];
+
+		$config['use_page_numbers'] = TRUE;
+
+		$config['page_query_string'] = TRUE;
+
+		$config['enable_query_strings'] = TRUE;
+
+		$config['query_string_segment'] = 'page';
+
+		$this->pagination->initialize($config);
+
+		$data['pagination'] = $this->pagination->create_links();
+
+		$data['payment_methods'] = $this->Order_model->PaymentMethods();
+		$json['view'] = $this->load->view("admincontrol/store/order_list_tr", $data, true);
+
+		echo json_encode($json);
+	}
+
+	public function product_logs() {
+
+		$category_id = (int)$this->input->post("category_id", true);
+
+		$currentTheme = User::getActiveTheme();
+
+		$where = "";
+
+		$sql = "SELECT DISTINCT p.* FROM product p LEFT JOIN product_categories pc ON pc.product_id = p.product_id WHERE 1 $where ";
+
+		$category = $this->db->query("SELECT * FROM categories WHERE id = " . (int)$category_id)->row_array();
+
+		if ($category) {
+
+			$sql .= " AND pc.category_id = " . $category['id'];
+		}
+
+		$data['category'] = $category;
+
+		$data['products'] = $this->db->query($sql)->result_array();
+
+		$json['html'] = $this->load->view("common/product_logs", $data, true);
+
+		echo json_encode($json);
+		die;
+	}
+
+	// Stocks
+	public function stock_listproduct($only_review = false) {
+
+		$userdetails = $this->userdetails();
+
+		$this->load->model('Form_model');
+
+		$store_setting = $this->Product_model->getSettings('store');
+
+		$data['totals'] = $this->Wallet_model->getTotals(array(), true);
+
+		$filter = array();
+
+		$get = $this->input->get(null, true);
+
+		$filter['is_campaign_and_cart_product'] = 1;
+
+		if (isset($get['category_id']) && $get['category_id']) {
+			$filter['category_id'] = (int)$this->input->get('category_id');
+		}
+
+		if (isset($get['seller_id']) && $get['seller_id']) {
+
+			$filter['seller_id'] = (int)$this->input->get('seller_id');
+		}
+
+		$filter['product_status_in'] =	 '1';
+
+		if ($only_review == 'reviews') {
+
+			$filter['product_status_in'] =	 '0,2,3';
+		}
+
+		set_default_language();
+
+		$data['productlist'] = $this->Product_model->getAllProduct($userdetails['id'], $userdetails['type'], $filter);
+
+
+		$data['client_count'] = $this->db->query('SELECT count(*) as total FROM users WHERE  type like "client"')->row()->total;
+
+		$data['ordercount'] = $this->db->query('SELECT COUNT(op.id) as total FROM `order_products` op LEFT JOIN `order` as o ON o.id = op.order_id WHERE o.status > 0 ')->row()->total;
+
+		$data['categories'] = $this->db->query("SELECT id,name FROM categories")->result_array();
+
+		$data['vendors'] = $this->db->query("SELECT users.id,CONCAT(users.firstname,' ',users.lastname) as name FROM `product_affiliate` INNER JOIN users ON users.id= user_id GROUP by user_id")->result_array();
+
+
+		$data['user'] = $userdetails;
+
+		$this->load->library("socialshare");
+
+		$data['social_share_modal'] =  $this->socialshare->get_dynamic_social_share_btns();
+
+		$this->load->model("Coupon_model");
+
+		$data['coupons'] = $this->Coupon_model->getCoupons();
+
+		$ptotal = $this->db->query('SELECT product_id FROM product')->num_rows();
+
+		foreach ($data['coupons'] as $key => $value) {
+
+			if (strtolower($value['allow_for']) == 's') {
+
+				$data['coupons'][$key]['product_count'] = count(explode(',', $value['products']));
+			} else {
+
+				$data['coupons'][$key]['product_count'] = $ptotal;
+			}
+
+			$data['coupons'][$key]['count_coupon'] = $this->Coupon_model->getCouponCount($value['coupon_id']);
+		}
+		$data['currentTheme'] = User::getActiveTheme();
+		$data['StoreStatus'] = User::getStoreStatus();
+
+		$data['forms'] = $this->Form_model->getForms();
+
+		foreach ($data['forms'] as $key => $value) {
+
+			$data['forms'][$key]['coupon_name'] = $this->Form_model->getFormCouponname(($value['coupon']) ? $value['coupon'] : 0);
+
+			$data['forms'][$key]['public_page'] = base_url('form/' . $value['seo'] . '/' . base64_encode($this->userdetails()['id']));
+
+			$data['forms'][$key]['count_coupon'] = $this->Form_model->getFormCouponCount($value['form_id']);
+
+			if ($value['coupon']) {
+
+				$data['forms'][$key]['coupon_code'] = $this->Form_model->getFormCouponCode($value['coupon']);
+			}
+
+			$data['forms'][$key]['seo'] = str_replace('_', ' ', $value['seo']);
+		}
+
+		$data['product_count'] = $this->db->query("SELECT count(p.product_id) as total FROM product p 
+
+						LEFT JOIN product_affiliate pa ON pa.product_id = p.product_id
+
+						WHERE pa.user_id IS NULL ")->row()->total;
+
+		$data['form_coupons'] = $this->Form_model->getFormCoupons();
+
+		if ($only_review == 'reviews') {
+			$this->view($data, 'product_stock/reviews');
+		} else {
+			$this->view($data, 'product_stock/index');
+		}
+	}
+
+	public function stock_updateproduct($id = null) {
+
+		$userdetails = $this->userdetails();
+
+		$data['product'] = $this->Product_model->getProductById($id);
+
+		//$data['branch_list'] = $this->db->query("SELECT * FROM branch")->result();
+
+		// Truy vấn để lấy danh sách chi nhánh cùng với số lượng và giá sản phẩm hiện tại
+		$data['branch_list'] = $this->db->query("
+        SELECT 
+            b.id, b.name, pb.stock_quantity, pb.product_price 
+        FROM 
+            branch b 
+        LEFT JOIN 
+            product_branch pb 
+        ON 
+            b.id = pb.branch_id AND pb.product_id = " . (int)$data['product']->product_id
+    )->result();
+
+		$data['tags'] = $this->Product_model->getAllTags();
+
+		if ($data['product']) {
+
+			$data['seller'] = $this->db->query("SELECT * FROM product_affiliate WHERE product_id=" . (int)$data['product']->product_id . " ")->row();
+
+			$data['seller_setting'] = $this->db->query("SELECT * FROM vendor_setting WHERE user_id=" . (int)$data['seller']->user_id . " ")->row();
+
+			$data['categories'] = $this->Product_model->getProductCategory($data['product']->product_id);
+
+			$data['product_state'] = $this->db->query("SELECT * FROM states WHERE id=" . (int)$data['product']->state_id)->row();
+
+			$data['states'] = $this->db->query("SELECT * FROM states WHERE country_id=" . (int)$data['product_state']->country_id)->result();
+		}
+
+		$data['downloads'] = $this->Product_model->parseDownloads($data['product']->downloadable_files, $data['product']->product_type);
+
+		$data['setting'] = $this->Product_model->getSettings('productsetting');
+
+		$data['vendor_setting'] = $this->Product_model->getSettings('vendor');
+
+		$data['country_list'] = $this->db->query("SELECT name,id FROM countries")->result();
+
+		$this->view($data, 'product_stock/add_product');
+	}
+
+	public function stock_duplicateProduct($product_id) {
+
+		$userdetails = $this->userdetails();
+
+		$this->Product_model->duplicateProduct($product_id);
+
+		$this->session->set_flashdata('success', __('admin.product_duplicate_successfully'));
+
+		redirect(base_url('admincontrol/stock_listproduct'));
+	}
+
+	public function stock_editProduct() {
+
+		$userdetails = $this->userdetails();
+
+		$post = $this->input->post(null, true);
+
+		if (!empty($post)) {
+
+			$product_id = (int)$this->input->post('product_id', true);
+
+			$this->load->helper(array('form', 'url'));
+
+			$this->load->library('form_validation');
+
+			$this->form_validation->set_rules('product_name', __('admin.product_name_'), 'required');
+			$this->form_validation->set_rules('product_description', __('admin.product_description'), 'required');
+			$this->form_validation->set_rules(
+				'product_short_description',
+				__('admin.short_description'),
+				'required|min_length[5]|max_length[300]',
+				array(
+					'required'      => 'Enter %s',
+					'is_unique'     => 'This %s already exists.',
+					'min_length' 	=> '%s: the minimum of characters is %s',
+					'max_length' 	=> '%s: the maximum of characters is %s',
+				)
+			);
+			$this->form_validation->set_rules('category[]', "Category", "required");
+			$this->form_validation->set_rules('product_price', 'Product Price', 'required');
+			$this->form_validation->set_rules('product_sku', 'Product SKU', 'required');
+			$this->form_validation->set_rules('product_video', 'Product Video', 'trim');
+
+			if ($post['allow_country'] == "on") {
+				$this->form_validation->set_rules('state_id', 'State', 'required');
+			}
+
+			if ($post['product_recursion_type'] == 'custom') {
+				$this->form_validation->set_rules('product_recursion', 'Product Recursion', 'required');
+
+				if ($post['product_recursion'] == 'custom_time') {
+					$this->form_validation->set_rules('recursion_custom_time', 'Custom Time', 'required|greater_than[0]');
+				}
+			}
+
+			$product_recursion = ($post['product_recursion_type'] && $post['product_recursion_type'] != 'default') ? $post['product_recursion'] : "";
+
+			$recursion_custom_time = ($product_recursion == 'custom_time') ? $post['recursion_custom_time'] : 0;
+
+
+			if ($this->form_validation->run()) {
+
+				$post = $this->input->post(null, true);
+
+				$errors = array();
+
+				$downloadable_files = array();
+
+				if ($product_id) {
+
+					$product_details = $this->Product_model->getProductById($product_id);
+
+					$_downloads = $this->Product_model->parseDownloads($product_details->downloadable_files, $product_details->product_type);
+
+					foreach ($post['keep_files'] as $key => $_value) {
+
+						if (isset($_downloads[$_value])) {
+							if ($post['product_type'] == 'video' && $post['sub_product_type'] == "video") {
+								$_downloads[$_value]['videotext'] = $post['videotext'][$key] ?? null;
+								$downloadable_files[] = $_downloads[$_value];
+							} else if ($post['product_type'] == 'video' && $post['sub_product_type'] == "videolink") {
+								@unlink(APPPATH . '/downloads/' . $_value . ".zip");
+							} else {
+								$downloadable_files[] = $_downloads[$_value];
+							}
+						} else {
+
+							@unlink(APPPATH . '/downloads/' . $_value);
+						}
+					}
+
+					$allKeys = array_keys($_downloads);
+					if (isset($post['keep_video_files']))
+						$keepKeys = array_keys($post['keep_video_files']);
+					else
+						$keepKeys = array();
+					$deletedSectionKeys  = array_diff($allKeys, $keepKeys);
+					$deletedSectionKeys = array_values($deletedSectionKeys);
+					$_download_new = [];
+					if (isset($post['keep_video_files'])) {
+
+						foreach ($post['keep_video_files'] as $innerKey => $innerValue) {
+							$keepVideo = [];
+							for ($i = 0; $i < count($innerValue); $i++) {
+								$key = array_search($innerValue[$i], array_column($_downloads[$innerKey]['data'], 'name'));
+								if ($key != FALSE || $key == 0) {
+									$keepVideo[] = $key;
+								}
+							}
+							$deleteVideoFromSectionKey = array_diff(array_keys($_downloads[$innerKey]['data']), $keepVideo);
+
+							// Remove video from Section
+							foreach ($deleteVideoFromSectionKey as $key =>  $value) {
+								if (file_exists(APPPATH . '/downloads/' . $_downloads[$innerKey]['data'][$value]['mask'])) {
+									@unlink(APPPATH . '/downloads/' . $_downloads[$innerKey]['data'][$value]['mask']);
+									@unlink(APPPATH . '/downloads/' . $_downloads[$innerKey]['data'][$value]['zip']['mask']);
+								}
+								unset($_downloads[$innerKey]['data'][$value]);
+							}
+							for ($i = 0; $i < count($deletedSectionKeys); $i++) {
+								foreach ($_downloads[$deletedSectionKeys[$i]]['data'] as $key => $value) {
+									if (file_exists(APPPATH . "/downloads/") . $value['mask']) {
+										@unlink(APPPATH . "/downloads/" . $value['mask']);
+										@unlink(APPPATH . "/downloads/" . $value['zip']['mask']);
+									}
+								}
+								unset($_downloads[$deletedSectionKeys[$i]]);
+							}
+							// update title  
+							$oldVideo = [];
+							foreach ($keepVideo as $key => $value) {
+								$zip = $_downloads[$innerKey]['data'][$value]['zip'] ?? [];
+								$zip['title'] = $post['VideoFileResourceText'][$innerKey][$value] ?? ($_downloads[$innerKey]['data'][$value]['zip']['title'] ?? '');
+								$oldVideo[] = [
+									'type' => $_downloads[$innerKey]['data'][$value]['type'],
+									'name' => $_downloads[$innerKey]['data'][$value]['name'],
+									'mask' => $_downloads[$innerKey]['data'][$value]['mask'],
+									'size' => $_downloads[$innerKey]['data'][$value]['size'],
+									'videotext' => $post['videotext'][$innerKey][$value] ?? $_downloads[$innerKey]['data'][$value]['videotext'],
+									'duration' => $post['duration'][$innerKey][$value] ?? $_downloads[$innerKey]['data'][$value]['duration'],
+									'description' => $post['description'][$innerKey][$value] ?? $_downloads[$innerKey]['data'][$value]['description'],
+									'zip' => $zip,
+								];
+							}
+							$_download_new[] = [
+								'title' => $post['section'][$innerKey],
+								'data' => $oldVideo
+							];
+						}
+
+
+						$downloadable_files = $_download_new;
+					}
+				}
+
+				$variations = [];
+
+				if (isset($post['variations']) && !empty($post['variations'])) {
+					foreach ($post['variations'] as $key => $value) {
+						if (!empty($value)) {
+							$new_value = [];
+							if ($key == 'colors') {
+								for ($i = 0; $i < sizeof($post['variations'][$key]['code']); $i++) {
+									if (!empty($post['variations'][$key]['code'][$i]) && $post['variations'][$key]['name'][$i]) {
+										array_push($new_value, [
+											'code' => $post['variations'][$key]['code'][$i],
+											'name' => $post['variations'][$key]['name'][$i],
+											'price' => $post['variations'][$key]['price'][$i]
+										]);
+									}
+								}
+							} else {
+								for ($i = 0; $i < sizeof($post['variations'][$key]['name']); $i++) {
+									if (!empty($post['variations'][$key]['name'][$i])) {
+										array_push($new_value, [
+											'name' => $post['variations'][$key]['name'][$i],
+											'price' => $post['variations'][$key]['price'][$i]
+										]);
+									}
+								}
+							}
+							$variations[$key] = $new_value;
+						}
+					}
+				}
+
+				$pro_description = $_POST['product_description'];
+
+				$doBase64Images = true;
+				$imgCount = 0;
+
+				while ($doBase64Images) {
+					preg_match('/src="data:(.*?)" /', $pro_description, $matchBase64);
+					if (!isset($matchBase64[1]) || empty($matchBase64[1])) {
+						$doBase64Images = false;
+					} else {
+						$image_parts = explode(";base64,", $matchBase64[1]);
+						$image_type_aux = explode("image/", $image_parts[0]);
+						$image_type = $image_type_aux[1];
+						$image_base64 = base64_decode($image_parts[1]);
+						$file = 'assets/user_upload/pro-desc-' . time() . '-' . $imgCount . '.' . $image_type;
+						file_put_contents($file, $image_base64);
+						$pro_description = str_replace("data:" . $matchBase64[1], base_url($file), $pro_description);
+						$imgCount++;
+					}
+				}
+
+
+				// Product Detail
+				$details = array(
+
+					'product_name'                 =>  $post['product_name'],
+
+					'product_description'          =>  $pro_description,
+
+					'product_short_description'    =>  $post['product_short_description'],
+
+					'product_msrp'                =>  $post['product_msrp'],
+
+					'product_price'                =>  $post['product_price'],
+
+					'product_sku'                  =>  $post['product_sku'],
+
+					'product_video'                =>  $post['product_video'],
+
+					'product_price'                =>  $post['product_price'],
+
+					'product_type'                 =>  $post['product_type'],
+
+					'product_commision_type'       =>  $post['product_commision_type'],
+
+					'state_id'                     =>  $post['allow_country'] == "on" ? (int)$post['state_id'] : 0,
+
+					'product_commision_value'      =>  (float)$post['product_commision_value'],
+
+					'product_click_commision_type' =>  $post['product_click_commision_type'],
+
+					'product_click_commision_ppc'  =>  $post['product_click_commision_ppc'],
+
+					'product_click_commision_per'  =>  (float)$post['product_click_commision_per'],
+
+					'on_store'                     =>  (int)$post['on_store'],
+
+					'allow_shipping'               =>  (int)$post['allow_shipping'],
+
+					'allow_upload_file'            =>  (int)$post['allow_upload_file'],
+
+					'allow_comment'                =>  (int)$post['allow_comment'],
+
+					'product_status'               =>  isset($post['product_status']) ? (int)$post['product_status'] : 1,
+
+					'product_ipaddress'            =>  $_SERVER['REMOTE_ADDR'],
+
+					'product_recursion_type'       =>  $post['product_recursion_type'],
+
+					'recursion_endtime'       => (isset($post['recursion_endtime_status']) && $post['recursion_endtime']) ? date("Y-m-d H:i:s", strtotime($post['recursion_endtime'])) : null,
+
+					'product_recursion'            =>  $product_recursion,
+
+					'recursion_custom_time'        =>  (int)$recursion_custom_time,
+
+					'product_variations'        =>  json_encode($variations),
+
+					'product_tags'        =>  json_encode($post['product_tags']),
+
+					'popular'                     =>  (int)$post['popular'],
+				);
+
+
+				if ($_FILES['product_featured_image']['error'] != 0 && $product_id == 0) {
+
+					$errors['product_featured_image'] = 'Select Featured Image File!';
+				} else if (!empty($_FILES['product_featured_image']['name'])) {
+
+					$upload_response = $this->upload_photo('product_featured_image', 'assets/images/product/upload/thumb');
+
+					if ($upload_response['success']) {
+
+						$details['product_featured_image'] = $upload_response['upload_data']['file_name'];
+					} else {
+
+						$errors['product_featured_image'] = $upload_response['msg'];
+					}
+				}
+
+
+				if (!empty($_FILES['downloadable_file'])) {
+
+					$files = $_FILES['downloadable_file'];
+
+					if (isset($_FILES['downloadable_file']['name']) && is_countable($_FILES['downloadable_file']['name']))
+						$count_file = count($_FILES['downloadable_file']['name']);
+					else
+						$count_file = 0;
+
+					$keep_files_count =  isset($post['keep_files']) ?  count($post['keep_files']) : 0;
+
+					$this->load->helper('string');
+
+					for ($i = 0; $i < $count_file; $i++) {
+
+						$extension = pathinfo($files['name'][$i], PATHINFO_EXTENSION);
+						if (!empty(trim($files['name'][$i]))) {
+							if ($extension == 'zip') {
+
+								$FILES['downloadable_files']['name'] = md5(random_string('alnum', 10));
+
+								$FILES['downloadable_files']['type'] = $files['type'][$i];
+
+								$FILES['downloadable_files']['tmp_name'] = $files['tmp_name'][$i];
+
+								$FILES['downloadable_files']['error'] = $files['error'][$i];
+
+								$FILES['downloadable_files']['size'] = $files['size'][$i];
+
+
+								if (empty($FILES['downloadable_files']['error'])) {
+
+									move_uploaded_file($FILES['downloadable_files']['tmp_name'], APPPATH . '/downloads/' . $FILES['downloadable_files']['name']);
+
+									if ($post['product_type'] == 'video' || $post['sub_product_type'] == 'videolink') {
+										$store_file_temp = [
+											'type' => $FILES['downloadable_files']['type'],
+
+											'name' => $FILES['downloadable_files']['name'],
+
+											'mask' => $files['name'][$i]
+										];
+
+										if ($post['product_type'] == 'video' && $post['sub_product_type'] != "videolink") {
+											$store_file_temp['videotext'] = $post['videotext'][$keep_files_count + $i];
+										} else {
+										}
+										$downloadable_files[] = $store_file_temp;
+									} else {
+
+										$downloadable_files[] = array(
+
+											'type' => $FILES['downloadable_files']['type'],
+
+											'name' => $FILES['downloadable_files']['name'],
+
+											'mask' => $files['name'][$i],
+
+										);
+									}
+								} else {
+
+									$errors['downloadable_files'] = $FILES['downloadable_files']['error'];
+								}
+							} else {
+
+								$zip_name = md5(random_string('alnum', 10));
+
+								if ($post['product_type'] == 'video' || $post['sub_product_type'] == 'videolink') {
+
+									$ext = pathinfo($files['name'][$i], PATHINFO_EXTENSION);
+									$fileName = md5(random_string('alnum', 10)) . ".$ext";
+
+									move_uploaded_file($files['tmp_name'][$i], APPPATH . '/downloads/' . $fileName);
+
+									$store_file_temp = [
+										'type' => $files['type'][$i],
+
+										'name' => $zip_name,
+
+										'mask' => $fileName,
+
+										'thumb' => preg_replace('/\\.[^.\\s]{3,4}$/', '', $fileName) . '.png',
+
+									];
+									if ($post['product_type'] == 'video' && $post['sub_product_type'] != "videolink") {
+										$store_file_temp['videotext'] = $post['videotext'][$keep_files_count + $i];
+									}
+									$downloadable_files[] = $store_file_temp;
+								} else {
+
+									$fileName = $zip_name;
+
+									$zip = new ZipArchive();
+
+									if ($zip->open(APPPATH . '/downloads/' . $zip_name, ZipArchive::CREATE) !== TRUE) {
+										$errors['downloadable_files'] = "Sorry ZIP creation is not working currently.";
+									}
+
+									$zip->addFromString($files['name'][$i], file_get_contents($files['tmp_name'][$i]));
+
+									$zip->close();
+
+
+									$downloadable_files[] = array(
+
+										'type' => 'application/x-zip-compressed',
+
+										'name' => $zip_name,
+
+										'mask' => preg_replace('/\\.[^.\\s]{3,4}$/', '', $files['name'][$i]) . '.zip',
+
+									);
+								}
+							}
+						}
+					}
+				}
+
+				if (!empty($_FILES['lms_videos_files'])) {
+
+					foreach ($_FILES['lms_videos_files']['name'] as $key => $value) {
+						if (isset($_FILES['lms_videos_files']['name'][$key]) && !empty($_FILES['lms_videos_files']['name'][$key][0])) {
+							$index = $key;
+							for ($i = 0; $i < count($_FILES['lms_videos_files']['name'][$key]); $i++) {
+								$ext = pathinfo($_FILES['lms_videos_files']['name'][$key][$i], PATHINFO_EXTENSION);
+								$fileName = md5(random_string('alnum', 10)) . ".$ext";
+								move_uploaded_file($_FILES['lms_videos_files']['tmp_name'][$key][$i], APPPATH . '/downloads/' . $fileName);
+								if (!isset($downloadable_files[$index]) && $index != 0) {
+									$index = (count($downloadable_files) - 1) < $key ? $key : 0;
+								}
+
+
+								if (isset($post['keep_video_files']))
+									$keepvidoefilescount = count($post['keep_video_files'][$index]);
+								else
+									$keepvidoefilescount = 0;
+
+								$store_file_temp = [
+									'type' => $_FILES['lms_videos_files']['type'][$key][$i],
+
+									'name' => md5(random_string('alnum', 10)),
+
+									'mask' => $fileName,
+
+									'size' => format_filesize($_FILES['lms_videos_files']['size'][$key][$i]),
+
+									'duration' => $_POST['lms_videos_files_duration'][$key][$i],
+
+									'videotext' => $post['videotext'][$index][$keepvidoefilescount + $i],
+
+									'description' => $post['description'][$index][$keepvidoefilescount + $i]
+								];
+
+
+								if (!empty($_FILES['lms_videos_files_zip']['name'][$key][$i])) {
+									$ext = pathinfo($_FILES['lms_videos_files_zip']['name'][$key][$i], PATHINFO_EXTENSION);
+									$fileName = md5(random_string('alnum', 10)) . ".$ext";
+									move_uploaded_file($_FILES['lms_videos_files_zip']['tmp_name'][$key][$i], APPPATH . '/downloads/' . $fileName);
+
+									$store_file_temp['zip'] = [
+										'name' => md5(random_string('alnum', 10)),
+										'mask' => $fileName,
+										'title' => $post['VideoFileResourceText'][$index][count($post['keep_video_files'][$index]) + $i],
+										'type' => $_FILES['lms_videos_files_zip']['type'][$key][$i],
+										'size' => format_filesize($_FILES['lms_videos_files_zip']['size'][$key][$i])
+									];
+								}
+								$downloadable_files[$index]['data'][] = $store_file_temp;
+							}
+						}
+						$downloadable_files[$key]['title'] = $post['section'][$key];
+					}
+				}
+
+				if (!empty($_FILES['lms_videos_files_update'])) {
+					foreach ($_FILES['lms_videos_files_update']['name'] as $key => $value) {
+						if (isset($_FILES['lms_videos_files_update']['name'][$key])) {
+							foreach ($_FILES['lms_videos_files_update']['name'][$key] as $oldname => $newFile) {
+								$ext = pathinfo($_FILES['lms_videos_files_update']['name'][$key][$oldname], PATHINFO_EXTENSION);
+								$fileName = md5(random_string('alnum', 10)) . ".$ext";
+								move_uploaded_file($_FILES['lms_videos_files_update']['tmp_name'][$key][$oldname], APPPATH . '/downloads/' . $fileName);
+								foreach ($downloadable_files[$key]['data'] as $dkey => $datavalue) {
+									if ($datavalue['name'] == $oldname) {
+
+										$downloadable_files[$key]['data'][$dkey]['name'] = md5(random_string('alnum', 10));
+										$oldFileName = $downloadable_files[$key]['data'][$dkey]['mask'];
+										$downloadable_files[$key]['data'][$dkey]['mask'] = $fileName;
+										$downloadable_files[$key]['data'][$dkey]['type'] = $_FILES['lms_videos_files_update']['type'][$key][$oldname];
+										$downloadable_files[$key]['data'][$dkey]['size'] = format_filesize($_FILES['lms_videos_files_update']['size'][$key][$oldname]);
+										$downloadable_files[$key]['data'][$dkey]['duration'] = $_POST['lms_videos_files_update_duration'][$key][$oldname];
+
+
+										if (file_exists(APPPATH . '/downloads/' . $oldFileName)) {
+											@unlink(APPPATH . '/downloads/' . $oldFileName);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				if (!empty($_FILES['lms_videos_files_zip_update'])) {
+					if (isset($_POST['sub_product_type']) && $_POST['sub_product_type'] == 'videolink') {
+						$downloadable_files = $_downloads;
+					}
+					foreach ($_FILES['lms_videos_files_zip_update']['name'] as $key => $value) {
+						if (isset($_FILES['lms_videos_files_zip_update']['name'][$key])) {
+							foreach ($_FILES['lms_videos_files_zip_update']['name'][$key] as $oldname => $newFile) {
+								$ext = pathinfo($_FILES['lms_videos_files_zip_update']['name'][$key][$oldname], PATHINFO_EXTENSION);
+								$fileName = md5(random_string('alnum', 10)) . ".$ext";
+								move_uploaded_file($_FILES['lms_videos_files_zip_update']['tmp_name'][$key][$oldname], APPPATH . '/downloads/' . $fileName);
+								foreach ($downloadable_files[$key]['data'] as $dkey => $datavalue) {
+
+									if ($datavalue['name'] == $oldname) {
+										$downloadable_files[$key]['data'][$dkey]['zip']['name'] = md5(random_string('alnum', 10));
+										$oldFileName = $downloadable_files[$key]['data'][$dkey]['zip']['mask'];
+										$downloadable_files[$key]['data'][$dkey]['zip']['mask'] = $fileName;
+										$downloadable_files[$key]['data'][$dkey]['zip']['type'] = $_FILES['lms_videos_files_zip_update']['type'][$key][$oldname];
+										$downloadable_files[$key]['data'][$dkey]['zip']['size'] = format_filesize($_FILES['lms_videos_files_zip_update']['size'][$key][$oldname]);
+										$downloadable_files[$key]['data'][$dkey]['zip']['title'] = $post['VideoFileResourceText'][$key][$dkey];
+
+
+										if (file_exists(APPPATH . '/downloads/' . $oldFileName)) {
+											@unlink(APPPATH . '/downloads/' . $oldFileName);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+
+				if (!empty($post['videolink'])) {
+					$TmpDownloadable_files = $downloadable_files;
+					$downloadable_files = [];
+					foreach ($post['sectionlink'] as $key => $value) {
+						$tmp['title'] = $value;
+						foreach ($post['videolink'][$key] as $keyInner => $InnerValue) {
+							if (!empty($post['videolink'][$key][$keyInner]) && !empty($post['videotext'][$key][$keyInner])) {
+								$zip = $TmpDownloadable_files[$key]['data'][$keyInner]['zip'] ?? [];
+								if (!empty($_FILES['lms_videos_files_zip_update']['name'][$key][$keyInner])) {
+
+									$ext = pathinfo($_FILES['lms_videos_files_zip_update']['name'][$key][$keyInner], PATHINFO_EXTENSION);
+									$fileName = md5(random_string('alnum', 10)) . ".$ext";
+									move_uploaded_file($_FILES['lms_videos_files_zip_update']['tmp_name'][$key][$keyInner], APPPATH . '/downloads/' . $fileName);
+									$zip = [
+										'name' => md5(random_string('alnum', 10)),
+										'mask' => $fileName,
+										'type' => $_FILES['lms_videos_files_zip_update']['type'][$key][$keyInner],
+										'size' => format_filesize($_FILES['lms_videos_files_zip']['size'][$key][$keyInner]),
+										'title' => $post['VideoFileResourceText'][$key][$keyInner]
+									];
+								}
+
+								$tmp['data'][] = [
+									'type' => 'link',
+
+									'name' => $TmpDownloadable_files[$key]['data'][$keyInner]['name'] ?? md5(random_string('alnum', 10)),
+
+									'mask' => $post['videolink'][$key][$keyInner],
+
+									'videotext' => $post['videotext'][$key][$keyInner],
+
+									'description' => $post['description'][$key][$keyInner],
+
+									'zip' => $zip
+
+								];
+							}
+						}
+						$downloadable_files[] = $tmp;
+						$tmp = [];
+					}
+					$details['product_type'] = 'videolink';
+				}
+
+				if (empty($errors)) {
+
+					$details['downloadable_files'] = json_encode($downloadable_files);
+
+					$this->session->set_flashdata('success', __('admin.product_added_successfully'));
+
+					$old_product_data = [];
+
+					// Product Branch
+					$data['branch_list'] = $this->db->query("SELECT * FROM branch")->result();
+
+					if ($product_id) {
+
+						$old_product_data = $this->db->query("SELECT * FROM product WHERE product_id = " . (int)$product_id)->row_array();
+
+						$details['product_updated_date'] = date('Y-m-d H:i:s');
+
+						// Xử lý dữ liệu từ form
+						if ($this->input->post()) {
+							$quantities = $this->input->post('quantity');
+							$prices = $this->input->post('price');
+
+							foreach ($data['branch_list'] as $branch_item) {
+								$branch_id = $branch_item->id;
+								$quantity = isset($quantities[$branch_id]) ? $quantities[$branch_id] : 0;
+								$price = isset($prices[$branch_id]) ? $prices[$branch_id] : 0;
+								$stocks[$branch_id]['quantity'] = $quantity;
+								$stocks[$branch_id]['price'] = $price;
+								$stocks[$branch_id]['id'] = $product_id;
+
+								// Update Product Branch for current product
+								$this->Product_model->updateProductBranch($branch_id, $product_id, $quantity, $price);
+							}
+						}
+
+						// Update Product						
+						$this->Product_model->update_data('product', $details, array('product_id' => $product_id));
+					} else {
+
+						$details['product_created_by'] = $userdetails['id'];
+						$details['product_updated_date'] = date('Y-m-d H:i:s');
+						$details['product_created_date'] = date('Y-m-d H:i:s');
+
+						// New product
+						$product_id = $this->Product_model->create_data('product', $details);
+
+						// Update Product Branch for new product
+						// Xử lý dữ liệu từ form
+						if ($this->input->post()) {
+							$quantities = $this->input->post('quantity');
+							$prices = $this->input->post('price');
+
+							foreach ($data['branch_list'] as $branch_item) {
+								$branch_id = $branch_item->id;
+								$quantity = isset($quantities[$branch_id]) ? $quantities[$branch_id] : 0;
+								$price = isset($prices[$branch_id]) ? $prices[$branch_id] : 0;
+								$stocks[$branch_id]['quantity'] = $quantity;
+								$stocks[$branch_id]['price'] = $price;
+								$stocks[$branch_id]['id'] = $product_id;
+
+								// Update Product Branch for current product
+								$this->Product_model->updateProductBranch($branch_id, $product_id, $quantity, $price);
+							}
+						}
+
+						// Notification
+						$notificationData = array(
+
+							'notification_url'          => '/stock_listproduct/' . $product_id,
+
+							'notification_type'         =>  'product',
+
+							'notification_title'        =>  __('admin.new_product_added_in_affiliate_program'),
+
+							'notification_view_user_id' =>  'all',
+
+							'notification_viewfor'      =>  'user',
+
+							'notification_actionID'     =>  $product_id,
+
+							'notification_description'  =>  $post['product_name'] . ' product is addded by admin in affiliate Program on ' . date('Y-m-d H:i:s'),
+
+							'notification_is_read'      =>  '0',
+
+							'notification_created_date' =>  date('Y-m-d H:i:s'),
+
+							'notification_ipaddress'    =>  $_SERVER['REMOTE_ADDR']
+
+						);
+
+						$store_setting = $this->Product_model->getSettings('store');
+
+						if ($store_setting['status']) {
+
+							$this->insertnotification($notificationData);
+						}
+					}
+
+					$seofilename = $this->friendly_seo_string($post['product_name']);
+
+					$seofilename = strtolower($seofilename);
+
+					$product_slug = $seofilename . '-' . $product_id;
+
+					$this->db->query("UPDATE product SET product_slug = " . $this->db->escape($product_slug) . " WHERE product_id =" . $product_id);
+
+					$seller = '';
+
+					if ($product_id) {
+
+						$this->db->query("DELETE FROM product_categories WHERE product_id = {$product_id}");
+
+
+
+						if (isset($post['category'])) {
+							if (is_array($post['category'])) {
+								foreach ($post['category'] as $category_id) {
+									$category = array(
+										'product_id' => $product_id,
+										'category_id' => $category_id,
+									);
+									$this->Product_model->create_data('product_categories', $category);
+								}
+							} else {
+								$category = array(
+									'product_id' => $product_id,
+									'category_id' => $post['category'],
+								);
+								$this->Product_model->create_data('product_categories', $category);
+							}
+						}
+
+
+
+						$admin_comment = '';
+
+						if (isset($post['admin_comment']) && $post['admin_comment']) {
+
+							$admin_comment = $post['admin_comment'];
+						}
+
+
+						if (isset($post['admin_sale_commission_type'])) {
+
+							$seller_comm = [
+
+								'admin_sale_commission_type'      => $post['admin_sale_commission_type'],
+
+								'admin_commission_value'          => $post['admin_commission_value'],
+
+								'admin_click_commission_type'     => $post['admin_click_commission_type'],
+
+								'admin_click_amount'              => $post['admin_click_amount'],
+
+								'admin_click_count'               => $post['admin_click_count'],
+
+							];
+
+							$seller = $this->db->query("SELECT * FROM product_affiliate WHERE product_id=" . (int)$product_id . " ")->row();
+
+							$this->Product_model->assignToSeller($product_id, $details, $userdetails['id'], $admin_comment, 'admin', $seller_comm);
+						}
+					}
+
+
+
+
+
+					if ($seller) {
+
+						$product_data = $this->db->query("SELECT * FROM product WHERE product_id = " . (int)$product_id)->row_array();
+
+						$this->load->model('Mail_model');
+
+						if ($old_product_data['product_status'] != $product_data['product_status']) {
+
+							$this->Mail_model->vendor_product_status_change($product_id, 'vendor', true);
+						}
+					}
+
+
+					if ($post['action'] == 'save_close') {
+						$json['location'] = base_url('admincontrol/stock_listproduct/');
+					} else {
+						$json['location'] = base_url('admincontrol/stock_updateproduct/' . $product_id);
+					}
+				} else {
+					$json['errors'] = $errors;
+				}
+			} else {
+
+				$json['errors'] = $this->form_validation->error_array();
+
+				if (isset($json['errors']['category[]'])) {
+
+					$json['errors']['category_auto'] = $json['errors']['category[]'];
+				}
+			}
+
+			echo json_encode($json);
+
+			die;
+		}
+	}
+
+	public function stock_listproduct_ajax($page = 1) {
+
+		$userdetails = $this->userdetails();
+
+		$get = $this->input->get(null, true);
+
+		$post = $this->input->post(null, true);
+
+		$filter = array(
+
+			'page' => isset($get['page']) ? $get['page'] : $page,
+
+			'limit' => 20,
+		);
+
+
+		if (isset($post['category_id']) && $post['category_id']) {
+
+			$filter['category_id'] = (int)$this->input->post('category_id');
+		}
+
+
+
+		if (isset($post['seller_id']) && $post['seller_id']) {
+
+			$filter['seller_id'] = (int)$this->input->post('seller_id');
+		}
+
+
+		$filter['product_status_in'] =	 '1';
+
+		if ($only_review == 'reviews') {
+
+			$filter['product_status_in'] =	 '0,2,3';
+		}
+
+
+		$data['default_commition'] = $this->Product_model->getSettings('productsetting');
+
+		$record = $this->Product_model->getAllProduct($userdetails['id'], $userdetails['type'], $filter);
+
+		$data['productlist'] = $record['data'];
+
+		$json['view'] = $this->load->view("admincontrol/product_stock/product_list", $data, true);
+
+		$this->load->library('pagination');
+
+		$this->pagination->cur_page = $filter['page'];
+
+		$config['base_url'] = base_url('admincontrol/stock_listproduct_ajax');
+
+		$config['per_page'] = $filter['limit'];
+
+		$config['total_rows'] = $record['total'];
+
+		$config['use_page_numbers'] = TRUE;
+
+		$config['page_query_string'] = TRUE;
+
+		$config['enable_query_strings'] = TRUE;
+
+		$_GET['page'] = $filter['page'];
+
+		$config['query_string_segment'] = 'page';
+
+		$this->pagination->initialize($config);
+
+		$json['pagination'] = $this->pagination->create_links();
+
+		echo json_encode($json);
+	}
+
+	// Product
 	public function addproduct() {
 
 		$userdetails = $this->userdetails();
@@ -5286,268 +6538,6 @@ class Admincontrol extends MY_Controller {
 			die;
 		}
 	}
-
-	public function lmsResourceupdate() {
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$id  		 = $this->input->post('id');
-			$product_id  = $this->input->post('product_id');
-			$product_details = $this->Product_model->getProductById($product_id);
-
-			$_downloads = $this->Product_model->parseDownloads($product_details->downloadable_files, $product_details->product_type);
-			foreach ($_downloads as $sectionKey => $sectionValue) {
-				foreach ($sectionValue['data'] as $key => $value) {
-					if ($value['name'] == $id) {
-
-						if (!empty($value['zip']['mask'])) {
-							if (file_exists(APPPATH . '/downloads/' . $value['zip']['mask'])) {
-								@unlink(APPPATH . '/downloads/' . $value['zip']['mask']);
-							}
-						}
-						unset($_downloads[$sectionKey]['data'][$key]['zip']);
-						$_downloads[$sectionKey]['data'][$key]['zip'] = [];
-					}
-				}
-			}
-
-			$this->db->where('product_id', $product_id);
-			$this->db->update('product', ['downloadable_files' => json_encode($_downloads)]);
-			echo json_encode(['status' => true]);
-		}
-	}
-
-	private function getSettings($file, $data) {
-		extract($data);
-		ob_start();
-		require($file);
-		return ob_get_clean();
-	}
-
-
-
-	public function store_dashboard() {
-
-		$userdetails = $this->userdetails();
-
-		$this->load->model('Form_model');
-
-		$post = $this->input->post(null, true);
-
-		$data['CurrencySymbol'] = $this->currency->getSymbol();
-
-		if (isset($post['renderChart'])) {
-
-			if (isset($post['selectedyear'])) {
-
-				$data = $this->Order_model->getSaleChart(array('selectedyear' => $post['selectedyear']), $post['renderChart']);
-			} else {
-
-				$data = $this->Order_model->getSaleChart(array(), $post['renderChart']);
-			}
-
-			echo json_encode($data);
-			die;
-		}
-
-
-		/* Getting total order count */
-
-		$data['total']['order_count'] = $this->db->query('SELECT COUNT(op.id) as total FROM `order_products` op LEFT JOIN `order` as o ON o.id = op.order_id WHERE o.status > 0 ')->row()->total;
-
-		$data['form_count'] = $this->db->query('SELECT COUNT(*) as total FROM `form`')->row()->total;
-
-		$data['coupon_count'] = $this->db->query('SELECT COUNT(*) as total FROM `coupon`')->row()->total;
-
-		$data['form_coupon_count'] = $this->db->query('SELECT COUNT(*) as total FROM `form_coupon`')->row()->total;
-
-		$data['product_count'] = $this->db->query('SELECT COUNT(*) as total FROM `product`')->row()->total;
-
-		$data['category_count'] = $this->db->query('SELECT COUNT(*) as total FROM `categories`')->row()->total;
-
-		$data['payment_gateway_count'] = count(glob(APPPATH . "/payment_gateway/controllers/*.php"));
-
-
-		/* Getting total admin shipping */
-		$data['local_store_shipping_cost'] = $this->db->query("SELECT SUM(shipping_cost) as total FROM `order`")->row()->total;
-
-		/* Getting total admin tax */
-		$data['local_store_tax_cost'] = $this->db->query("SELECT SUM(tax_cost) as total FROM `order`")->row()->total;
-
-
-		/* Getting total clients count */
-
-		$data['client_count'] = $this->db->query('SELECT count(*) as total FROM users WHERE type like "client"')->row()->total;
-
-		$data['client_count'] = $this->Product_model->getAllClientrecord();
-
-		$data['guest_count'] = $this->Product_model->getAllClientrecord('guest');
-
-		$data['ordercount']      = $this->Order_model->getCount();
-
-		$data['salescount']      = $this->Order_model->getSale();
-
-		$data['formcount']       = $this->Form_model->formcount();
-
-		$data['userworldmap']    = $this->Product_model->getUserWorldMap(1);
-
-		$this->load->model('Wallet_model');
-
-		$this->load->model('IntegrationModel');
-
-
-		$data['integration_logs']   = $this->IntegrationModel->getLogs(array('page' => 1, 'limit' => 5))['records'];
-
-		$filter_date = date('Y-m-01') . ' - ' . date('Y-m-t');
-
-		$data['totals'] = $this->Wallet_model->getTotals(array(
-
-			'total_commision_filter_month' => 'all',
-
-			'total_commision_filter_year' => date("Y"),
-
-		), true);
-
-
-
-		$data['refer_total']        = $this->Product_model->getReferalTotals();
-
-		$data['online_count']        = $this->Product_model->onlineCount();
-
-		$data['integration_orders'] = $this->IntegrationModel->getOrders(array("limit" => 5));
-
-
-		$totals = $this->Wallet_model->getTotals(array(), true);
-
-
-
-		/* Getting total balance */
-
-		$data['totals']['full_total_balance'] = c_format($totals['total_balance']);
-
-		$data['totals']['total_sale_balance'] = c_format($totals['total_sale_balance']);
-
-
-
-		/* Getting total order count */
-
-		$data['totals']['full_local_store_hold_orders'] = $totals['store']['hold_orders'];
-
-
-
-		$data['totals']['full_all_clicks_comm']            = $totals['all_clicks'] . "/" . c_format($totals['all_clicks_comm']);
-
-		$data['totals']['full_action_count_action_amount'] = (int)$totals['integration']['action_count'] . '/' . c_format($totals['integration']['action_amount']);
-
-		$data['totals']['full_hold_action_count']          = $totals['integration']['hold_action_count'];
-
-		$data['totals']['full_hold_orders']                = $totals['integration']['hold_orders'];
-
-		$data['totals']['full_weekly_balance']             = c_format($totals['weekly_balance']);
-
-		$data['totals']['full_monthly_balance']            = c_format($totals['monthly_balance']);
-
-		$data['totals']['full_yearly_balance']             = c_format($totals['yearly_balance']);
-
-
-
-		$this->load->model('Report_model');
-
-		$data['live_window'] = $this->Report_model->combine_window($data);
-
-
-
-		require APPPATH . '/core/latlong.php';
-
-		$data['_countryCode'] = $_countryCode;
-
-
-		$data['months'] = array('All', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12');
-
-		$data['years'] = array('All', date("Y", strtotime("-3 year")), date("Y", strtotime("-2 year")), date("Y", strtotime("-1 year")), date("Y", strtotime("0 year")));
-
-
-		$this->view($data, 'store/dashboard');
-	}
-
-	public function store_dashboard_order_list() {
-
-		$userdetails = $this->userdetails();
-
-		$get = $this->input->get(null, true);
-
-		$post = $this->input->post(null, true);
-
-		$filter = array(
-
-			'limit' => 50,
-
-			'page' => isset($get['page']) ? (int)$get['page'] : 1,
-
-		);
-
-		$this->load->model('Order_model');
-
-		$data['status'] = $this->Order_model->status();
-
-		$getallorders = $this->Order_model->getOrders($filter);
-
-		$data['orders'] = $getallorders['data'];
-
-		$this->load->library('pagination');
-
-		$this->pagination->cur_page = $filter['page'];
-
-		$config['base_url'] = base_url('admincontrol/store_dashboard_order_list');
-
-		$config['per_page'] = $filter['limit'];
-
-		$config['total_rows'] = $getallorders['total'];
-
-		$config['use_page_numbers'] = TRUE;
-
-		$config['page_query_string'] = TRUE;
-
-		$config['enable_query_strings'] = TRUE;
-
-		$config['query_string_segment'] = 'page';
-
-		$this->pagination->initialize($config);
-
-		$data['pagination'] = $this->pagination->create_links();
-
-		$data['payment_methods'] = $this->Order_model->PaymentMethods();
-		$json['view'] = $this->load->view("admincontrol/store/order_list_tr", $data, true);
-
-		echo json_encode($json);
-	}
-
-	public function product_logs() {
-
-		$category_id = (int)$this->input->post("category_id", true);
-
-		$currentTheme = User::getActiveTheme();
-
-		$where = "";
-
-		$sql = "SELECT DISTINCT p.* FROM product p LEFT JOIN product_categories pc ON pc.product_id = p.product_id WHERE 1 $where ";
-
-		$category = $this->db->query("SELECT * FROM categories WHERE id = " . (int)$category_id)->row_array();
-
-		if ($category) {
-
-			$sql .= " AND pc.category_id = " . $category['id'];
-		}
-
-		$data['category'] = $category;
-
-		$data['products'] = $this->db->query($sql)->result_array();
-
-		$json['html'] = $this->load->view("common/product_logs", $data, true);
-
-		echo json_encode($json);
-		die;
-	}
-
-
 
 	public function listproduct_ajax($page = 1) {
 

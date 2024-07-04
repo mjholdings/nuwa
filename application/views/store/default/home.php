@@ -9,11 +9,10 @@
 			$homepage_slider = json_decode($store_setting['homepage_slider']);
 			for ($i = 0; $i < sizeof($homepage_slider); $i++) {
 				$homepage_slider_available = true;
-				?>
+			?>
 				<div class="carousel-item <?= ($i == 0) ? 'active' : ''; ?>">
 					<div class="banner-caption" style="">
-						<img src="<?= (!empty($homepage_slider[$i]->slider_background_image)) ? base_url('assets/images/site/' . $homepage_slider[$i]->slider_background_image) : base_url('assets/store/default/img/banner.png') ?>"
-							alt="Los Angeles" width="100%" height="100%">
+						<img src="<?= (!empty($homepage_slider[$i]->slider_background_image)) ? base_url('assets/images/site/' . $homepage_slider[$i]->slider_background_image) : base_url('assets/store/default/img/banner.png') ?>" alt="Los Angeles" width="100%" height="100%">
 						<div class="carousel-caption banner-caption-inner">
 							<?php $slider_text_color = (!empty($homepage_slider[$i]->slider_text_color)) ? $homepage_slider[$i]->slider_text_color : '#FFF'; ?>
 							<h1 class="display-4" style="color: <?= $slider_text_color ?> !important;">
@@ -22,48 +21,41 @@
 							</h1>
 							<?= (!empty($homepage_slider[$i]->content)) ? '<p style="color: ' . $slider_text_color . ' !important;">' . htmlentities($homepage_slider[$i]->content, ENT_QUOTES) . '</p>' : '' ?>
 							<?php if (!empty($homepage_slider[$i]->button_text)) { ?>
-								<a href="<?= $homepage_slider[$i]->button_link; ?>" class="btn btn-main bg-white color mt-4"
-									style="color: <?= (!empty($homepage_slider[$i]->button_text_color)) ? $homepage_slider[$i]->button_text_color : '#FFF' ?> !important; background-color: <?= (!empty($homepage_slider[$i]->button_bg_color)) ? $homepage_slider[$i]->button_bg_color : '#FFF' ?> !important;"><?= $homepage_slider[$i]->button_text; ?>&nbsp;<i
-										class="fa fa-angle-right" aria-hidden="true"></i></a>
+								<a href="<?= $homepage_slider[$i]->button_link; ?>" class="btn btn-main bg-white color mt-4" style="color: <?= (!empty($homepage_slider[$i]->button_text_color)) ? $homepage_slider[$i]->button_text_color : '#FFF' ?> !important; background-color: <?= (!empty($homepage_slider[$i]->button_bg_color)) ? $homepage_slider[$i]->button_bg_color : '#FFF' ?> !important;"><?= $homepage_slider[$i]->button_text; ?>&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
 							<?php } ?>
 						</div>
 					</div>
 				</div>
-				<?php
+			<?php
 			}
 
 			// dummy homepage slide if not available
 			if (!isset($homepage_slider_available)) {
-				?>
+			?>
 				<div class="carousel-item active">
-					<div class="banner-caption"
-						style="background-image: url(<?= base_url('assets/store/default/img/banner.png') ?>);">
+					<div class="banner-caption" style="background-image: url(<?= base_url('assets/store/default/img/banner.png') ?>);">
 						<div class="banner-caption-inner">
 							<h1>Bạn đã sẵn sàng<span>?</span></h1>
-							<a href="#" class="btn btn-main bg-white color" data-toggle="modal"
-								data-target="#buyModel"><?= __('store.buy_now') ?> &nbsp;<i class="fa fa-angle-right"
-									aria-hidden="true"></i></a>
+							<a href="#" class="btn btn-main bg-white color" data-toggle="modal" data-target="#buyModel"><?= __('store.buy_now') ?> &nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
 						</div>
 					</div>
 				</div>
-				<?php
+			<?php
 			}
 
 			?>
 		</div>
-		<a class="carousel-control-prev carousel-prev--color" href="#carouselExampleControls" role="button"
-			data-slide="prev">
+		<a class="carousel-control-prev carousel-prev--color" href="#carouselExampleControls" role="button" data-slide="prev">
 			<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/slider-arrow.png" />
 		</a>
-		<a class="carousel-control-next carousel-next--color" href="#carouselExampleControls" role="button"
-			data-slide="next">
+		<a class="carousel-control-next carousel-next--color" href="#carouselExampleControls" role="button" data-slide="next">
 			<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/slider-arrow.png" />
 		</a>
 	</div>
 </section>
 
 <!-- Top tags -->
-<section class="category-tag">
+<!-- <section class="category-tag">
 	<div class="container">
 		<h3><?= __('store.top_tags') ?>:</h3>
 		<div class="container-flex-category">
@@ -92,12 +84,13 @@
 			</ul>
 		</div>
 	</div>
-</section>
+</section> -->
 
 <!-- Top tags -->
 <section class="category-tag">
 	<div class="container">
-		<h3 class="text-center"><?= __('store.top_tags') ?></h3>
+		<!-- <h3 class="text-center"><?= __('store.top_tags') ?></h3> -->
+		 <h3 class="text-center" style="color:#2763E9;"><b>SẢN PHẨM TỐT BÁN CHẠY</b></h3>
 		<div class="row categories-listing-row-strategy d-flex justify-content-center">
 			<div class="col">
 				<?php
@@ -105,22 +98,19 @@
 					foreach ($productsPopular as $product) {
 						if ($product['product_id'] == 126) {
 							$href = base_url("store/" . base64_encode($user_id) . "/product/" . $product['product_slug']);
-							?>
+				?>
 							<a href="<?= $href ?>" class="category-home pruduct-home" style="text-decoration: none">
-								<img alt="<?= __('store.image') ?>"
-									src="<?= base_url('assets/images/product/upload/thumb/'); ?><?= $product['product_featured_image']; ?>" />
-								<h3
-									style="font-size: 15px;font-weight: 500;font-weight: 500;display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: 	vertical; overflow: hidden;">
+								<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/images/product/upload/thumb/'); ?><?= $product['product_featured_image']; ?>" />
+								<h3 style="font-size: 15px;font-weight: 500;font-weight: 500;display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: 	vertical; overflow: hidden;">
 									<?= $product['product_name']; ?>
 								</h3>
-								<h3
-									style="font-size: 10px;font-weight: 500;display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: 	hidden;">
+								<h3 style="font-size: 10px;font-weight: 500;display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: 	hidden;">
 									<?= $product['product_short_description']; ?>
 								</h3>
 								<h3 style="font-size: 20px;font-weight: 700;"><?= c_format($product['product_price']); ?></h3>
 								<button class="btn btn-product bg-main2 text-white mt-3">Chi tiết</button>
 							</a>
-							<?php
+				<?php
 						}
 					}
 				}
@@ -133,12 +123,9 @@
 						foreach ($productForAffiliate as $product) {
 							if ($product['product_id'] !== 126) {
 								$href = base_url("store/" . base64_encode($user_id) . "/product/" . $product['product_slug']);
-								?>
-								<a href="<?= $href ?>" class="category-home pruduct-home col-lg-2 col-md-3 col-sm-4"
-									style="text-decoration: none">
-									<img alt="<?= __('store.image') ?>"
-										src="<?= base_url('assets/images/product/upload/thumb/'); ?><?= $product['product_featured_image']; ?>"
-										width="100" height="100" />
+					?>
+								<a href="<?= $href ?>" class="category-home pruduct-home col-lg-2 col-md-3 col-sm-4" style="text-decoration: none">
+									<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/images/product/upload/thumb/'); ?><?= $product['product_featured_image']; ?>" width="100" height="100" />
 									<h3 style="font-size: 15px;font-weight: 500;font-weight: 500;display: -webkit-box;
 														  -webkit-line-clamp: 1;
 														  -webkit-box-orient: vertical;
@@ -153,17 +140,16 @@
 									<!-- <div class="rating-row d-flex justify-space-center"><?= $product['product_avg_rating_stars'] ?></div> -->
 									<button class="btn btn-product bg-main2 text-white mt-3">Chi tiết</button>
 								</a>
-								<?php
+						<?php
 							}
 						}
 					} else {
 						?>
 						<div class="category-home pruduct-home">
-							<img alt="<?= __('store.image') ?>"
-								src="<?= base_url('assets/store/default/'); ?>img/ctg1.png" />
+							<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/ctg1.png" />
 							<h3><?= __('store.dog') ?></h3>
 						</div>
-						<?php
+					<?php
 					}
 					?>
 				</div>
@@ -186,11 +172,9 @@
 				foreach ($productsPopular as $product) {
 					// dd($productsPopular);
 					$href = base_url("store/" . base64_encode($user_id) . "/product/" . $product['product_slug']);
-					?>
-					<a href="<?= $href ?>" class="category-home pruduct-home col-lg-2 col-md-3 col-sm-4"
-						style="text-decoration: none">
-						<img alt="<?= __('store.image') ?>"
-							src="<?= base_url('assets/images/product/upload/thumb/'); ?><?= $product['product_featured_image']; ?>" />
+			?>
+					<a href="<?= $href ?>" class="category-home pruduct-home col-lg-2 col-md-3 col-sm-4" style="text-decoration: none">
+						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/images/product/upload/thumb/'); ?><?= $product['product_featured_image']; ?>" />
 						<h3 style="font-size: 15px;font-weight: 500;font-weight: 500;display: -webkit-box;
 								-webkit-line-clamp: 1;
 								-webkit-box-orient: vertical;
@@ -204,7 +188,7 @@
 						<!-- <div class="rating-row d-flex justify-space-center"><?= $product['product_avg_rating_stars'] ?></div> -->
 						<button class="btn btn-product bg-main2 text-white mt-3">Chi tiết</button>
 					</a>
-					<?php
+				<?php
 				}
 			} else {
 				?>
@@ -212,7 +196,7 @@
 					<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/ctg1.png" />
 					<h3><?= __('store.dog') ?></h3>
 				</div>
-				<?php
+			<?php
 
 			}
 			?>
@@ -229,16 +213,14 @@
 			</h2>
 			<div class="searchbox">
 				<input id="searchProduct" type="text" placeholder="<?= __('store.search') ?>" />
-				<img src="<?= base_url('assets/store/default/'); ?>img/search.png" class="search-icon-home"
-					alt="<?= __('store.search') ?>">
+				<img src="<?= base_url('assets/store/default/'); ?>img/search.png" class="search-icon-home" alt="<?= __('store.search') ?>">
 			</div>
 		</div>
 
 		<div class="product-row product-grid-mjj product-list-trending">
 
 		</div>
-		<a href="javascript:void(0);" class="see-more see-more-trendings" data-next_page="1"
-			data-request_page_section="trending">
+		<a href="javascript:void(0);" class="see-more see-more-trendings" data-next_page="1" data-request_page_section="trending">
 			<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/loading.png" />
 			<?= __('store.show_more') ?>
 		</a>
@@ -256,7 +238,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 			<?php
 			foreach ($homepage_features as $hf) {
 				$homepage_features_are_available = true;
-				?>
+			?>
 				<?php $img = (!empty($hf->feature_image)) ? base_url('assets/images/site/' . $hf->feature_image) : base_url('assets/store/default/img/stats1.png'); ?>
 				<div class="stats-box d-flex align-items-center mx-4">
 					<div class="stats-icon">
@@ -267,15 +249,14 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 						<p><?= $hf->sub_title; ?></p>
 					</div>
 				</div>
-				<?php
+			<?php
 			}
 
 			if (!isset($homepage_features_are_available)) {
-				?>
+			?>
 				<div class="stats-box d-flex align-items-center mx-4">
 					<div class="stats-icon">
-						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/stats1.png"
-							style="width: 65px; height: 65px;" />
+						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/stats1.png" style="width: 65px; height: 65px;" />
 					</div>
 					<div class="stats-text">
 						<h4><?= __('store.free_shipping') ?></h4>
@@ -285,8 +266,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 
 				<div class="stats-box d-flex align-items-center mx-4">
 					<div class="stats-icon">
-						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/stats2.png"
-							style="width: 65px; height: 65px;" />
+						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/stats2.png" style="width: 65px; height: 65px;" />
 					</div>
 					<div class="stats-text">
 						<h4><?= __('store.100_money_guarantee') ?></h4>
@@ -296,8 +276,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 
 				<div class="stats-box d-flex align-items-center mx-4">
 					<div class="stats-icon">
-						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/stats3.png"
-							style="width: 65px; height: 65px;" />
+						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/stats3.png" style="width: 65px; height: 65px;" />
 					</div>
 					<div class="stats-text">
 						<h4><?= __('store.help_center') ?></h4>
@@ -307,15 +286,14 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 
 				<div class="stats-box d-flex align-items-center mx-4">
 					<div class="stats-icon">
-						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/stats4.png"
-							style="width: 65px; height: 65px;" />
+						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/') ?>img/stats4.png" style="width: 65px; height: 65px;" />
 					</div>
 					<div class="stats-text">
 						<h4><?= __('store.payment_method') ?></h4>
 						<p><?= __('store.secure_payment') ?></p>
 					</div>
 				</div>
-				<?php
+			<?php
 			}
 			?>
 		</div>
@@ -349,11 +327,9 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 
 <section class="banner-ads">
 	<?php if (isset($settings['hbanimage']) && $settings['hbanimage'] != "") { ?>
-		<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/images/site/'); ?><?= $settings['hbanimage']; ?>"
-			class="img-fluid img-banner-ads" />
+		<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/images/site/'); ?><?= $settings['hbanimage']; ?>" class="img-fluid img-banner-ads" />
 	<?php } else { ?>
-		<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/ad-bg.jpg"
-			class="img-fluid img-banner-ads" />
+		<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/ad-bg.jpg" class="img-fluid img-banner-ads" />
 	<?php } ?>
 
 
@@ -364,8 +340,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 		</h3>
 		<p><?= (isset($homepage_banner->content) && !empty($homepage_banner->content)) ? $homepage_banner->content : 'Nuwa is simply dummy text of the printing and typesetting industry.'; ?>
 		</p>
-		<a
-			href="<?= (isset($homepage_banner->button_link) && !empty($homepage_banner->button_link)) ? $homepage_banner->button_link : '#'; ?>"><?= (isset($homepage_banner->button_text) && !empty($homepage_banner->button_text)) ? $homepage_banner->button_text : 'Nuwa'; ?></a>
+		<a href="<?= (isset($homepage_banner->button_link) && !empty($homepage_banner->button_link)) ? $homepage_banner->button_link : '#'; ?>"><?= (isset($homepage_banner->button_text) && !empty($homepage_banner->button_text)) ? $homepage_banner->button_text : 'Nuwa'; ?></a>
 	</div>
 </section>
 
@@ -381,14 +356,12 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 
 			if (!empty($category)) {
 				foreach ($category as $cat_value) {
-					?>
-					<a href="<?php echo base_url('store/category/' . $cat_value['slug']) ?>"
-						class="category-home col-lg-2 col-md-3 col-sm-4 " style="text-decoration: none">
-						<img alt="<?= __('store.image') ?>"
-							src="<?= base_url('assets/images/product/upload/thumb/'); ?><?= $cat_value['image']; ?>" />
+			?>
+					<a href="<?php echo base_url('store/category/' . $cat_value['slug']) ?>" class="category-home col-lg-2 col-md-3 col-sm-4 " style="text-decoration: none">
+						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/images/product/upload/thumb/'); ?><?= $cat_value['image']; ?>" />
 						<h3><?= $cat_value['name']; ?></h3>
 					</a>
-					<?php
+				<?php
 				}
 			} else {
 				?>
@@ -396,7 +369,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 					<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/ctg1.png" />
 					<h3><?= __('store.dog') ?></h3>
 				</div>
-				<?php
+			<?php
 
 			}
 			?>
@@ -409,10 +382,10 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 <section class="container dichvu">
 	<h2 class="title-font text-custom-secondary text-start"
 		style="color:var(color-pink);font-family:Yeseva One !important;font-weight:500">Dịch vụ</h2>
-	<div class="row my-auto">
-		<?php foreach ($productsDichVu as $key => $product) { ?>
-			<div class="col-12 col-lg-6 px-0">
-				<?php
+	<div class="row my-auto">		
+		<?php foreach ($productsDichVu as $key => $product) { $i++ ?>
+			<div class="col-12 col-lg-6 px-0">				
+				<?php				
 				$href = base_url("store/" . base64_encode($user_id) . "/product/" . $product['product_slug']);
 				$image = (!empty($product['product_featured_image'])) ? base_url('assets/images/product/upload/thumb/' . $product['product_featured_image']) : 'https://res.cloudinary.com/dtiwyksp8/image/upload/v1700123969/woman-with-mask_vnj1sv.png" class="mr-1 product-thumbnail-img';
 				?>
@@ -433,25 +406,39 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 				</div>
 			</div>
 		<?php } ?>
-	</div>
+	</div> 
 </section>
 
 <!-- TẾ BÀO GỐC -->
 <article class="container py-5 tebaogoc">
 	<section class="row">
-		<div class="col-12 col-lg-5 action-banner">
+		<div class="col-12 action-banner action-banner-new d-flex " style="gap:24px;">
 			<div class="card h-100 text-white">
-				<img src="https://res.cloudinary.com/dtiwyksp8/image/upload/v1701925148/z4950465051273_3810f3ec82b1172b261bf5fb3ca7f9ca_nd9zlw.jpg"
-					class="card-img" />
+				<img src="<?= base_url('assets/store/default/'); ?>img/banner1.jpg" class="card-img" />
 				<div class="card-img-overlay p-5 d-flex flex-column justify-content-between">
 					<div class="rejuvenation">
-						<h2 class="card-title title-font mt-5" style="color: #FFF">Trẻ hóa cấp tế bào</h2>
+						<h2 class="card-title title-font mt-5" style="color: #FFF">Ion Kiềm-Khoáng kiềm</h2>
 						<p class="card-text">
-							Nuwa mang sắc đẹp đến với mọi người
+							TĂNG CƯỜNG SỨC KHOẺ
 						</p>
-						<h3 class="title-font mb-3 title-nameMain" style="color:#FFF">Nuwa</h3>
-						<a href="<?= base_url('store/category/' . $row['slug']) ?>"
-							class="btn btn-custom-skin title-font btn-service">XEM THÊM</a>
+						<h3 class="title-font mb-3 title-nameMain" style="color:#FFF">Chỉ nhờ uống nước mỗi ngày</h3>
+						<a href="<?= base_url('store/category/' . $row['slug']) ?>" class="btn btn-custom-skin title-font btn-service">XEM THÊM</a>
+					</div>
+					<!-- <p class="card-text font-weight-light mb-5">
+						Valid till 23rd March, 10am | Online exclusive
+					</p> -->
+				</div>
+			</div>
+			<div class="card h-100 text-white">
+				<img src="<?= base_url('assets/store/default/'); ?>img/banner1.jpg" class="card-img" />
+				<div class="card-img-overlay p-5 d-flex flex-column justify-content-between">
+					<div class="rejuvenation">
+						<h2 class="card-title title-font mt-5" style="color: #FFF">Collagen Beauty Nano</h2>
+						<p class="card-text">
+							NGỪA LÃO HOÁ VƯỢT TRỘI
+						</p>
+						<h3 class="title-font mb-3 title-nameMain" style="color:#FFF">Với công nghệ Nano mới</h3>
+						<a href="<?= base_url('store/category/' . $row['slug']) ?>" class="btn btn-custom-skin title-font btn-service">XEM THÊM</a>
 					</div>
 					<!-- <p class="card-text font-weight-light mb-5">
 						Valid till 23rd March, 10am | Online exclusive
@@ -479,14 +466,14 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 							<div class="rating">
 								<?php
 								for ($i = 0; $i < $product['product_avg_rating']; $i++) {
-									?>
+								?>
 									<i class="fa fa-star text-warning"></i>
-									<?php
+								<?php
 								}
 								while ($product['product_avg_rating'] < 5) {
-									?>
+								?>
 									<i class="fa fa-star text-secondary"></i>
-									<?php
+								<?php
 									$product['product_avg_rating']++;
 								}
 								?>
@@ -495,8 +482,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 								<!-- <?php if ($product['product_msrp'] > 0) { ?>
 									<span class="price"><?= c_format($product['product_msrp']) ?></span>
 								<?php } ?> -->
-								<span class="discount-price"
-									style="font-weight:600; color:#343A40; font-size6px"><?= c_format($product['product_price']) ?></span>
+								<span class="discount-price" style="font-weight:600; color:#343A40; font-size6px"><?= c_format($product['product_price']) ?></span>
 							</div>
 						</div>
 					</div>
@@ -595,32 +581,33 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 					$bs_button_link = "#";
 
 
-				?>
+			?>
 				<?php $img = (!empty($hf->feature_image)) ? base_url('assets/images/site/' . $hf->feature_image) : base_url('assets/store/default/img/blog1.png'); ?>
 				<div class="col-md-6 col-12">
 					<a class="bs_button_link" href="<?php echo $bs_button_link; ?>" target="<?php if ($hf->link_target == "true") {
-						   echo '_blank';
-					   } else {
-						   echo '_self';
-					   } ?>">
+																								echo '_blank';
+																							} else {
+																								echo '_self';
+																							} ?>">
 						<div class="blog-wrapper bg-main2" <?= (!empty($hf->bg_color)) ? 'style="background-color:' . $hf->bg_color . '"' : '' ?>>
 							<img alt="<?= __('store.image') ?>" src="<?= $img; ?>" class="blog-img" />
 							<div class="blog-content">
-								<h4 class="blogContent-title" <?= (!empty($hf->bg_color_text)) ? 'style="color:' . $hf->bg_color_text . '"' : '' ?>><?= $hf->title; ?></h4>
-								<p class="blogContent-para" <?= (!empty($hf->bg_color_text)) ? 'style="color:' . $hf->bg_color_text . '"' : '' ?>><?= $hf->sub_title; ?></p>
+								<h4 class="blogContent-title" <?= (!empty($hf->bg_color_text)) ? 'style="color:' . $hf->bg_color_text . '"' : '' ?>>
+									<?= $hf->title; ?></h4>
+								<p class="blogContent-para" <?= (!empty($hf->bg_color_text)) ? 'style="color:' . $hf->bg_color_text . '"' : '' ?>>
+									<?= $hf->sub_title; ?></p>
 							</div>
 						</div>
 					</a>
 				</div>
-				<?php
+			<?php
 			}
 
 			if (!isset($bs_cards_are_available)) {
-				?>
+			?>
 				<div class="col-md-6 col-12">
 					<div class="blog-wrapper bg-main2">
-						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/img') ?>/blog1.png"
-							class="blog-img" />
+						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/img') ?>/blog1.png" class="blog-img" />
 						<div class="blog-content">
 							<h4>Nuwa</h4>
 							<p>
@@ -631,8 +618,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 				</div>
 				<div class="col-md-6 col-12">
 					<div class="blog-wrapper bg-main">
-						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/img') ?>/fb2.png"
-							class="blog-img" />
+						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/img') ?>/fb2.png" class="blog-img" />
 						<div class="blog-content">
 							<h4>Nuwa</h4>
 							<p>
@@ -643,8 +629,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 				</div>
 				<div class="col-md-6 col-12">
 					<div class="blog-wrapper bg-main">
-						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/img') ?>/fb3.png"
-							class="blog-img" />
+						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/img') ?>/fb3.png" class="blog-img" />
 						<div class="blog-content">
 							<h4>Nuwa</h4>
 							<p>
@@ -655,8 +640,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 				</div>
 				<div class="col-md-6 col-12">
 					<div class="blog-wrapper bg-main2">
-						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/img') ?>/fb4.png"
-							class="blog-img" />
+						<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/img') ?>/fb4.png" class="blog-img" />
 						<div class="blog-content">
 							<h4>Nuwa</h4>
 							<p>
@@ -665,7 +649,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 						</div>
 					</div>
 				</div>
-				<?php
+			<?php
 			}
 			?>
 		</div>
@@ -678,8 +662,10 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 			<?= (!empty(strip_tags($para))) ? $para : 'Vui lòng cập nhật bài viết ở trang quản trị.
 '; ?>
 		</div>
-		<!--		<a href="javascript:void(0);" class="blog-more">--><? //= __('store.show_more') 
-		?><!-- <br /> <i class="fas fa-angle-down"></i></a>-->
+		<!--		<a href="javascript:void(0);" class="blog-more">-->
+		<? //= __('store.show_more') 
+		?>
+		<!-- <br /> <i class="fas fa-angle-down"></i></a>-->
 	</div>
 </section>
 
@@ -687,30 +673,32 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 
 
 <script type="text/javascript">
-	$(document).on('click', '.blog-more', function () {
+	$(document).on('click', '.blog-more', function() {
 		var el = $(".blog-para"),
 			curHeight = el.height(),
 			autoHeight = el.css('height', 'auto').height();
 		el.height(curHeight).animate({
 			height: autoHeight
 		}, 500);
-		$(this).after('<a href="javascript:void(0);" class="blog-less">' + '<?= __('store.hide') ?>' + ' <br/> <i class="fas fa-angle-up"></i></a>');
+		$(this).after('<a href="javascript:void(0);" class="blog-less">' + '<?= __('store.hide') ?>' +
+			' <br/> <i class="fas fa-angle-up"></i></a>');
 		$(this).remove();
 	});
 
-	$(document).on('click', '.blog-less', function () {
+	$(document).on('click', '.blog-less', function() {
 		var el = $(".blog-para");
 		el.animate({
 			height: '50px'
 		}, 500);
-		$(this).after('<a href="javascript:void(0);" class="blog-more">' + '<?= __('store.show_more') ?>' + ' <br/> <i class="fas fa-angle-down"></i></a>');
+		$(this).after('<a href="javascript:void(0);" class="blog-more">' + '<?= __('store.show_more') ?>' +
+			' <br/> <i class="fas fa-angle-down"></i></a>');
 		$(this).remove();
 	});
 
-	$(document).ready(function () {
+	$(document).ready(function() {
 		load_Product($('#searchProduct').val());
 
-		$('#searchProduct').keyup(function (e) {
+		$('#searchProduct').keyup(function(e) {
 			e.preventDefault();
 			var search = $(this).val();
 			load_Product(search);
@@ -718,7 +706,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 	});
 
 
-	$(document).on('click', '.see-more', function () {
+	$(document).on('click', '.see-more', function() {
 		load_Product(null, {
 			next_page: $(this).data('next_page'),
 			request_page_section: $(this).data('request_page_section')
@@ -735,21 +723,23 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 			type: 'POST',
 			dataType: 'JSON',
 			data: data,
-			beforeSend: function () {
+			beforeSend: function() {
 				if (ajaxReq != 'ToCancelPrevReq' && ajaxReq.readyState < 4) {
 					ajaxReq.abort();
 				}
 				$('.btn-search').addClass('btn-loading');
 			},
-			complete: function () {
+			complete: function() {
 				$('.btn-search').removeClass('btn-loading');
 			},
-			success: function (res) {
+			success: function(res) {
 				if (res.trendings) {
 					if (postData.next_page && postData.next_page > 1) {
-						$('.product-list-trending').append(Mustache.render($('#product-list-template').html(), res.trendings));
+						$('.product-list-trending').append(Mustache.render($('#product-list-template').html(),
+							res.trendings));
 					} else {
-						$('.product-list-trending').html(Mustache.render($('#product-list-template').html(), res.trendings));
+						$('.product-list-trending').html(Mustache.render($('#product-list-template').html(), res
+							.trendings));
 					}
 					$('.see-more-trendings').data('next_page', res.trendings.next_page);
 					if (res.trendings.is_last_page) {
@@ -759,9 +749,11 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 
 				if (res.new) {
 					if (postData.next_page && postData.next_page > 1) {
-						$('.product-list-new').append(Mustache.render($('#product-list-template').html(), res.new));
+						$('.product-list-new').append(Mustache.render($('#product-list-template').html(), res
+							.new));
 					} else {
-						$('.product-list-new').html(Mustache.render($('#product-list-template').html(), res.new));
+						$('.product-list-new').html(Mustache.render($('#product-list-template').html(), res
+							.new));
 					}
 					$('.see-more-new').data('next_page', res.new.next_page);
 					if (res.new.is_last_page) {

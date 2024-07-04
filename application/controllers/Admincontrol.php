@@ -8371,6 +8371,72 @@ class Admincontrol extends MY_Controller {
 		echo "Bảng users_recruitment đã được cập nhật.";
 	}
 
+	// User Revenue
+	public function calculate_revenue() {
+		// Xóa dữ liệu cũ trong bảng user_revenue
+		$this->db->truncate('user_revenue');
+
+		// Lấy danh sách tất cả các user từ bảng users
+		$this->db->select('id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['id'];
+
+			// Lấy danh sách các đơn hàng mà user tạo ra
+			$this->db->select('*');
+			$this->db->where('user_id', $user_id);
+			$orders = $this->db->get('order')->result_array();
+
+			foreach ($orders as $order) {
+				$order_id = $order['id'];
+
+				// Lấy các sản phẩm trong đơn hàng
+				$this->db->select('*');
+				$this->db->where('order_id', $order_id);
+				$order_products = $this->db->get('order_products')->result_array();
+
+				foreach ($order_products as $order_product) {
+					$product_id = $order_product['product_id'];
+					$refer_id = $order_product['refer_id'];
+					$total = $order_product['total'];
+
+					// Tính revenue
+					$revenue = ($refer_id == $user_id) ? $total : 0;
+
+					// Tính revenue_direct
+					$this->db->select('ids_direct');
+					$this->db->where('user_id', $user_id);
+					$direct_children = $this->db->get('users_direct')->row_array();
+					$ids_direct = explode(',', $direct_children['ids_direct']);
+					$revenue_direct = in_array($refer_id, $ids_direct) ? $total : 0;
+
+					// Tính revenue_indirect
+					$this->db->select('ids_indirect');
+					$this->db->where('user_id', $user_id);
+					$indirect_children = $this->db->get('users_indirect')->row_array();
+					$ids_indirect = explode(',', $indirect_children['ids_indirect']);
+					$revenue_indirect = in_array($refer_id, $ids_indirect) ? $total : 0;
+
+					// Chèn dữ liệu vào bảng user_revenue
+					$data = array(
+						'user_id' => $user_id,
+						'order_id' => $order_id,
+						'product_id' => $product_id,
+						'revenue' => $revenue,
+						'revenue_direct' => $revenue_direct,
+						'revenue_indirect' => $revenue_indirect
+					);
+
+					$this->db->insert('user_revenue', $data);
+				}
+			}
+		}
+
+		echo "Bảng user_revenue đã được cập nhật.";
+	}
+
 	// Danh sách User
 	public function userslist() {
 
@@ -8694,10 +8760,12 @@ class Admincontrol extends MY_Controller {
 		$data['user_groups'] = $this->user->getgrouplist();
 		$data['approvals_count'] = $this->Product_model->getApprovalCounts();
 
-		
+
 		// Update User Recruitment			
 		$this->update_user_tree();
 		$this->update_user_recruitment();
+		$this->calculate_revenue();
+
 
 		$this->view($data, 'users/index');
 	}

@@ -169,7 +169,7 @@
 
 {{#products}}
 	<div class="product-wrapper product-wrapper-home">
-		<div class="product-img position-relative mb-2">
+		<div class="product-img position-relative mb-2">			
 			<a href="{{product_details_href}}"><img alt="<?= __('store.image') ?>" src="{{product_image_src}}" class="img-fluid primg" onerror="this.src='<?= base_url('assets/store/default/img/no-image.png') ?>';" /></a>
 			{{#country_code}}
 				<div class="cn-flag position-absolute">

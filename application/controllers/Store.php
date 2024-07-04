@@ -780,7 +780,12 @@ class Store extends MY_Controller {
     public function generateMustacheProductListData($products, $user_id) {
         $newProducts = [];
         foreach ($products as &$product) {
-            $product['product_details_href'] = base_url("store/" . base64_encode($user_id) . "/product/" . $product['product_slug']);
+
+            // Lấy giá trị selectedBranchId từ cookie
+            $selectedBranchId = isset($_COOKIE['selectedBranchId']) ? $_COOKIE['selectedBranchId'] : '';
+            $url_location = $selectedBranchId == '' ? '' : '?location=' . $selectedBranchId;
+
+            $product['product_details_href'] = base_url("store/" . base64_encode($user_id) . "/product/" . $product['product_slug'] . $url_location);
             $product['product_image_src'] = (!empty($product['product_featured_image'])) ? base_url('assets/images/product/upload/thumb/' . $product['product_featured_image']) : base_url('assets/store/default/img/no-image.png');
             if ($product['country_code']) {
                 $product['country_flag_src'] = getFlag($product['country_code']);

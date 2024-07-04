@@ -4888,7 +4888,8 @@ class Admincontrol extends MY_Controller {
 		//$data['branch_list'] = $this->db->query("SELECT * FROM branch")->result();
 
 		// Truy vấn để lấy danh sách chi nhánh cùng với số lượng và giá sản phẩm hiện tại
-		$data['branch_list'] = $this->db->query("
+		$data['branch_list'] = $this->db->query(
+			"
         SELECT 
             b.id, b.name, pb.stock_quantity, pb.product_price 
         FROM 
@@ -4897,7 +4898,7 @@ class Admincontrol extends MY_Controller {
             product_branch pb 
         ON 
             b.id = pb.branch_id AND pb.product_id = " . (int)$data['product']->product_id
-    )->result();
+		)->result();
 
 		$data['tags'] = $this->Product_model->getAllTags();
 
@@ -8276,6 +8277,100 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'users/downline');
 	}
 
+
+	/*
+	* User Controllers
+	*/
+
+	public function update_user_tree() {
+		// Xóa dữ liệu cũ trong bảng users_direct và users_indirect
+		$this->db->truncate('users_direct');
+		$this->db->truncate('users_indirect');
+
+		// Lấy danh sách tất cả các user từ bảng users
+		$this->db->select('id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['id'];
+
+			// Lấy danh sách các con trực tiếp từ bảng users
+			$direct_children = $this->user->getChildren($user_id);
+			$direct_child_ids = array_map(function ($child) {
+				return $child['id'];
+			}, $direct_children);
+			$ids_direct_string = implode(',', $direct_child_ids);
+
+			// Chèn vào bảng users_direct
+			$data_direct = array(
+				'user_id' => $user_id,
+				'ids_direct' => $ids_direct_string
+			);
+			$this->db->insert('users_direct', $data_direct);
+
+			// Lấy danh sách toàn bộ các con thuộc cấp dưới từ bảng users
+			$all_descendants = $this->user->getAllDescendants($user_id);
+			$indirect_children = array_diff($all_descendants, $direct_child_ids);
+			$ids_indirect_string = implode(',', $indirect_children);
+
+			// Chèn vào bảng users_indirect
+			$data_indirect = array(
+				'user_id' => $user_id,
+				'ids_indirect' => $ids_indirect_string
+			);
+			$this->db->insert('users_indirect', $data_indirect);
+		}
+
+		echo "Bảng users_direct và users_indirect đã được cập nhật.";
+	}
+
+	// User Recruitment
+	public function update_user_recruitment() {
+		// Xóa dữ liệu cũ trong bảng users_recruitment
+		$this->db->truncate('user_recruitment');
+
+		// Lấy danh sách tất cả các user từ bảng user_tree
+		$this->db->select('id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['id'];
+
+			// Lấy danh sách các con trực tiếp từ bảng user_tree
+			$direct_children = $this->user->getChildren($user_id);
+			$direct_child_ids = array_map(function ($child) {
+				return $child['id'];
+			}, $direct_children);
+			$ids_direct_string = implode(',', $direct_child_ids);
+			$total_direct = count($direct_child_ids);
+
+			// Lấy danh sách toàn bộ các con thuộc cấp dưới từ bảng user_tree
+			$all_descendants = $this->user->getAllDescendants($user_id);
+			$indirect_children = array_diff($all_descendants, $direct_child_ids);
+			$ids_indirect_string = implode(',', $indirect_children);
+			$total_indirect = count($indirect_children);
+
+			// Tính tổng số con
+			$total_downline = $total_direct + $total_indirect;
+
+			// Chèn vào bảng users_recruitment
+			$data = array(
+				'user_id' => $user_id,
+				'ids_direct' => $ids_direct_string,
+				'ids_indirect' => $ids_indirect_string,
+				'total_direct' => $total_direct,
+				'total_indirect' => $total_indirect,
+				'total_downline' => $total_downline
+			);
+
+			$this->db->insert('user_recruitment', $data);
+		}
+
+		echo "Bảng users_recruitment đã được cập nhật.";
+	}
+
 	// Danh sách User
 	public function userslist() {
 
@@ -8286,7 +8381,7 @@ class Admincontrol extends MY_Controller {
 		$register_form = $this->PagebuilderModel->getSettings('registration_builder');
 
 		$data['data'] = json_decode($register_form['registration_builder'], 1);
-		
+
 
 		if ($this->input->post()) {
 
@@ -8599,8 +8694,10 @@ class Admincontrol extends MY_Controller {
 		$data['user_groups'] = $this->user->getgrouplist();
 		$data['approvals_count'] = $this->Product_model->getApprovalCounts();
 
-		// Make tree table refs
-		//$this->make_users_reftree();
+		
+		// Update User Recruitment			
+		$this->update_user_tree();
+		$this->update_user_recruitment();
 
 		$this->view($data, 'users/index');
 	}
@@ -8813,44 +8910,44 @@ class Admincontrol extends MY_Controller {
 	public function make_users_reftree() {
 		$this->load->model('Product_model');
 
-        $users = $this->Product_model->get_all_users();
+		$users = $this->Product_model->get_all_users();
 
-        foreach ($users as $user) {
-            $direct_referrals = $this->get_direct_referrals_recursive($user['id']);
-            $indirect_referrals = $this->get_indirect_referrals_recursive($user['id']);
+		foreach ($users as $user) {
+			$direct_referrals = $this->get_direct_referrals_recursive($user['id']);
+			$indirect_referrals = $this->get_indirect_referrals_recursive($user['id']);
 
-            $direct_data = array(
-                'user_id' => $user['id'],
-                'refids_direct' => empty($direct_referrals) ? null : implode(',', $direct_referrals),
-            );
-            $this->Product_model->insert_users_direct($direct_data);
+			$direct_data = array(
+				'user_id' => $user['id'],
+				'refids_direct' => empty($direct_referrals) ? null : implode(',', $direct_referrals),
+			);
+			$this->Product_model->insert_users_direct($direct_data);
 
-            $indirect_data = array(
-                'user_id' => $user['id'],
-                'refids_indirect' => empty($indirect_referrals) ? null : implode(',', $indirect_referrals),
-            );
-            $this->Product_model->insert_users_indirect($indirect_data);
-        }
+			$indirect_data = array(
+				'user_id' => $user['id'],
+				'refids_indirect' => empty($indirect_referrals) ? null : implode(',', $indirect_referrals),
+			);
+			$this->Product_model->insert_users_indirect($indirect_data);
+		}
 
-        echo "User tree populated successfully!";
-    }
+		echo "User tree populated successfully!";
+	}
 
-    private function get_direct_referrals_recursive($user_id) {
-        $direct_referrals = $this->Product_model->get_direct_referrals($user_id);
-        return $direct_referrals;
-    }
+	private function get_direct_referrals_recursive($user_id) {
+		$direct_referrals = $this->Product_model->get_direct_referrals($user_id);
+		return $direct_referrals;
+	}
 
-    private function get_indirect_referrals_recursive($user_id) {
-        $direct_referrals = $this->Product_model->get_direct_referrals($user_id);
-        $all_indirect_referrals = [];
+	private function get_indirect_referrals_recursive($user_id) {
+		$direct_referrals = $this->Product_model->get_direct_referrals($user_id);
+		$all_indirect_referrals = [];
 
-        foreach ($direct_referrals as $direct_referral) {
-            $indirect_referrals = $this->get_indirect_referrals_recursive($direct_referral);
-            $all_indirect_referrals = array_merge($all_indirect_referrals, $indirect_referrals, [$direct_referral]);
-        }
+		foreach ($direct_referrals as $direct_referral) {
+			$indirect_referrals = $this->get_indirect_referrals_recursive($direct_referral);
+			$all_indirect_referrals = array_merge($all_indirect_referrals, $indirect_referrals, [$direct_referral]);
+		}
 
-        return $all_indirect_referrals;
-    }
+		return $all_indirect_referrals;
+	}
 
 	public function addons() {
 
@@ -10892,7 +10989,7 @@ class Admincontrol extends MY_Controller {
 
 		$this->view($data, 'setting/mlm_levels');
 	}
-	
+
 	//                custom
 	public function mlm_levels_hang_hoa() {
 

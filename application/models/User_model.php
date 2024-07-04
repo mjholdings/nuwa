@@ -195,6 +195,42 @@ class User_model extends MY_Model {
 		return $data;
 	}
 
+	/*
+	* User
+	*/
+	// Lấy toàn bộ cây dưới dạng mảng
+	public function getTree() {
+		$query = $this->db->get('users');
+		return $query->result_array();
+	}
+
+	// Lấy thông tin của một node
+	public function getNode($id) {
+		$query = $this->db->get_where('users', array('id' => $id));
+		return $query->row_array();
+	}
+
+	// Lấy các con của một node
+	public function getChildren($id) {
+		$query = $this->db->get_where('users', array('refid' => $id));
+		return $query->result_array();
+	}
+
+	// Lấy toàn bộ phần con bằng cách đệ quy
+	public function getAllDescendants($id) {
+		$descendants = [];
+
+		$children = $this->getChildren($id);
+		foreach ($children as $child) {
+			$descendants[] = $child['id'];
+			$grandChildren = $this->getAllDescendants($child['id']);
+			$descendants = array_merge($descendants, $grandChildren);
+		}
+
+		return $descendants;
+	}
+
+
 
 	/*
 	* Branch 

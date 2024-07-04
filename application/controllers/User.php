@@ -23,8 +23,9 @@ class User extends REST_Controller {
         $this->load->helper('reusable');
     }
 
-    //common function used same in my_controller 
+    // 
 
+    //common function used same in my_controller 
     public function get_restricted_vendors(int $user_id = null, $product_slug=null) {
        
         $this->load->model('Product_model');

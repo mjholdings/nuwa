@@ -8487,6 +8487,7 @@ class Admincontrol extends MY_Controller {
 		echo "Bảng user_revenue đã được cập nhật.";
 	}
 
+	// Tính toán doanh thu trực tiếp
 	private function calculate_revenue_direct($user_id) {
 		// Lấy danh sách ids_direct từ bảng users_direct
 		$this->db->select('ids_direct');
@@ -8506,6 +8507,7 @@ class Admincontrol extends MY_Controller {
 		return $total_revenue_direct;
 	}
 
+	// Tính toán doanh thu gián tiếp
 	private function calculate_revenue_indirect($user_id) {
 		// Lấy danh sách ids_indirect từ bảng users_indirect
 		$this->db->select('ids_indirect');
@@ -8546,6 +8548,8 @@ class Admincontrol extends MY_Controller {
 			foreach ($orders as $order) {
 				$order_id = $order['id'];
 				$order_user_id = $order['user_id'];
+				$order_time = $order['created_at'];
+
 
 				// Lấy các sản phẩm trong đơn hàng
 				$this->db->select('*');
@@ -8558,30 +8562,16 @@ class Admincontrol extends MY_Controller {
 					$total = $order_product['total'];
 
 					// Tính consum (tiêu cá nhân)
-					$consum = ($order_product['user_id'] == $user_id) ? $total : 0;
-
-					// Tính consum_direct
-					// $this->db->select('ids_direct');
-					// $this->db->where('user_id', $user_id);
-					// $direct_children = $this->db->get('users_direct')->row_array();
-					// $ids_direct = explode(',', $direct_children['ids_direct']);
-					// $consum_direct = (in_array($order_user_id, $ids_direct)) ? $total : 0;
-
-					// // Tính consum_indirect
-					// $this->db->select('ids_indirect');
-					// $this->db->where('user_id', $user_id);
-					// $indirect_children = $this->db->get('users_indirect')->row_array();
-					// $ids_indirect = explode(',', $indirect_children['ids_indirect']);
-					// $consum_indirect = (in_array($order_user_id, $ids_indirect)) ? $total : 0;
-
+					$consum = ($order_user_id == $user_id) ? $total : 0;
+					
 					// Chèn dữ liệu vào bảng user_consum
 					$data = array(
 						'user_id' => $user_id,
 						'order_id' => $order_id,
 						'product_id' => $product_id,
 						'consum' => $consum,
-						// 'consum_direct' => $consum_direct,
-						// 'consum_indirect' => $consum_indirect
+						'created_time' => $order_time
+						
 					);
 
 					$this->db->insert('user_consum', $data);
@@ -8591,6 +8581,79 @@ class Admincontrol extends MY_Controller {
 
 		echo "Bảng user_consum đã được cập nhật.";
 	}
+
+	// Cập nhật consum cho direct và indirect
+	public function update_consum() {
+        // Lấy danh sách tất cả các user từ bảng user_consum
+        $this->db->select('user_id, consum');
+        $query = $this->db->get('user_consum');
+        $users = $query->result_array();
+
+        foreach ($users as $user) {
+            $user_id = $user['user_id'];
+			$user_consum = $user['consum'];
+			$update_time = date('Y-m-d H:i:s');  // Cập nhật thời gian hiện tại;
+
+
+            // Tính toán consum_direct và consum_indirect
+            $consum_direct = $this->calculate_consum_direct($user_id);
+            $consum_indirect = $this->calculate_consum_indirect($user_id);
+
+            // Cập nhật bảng user_consum với các giá trị mới
+            $data = array(
+                'consum_direct' => $consum_direct,
+                'consum_indirect' => $consum_indirect,
+                'consum_downline' => $consum_direct + $consum_indirect,
+                'consum_team' => $user_consum + $consum_direct + $consum_indirect,
+                'updated_time' => $update_time
+            );
+            $this->db->where('user_id', $user_id);
+            $this->db->update('user_consum', $data);
+        }
+
+        echo "Bảng user_consum đã được cập nhật.";
+    }
+
+	// Tính doanh thu trực tiếp
+    private function calculate_consum_direct($user_id) {
+        // Lấy danh sách ids_direct từ bảng users_direct
+        $this->db->select('ids_direct');
+        $this->db->where('user_id', $user_id);
+        $result = $this->db->get('users_direct')->row_array();
+        $ids_direct = isset($result['ids_direct']) ? explode(',', $result['ids_direct']) : array();
+
+        if (empty($ids_direct)) {
+            return 0;
+        }
+
+        // Tính tổng consum của các user_id trong danh sách ids_direct
+        $this->db->select('SUM(consum) as total_consum_direct');
+        $this->db->where_in('user_id', $ids_direct);
+        $total_consum_direct = $this->db->get('user_consum')->row()->total_consum_direct;
+
+        return $total_consum_direct;
+    }
+
+	// Tính doanh thu gián tiếp
+    private function calculate_consum_indirect($user_id) {
+        // Lấy danh sách ids_indirect từ bảng users_indirect
+        $this->db->select('ids_indirect');
+        $this->db->where('user_id', $user_id);
+        $result = $this->db->get('users_indirect')->row_array();
+        $ids_indirect = isset($result['ids_indirect']) ? explode(',', $result['ids_indirect']) : array();
+
+        if (empty($ids_indirect)) {
+            return 0;
+        }
+
+        // Tính tổng consum của các user_id trong danh sách ids_indirect
+        $this->db->select('SUM(consum) as total_consum_indirect');
+        $this->db->where_in('user_id', $ids_indirect);
+        $total_consum_indirect = $this->db->get('user_consum')->row()->total_consum_indirect;
+
+        return $total_consum_indirect;
+    }
+
 	// Danh sách User
 	public function userslist() {
 
@@ -8915,12 +8978,13 @@ class Admincontrol extends MY_Controller {
 		$data['approvals_count'] = $this->Product_model->getApprovalCounts();
 
 
-		// Update User Recruitment			
+		// Update User Statistic			
 		$this->update_user_tree();
 		$this->update_user_recruitment();
 		$this->calculate_revenue();
 		$this->update_revenue();
 		$this->calculate_consum();
+		$this->update_consum();
 
 
 		$this->view($data, 'users/index');

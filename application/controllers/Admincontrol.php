@@ -8293,33 +8293,62 @@ class Admincontrol extends MY_Controller {
 		$users = $query->result_array();
 
 		foreach ($users as $user) {
-			$user_id = $user['id'];
+			$id = $user['id'];
 
-			// Lấy danh sách các con trực tiếp từ bảng users
-			$direct_children = $this->user->getChildren($user_id);
-			$direct_child_ids = array_map(function ($child) {
+			// Lấy danh sách các con của user hiện tại
+			$this->db->select('id');
+			$this->db->where('refid', $id);
+			$children_query = $this->db->get('users');
+			$children = $children_query->result_array();
+
+			// Chuyển danh sách các con thành chuỗi
+			$child_ids = array_map(function ($child) {
 				return $child['id'];
-			}, $direct_children);
-			$ids_direct_string = implode(',', $direct_child_ids);
+			}, $children);
+
+			$childs_string = implode(',', $child_ids);
 
 			// Chèn vào bảng users_direct
-			$data_direct = array(
-				'user_id' => $user_id,
-				'ids_direct' => $ids_direct_string
+			$data = array(
+				'user_id' => $id,
+				'ids_direct' => $childs_string
 			);
-			$this->db->insert('users_direct', $data_direct);
+
+			$this->db->insert('users_direct', $data);
+		}
+
+
+		// Lấy danh sách tất cả các user từ bảng users
+		$this->db->select('id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$id = $user['id'];
+
+			// Lấy danh sách các con trực tiếp từ bảng users_direct
+			$this->db->select('ids_direct');
+			$this->db->where('user_id', $id);
+			$direct_query = $this->db->get('users_direct');
+			$direct_children = $direct_query->row_array();
+			$direct_children = $direct_children ? explode(',', $direct_children['ids_direct']) : [];
 
 			// Lấy danh sách toàn bộ các con thuộc cấp dưới từ bảng users
-			$all_descendants = $this->user->getAllDescendants($user_id);
-			$indirect_children = array_diff($all_descendants, $direct_child_ids);
-			$ids_indirect_string = implode(',', $indirect_children);
+			$all_descendants = $this->user->getAllDescendants($id);
+
+			// Loại bỏ các con trực tiếp khỏi danh sách toàn bộ các con thuộc cấp dưới
+			$indirect_children = array_diff($all_descendants, $direct_children);
+
+			// Chuyển danh sách các con gián tiếp thành chuỗi
+			$children_indirect_string = implode(',', $indirect_children);
 
 			// Chèn vào bảng users_indirect
-			$data_indirect = array(
-				'user_id' => $user_id,
-				'ids_indirect' => $ids_indirect_string
+			$data = array(
+				'user_id' => $id,
+				'ids_indirect' => $children_indirect_string
 			);
-			$this->db->insert('users_indirect', $data_indirect);
+
+			$this->db->insert('users_indirect', $data);
 		}
 
 		echo "Bảng users_direct và users_indirect đã được cập nhật.";
@@ -8371,7 +8400,7 @@ class Admincontrol extends MY_Controller {
 		echo "Bảng users_recruitment đã được cập nhật.";
 	}
 
-	// User Revenue
+	// User Revenue - Doanh thu
 	public function calculate_revenue() {
 		// Xóa dữ liệu cũ trong bảng user_revenue
 		$this->db->truncate('user_revenue');
@@ -8388,9 +8417,10 @@ class Admincontrol extends MY_Controller {
 			$this->db->select('*');
 			$this->db->where('user_id', $user_id);
 			$orders = $this->db->get('order')->result_array();
-
+			
 			foreach ($orders as $order) {
 				$order_id = $order['id'];
+				$order_user_id = $order['user_id'];
 
 				// Lấy các sản phẩm trong đơn hàng
 				$this->db->select('*');
@@ -8437,6 +8467,72 @@ class Admincontrol extends MY_Controller {
 		echo "Bảng user_revenue đã được cập nhật.";
 	}
 
+	// User Consum - Tiêu dùng
+	public function calculate_consum() {
+		// Xóa dữ liệu cũ trong bảng user_consum
+		$this->db->truncate('user_consum');
+
+		// Lấy danh sách tất cả các user từ bảng users
+		$this->db->select('id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['id'];
+
+			// Lấy danh sách các đơn hàng mà user tạo ra
+			$this->db->select('*');
+			$this->db->where('user_id', $user_id);
+			$orders = $this->db->get('order')->result_array();
+
+			foreach ($orders as $order) {
+				$order_id = $order['id'];
+				$order_user_id = $order['user_id'];
+
+				// Lấy các sản phẩm trong đơn hàng
+				$this->db->select('*');
+				$this->db->where('order_id', $order_id);
+				$order_products = $this->db->get('order_products')->result_array();
+
+				foreach ($order_products as $order_product) {
+					$product_id = $order_product['product_id'];
+					$refer_id = $order_product['refer_id'];
+					$total = $order_product['total'];
+
+					// Tính consum (tiêu cá nhân)
+					$consum = ($order_product['user_id'] == $user_id) ? $total : 0;
+
+					// Tính consum_direct
+					$this->db->select('ids_direct');
+					$this->db->where('user_id', $user_id);
+					$direct_children = $this->db->get('users_direct')->row_array();
+					$ids_direct = explode(',', $direct_children['ids_direct']);
+					$consum_direct = (in_array($order_user_id, $ids_direct)) ? $total : 0;
+
+					// Tính consum_indirect
+					$this->db->select('ids_indirect');
+					$this->db->where('user_id', $user_id);
+					$indirect_children = $this->db->get('users_indirect')->row_array();
+					$ids_indirect = explode(',', $indirect_children['ids_indirect']);
+					$consum_indirect = (in_array($order_user_id, $ids_indirect)) ? $total : 0;
+
+					// Chèn dữ liệu vào bảng user_consum
+					$data = array(
+						'user_id' => $user_id,
+						'order_id' => $order_id,
+						'product_id' => $product_id,
+						'consum' => $consum,
+						'consum_direct' => $consum_direct,
+						'consum_indirect' => $consum_indirect
+					);
+
+					$this->db->insert('user_consum', $data);
+				}
+			}
+		}
+
+		echo "Bảng user_consum đã được cập nhật.";
+	}
 	// Danh sách User
 	public function userslist() {
 
@@ -8765,6 +8861,7 @@ class Admincontrol extends MY_Controller {
 		$this->update_user_tree();
 		$this->update_user_recruitment();
 		$this->calculate_revenue();
+		$this->calculate_consum();
 
 
 		$this->view($data, 'users/index');

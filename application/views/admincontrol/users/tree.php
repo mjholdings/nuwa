@@ -55,7 +55,7 @@ foreach ($userslistDetail as $users) { ?>
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title mt-0"><?= __('admin.commissions') . ' của ' . $users['lastname'] . ' ' . $users['firstname'] . ' (' . $users['username'] . ')' ?></h4>
+          <h4 class="modal-title mt-0"><?= __('admin.commissions') . ' của ' . $users['lastname'] . ' ' . $users['firstname'] . ' (' . $users['username'] . ')' ?>[<?= $users['id']  ?>]</h4>
           <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">

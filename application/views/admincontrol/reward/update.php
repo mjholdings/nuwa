@@ -38,7 +38,7 @@
                         <?php
                         // Truy vấn danh sách cấp độ từ bảng award_level
                         $award_level = $this->Product_model->getAllAward();
-                        $current_level = $star['con_award_level_id'];
+                        $current_level = $reward['con_award_level_id'];
 
                         ?>
 

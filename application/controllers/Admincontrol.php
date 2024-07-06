@@ -4125,10 +4125,10 @@ class Admincontrol extends MY_Controller {
 				$insert['con_consum_total'] = $this->input->post('con_consum_total', true);
 				$insert['con_consum_team'] = $this->input->post('con_consum_team', true);
 				$insert['bonus_comission_source'] = $this->input->post('bonus_comission_source', true);
-
 				$insert['con_refer_number'] = $this->input->post('con_refer_number', true);
 				$insert['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 				$insert['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
+				$insert['con_award_level_id'] = $this->input->post('con_award_level_id', true);
 				$insert['sale_comission_rate'] = $this->input->post('sale_comission_rate', true);
 				$insert['sale_comission_fixed'] = $this->input->post('sale_comission_fixed', true);
 				$insert['con_and'] = $this->input->post('con_and', true);
@@ -4191,6 +4191,7 @@ class Admincontrol extends MY_Controller {
 							$update['con_refer_number'] = $this->input->post('con_refer_number', true);
 							$update['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 							$update['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
+							$update['con_award_level_id'] = $this->input->post('con_award_level_id', true);
 							$update['sale_comission_rate'] = $this->input->post('sale_comission_rate', true);
 							$update['sale_comission_fixed'] = $this->input->post('sale_comission_fixed', true);
 							$update['con_and'] = $this->input->post('con_and', true);
@@ -8654,6 +8655,121 @@ class Admincontrol extends MY_Controller {
         return $total_consum_indirect;
     }
 
+	// Tính toán cập nhật User Rank
+	public function update_user_rank() {
+		// Xóa dữ liệu cũ trong bảng user_rank
+		$this->db->truncate('user_rank');
+
+
+        // Lấy danh sách tất cả các user từ bảng users
+        $this->db->select('id as user_id, plan_id');
+        $query = $this->db->get('users');
+        $users = $query->result_array();
+
+        foreach ($users as $user) {
+            $user_id = $user['user_id'];
+            $plan_id = $user['plan_id'];	// đơn hàng thành viên từ membership_user
+
+            // Lấy thông tin từ bảng membership_user
+            $this->db->select('plan_id');
+            $this->db->where('user_id', $user_id);
+            $this->db->where('is_active', 1);
+            $membership_user = $this->db->get('membership_user')->row_array();
+
+            if (!$membership_user) {
+				// Nếu không có bản ghi trong membership_user, gán award_id = 0 và user_level = 0
+                $data = array(
+                    'user_id' => $user_id,
+                    'award_id' => 0,
+                    'reward_id' => 0, // Cần logic bổ sung để tính toán reward_id
+                    'star_id' => 0, // Cần logic bổ sung để tính toán star_id
+					'user_level' => 0,
+					'user_star' => 0,
+					'user_reward' => 'Không',
+                    'created_time' => date('Y-m-d H:i:s')
+                );
+                $this->db->insert('user_rank', $data);
+                continue;
+            }
+
+            $membership_plan_id = $membership_user['plan_id'];	// lấy gói thành viên từ membership_plan
+
+            // Lấy thông tin từ bảng membership_plan
+            $this->db->select('level_id');						// lấy cấp độ từ award_level
+            $this->db->where('id', $membership_plan_id); 
+            $membership_plan = $this->db->get('membership_plans')->row_array();	
+
+            if (!$membership_plan) {
+                continue;
+            }
+
+            $level_id = $membership_plan['level_id'];		
+
+            // Lấy thông tin từ bảng award_level
+            $this->db->select('id as award_id, level_number');
+            $this->db->where('id', $level_id);
+            $award_level = $this->db->get('award_level')->row_array();
+
+            if (!$award_level) {
+                continue;
+            }
+
+            $award_id = $award_level['award_id'];
+            $level_number = $award_level['level_number'];		
+
+			// Tính toán star và reward
+            $star_id = $this->calculate_user_star($award_id);
+			$reward_id = $this->calculate_user_reward($award_id);
+			$user_star = $this->calculate_user_star($award_id, true);            
+            $user_reward = $this->calculate_user_reward($award_id, true);
+            
+
+            // Lưu vào bảng user_rank
+            $data = array(
+                'user_id' => $user_id,
+                'award_id' => $award_id,
+                'reward_id' => $reward_id, // Cần logic bổ sung để tính toán reward_id
+                'star_id' => $star_id, // Cần logic bổ sung để tính toán star_id
+				'user_level' => $level_number,
+				'user_star' => $user_star,
+				'user_reward' => $user_reward,
+                'created_time' => date('Y-m-d H:i:s')
+            );
+            $this->db->insert('user_rank', $data);
+        }
+
+        echo "Bảng user_rank đã được cập nhật.";
+    }
+
+	// Tính toán star - value return value not id
+	public function calculate_user_star($level_id, $value = false) {
+		// Tìm trong bảng star_level với con_award_level_id = $level_id
+        $this->db->select('id, star');
+        $this->db->where('con_award_level_id', $level_id);
+        $star = $this->db->get('star_level')->row_array();
+
+        if (!$star) {
+            return $value ? 'No Star' : 0;
+        }
+
+        return $value ? $star['star'] : $star['id'];		
+	}
+
+	// Tính toán reward
+	public function calculate_user_reward($level_id, $value = false) {
+
+		// Tìm trong bảng reward với con_award_level_id = $level_id
+        $this->db->select('id, name');
+        $this->db->where('con_award_level_id', $level_id);
+        $reward = $this->db->get('reward')->row_array();
+
+        if (!$reward) {
+            return $value ? 'No Reward' : 0;
+        }
+
+        return $value ? $reward['name'] : $reward['id'];		
+	}
+
 	// Danh sách User
 	public function userslist() {
 
@@ -8985,6 +9101,7 @@ class Admincontrol extends MY_Controller {
 		$this->update_revenue();
 		$this->calculate_consum();
 		$this->update_consum();
+		$this->update_user_rank();
 
 
 		$this->view($data, 'users/index');

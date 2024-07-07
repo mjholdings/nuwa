@@ -231,7 +231,6 @@ class User_model extends MY_Model {
 	}
 
 
-
 	/*
 	* Branch 
 	*/
@@ -261,6 +260,92 @@ class User_model extends MY_Model {
 
 	function getbranchdetails($id) {
 		return $this->db->get_where('branch', ['id' => $id])->row();
+	}
+
+	/** For commission */
+
+	// Lấy các người dùng gián tiếp
+	public function get_indirect_users($user_id) {
+		$this->db->select('ids_indirect');
+		$this->db->from('users_indirect');
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get();
+		$result = $query->row();
+
+		if ($result && $result->ids_indirect) {
+			return explode(',', $result->ids_indirect);
+		}
+		return [];
+	}
+
+	// Hàm lấy người dùng trực tiếp
+	public function get_direct_users($user_id) {
+		$this->db->select('ids_direct');
+		$this->db->from('users_direct');
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get();
+		$result = $query->row();
+
+		if ($result && $result->ids_direct) {
+			return explode(',', $result->ids_direct);
+		}
+		return [];
+	}
+
+	// Hàm lấy người dùng tuyến dưới
+	public function get_downline_users($user_id) {
+		$this->db->select('ids_direct');
+		$this->db->from('users_downline');
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get();
+		$result = $query->row();
+
+		if ($result && $result->ids_direct) {
+			return explode(',', $result->ids_direct);
+		}
+		return [];
+	}
+
+	// Hàm lấy người dùng đội nhóm
+	public function get_team_users($user_id) {
+		$this->db->select('ids_direct');
+		$this->db->from('users_team');
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get();
+		$result = $query->row();
+
+		if ($result && $result->ids_direct) {
+			return explode(',', $result->ids_direct);
+		}
+		return [];
+	}
+
+	// Hàm lấy người dùng nhánh
+	public function get_branch_users($user_id) {
+		$this->db->select('ids_direct');
+		$this->db->from('users_branch');
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get();
+		$result = $query->row();
+
+		if ($result && $result->ids_direct) {
+			return explode(',', $result->ids_direct);
+		}
+		return [];
+	}
+
+	// Hàm lấy người dùng shop
+	public function get_shop_users($user_id) {
+		$this->db->select('ids_direct');
+		$this->db->from('users_shop');
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get();
+		$result = $query->row();
+
+		if ($result && $result->ids_direct) {
+			return explode(',', $result->ids_direct);
+		}
+		return [];
 	}
 
 

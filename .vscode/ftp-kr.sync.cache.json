@@ -1,5 +1,5 @@
 {
-  "ftp://ovandemo@nhasach365.com@45.119.213.190": {
+  "ftp://45.119.213.190@ovandemo@nhasach365.com": {
     "public_html": {
       "nuwa": {
         ".gitignore": {
@@ -30,8 +30,8 @@
             },
             "Admincontrol.php": {
               "type": "-",
-              "size": 575961,
-              "lmtime": 1720193526990.731,
+              "size": 583478,
+              "lmtime": 1720292556198,
               "modified": false
             },
             "Api.php": {
@@ -329,6 +329,156 @@
               "modified": false
             },
             "theme_api": {}
+          },
+          "views": {
+            "admincontrol": {
+              "reward": {
+                "create.php": {
+                  "type": "-",
+                  "size": 24350,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "index.php": {
+                  "type": "-",
+                  "size": 4727,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "update.php": {
+                  "type": "-",
+                  "size": 25748,
+                  "lmtime": 1720338501719,
+                  "modified": false
+                }
+              },
+              "setting": {
+                "commission": {},
+                "commission_setting.php": {
+                  "type": "-",
+                  "size": 143533,
+                  "lmtime": 1720287196690,
+                  "modified": false
+                },
+                "index.php": {
+                  "type": "-",
+                  "size": 40980,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "install_new_version.php": {
+                  "type": "-",
+                  "size": 2549,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "market_tools_setting.php": {
+                  "type": "-",
+                  "size": 7468,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "mlm_levels.php": {
+                  "type": "-",
+                  "size": 20244,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "mlm_levels_dao_tao.php": {
+                  "type": "-",
+                  "size": 26115,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "mlm_levels_dich_vu.php": {
+                  "type": "-",
+                  "size": 26115,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "mlm_levels_hang_hoa.php": {
+                  "type": "-",
+                  "size": 18336,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "mlm_levels_te_bao_goc.php": {
+                  "type": "-",
+                  "size": 26232,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "mlm_settings.php": {
+                  "type": "-",
+                  "size": 12063,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "paymentsetting.php": {
+                  "type": "-",
+                  "size": 118661,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "policy_setting.php": {
+                  "type": "-",
+                  "size": 66627,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "saas_setting.php": {
+                  "type": "-",
+                  "size": 25406,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "steps": {},
+                "store_setting.php": {
+                  "type": "-",
+                  "size": 157726,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "themesetting.php": {
+                  "type": "-",
+                  "size": 20755,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "wallet_setting.php": {
+                  "type": "-",
+                  "size": 6144,
+                  "lmtime": 0,
+                  "modified": false
+                }
+              },
+              "star": {
+                "create.php": {
+                  "type": "-",
+                  "size": 23382,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "index copy.php": {
+                  "type": "-",
+                  "size": 4416,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "index.php": {
+                  "type": "-",
+                  "size": 4532,
+                  "lmtime": 0,
+                  "modified": false
+                },
+                "update.php": {
+                  "type": "-",
+                  "size": 24850,
+                  "lmtime": 1720338300972,
+                  "modified": false
+                }
+              }
+            }
           }
         },
         "assets": {},

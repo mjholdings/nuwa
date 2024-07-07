@@ -8755,7 +8755,7 @@ class Admincontrol extends MY_Controller {
         return $value ? $star['star'] : $star['id'];		
 	}
 
-	// Tính toán reward
+	// Tính toán reward của user
 	public function calculate_user_reward($level_id, $value = false) {
 
 		// Tìm trong bảng reward với con_award_level_id = $level_id
@@ -8769,6 +8769,124 @@ class Admincontrol extends MY_Controller {
 
         return $value ? $reward['name'] : $reward['id'];		
 	}
+
+	// Tính toán thưởng mỗi user
+	public function calculate_commission() {
+        // Xóa dữ liệu cũ trong bảng user_commission
+        $this->db->truncate('user_commission');
+
+        // Lấy danh sách tất cả các user từ bảng users
+        $this->db->select('id');
+        $query = $this->db->get('users');
+        $users = $query->result_array();
+
+
+		// Lấy toàn bộ Setting trong DB
+		$market_vendor = $this->Product_model->getSettings('market_vendor');
+		$vendor = $this->Product_model->getSettings('vendor');
+
+		// Các settings áp dụng triển khai thưởng không điều kiện
+		$bonus_from_sales_personal = $market_vendor['bonus_from_sales_personal'];								// personal
+		$bonus_from_sales_direct_members = $market_vendor['bonus_from_sales_direct_members'];					// direct
+		$bonus_from_sales_indirect_members = $market_vendor['bonus_from_sales_indirect_members'];				// indirect
+		$bonus_from_sales_members = $market_vendor['bonus_from_sales_members'];									// downline
+		$bonus_from_sales_team = $market_vendor['bonus_from_sales_team'];										// team
+		$bonus_from_sales_branch_members = $market_vendor['bonus_from_sales_branch_members'];					// branch
+		$bonus_from_sales_shop = $market_vendor['bonus_from_sales_shop'];										// all shop
+		$bonus_from_consum_personal = $market_vendor['bonus_from_consum_personal'];								// personal
+		$bonus_from_consum_direct_members = $market_vendor['bonus_from_consum_direct_members'];					// direct
+		$bonus_from_consum_indirect_members = $market_vendor['bonus_from_consum_indirect_members'];				// indirect
+		$bonus_from_consum_members = $market_vendor['bonus_from_consum_members'];								// downline
+		$bonus_from_consum_team = $market_vendor['bonus_from_consum_team'];										// team
+		$bonus_from_consum_branch_members = $market_vendor['bonus_from_consum_branch_members'];					// branch
+
+
+		// Các settings áp dụng triển khai thưởng có điều kiện
+		$bonus_recruitment_direct = $market_vendor['bonus_recruitment_direct'];				// direct
+		$bonus_recruitment_indirect = $market_vendor['bonus_recruitment_indirect'];			// indirect
+		$bonus_recruitment_downline = $market_vendor['bonus_recruitment_downline'];			// downline
+		$bonus_up_rank = $market_vendor['bonus_up_rank'];									// rank
+		$bonus_retention_apply = $market_vendor['bonus_retention_apply'];					// retention
+		$condition_bonus_sales_team = $market_vendor['condition_bonus_sales_team'];			// team bonus
+		$bonus_shared_apply = $market_vendor['bonus_shared_apply'];							// share bonus
+		$calculator_bonus_after_discount = $market_vendor['calculator_bonus_after_discount'];		// after discount
+		$calculator_bonus_after_tax = $market_vendor['calculator_bonus_after_tax'];					// after tax
+		
+
+		/* Thống kê thưởng theo từng phương thức và điều kiện => cho vào các bảng riêng */
+
+		// Settings Apply Những thưởng nào cho chính sách - Thưởng không điều kiện
+		
+
+
+		// Settings Apply + Điều kiện - Thưởng có điều kiện
+
+
+
+		/* Tổng hợp thưởng từng người */
+        foreach ($users as $user) {
+            $user_id = $user['id'];
+
+            // Tính toán phần thưởng từ doanh thu
+            $this->calculate_user_commission($user_id, 'revenue');
+
+            // Tính toán phần thưởng từ tiêu dùng
+            $this->calculate_user_commission($user_id, 'consum');
+
+			// Tính toán phần thưởng từ tuyển dụng
+            $this->calculate_user_commission($user_id, 'recruitment');
+
+			// Tính toán phần thưởng tăng cấp
+            $this->calculate_user_commission($user_id, 'rank');
+
+			// Tính toán phần thưởng đạt mục tiêu liên tiếp
+            $this->calculate_user_commission($user_id, 'retention');
+
+			// Tính toán phần thưởng đồng chia
+			$this->calculate_user_commission($user_id, 'shared');
+        }
+
+        echo "Bảng user_commission đã được cập nhật.";
+    }
+
+	// Tính thưởng theo phương thức khác nhau
+	private function calculate_user_commission($user_id, $commission_method) {
+        // Lấy cài đặt phần trăm hoặc cố định từ bảng commission_setting
+        $this->db->select('*');
+        $this->db->where('commission_method', $commission_method);
+        $commission_settings = $this->db->get('commission_setting')->result_array();
+
+        foreach ($commission_settings as $setting) {
+            $level = $setting['level'];
+            $percentage = $setting['percentage'];
+            $fixed_amount = $setting['fixed_amount'];
+            $commission_type = ($percentage > 0) ? 'percentage' : 'fixed';
+
+            // Lấy tổng giá trị từ bảng tương ứng (revenue hoặc consumption)
+            $table_name = 'reward_' . $commission_method;
+            $this->db->select('SUM(total) as total_value');
+            $this->db->where('user_id', $user_id);
+            $total_value = $this->db->get($table_name)->row()->total_value;
+
+            // Tính toán phần thưởng
+            if ($commission_type == 'percentage') {
+                $commission_total = ($total_value * $percentage) / 100;
+            } else {
+                $commission_total = $fixed_amount;
+            }
+
+            // Chèn dữ liệu vào bảng user_commission
+            $data = array(
+                'user_id' => $user_id,
+                'commission_method' => $commission_method,
+                'commission_date' => date('Y-m-d'),
+                'commission_type' => $commission_type,
+                'commission_total' => $commission_total
+            );
+
+            $this->db->insert('user_commission', $data);
+        }
+    }
 
 	// Danh sách User
 	public function userslist() {
@@ -9097,11 +9215,16 @@ class Admincontrol extends MY_Controller {
 		// Update User Statistic			
 		$this->update_user_tree();
 		$this->update_user_recruitment();
+		
 		$this->calculate_revenue();
 		$this->update_revenue();
+
 		$this->calculate_consum();
 		$this->update_consum();
+		
 		$this->update_user_rank();
+
+		// $this->calculate_commission();
 
 
 		$this->view($data, 'users/index');

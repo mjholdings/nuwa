@@ -36,7 +36,7 @@
                                 <div class="col-sm-12">
                                     <div class="card h-100">
                                         <div class="card-header bg-secondary text-white text-center">
-                                            <h5><?= __('Chính sách thưởng duy trì Doanh số - Tuyển dụng') ?>
+                                            <h5><?= __('18 - Chính sách thưởng duy trì Doanh số - Tuyển dụng') ?>
                                             </h5>
                                         </div>
 
@@ -73,15 +73,23 @@
                                                         <label class="control-label"><?= __('Điều kiện doanh thu') ?></label>
                                                         <select name="market_vendor[condition_bonus_retention]" class="form-control">
                                                             <option value=""><?= __('Chọn loại doanh thu') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'sales_personal') ? 'selected' : '' ?> value="sales_personal"><?= __('Doanh thu Cá nhân') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'sales_direct') ? 'selected' : '' ?> value="sales_direct"><?= __('Doanh thu Trực tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'sales_indirect') ? 'selected' : '' ?> value="sales_indirect"><?= __('Doanh thu Gián tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'sales_downline') ? 'selected' : '' ?> value="sales_downline"><?= __('Doanh thu tuyến Dưới') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'sales_personal') ? 'selected' : '' ?> value="sales_personal"><?= __('Doanh thu Cá nhân') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'sales_direct') ? 'selected' : '' ?> value="sales_direct"><?= __('Doanh thu Trực tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'sales_indirect') ? 'selected' : '' ?> value="sales_indirect"><?= __('Doanh thu Gián tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'sales_downline') ? 'selected' : '' ?> value="sales_downline"><?= __('Doanh thu tuyến Dưới') ?>
+                                                            </option>
                                                             <option <?= ($market_vendor['condition_bonus_retention'] == 'sales_team') ? 'selected' : '' ?> value="sales_team"><?= __('Doanh thu Nhóm') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'consum_indirect') ? 'selected' : '' ?> value="consum_indirect"><?= __('Tiêu dùng Gián tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'consum_downline') ? 'selected' : '' ?> value="consum_downline"><?= __('Tiêu dùng tuyến Dưới') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'consum_indirect') ? 'selected' : '' ?> value="consum_indirect"><?= __('Tiêu dùng Gián tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention'] == 'consum_downline') ? 'selected' : '' ?> value="consum_downline">
+                                                                <?= __('Tiêu dùng tuyến Dưới') ?></option>
                                                             <option <?= ($market_vendor['condition_bonus_retention'] == 'consum_team') ? 'selected' : '' ?> value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
                                                         </select>
                                                     </div>
@@ -106,9 +114,12 @@
                                                         <label class="control-label"><?= __('Điều kiện tuyển dụng') ?></label>
                                                         <select name="market_vendor[condition_bonus_retention_recruitment]" class="form-control">
                                                             <option value=""><?= __('Chọn loại tuyển dụng') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_retention_recruitment'] == 'recruitment_direct') ? 'selected' : '' ?> value="recruitment_direct"><?= __('Tuyển trực tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_retention_recruitment'] == 'recruitment_indirect') ? 'selected' : '' ?> value="recruitment_indirect"><?= __('Tuyển gián tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_retention_recruitment'] == 'recruitment_downline') ? 'selected' : '' ?> value="recruitment_downline"><?= __('Tuyển tuyến dưới') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention_recruitment'] == 'recruitment_direct') ? 'selected' : '' ?> value="recruitment_direct"><?= __('Tuyển trực tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention_recruitment'] == 'recruitment_indirect') ? 'selected' : '' ?> value="recruitment_indirect">
+                                                                <?= __('Tuyển gián tiếp') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_retention_recruitment'] == 'recruitment_downline') ? 'selected' : '' ?> value="recruitment_downline">
+                                                                <?= __('Tuyển tuyến dưới') ?></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -126,17 +137,52 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-6 py-3">
+                                                <div class="col-sm-4 py-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Nguồn  trả thưởng duy trì') ?></label>
+                                                        <select name="market_vendor[bonus_retention_source]" class="form-control">
+                                                            <option value=""><?= __('Chọn nguồn trả thưởng') ?></option>
+                                                            <option <?= ($market_vendor['bonus_retention_source'] == 'sales_personal') ? 'selected' : '' ?> value="sales_personal"><?= __('Doanh thu Cá nhân') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_retention_source'] == 'sales_direct') ? 'selected' : '' ?> value="sales_direct"><?= __('Doanh thu Trực tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_retention_source'] == 'sales_indirect') ? 'selected' : '' ?> value="sales_indirect"><?= __('Doanh thu Gián tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_retention_source'] == 'sales_members') ? 'selected' : '' ?> value="sales_members"><?= __('Doanh thu Tuyến dưới') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_retention_source'] == 'sales_shop') ? 'selected' : '' ?> value="sales_shop"><?= __('Doanh thu Chi nhánh') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_retention_source'] == 'sales_branch') ? 'selected' : '' ?> value="sales_branch"><?= __('Doanh thu Nhánh') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_retention_source'] == 'sales_team') ? 'selected' : '' ?> value="sales_team"><?= __('Doanh thu Nhóm') ?></option>
+                                                            <option <?= ($market_vendor['bonus_retention_source'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_retention_source'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_retention_source'] == 'consum_indirect') ? 'selected' : '' ?> value="consum_indirect"><?= __('Tiêu dùng Gián tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_retention_source'] == 'consum_members') ? 'selected' : '' ?> value="consum_members"><?= __('Tiêu dùng Tuyến dưới') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_retention_source'] == 'consum_shop') ? 'selected' : '' ?> value="consum_shop"><?= __('Tiêu dùng Chi nhánh') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_retention_source'] == 'consum_branch') ? 'selected' : '' ?> value="consum_branch"><?= __('Tiêu dùng Nhánh') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_retention_source'] == 'consum_team') ? 'selected' : '' ?> value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 py-3">
                                                     <div class="form-group">
                                                         <label class="control-label"><?= __('Loại Hoa hồng') ?></label>
                                                         <select name="market_vendor[bonus_retention_type]" class="form-control">
                                                             <option value=""><?= __('Chọn loại Hoa hồng') ?></option>
-                                                            <option <?= ($market_vendor['bonus_retention_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
+                                                            <option <?= ($market_vendor['bonus_retention_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?>
+                                                            </option>
                                                             <option <?= ($market_vendor['bonus_retention_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6 py-3">
+                                                <div class="col-sm-4 py-3">
                                                     <div class="form-group">
                                                         <label class="control-label">
                                                             <?= __('Thưởng Hoa hồng') ?>
@@ -171,7 +217,7 @@
                                     <div class="card">
                                         <div class="card-header bg-secondary text-white text-center">
                                             <h5 class="text-center">
-                                                <?= __('Chính sách Thưởng Doanh Thu Nhóm') ?></h5>
+                                                <?= __('19 - Chính sách Thưởng Doanh Thu Nhóm') ?></h5>
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
@@ -180,15 +226,23 @@
                                                         <label class="control-label"><?= __('Điều kiện hưởng doanh thu') ?></label>
                                                         <select name="market_vendor[condition_bonus_sales_team_type]" class="form-control">
                                                             <option value=""><?= __('Chọn loại doanh thu') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_sales_team_type'] == 'sales_personal') ? 'selected' : '' ?> value="sales_personal"><?= __('Doanh thu Cá nhân') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_sales_team_type'] == 'sales_direct') ? 'selected' : '' ?> value="sales_direct"><?= __('Doanh thu Trực tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_sales_team_type'] == 'sales_indirect') ? 'selected' : '' ?> value="sales_indirect"><?= __('Doanh thu Gián tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_sales_team_type'] == 'sales_downline') ? 'selected' : '' ?> value="sales_downline"><?= __('Doanh thu tuyến Dưới') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_sales_team_type'] == 'sales_personal') ? 'selected' : '' ?> value="sales_personal"><?= __('Doanh thu Cá nhân') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_bonus_sales_team_type'] == 'sales_direct') ? 'selected' : '' ?> value="sales_direct"><?= __('Doanh thu Trực tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_bonus_sales_team_type'] == 'sales_indirect') ? 'selected' : '' ?> value="sales_indirect"><?= __('Doanh thu Gián tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_bonus_sales_team_type'] == 'sales_downline') ? 'selected' : '' ?> value="sales_downline"><?= __('Doanh thu tuyến Dưới') ?>
+                                                            </option>
                                                             <option <?= ($market_vendor['condition_bonus_sales_team_type'] == 'sales_team') ? 'selected' : '' ?> value="sales_team"><?= __('Doanh thu Nhóm') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_consum_team_type'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_consum_team_type'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_consum_team_type'] == 'consum_indirect') ? 'selected' : '' ?> value="consum_indirect"><?= __('Tiêu dùng Gián tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_consum_team_type'] == 'consum_downline') ? 'selected' : '' ?> value="consum_downline"><?= __('Tiêu dùng tuyến Dưới') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_consum_team_type'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_bonus_consum_team_type'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_bonus_consum_team_type'] == 'consum_indirect') ? 'selected' : '' ?> value="consum_indirect"><?= __('Tiêu dùng Gián tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_bonus_consum_team_type'] == 'consum_downline') ? 'selected' : '' ?> value="consum_downline">
+                                                                <?= __('Tiêu dùng tuyến Dưới') ?></option>
                                                             <option <?= ($market_vendor['condition_bonus_consum_team_type'] == 'consum_team') ? 'selected' : '' ?> value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
                                                         </select>
                                                     </div>
@@ -213,9 +267,12 @@
                                                         <label class="control-label"><?= __('Điều kiện tuyển dụng') ?></label>
                                                         <select name="market_vendor[condition_bonus_recruitment_team_type]" class="form-control">
                                                             <option value=""><?= __('Chọn loại tuyển dụng') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_recruitment_team_type'] == 'recruitment_dicrect') ? 'selected' : '' ?> value="recruitment_dicrect"><?= __('Tuyển trực tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_recruitment_team_type'] == 'recruitment_indicrect') ? 'selected' : '' ?> value="recruitment_indicrect"><?= __('Tuyển gián tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_bonus_recruitment_team_type'] == 'recruitment_downline') ? 'selected' : '' ?> value="recruitment_downline"><?= __('Tuyển tuyến dưới') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_recruitment_team_type'] == 'recruitment_dicrect') ? 'selected' : '' ?> value="recruitment_dicrect"><?= __('Tuyển trực tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_bonus_recruitment_team_type'] == 'recruitment_indicrect') ? 'selected' : '' ?> value="recruitment_indicrect">
+                                                                <?= __('Tuyển gián tiếp') ?></option>
+                                                            <option <?= ($market_vendor['condition_bonus_recruitment_team_type'] == 'recruitment_downline') ? 'selected' : '' ?> value="recruitment_downline">
+                                                                <?= __('Tuyển tuyến dưới') ?></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -238,7 +295,8 @@
                                                         <label class="control-label"><?= __('Loại Hoa hồng từ Doanh thu Nhóm') ?></label>
                                                         <select name="market_vendor[bonus_sales_team_get_type]" class="form-control">
                                                             <option value=""><?= __('Chọn loại Hoa hồng') ?></option>
-                                                            <option <?= ($market_vendor['bonus_sales_team_get_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_team_get_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?>
+                                                            </option>
                                                             <option <?= ($market_vendor['bonus_sales_team_get_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
                                                         </select>
                                                     </div>
@@ -263,7 +321,8 @@
                                                         <label class="control-label"><?= __('Loại Hoa hồng từ Tiêu dùng Nhóm') ?></label>
                                                         <select name="market_vendor[bonus_consum_team_get_type]" class="form-control">
                                                             <option value=""><?= __('Chọn loại Hoa hồng') ?></option>
-                                                            <option <?= ($market_vendor['bonus_consum_team_get_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
+                                                            <option <?= ($market_vendor['bonus_consum_team_get_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?>
+                                                            </option>
                                                             <option <?= ($market_vendor['bonus_consum_team_get_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
                                                         </select>
                                                     </div>
@@ -298,7 +357,7 @@
                                     <div class="card">
                                         <div class="card-header bg-secondary text-white text-center">
                                             <h5 class="text-center">
-                                                <?= __('Chính sách Thưởng Doanh Thu Toàn Hệ Thống') ?></h5>
+                                                <?= __('19 - Chính sách Thưởng Doanh Thu Toàn Hệ Thống') ?></h5>
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
@@ -307,15 +366,23 @@
                                                         <label class="control-label"><?= __('Điều kiện hưởng doanh thu') ?></label>
                                                         <select name="market_vendor[condition_sales_all_system_type]" class="form-control">
                                                             <option value=""><?= __('Chọn loại doanh thu') ?></option>
-                                                            <option <?= ($market_vendor['condition_sales_all_system_type'] == 'sales_personal') ? 'selected' : '' ?> value="sales_personal"><?= __('Doanh thu Cá nhân') ?></option>
-                                                            <option <?= ($market_vendor['condition_sales_all_system_type'] == 'sales_direct') ? 'selected' : '' ?> value="sales_direct"><?= __('Doanh thu Trực tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_sales_all_system_type'] == 'sales_indirect') ? 'selected' : '' ?> value="sales_indirect"><?= __('Doanh thu Gián tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_sales_all_system_type'] == 'sales_downline') ? 'selected' : '' ?> value="sales_downline"><?= __('Doanh thu tuyến Dưới') ?></option>
+                                                            <option <?= ($market_vendor['condition_sales_all_system_type'] == 'sales_personal') ? 'selected' : '' ?> value="sales_personal"><?= __('Doanh thu Cá nhân') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_sales_all_system_type'] == 'sales_direct') ? 'selected' : '' ?> value="sales_direct"><?= __('Doanh thu Trực tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_sales_all_system_type'] == 'sales_indirect') ? 'selected' : '' ?> value="sales_indirect"><?= __('Doanh thu Gián tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_sales_all_system_type'] == 'sales_downline') ? 'selected' : '' ?> value="sales_downline"><?= __('Doanh thu tuyến Dưới') ?>
+                                                            </option>
                                                             <option <?= ($market_vendor['condition_sales_all_system_type'] == 'sales_team') ? 'selected' : '' ?> value="sales_team"><?= __('Doanh thu Nhóm') ?></option>
-                                                            <option <?= ($market_vendor['condition_consum_all_system_type'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?></option>
-                                                            <option <?= ($market_vendor['condition_consum_all_system_type'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_consum_all_system_type'] == 'consum_indirect') ? 'selected' : '' ?> value="consum_indirect"><?= __('Tiêu dùng Gián tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_consum_all_system_type'] == 'consum_downline') ? 'selected' : '' ?> value="consum_downline"><?= __('Tiêu dùng tuyến Dưới') ?></option>
+                                                            <option <?= ($market_vendor['condition_consum_all_system_type'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_consum_all_system_type'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_consum_all_system_type'] == 'consum_indirect') ? 'selected' : '' ?> value="consum_indirect"><?= __('Tiêu dùng Gián tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_consum_all_system_type'] == 'consum_downline') ? 'selected' : '' ?> value="consum_downline">
+                                                                <?= __('Tiêu dùng tuyến Dưới') ?></option>
                                                             <option <?= ($market_vendor['condition_consum_all_system_type'] == 'consum_team') ? 'selected' : '' ?> value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
                                                         </select>
                                                     </div>
@@ -340,9 +407,12 @@
                                                         <label class="control-label"><?= __('Điều kiện tuyển dụng') ?></label>
                                                         <select name="market_vendor[condition_recuitment_all_system_type]" class="form-control">
                                                             <option value=""><?= __('Chọn loại tuyển dụng') ?></option>
-                                                            <option <?= ($market_vendor['condition_recuitment_all_system_type'] == 'recuitment_direct') ? 'selected' : '' ?> value="recuitment_direct"><?= __('Tuyển trực tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_recuitment_all_system_type'] == 'recuitment_indirect') ? 'selected' : '' ?> value="recuitment_indirect"><?= __('Tuyển gián tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_recuitment_all_system_type'] == 'recuitment_downline') ? 'selected' : '' ?> value="recuitment_downline"><?= __('Tuyển tuyến dưới') ?></option>
+                                                            <option <?= ($market_vendor['condition_recuitment_all_system_type'] == 'recuitment_direct') ? 'selected' : '' ?> value="recuitment_direct"><?= __('Tuyển trực tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_recuitment_all_system_type'] == 'recuitment_indirect') ? 'selected' : '' ?> value="recuitment_indirect"><?= __('Tuyển gián tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_recuitment_all_system_type'] == 'recuitment_downline') ? 'selected' : '' ?> value="recuitment_downline">
+                                                                <?= __('Tuyển tuyến dưới') ?></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -365,7 +435,8 @@
                                                         <label class="control-label"><?= __('Loại Hoa hồng từ Doanh thu Hệ thống') ?></label>
                                                         <select name="market_vendor[recuitment_all_system_sales_bonus_type]" class="form-control">
                                                             <option value=""><?= __('Chọn loại Hoa hồng') ?></option>
-                                                            <option <?= ($market_vendor['recuitment_all_system_sales_bonus_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
+                                                            <option <?= ($market_vendor['recuitment_all_system_sales_bonus_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?>
+                                                            </option>
                                                             <option <?= ($market_vendor['recuitment_all_system_sales_bonus_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
                                                         </select>
                                                     </div>
@@ -390,7 +461,8 @@
                                                         <label class="control-label"><?= __('Loại Hoa hồng từ Tiêu dùng Hệ thống') ?></label>
                                                         <select name="market_vendor[recuitment_all_system_consum_bonus_type]" class="form-control">
                                                             <option value=""><?= __('Chọn loại Hoa hồng') ?></option>
-                                                            <option <?= ($market_vendor['recuitment_all_system_consum_bonus_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?></option>
+                                                            <option <?= ($market_vendor['recuitment_all_system_consum_bonus_type'] == 'percentage') ? 'selected' : '' ?> value="percentage"><?= __('admin.percentage') ?>
+                                                            </option>
                                                             <option <?= ($market_vendor['recuitment_all_system_consum_bonus_type'] == 'fixed') ? 'selected' : '' ?> value="fixed"><?= __('admin.fixed') ?></option>
                                                         </select>
                                                     </div>
@@ -442,7 +514,7 @@
                                     <div class="card">
                                         <div class="card-header bg-secondary text-white text-center">
                                             <h5 class="text-center">
-                                                <?= __('Chính sách đồng chia') ?></h5>
+                                                <?= __('20 - Chính sách đồng chia') ?></h5>
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
@@ -451,13 +523,19 @@
                                                         <label class="control-label"><?= __('Nguồn trả thưởng đồng chia') ?></label>
                                                         <select name="market_vendor[bonus_shared_source]" class="form-control">
                                                             <option value=""><?= __('Chọn nguồn trả thưởng') ?></option>
-                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'sales_system') ? 'selected' : '' ?> value="sales_system"><?= __('Doanh thu Toàn hệ thống') ?></option>
-                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'sales_shop') ? 'selected' : '' ?> value="sales_shop"><?= __('Doanh thu Chi nhánh') ?></option>
-                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'sales_branch') ? 'selected' : '' ?> value="sales_branch"><?= __('Doanh thu Nhánh') ?></option>
+                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'sales_system') ? 'selected' : '' ?> value="sales_system">
+                                                                <?= __('Doanh thu Toàn hệ thống') ?></option>
+                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'sales_shop') ? 'selected' : '' ?> value="sales_shop"><?= __('Doanh thu Chi nhánh') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'sales_branch') ? 'selected' : '' ?> value="sales_branch"><?= __('Doanh thu Nhánh') ?>
+                                                            </option>
                                                             <option <?= ($market_vendor['bonus_shared_source'] == 'sales_team') ? 'selected' : '' ?> value="sales_team"><?= __('Doanh thu Nhóm') ?></option>
-                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'consum_system') ? 'selected' : '' ?> value="consum_system"><?= __('Tiêu dùng Toàn hệ thống') ?></option>
-                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'consum_shop') ? 'selected' : '' ?> value="consum_shop"><?= __('Tiêu dùng Chi nhánh') ?></option>
-                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'consum_branch') ? 'selected' : '' ?> value="consum_branch"><?= __('Tiêu dùng Nhánh') ?></option>
+                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'consum_system') ? 'selected' : '' ?> value="consum_system">
+                                                                <?= __('Tiêu dùng Toàn hệ thống') ?></option>
+                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'consum_shop') ? 'selected' : '' ?> value="consum_shop"><?= __('Tiêu dùng Chi nhánh') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_shared_source'] == 'consum_branch') ? 'selected' : '' ?> value="consum_branch"><?= __('Tiêu dùng Nhánh') ?>
+                                                            </option>
                                                             <option <?= ($market_vendor['bonus_shared_source'] == 'consum_team') ? 'selected' : '' ?> value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
                                                         </select>
                                                     </div>
@@ -468,10 +546,14 @@
                                                         <select name="market_vendor[bonus_shared_benefit_user]" class="form-control">
                                                             <option value=""><?= __('Chọn người hưởng') ?></option>
                                                             <option <?= ($market_vendor['bonus_shared_benefit_user'] == 'everyone') ? 'selected' : '' ?> value="everyone"><?= __('Mọi người') ?></option>
-                                                            <option <?= ($market_vendor['bonus_shared_benefit_user'] == 'shop_members') ? 'selected' : '' ?> value="shop_members"><?= __('Thành viên Chi nhánh') ?></option>
-                                                            <option <?= ($market_vendor['bonus_shared_benefit_user'] == 'branch_members') ? 'selected' : '' ?> value="branch_members"><?= __('Thành viên Nhánh') ?></option>
-                                                            <option <?= ($market_vendor['bonus_shared_benefit_user'] == 'team_members') ? 'selected' : '' ?> value="team_members"><?= __('Thành viên Nhóm') ?></option>
-                                                            <option <?= ($market_vendor['bonus_shared_benefit_user'] == 'members_of_rank') ? 'selected' : '' ?> value="members_of_rank"><?= __('Thành viên Cấp') ?></option>
+                                                            <option <?= ($market_vendor['bonus_shared_benefit_user'] == 'shop_members') ? 'selected' : '' ?> value="shop_members"><?= __('Thành viên Chi nhánh') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_shared_benefit_user'] == 'branch_members') ? 'selected' : '' ?> value="branch_members"><?= __('Thành viên Nhánh') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_shared_benefit_user'] == 'team_members') ? 'selected' : '' ?> value="team_members"><?= __('Thành viên Nhóm') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['bonus_shared_benefit_user'] == 'members_of_rank') ? 'selected' : '' ?> value="members_of_rank"><?= __('Thành viên Cấp') ?>
+                                                            </option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -493,16 +575,25 @@
                                                     <div class="form-group">
                                                         <label class="control-label"><?= __('Điều kiện hưởng đồng chia') ?></label>
                                                         <select name="market_vendor[condition_get_bonus_shared]" class="form-control">
-                                                            <option value=""><?= __('Chọn điều kiện doanh thu') ?></option>
-                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'sale_personal') ? 'selected' : '' ?> value="sale_personal"><?= __('Doanh thu Cá nhân') ?></option>
-                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'sale_direct') ? 'selected' : '' ?> value="sale_direct"><?= __('Doanh thu Trực tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'sale_inderect') ? 'selected' : '' ?> value="sale_inderect"><?= __('Doanh thu Gián tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'sale_downline') ? 'selected' : '' ?> value="sale_downline"><?= __('Doanh thu tuyến Dưới') ?></option>
+                                                            <option value=""><?= __('Chọn điều kiện doanh thu') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'sale_personal') ? 'selected' : '' ?> value="sale_personal"><?= __('Doanh thu Cá nhân') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'sale_direct') ? 'selected' : '' ?> value="sale_direct"><?= __('Doanh thu Trực tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'sale_inderect') ? 'selected' : '' ?> value="sale_inderect"><?= __('Doanh thu Gián tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'sale_downline') ? 'selected' : '' ?> value="sale_downline"><?= __('Doanh thu tuyến Dưới') ?>
+                                                            </option>
                                                             <option <?= ($market_vendor['condition_get_bonus_shared'] == 'sale_team') ? 'selected' : '' ?> value="sale_team"><?= __('Doanh thu Nhóm') ?></option>
-                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?></option>
-                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'consum_inderect') ? 'selected' : '' ?> value="consum_inderect"><?= __('Tiêu dùng Gián tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'consum_downline') ? 'selected' : '' ?> value="consum_downline"><?= __('Tiêu dùng tuyến Dưới') ?></option>
+                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'consum_inderect') ? 'selected' : '' ?> value="consum_inderect"><?= __('Tiêu dùng Gián tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_get_bonus_shared'] == 'consum_downline') ? 'selected' : '' ?> value="consum_downline">
+                                                                <?= __('Tiêu dùng tuyến Dưới') ?></option>
                                                             <option <?= ($market_vendor['condition_get_bonus_shared'] == 'consum_team') ? 'selected' : '' ?> value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
                                                         </select>
                                                     </div>
@@ -526,10 +617,14 @@
                                                     <div class="form-group">
                                                         <label class="control-label"><?= __('Điều kiện tuyển dụng đồng chia') ?></label>
                                                         <select name="market_vendor[condition_recuitment_get_bonus_shared]" class="form-control">
-                                                            <option value=""><?= __('Chọn điều kiện tuyển dụng') ?></option>
-                                                            <option <?= ($market_vendor['condition_recuitment_get_bonus_shared'] == 'recuitment_direct') ? 'selected' : '' ?> value="recuitment_direct"><?= __('Tuyển trực tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_recuitment_get_bonus_shared'] == 'recuitment_indirect') ? 'selected' : '' ?> value="recuitment_indirect"><?= __('Tuyển gián tiếp') ?></option>
-                                                            <option <?= ($market_vendor['condition_recuitment_get_bonus_shared'] == 'recuitment_downline') ? 'selected' : '' ?> value="recuitment_downline"><?= __('Tuyển tuyến dưới') ?></option>
+                                                            <option value=""><?= __('Chọn điều kiện tuyển dụng') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_recuitment_get_bonus_shared'] == 'recuitment_direct') ? 'selected' : '' ?> value="recuitment_direct"><?= __('Tuyển trực tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_recuitment_get_bonus_shared'] == 'recuitment_indirect') ? 'selected' : '' ?> value="recuitment_indirect"><?= __('Tuyển gián tiếp') ?>
+                                                            </option>
+                                                            <option <?= ($market_vendor['condition_recuitment_get_bonus_shared'] == 'recuitment_downline') ? 'selected' : '' ?> value="recuitment_downline">
+                                                                <?= __('Tuyển tuyến dưới') ?></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -561,7 +656,7 @@
                                 </div>
                                 <div class="form-group row mt-4">
                                     <label class="control-label col-sm-5">
-                                        <?= __('Tính hoa hồng doanh thu / tiêu dùng sau chiết khấu') ?>
+                                        <?= __('21 - Tính hoa hồng doanh thu / tiêu dùng sau chiết khấu') ?>
                                     </label>
                                     <div class="form-check form-switch col-sm-2">
                                         <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['calculator_bonus_after_discount'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="calculator_bonus_after_discount" data-setting_type="market_vendor">
@@ -569,7 +664,7 @@
                                 </div>
                                 <div class="form-group row mt-4">
                                     <label class="control-label col-sm-5">
-                                        <?= __('Tính hoa hồng doanh thu sau thuế') ?>
+                                        <?= __('22 - Tính hoa hồng doanh thu sau thuế') ?>
                                     </label>
                                     <div class="form-check form-switch col-sm-2">
                                         <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['calculator_bonus_after_tax'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="calculator_bonus_after_tax" data-setting_type="market_vendor">
@@ -591,29 +686,37 @@
 <script type="text/javascript">
     $("select[name='market_vendor[bonus_retention_type]']").on('change', function() {
         if ($(this).val() == 'percentage')
-            $("input[name='market_vendor[bonus_retention_type_value]']").siblings('.input-group-prepend').find('.input-group-text').text('%');
+            $("input[name='market_vendor[bonus_retention_type_value]']").siblings('.input-group-prepend').find(
+                '.input-group-text').text('%');
         else
-            $("input[name='market_vendor[bonus_retention_type_value]']").siblings('.input-group-prepend').find('.input-group-text').text('<?= $CurrencySymbol ?>');
+            $("input[name='market_vendor[bonus_retention_type_value]']").siblings('.input-group-prepend').find(
+                '.input-group-text').text('<?= $CurrencySymbol ?>');
     })
     $("select[name='market_vendor[goal_bonus_retention]']").on('change', function() {
         if ($(this).val() == 'percentage')
-            $("input[name='market_vendor[goal_bonus_retention_value]']").siblings('.input-group-prepend').find('.input-group-text').text('%');
+            $("input[name='market_vendor[goal_bonus_retention_value]']").siblings('.input-group-prepend').find(
+                '.input-group-text').text('%');
         else
-            $("input[name='market_vendor[goal_bonus_retention_value]']").siblings('.input-group-prepend').find('.input-group-text').text('<?= $CurrencySymbol ?>');
+            $("input[name='market_vendor[goal_bonus_retention_value]']").siblings('.input-group-prepend').find(
+                '.input-group-text').text('<?= $CurrencySymbol ?>');
     })
 
     $("select[name='market_vendor[bonus_recruitment_team_get_type]']").on('change', function() {
         if ($(this).val() == 'percentage')
-            $("input[name='market_vendor[bonus_recruitment_team_get_value]']").siblings('.input-group-prepend').find('.input-group-text').text('%');
+            $("input[name='market_vendor[bonus_recruitment_team_get_value]']").siblings('.input-group-prepend')
+            .find('.input-group-text').text('%');
         else
-            $("input[name='market_vendor[bonus_recruitment_team_get_value]']").siblings('.input-group-prepend').find('.input-group-text').text('<?= $CurrencySymbol ?>');
+            $("input[name='market_vendor[bonus_recruitment_team_get_value]']").siblings('.input-group-prepend')
+            .find('.input-group-text').text('<?= $CurrencySymbol ?>');
     })
 
     $("select[name='market_vendor[recuitment_all_system_sales_bonus_type]']").on('change', function() {
         if ($(this).val() == 'percentage')
-            $("input[name='market_vendor[recuitment_all_system_sales_bonus_value]']").siblings('.input-group-prepend').find('.input-group-text').text('%');
+            $("input[name='market_vendor[recuitment_all_system_sales_bonus_value]']").siblings(
+                '.input-group-prepend').find('.input-group-text').text('%');
         else
-            $("input[name='market_vendor[recuitment_all_system_sales_bonus_value]']").siblings('.input-group-prepend').find('.input-group-text').text('<?= $CurrencySymbol ?>');
+            $("input[name='market_vendor[recuitment_all_system_sales_bonus_value]']").siblings(
+                '.input-group-prepend').find('.input-group-text').text('<?= $CurrencySymbol ?>');
     })
 
 
@@ -623,7 +726,8 @@
         $("#setting-form .alert-error").remove();
         var affiliate_cookie = parseInt($(".input-affiliate_cookie").val());
         if (affiliate_cookie <= 0 || affiliate_cookie > 365) {
-            $(".input-affiliate_cookie").after("<div class='alert alert-danger alert-error'><?= __('admin.days_between_1_and_365'); ?></div>");
+            $(".input-affiliate_cookie").after(
+                "<div class='alert alert-danger alert-error'><?= __('admin.days_between_1_and_365'); ?></div>");
         }
         if ($("#setting-form .alert-error").length == 0) return true;
         return false;

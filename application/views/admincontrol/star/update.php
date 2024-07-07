@@ -235,20 +235,20 @@
                             <div class="input-group">
                                 <select name="bonus_comission_source" class="form-control">
                                     <option value="" selected="selected"><?= __('Chọn nguồn trả thưởng') ?></option>
-                                    <option value="sales_personal"><?= __('Doanh thu Cá nhân') ?></option>
-                                    <option value="sales_direct"><?= __('Doanh thu Trực tiếp') ?></option>
-                                    <option value="sales_indirect"><?= __('Doanh thu Gián tiếp') ?></option>
-                                    <option value="sales_members"><?= __('Doanh thu Tuyến dưới') ?></option>
-                                    <option value="sales_shop"><?= __('Doanh thu Chi nhánh') ?></option>
-                                    <option value="sales_branch"><?= __('Doanh thu Nhánh') ?></option>
-                                    <option value="sales_team"><?= __('Doanh thu Nhóm') ?></option>
-                                    <option value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?></option>
-                                    <option value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?></option>
-                                    <option value="consum_indirect"><?= __('Tiêu dùng Gián tiếp') ?></option>
-                                    <option value="consum_members"><?= __('Tiêu dùng Tuyến dưới') ?></option>
-                                    <option value="consum_shop"><?= __('Tiêu dùng Chi nhánh') ?></option>
-                                    <option value="consum_branch"><?= __('Tiêu dùng Nhánh') ?></option>
-                                    <option value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
+                                    <option value="sales_personal" <?= ($star['bonus_comission_source'] == 'sales_personal') ? 'selected' : '' ?>><?= __('Doanh thu Cá nhân') ?></option>
+                                    <option value="sales_direct" <?= ($star['bonus_comission_source'] == 'sales_direct') ? 'selected' : '' ?>><?= __('Doanh thu Trực tiếp') ?></option>
+                                    <option value="sales_indirect" <?= ($star['bonus_comission_source'] == 'sales_indirect') ? 'selected' : '' ?>><?= __('Doanh thu Gián tiếp') ?></option>
+                                    <option value="sales_members" <?= ($star['bonus_comission_source'] == 'sales_members') ? 'selected' : '' ?>><?= __('Doanh thu Tuyến dưới') ?></option>
+                                    <option value="sales_shop" <?= ($star['bonus_comission_source'] == 'sales_shop') ? 'selected' : '' ?>><?= __('Doanh thu Chi nhánh') ?></option>
+                                    <option value="sales_branch" <?= ($star['bonus_comission_source'] == 'sales_branch') ? 'selected' : '' ?>><?= __('Doanh thu Nhánh') ?></option>
+                                    <option value="sales_team" <?= ($star['bonus_comission_source'] == 'sales_team') ? 'selected' : '' ?>><?= __('Doanh thu Nhóm') ?></option>
+                                    <option value="consum_personal" <?= ($star['bonus_comission_source'] == 'consum_personal') ? 'selected' : '' ?>><?= __('Tiêu dùng Cá nhân') ?></option>
+                                    <option value="consum_direct" <?= ($star['bonus_comission_source'] == 'consum_direct') ? 'selected' : '' ?>><?= __('Tiêu dùng Trực tiếp') ?></option>
+                                    <option value="consum_indirect" <?= ($star['bonus_comission_source'] == 'consum_indirect') ? 'selected' : '' ?>><?= __('Tiêu dùng Gián tiếp') ?></option>
+                                    <option value="consum_members" <?= ($star['bonus_comission_source'] == 'consum_members') ? 'selected' : '' ?>><?= __('Tiêu dùng Tuyến dưới') ?></option>
+                                    <option value="consum_shop" <?= ($star['bonus_comission_source'] == 'consum_shop') ? 'selected' : '' ?>><?= __('Tiêu dùng Chi nhánh') ?></option>
+                                    <option value="consum_branch" <?= ($star['bonus_comission_source'] == 'consum_branch') ? 'selected' : '' ?>><?= __('Tiêu dùng Nhánh') ?></option>
+                                    <option value="consum_team" <?= ($star['bonus_comission_source'] == 'consum_team') ? 'selected' : '' ?>><?= __('Tiêu dùng Nhóm') ?></option>
                                 </select>
                             </div>
                             <p class="error-message"></p>

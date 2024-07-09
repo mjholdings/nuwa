@@ -262,9 +262,9 @@ class User_model extends MY_Model {
 		return $this->db->get_where('branch', ['id' => $id])->row();
 	}
 
-	/** For commission */
+	/** For commission and Users */
 
-	// Lấy các người dùng gián tiếp
+	// Lấy các người dùng gián tiếp của user
 	public function get_indirect_users($user_id) {
 		$this->db->select('ids_indirect');
 		$this->db->from('users_indirect');
@@ -278,7 +278,7 @@ class User_model extends MY_Model {
 		return [];
 	}
 
-	// Hàm lấy người dùng trực tiếp
+	// Hàm lấy người dùng trực tiếp của user
 	public function get_direct_users($user_id) {
 		$this->db->select('ids_direct');
 		$this->db->from('users_direct');
@@ -292,7 +292,7 @@ class User_model extends MY_Model {
 		return [];
 	}
 
-	// Hàm lấy người dùng tuyến dưới
+	// Hàm lấy người dùng tuyến dưới của user
 	public function get_downline_users($user_id) {
 		$this->db->select('ids_direct');
 		$this->db->from('users_downline');
@@ -306,7 +306,7 @@ class User_model extends MY_Model {
 		return [];
 	}
 
-	// Hàm lấy người dùng đội nhóm
+	// Hàm lấy người dùng đội nhóm của user
 	public function get_team_users($user_id) {
 		$this->db->select('ids_direct');
 		$this->db->from('users_team');
@@ -320,7 +320,7 @@ class User_model extends MY_Model {
 		return [];
 	}
 
-	// Hàm lấy người dùng nhánh
+	// Hàm lấy người dùng nhánh user nằm trong
 	public function get_branch_users($user_id) {
 		$this->db->select('ids_direct');
 		$this->db->from('users_branch');
@@ -334,7 +334,7 @@ class User_model extends MY_Model {
 		return [];
 	}
 
-	// Hàm lấy người dùng shop
+	// Hàm lấy người dùng shop người dùng hoạt động
 	public function get_shop_users($user_id) {
 		$this->db->select('ids_direct');
 		$this->db->from('users_shop');
@@ -348,10 +348,68 @@ class User_model extends MY_Model {
 		return [];
 	}
 
+	// Hàm lấy doanh thu cho một user cụ thể
+	public function get_revenues_by_user($user_id) {
+		$this->db->select_sum('revenue');
+		$this->db->where('user_id', $user_id);
+		$result = $this->db->get('user_revenue')->row();
+		return $result ? $result->revenue : 0;
+	}
 
+	// Hàm lấy chi tiêu cho một user cụ thể
+	public function get_consum_by_user($user_id) {
+		$this->db->select_sum('consum');
+		$this->db->where('user_id', $user_id);
+		$result = $this->db->get('user_consum')->row();
+		return $result ? $result->consum : 0;
+	}
+	
+	// Hàm lấy cấp bậc của một user cụ thể
+    public function get_user_rank($user_id) {
+        // Lấy thông tin từ bảng user_rank
+        $this->db->select('award_id, reward_id, star_id');
+        $this->db->from('user_rank');
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get();
+        $rank_result = $query->row();
 
+        if (!$rank_result) {
+            return null;
+        }
+
+        // Lấy thông tin user_level từ bảng award_level
+        $this->db->select('level_number as user_level');
+        $this->db->from('award_level');
+        $this->db->where('id', $rank_result->award_id);
+        $query = $this->db->get();
+        $award_result = $query->row();
+
+        // Lấy thông tin user_reward từ bảng reward
+        $this->db->select('name as user_reward');
+        $this->db->from('reward');
+        $this->db->where('id', $rank_result->reward_id);
+        $query = $this->db->get();
+        $reward_result = $query->row();
+
+        // Lấy thông tin user_star từ bảng star_level
+        $this->db->select('star');
+        $this->db->from('star_level');
+        $this->db->where('id', $rank_result->star_id);
+        $query = $this->db->get();
+        $star_result = $query->row();
+
+        return [
+            'award_id' => $rank_result->award_id,
+            'reward_id' => $rank_result->reward_id,
+            'star_id' => $rank_result->star_id,
+            'user_level' => $award_result ? $award_result->user_level : null,
+            'user_reward' => $reward_result ? $reward_result->user_reward : null,
+            'user_star' => $star_result ? $star_result->star : null
+        ];
+    }
+	
 	/*
-	* user group 
+	* User group 
 	*/
 	function checkgroup($group_name, $id) {
 		$where['group_name'] = $group_name;

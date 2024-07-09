@@ -51,9 +51,9 @@
                                                     'fixed'      => __('admin.fixed'),
                                                 );
                                                 ?>
-                                                <select name="vendor[bonus_from_sales_personal_type]" class="form-control bonus_from_sales_personal_type">
+                                                <select name="market_vendor[bonus_from_sales_personal_type]" class="form-control bonus_from_sales_personal_type">
                                                     <?php foreach ($commission_type as $key => $value) { ?>
-                                                        <option <?= $vendor['bonus_from_sales_personal_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                        <option <?= $market_vendor['bonus_from_sales_personal_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -64,9 +64,9 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2">
-                                                                <?= $vendor['admin_sale_commission_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                <?= $market_vendor['admin_sale_commission_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[bonus_from_sales_personal_value]" id="bonus_from_sales_personal_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_sales_personal_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
+                                                            <input name="market_vendor[bonus_from_sales_personal_value]" id="bonus_from_sales_personal_value" class="form-control mt-2" value="<?php echo $market_vendor['bonus_from_sales_personal_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -124,9 +124,9 @@
                                                     'fixed'      => __('admin.fixed'),
                                                 );
                                                 ?>
-                                                <select name="vendor[bonus_from_sales_direct_members_type]" class="form-control bonus_from_sales_direct_members_type">
+                                                <select name="market_vendor[bonus_from_sales_direct_members_type]" class="form-control bonus_from_sales_direct_members_type">
                                                     <?php foreach ($commission_type as $key => $value) { ?>
-                                                        <option <?= $vendor['bonus_from_sales_direct_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                        <option <?= $market_vendor['bonus_from_sales_direct_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -137,9 +137,9 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2">
-                                                                <?= $vendor['bonus_from_sales_direct_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                <?= $market_vendor['bonus_from_sales_direct_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[bonus_from_sales_direct_members_value]" id="bonus_from_sales_direct_members_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_sales_direct_members_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
+                                                            <input name="market_vendor[bonus_from_sales_direct_members_value]" id="bonus_from_sales_direct_members_value" class="form-control mt-2" value="<?php echo $market_vendor['bonus_from_sales_direct_members_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -194,9 +194,9 @@
                                                     'fixed'      => __('admin.fixed'),
                                                 );
                                                 ?>
-                                                <select name="vendor[bonus_from_sales_indirect_members_type]" class="form-control bonus_from_sales_indirect_members_type">
+                                                <select name="market_vendor[bonus_from_sales_indirect_members_type]" class="form-control bonus_from_sales_indirect_members_type">
                                                     <?php foreach ($commission_type as $key => $value) { ?>
-                                                        <option <?= $vendor['bonus_from_sales_indirect_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                        <option <?= $market_vendor['bonus_from_sales_indirect_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -207,9 +207,9 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2">
-                                                                <?= $vendor['bonus_from_sales_indirect_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                <?= $market_vendor['bonus_from_sales_indirect_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[bonus_from_sales_indirect_members_value]" id="bonus_from_sales_indirect_members_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_sales_indirect_members_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
+                                                            <input name="market_vendor[bonus_from_sales_indirect_members_value]" id="bonus_from_sales_indirect_members_value" class="form-control mt-2" value="<?php echo $market_vendor['bonus_from_sales_indirect_members_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -268,9 +268,9 @@
                                                     'fixed'      => __('admin.fixed'),
                                                 );
                                                 ?>
-                                                <select name="vendor[bonus_from_sales_members_type]" class="form-control bonus_from_sales_members_type">
+                                                <select name="market_vendor[bonus_from_sales_members_type]" class="form-control bonus_from_sales_members_type">
                                                     <?php foreach ($commission_type as $key => $value) { ?>
-                                                        <option <?= $vendor['bonus_from_sales_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                        <option <?= $market_vendor['bonus_from_sales_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -281,9 +281,9 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2">
-                                                                <?= $vendor['bonus_from_sales_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                <?= $market_vendor['bonus_from_sales_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[bonus_from_sales_members_value]" id="bonus_from_sales_members_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_sales_members_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
+                                                            <input name="market_vendor[bonus_from_sales_members_value]" id="bonus_from_sales_members_value" class="form-control mt-2" value="<?php echo $market_vendor['bonus_from_sales_members_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -337,9 +337,9 @@
                                                     'fixed'      => __('admin.fixed'),
                                                 );
                                                 ?>
-                                                <select name="vendor[bonus_from_sales_team_type]" class="form-control bonus_from_sales_team_type">
+                                                <select name="market_vendor[bonus_from_sales_team_type]" class="form-control bonus_from_sales_team_type">
                                                     <?php foreach ($commission_type as $key => $value) { ?>
-                                                        <option <?= $vendor['bonus_from_sales_team_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                        <option <?= $market_vendor['bonus_from_sales_team_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -350,9 +350,9 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2">
-                                                                <?= $vendor['bonus_from_sales_team_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                <?= $market_vendor['bonus_from_sales_team_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[bonus_from_sales_team_value]" id="bonus_from_sales_team_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_sales_team_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
+                                                            <input name="market_vendor[bonus_from_sales_team_value]" id="bonus_from_sales_team_value" class="form-control mt-2" value="<?php echo $market_vendor['bonus_from_sales_team_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -405,9 +405,9 @@
                                                     'fixed'      => __('admin.fixed'),
                                                 );
                                                 ?>
-                                                <select name="vendor[bonus_from_sales_branch_members_type]" class="form-control bonus_from_sales_branch_members_type">
+                                                <select name="market_vendor[bonus_from_sales_branch_members_type]" class="form-control bonus_from_sales_branch_members_type">
                                                     <?php foreach ($commission_type as $key => $value) { ?>
-                                                        <option <?= $vendor['bonus_from_sales_branch_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                        <option <?= $market_vendor['bonus_from_sales_branch_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -418,9 +418,9 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2">
-                                                                <?= $vendor['bonus_from_sales_branch_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                <?= $market_vendor['bonus_from_sales_branch_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[bonus_from_sales_branch_members_value]" id="bonus_from_sales_branch_members_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_sales_branch_members_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
+                                                            <input name="market_vendor[bonus_from_sales_branch_members_value]" id="bonus_from_sales_branch_members_value" class="form-control mt-2" value="<?php echo $market_vendor['bonus_from_sales_branch_members_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -473,9 +473,9 @@
                                                     'fixed'      => __('admin.fixed'),
                                                 );
                                                 ?>
-                                                <select name="vendor[bonus_from_sales_shop_type]" class="form-control bonus_from_sales_shop_type">
+                                                <select name="market_vendor[bonus_from_sales_shop_type]" class="form-control bonus_from_sales_shop_type">
                                                     <?php foreach ($commission_type as $key => $value) { ?>
-                                                        <option <?= $vendor['bonus_from_sales_shop_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                        <option <?= $market_vendor['bonus_from_sales_shop_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -486,9 +486,9 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2">
-                                                                <?= $vendor['bonus_from_sales_shop_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                <?= $market_vendor['bonus_from_sales_shop_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[bonus_from_sales_shop_value]" id="bonus_from_sales_shop_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_sales_shop_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
+                                                            <input name="market_vendor[bonus_from_sales_shop_value]" id="bonus_from_sales_shop_value" class="form-control mt-2" value="<?php echo $market_vendor['bonus_from_sales_shop_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -518,9 +518,9 @@
                                                     'fixed'      => __('admin.fixed'),
                                                 );
                                                 ?>
-                                                <select name="vendor[bonus_from_consum_personal_type]" class="form-control bonus_from_consum_personal_type">
+                                                <select name="market_vendor[bonus_from_consum_personal_type]" class="form-control bonus_from_consum_personal_type">
                                                     <?php foreach ($commission_type as $key => $value) { ?>
-                                                        <option <?= $vendor['bonus_from_consum_personal_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                        <option <?= $market_vendor['bonus_from_consum_personal_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -531,9 +531,9 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2">
-                                                                <?= $vendor['admin_consum_commission_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                <?= $market_vendor['admin_consum_commission_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[bonus_from_consum_personal_value]" id="bonus_from_consum_personal_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_consum_personal_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
+                                                            <input name="market_vendor[bonus_from_consum_personal_value]" id="bonus_from_consum_personal_value" class="form-control mt-2" value="<?php echo $market_vendor['bonus_from_consum_personal_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -588,9 +588,9 @@
                                                     'fixed'      => __('admin.fixed'),
                                                 );
                                                 ?>
-                                                <select name="vendor[bonus_from_consum_direct_members_type]" class="form-control bonus_from_consum_direct_members_type">
+                                                <select name="market_vendor[bonus_from_consum_direct_members_type]" class="form-control bonus_from_consum_direct_members_type">
                                                     <?php foreach ($commission_type as $key => $value) { ?>
-                                                        <option <?= $vendor['bonus_from_consum_direct_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                        <option <?= $market_vendor['bonus_from_consum_direct_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -601,9 +601,9 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2">
-                                                                <?= $vendor['bonus_from_consum_direct_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                <?= $market_vendor['bonus_from_consum_direct_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[bonus_from_consum_direct_members_value]" id="bonus_from_consum_direct_members_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_consum_direct_members_value']; ?>" type="number" placeholder='<?= __('Hoa hồng tiêu dùng') ?>'>
+                                                            <input name="market_vendor[bonus_from_consum_direct_members_value]" id="bonus_from_consum_direct_members_value" class="form-control mt-2" value="<?php echo $market_vendor['bonus_from_consum_direct_members_value']; ?>" type="number" placeholder='<?= __('Hoa hồng tiêu dùng') ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -660,9 +660,9 @@
                                                     'fixed'      => __('admin.fixed'),
                                                 );
                                                 ?>
-                                                <select name="vendor[bonus_from_consum_indirect_members_type]" class="form-control bonus_from_consum_indirect_members_type">
+                                                <select name="market_vendor[bonus_from_consum_indirect_members_type]" class="form-control bonus_from_consum_indirect_members_type">
                                                     <?php foreach ($commission_type as $key => $value) { ?>
-                                                        <option <?= $vendor['bonus_from_consum_indirect_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                        <option <?= $market_vendor['bonus_from_consum_indirect_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -673,9 +673,9 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2">
-                                                                <?= $vendor['bonus_from_consum_indirect_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                <?= $market_vendor['bonus_from_consum_indirect_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[bonus_from_consum_indirect_members_value1]" id="bonus_from_consum_indirect_members_value1" class="form-control mt-2" value="<?php echo $vendor['bonus_from_consum_indirect_members_value1']; ?>" type="number" placeholder='<?= __('Hoa hồng tiêu dùng') ?>'>
+                                                            <input name="market_vendor[bonus_from_consum_indirect_members_value1]" id="bonus_from_consum_indirect_members_value1" class="form-control mt-2" value="<?php echo $market_vendor['bonus_from_consum_indirect_members_value1']; ?>" type="number" placeholder='<?= __('Hoa hồng tiêu dùng') ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -732,9 +732,9 @@
                                                     'fixed'      => __('admin.fixed'),
                                                 );
                                                 ?>
-                                                <select name="vendor[bonus_from_consum_members_type]" class="form-control bonus_from_consum_members_type">
+                                                <select name="market_vendor[bonus_from_consum_members_type]" class="form-control bonus_from_consum_members_type">
                                                     <?php foreach ($commission_type as $key => $value) { ?>
-                                                        <option <?= $vendor['bonus_from_consum_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                        <option <?= $market_vendor['bonus_from_consum_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -745,9 +745,9 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2">
-                                                                <?= $vendor['bonus_from_consum_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                <?= $market_vendor['bonus_from_consum_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[bonus_from_consum_members_value]" id="bonus_from_consum_members_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_consum_members_value']; ?>" type="number" placeholder='<?= __('Hoa hồng tiêu dùng') ?>'>
+                                                            <input name="market_vendor[bonus_from_consum_members_value]" id="bonus_from_consum_members_value" class="form-control mt-2" value="<?php echo $market_vendor['bonus_from_consum_members_value']; ?>" type="number" placeholder='<?= __('Hoa hồng tiêu dùng') ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -800,9 +800,9 @@
                                                     'fixed'      => __('admin.fixed'),
                                                 );
                                                 ?>
-                                                <select name="vendor[bonus_from_consum_team_type]" class="form-control bonus_from_consum_team_type">
+                                                <select name="market_vendor[bonus_from_consum_team_type]" class="form-control bonus_from_consum_team_type">
                                                     <?php foreach ($commission_type as $key => $value) { ?>
-                                                        <option <?= $vendor['bonus_from_consum_team_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                        <option <?= $market_vendor['bonus_from_consum_team_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -813,9 +813,9 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2">
-                                                                <?= $vendor['bonus_from_consum_team_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                <?= $market_vendor['bonus_from_consum_team_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[bonus_from_consum_team_value]" id="bonus_from_consum_team_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_consum_team_value']; ?>" type="number" placeholder='<?= __('Hoa hồng tiêu dùng') ?>'>
+                                                            <input name="market_vendor[bonus_from_consum_team_value]" id="bonus_from_consum_team_value" class="form-control mt-2" value="<?php echo $market_vendor['bonus_from_consum_team_value']; ?>" type="number" placeholder='<?= __('Hoa hồng tiêu dùng') ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -868,9 +868,9 @@
                                                     'fixed'      => __('admin.fixed'),
                                                 );
                                                 ?>
-                                                <select name="vendor[bonus_from_consum_branch_members_type]" class="form-control bonus_from_consum_branch_members_type">
+                                                <select name="market_vendor[bonus_from_consum_branch_members_type]" class="form-control bonus_from_consum_branch_members_type">
                                                     <?php foreach ($commission_type as $key => $value) { ?>
-                                                        <option <?= $vendor['bonus_from_consum_branch_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                        <option <?= $market_vendor['bonus_from_consum_branch_members_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -881,9 +881,9 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2">
-                                                                <?= $vendor['bonus_from_consum_branch_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                <?= $market_vendor['bonus_from_consum_branch_members_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[bonus_from_consum_branch_members_value]" id="bonus_from_consum_branch_members_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_consum_branch_members_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
+                                                            <input name="market_vendor[bonus_from_consum_branch_members_value]" id="bonus_from_consum_branch_members_value" class="form-control mt-2" value="<?php echo $market_vendor['bonus_from_consum_branch_members_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1308,7 +1308,7 @@
                                                             <div class="input-group-prepend"><span class="input-group-text">
                                                                     <?= __('Số thành viên trực tiếp mời'); ?></span>
                                                             </div>
-                                                            <input name="vendor[bonus_from_recruitment_direct_number]" class="form-control" value="<?php echo $vendor['bonus_from_recruitment_direct_number']; ?>" type="text" placeholder='<?= __('admin.clicks'); ?>'>
+                                                            <input name="market_vendor[bonus_from_recruitment_direct_number]" class="form-control" value="<?php echo $market_vendor['bonus_from_recruitment_direct_number']; ?>" type="text" placeholder='<?= __('admin.clicks'); ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1317,7 +1317,7 @@
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2"><?= $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[bonus_from_recruitment_direct_value]" class="form-control mt-2" value="<?php echo c_format($vendor['bonus_from_recruitment_direct_value'], false); ?>" type="number" placeholder='<?= __('admin.amount'); ?>'>
+                                                            <input name="market_vendor[bonus_from_recruitment_direct_value]" class="form-control mt-2" value="<?php echo c_format($market_vendor['bonus_from_recruitment_direct_value'], false); ?>" type="number" placeholder='<?= __('admin.amount'); ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1325,7 +1325,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label"><?= __('Kích hoạt') ?></label>
                                                         <div class="form-check form-switch">
-                                                            <input class="form-check-input update_all_settings" type="checkbox" <?= $vendor['admin_click_status'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="bonus_from_recruitment_direct" data-setting_type="vendor">
+                                                            <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['admin_click_status'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="bonus_from_recruitment_direct" data-setting_type="market_vendor">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1341,9 +1341,9 @@
                                                             'fixed'      => __('admin.fixed'),
                                                         );
                                                         ?>
-                                                        <select name="vendor[bonus_from_recruitment_direct_type]" class="form-control bonus_from_recruitment_direct_type">
+                                                        <select name="market_vendor[bonus_from_recruitment_direct_type]" class="form-control bonus_from_recruitment_direct_type">
                                                             <?php foreach ($commission_type as $key => $value) { ?>
-                                                                <option <?= $vendor['bonus_from_recruitment_direct_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                                <option <?= $market_vendor['bonus_from_recruitment_direct_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                             <?php } ?>
                                                         </select>
                                                     </div>
@@ -1354,9 +1354,9 @@
                                                             <div class="form-group">
                                                                 <div class="input-group">
                                                                     <div class="currency-symbol mt-2">
-                                                                        <?= $vendor['bonus_from_recruitment_direct_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                        <?= $market_vendor['bonus_from_recruitment_direct_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                                     </div>
-                                                                    <input name="vendor[bonus_from_recruitment_direct_value]" id="bonus_from_recruitment_direct_value" class="form-control mt-2" value="<?php echo $vendor['bonus_from_recruitment_direct_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
+                                                                    <input name="market_vendor[bonus_from_recruitment_direct_value]" id="bonus_from_recruitment_direct_value" class="form-control mt-2" value="<?php echo $market_vendor['bonus_from_recruitment_direct_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1410,7 +1410,7 @@
                                                             <div class="input-group-prepend"><span class="input-group-text">
                                                                     <?= __('Số thành viên gián tiếp mời'); ?></span>
                                                             </div>
-                                                            <input name="vendor[admin_click_count]" class="form-control" value="<?php echo $vendor['admin_click_count']; ?>" type="text" placeholder='<?= __('admin.clicks'); ?>'>
+                                                            <input name="market_vendor[admin_click_count]" class="form-control" value="<?php echo $market_vendor['admin_click_count']; ?>" type="text" placeholder='<?= __('admin.clicks'); ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1419,7 +1419,7 @@
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2"><?= $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[admin_click_amount]" class="form-control mt-2" value="<?php echo c_format($vendor['admin_click_amount'], false); ?>" type="number" placeholder='<?= __('admin.amount'); ?>'>
+                                                            <input name="market_vendor[admin_click_amount]" class="form-control mt-2" value="<?php echo c_format($market_vendor['admin_click_amount'], false); ?>" type="number" placeholder='<?= __('admin.amount'); ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1427,7 +1427,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label"><?= __('Kích hoạt') ?></label>
                                                         <div class="form-check form-switch">
-                                                            <input class="form-check-input update_all_settings" type="checkbox" <?= $vendor['admin_click_status'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="admin_click_status" data-setting_type="vendor">
+                                                            <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['admin_click_status'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="admin_click_status" data-setting_type="market_vendor">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1443,9 +1443,9 @@
                                                             'fixed'      => __('admin.fixed'),
                                                         );
                                                         ?>
-                                                        <select name="vendor[admin_sale_commission_type]" class="form-control admin_sale_commission_type">
+                                                        <select name="market_vendor[admin_sale_commission_type]" class="form-control admin_sale_commission_type">
                                                             <?php foreach ($commission_type as $key => $value) { ?>
-                                                                <option <?= $vendor['admin_sale_commission_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                                <option <?= $market_vendor['admin_sale_commission_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                             <?php } ?>
                                                         </select>
                                                     </div>
@@ -1456,9 +1456,9 @@
                                                             <div class="form-group">
                                                                 <div class="input-group">
                                                                     <div class="currency-symbol mt-2">
-                                                                        <?= $vendor['admin_sale_commission_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                        <?= $market_vendor['admin_sale_commission_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                                     </div>
-                                                                    <input name="vendor[admin_commission_value]" id="admin_commission_value" class="form-control mt-2" value="<?php echo $vendor['admin_commission_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
+                                                                    <input name="market_vendor[admin_commission_value]" id="admin_commission_value" class="form-control mt-2" value="<?php echo $market_vendor['admin_commission_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1506,7 +1506,7 @@
                                                             <div class="input-group-prepend"><span class="input-group-text">
                                                                     <?= __('Số thành viên trực tiếp mời'); ?></span>
                                                             </div>
-                                                            <input name="vendor[admin_click_count]" class="form-control" value="<?php echo $vendor['admin_click_count']; ?>" type="text" placeholder='<?= __('admin.clicks'); ?>'>
+                                                            <input name="market_vendor[admin_click_count]" class="form-control" value="<?php echo $market_vendor['admin_click_count']; ?>" type="text" placeholder='<?= __('admin.clicks'); ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1515,7 +1515,7 @@
                                                         <div class="input-group">
                                                             <div class="currency-symbol mt-2"><?= $CurrencySymbol ?>
                                                             </div>
-                                                            <input name="vendor[admin_click_amount]" class="form-control mt-2" value="<?php echo c_format($vendor['admin_click_amount'], false); ?>" type="number" placeholder='<?= __('admin.amount'); ?>'>
+                                                            <input name="market_vendor[admin_click_amount]" class="form-control mt-2" value="<?php echo c_format($market_vendor['admin_click_amount'], false); ?>" type="number" placeholder='<?= __('admin.amount'); ?>'>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1523,7 +1523,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label"><?= __('Kích hoạt') ?></label>
                                                         <div class="form-check form-switch">
-                                                            <input class="form-check-input update_all_settings" type="checkbox" <?= $vendor['admin_click_status'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="admin_click_status" data-setting_type="vendor">
+                                                            <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['admin_click_status'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="admin_click_status" data-setting_type="market_vendor">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1539,9 +1539,9 @@
                                                             'fixed'      => __('admin.fixed'),
                                                         );
                                                         ?>
-                                                        <select name="vendor[admin_sale_commission_type]" class="form-control admin_sale_commission_type">
+                                                        <select name="market_vendor[admin_sale_commission_type]" class="form-control admin_sale_commission_type">
                                                             <?php foreach ($commission_type as $key => $value) { ?>
-                                                                <option <?= $vendor['admin_sale_commission_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
+                                                                <option <?= $market_vendor['admin_sale_commission_type'] == $key ? 'selected' : '' ?> value="<?= $key ?>"><?= $value ?></option>
                                                             <?php } ?>
                                                         </select>
                                                     </div>
@@ -1552,9 +1552,9 @@
                                                             <div class="form-group">
                                                                 <div class="input-group">
                                                                     <div class="currency-symbol mt-2">
-                                                                        <?= $vendor['admin_sale_commission_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
+                                                                        <?= $market_vendor['admin_sale_commission_type'] == 'percentage' ? '%' : $CurrencySymbol ?>
                                                                     </div>
-                                                                    <input name="vendor[admin_commission_value]" id="admin_commission_value" class="form-control mt-2" value="<?php echo $vendor['admin_commission_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
+                                                                    <input name="market_vendor[admin_commission_value]" id="admin_commission_value" class="form-control mt-2" value="<?php echo $market_vendor['admin_commission_value']; ?>" type="number" placeholder='<?= __('admin.sale_commission') ?>'>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1597,7 +1597,7 @@
                             <div class="form-group">
 
                                 <h6>
-                                    <div class="mybadge bg-info text-white mb-2 text-wrap rounded px-2 py-1 vendor-deposit-on-message <?= ($vendor['bonus_up_rank']) ? '' : 'd-none' ?>">
+                                    <div class="mybadge bg-info text-white mb-2 text-wrap rounded px-2 py-1 vendor-deposit-on-message <?= ($market_vendor['bonus_up_rank']) ? '' : 'd-none' ?>">
                                         <?= __('17 - Thưởng lên cấp đang được Áp dụng. Cài đặt chi tiết về % thưởng mỗi khi lên cấp vào phần Nhảy cấp cài đặt.') ?>
                                         <p class="mt-3"><a class="btn btn-secondary" href="<?= base_url('admincontrol/award_level'); ?>">Cài đặt nhảy cấp ở
                                                 đây</a></p>
@@ -1605,7 +1605,7 @@
                                 </h6>
 
                                 <h6>
-                                    <div class="mybadge bg-danger text-white rounded mb-2 text-wrap px-2 py-1 vendor-deposit-off-message <?= ($vendor['bonus_up_rank']) ? 'd-none' : '' ?>">
+                                    <div class="mybadge bg-danger text-white rounded mb-2 text-wrap px-2 py-1 vendor-deposit-off-message <?= ($market_vendor['bonus_up_rank']) ? 'd-none' : '' ?>">
                                         <?= __('Thưởng lên cấp đang không được Áp dụng. Muốn hoa hồng thưởng cho mỗi khi lên cấp kích hoạt lên') ?>
                                     </div>
                                 </h6>

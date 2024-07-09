@@ -211,7 +211,7 @@
                                     <div class="form-group">
                                         <label class="control-label"><?= __('Kích hoạt') ?></label>
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input update_all_settings" type="checkbox" <?= $vendor['condition_bonus_sales_team'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="condition_bonus_sales_team" data-setting_type="vendor">
+                                            <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['condition_bonus_sales_team'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="condition_bonus_sales_team" data-setting_type="market_vendor">
                                         </div>
                                     </div>
                                     <div class="card">
@@ -289,6 +289,34 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Điều kiện cấp tuyển nhóm') ?></label>
+                                                        <select name="market_vendor[bonus_sales_goal_recruitment_team_rank]" class="form-control">
+                                                            <option value=""><?= __('Chọn cấp tuyển') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_goal_recruitment_team_rank'] == 'everyrank') ? 'selected' : '' ?> value="everyrank"><?= __('Mọi cấp') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_goal_recruitment_team_rank'] == '1') ? 'selected' : '' ?> value="1"><?= __('1') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_goal_recruitment_team_rank'] == '2') ? 'selected' : '' ?> value="2"><?= __('2') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_goal_recruitment_team_rank'] == '3') ? 'selected' : '' ?> value="3"><?= __('3') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_goal_recruitment_team_rank'] == '4') ? 'selected' : '' ?> value="4"><?= __('4') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_goal_recruitment_team_rank'] == '5') ? 'selected' : '' ?> value="5"><?= __('5') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Chọn cấp hưởng') ?></label>
+                                                        <select name="market_vendor[bonus_sales_team_user_rank]" class="form-control">
+                                                            <option value=""><?= __('Chọn cấp hưởng') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_team_user_rank'] == 'everyrank') ? 'selected' : '' ?> value="everyrank"><?= __('Mọi cấp') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_team_user_rank'] == '1') ? 'selected' : '' ?> value="1"><?= __('1') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_team_user_rank'] == '2') ? 'selected' : '' ?> value="2"><?= __('2') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_team_user_rank'] == '3') ? 'selected' : '' ?> value="3"><?= __('3') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_team_user_rank'] == '4') ? 'selected' : '' ?> value="4"><?= __('4') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_team_user_rank'] == '5') ? 'selected' : '' ?> value="5"><?= __('5') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
 
                                                 <div class="col-sm-6 py-2">
                                                     <div class="form-group">
@@ -351,7 +379,7 @@
                                     <div class="form-group">
                                         <label class="control-label"><?= __('Kích hoạt') ?></label>
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input update_all_settings" type="checkbox" <?= $vendor['condition_sales_all_system'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="condition_sales_all_system" data-setting_type="vendor">
+                                            <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['condition_sales_all_system'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="condition_sales_all_system" data-setting_type="market_vendor">
                                         </div>
                                     </div>
                                     <div class="card">
@@ -429,7 +457,34 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Điều kiện cấp tuyển hệ thống') ?></label>
+                                                        <select name="market_vendor[bonus_sales_goal_recruitment_system_rank]" class="form-control">
+                                                            <option value=""><?= __('Chọn cấp tuyển') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_goal_recruitment_system_rank'] == 'everyrank') ? 'selected' : '' ?> value="everyrank"><?= __('Mọi cấp') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_goal_recruitment_system_rank'] == '1') ? 'selected' : '' ?> value="1"><?= __('1') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_goal_recruitment_system_rank'] == '2') ? 'selected' : '' ?> value="2"><?= __('2') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_goal_recruitment_system_rank'] == '3') ? 'selected' : '' ?> value="3"><?= __('3') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_goal_recruitment_system_rank'] == '4') ? 'selected' : '' ?> value="4"><?= __('4') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_goal_recruitment_system_rank'] == '5') ? 'selected' : '' ?> value="5"><?= __('5') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 py-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?= __('Chọn cấp hưởng') ?></label>
+                                                        <select name="market_vendor[bonus_sales_system_user_rank]" class="form-control">
+                                                            <option value=""><?= __('Chọn cấp hưởng') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_system_user_rank'] == 'everyrank') ? 'selected' : '' ?> value="everyrank"><?= __('Mọi cấp') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_system_user_rank'] == '1') ? 'selected' : '' ?> value="1"><?= __('1') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_system_user_rank'] == '2') ? 'selected' : '' ?> value="2"><?= __('2') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_system_user_rank'] == '3') ? 'selected' : '' ?> value="3"><?= __('3') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_system_user_rank'] == '4') ? 'selected' : '' ?> value="4"><?= __('4') ?></option>
+                                                            <option <?= ($market_vendor['bonus_sales_system_user_rank'] == '5') ? 'selected' : '' ?> value="5"><?= __('5') ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <div class="col-sm-6 py-2">
                                                     <div class="form-group">
                                                         <label class="control-label"><?= __('Loại Hoa hồng từ Doanh thu Hệ thống') ?></label>
@@ -492,13 +547,13 @@
                         <div role="tabpanel" class="tab-pane py-3" id="bonus_shared_setting">
                             <div class="form-group">
                                 <h6>
-                                    <div class="mybadge bg-info text-white mb-2 text-wrap rounded px-2 py-1 vendor-deposit-on-message <?= ($vendor['depositstatus']) ? '' : 'd-none' ?>">
+                                    <div class="mybadge bg-info text-white mb-2 text-wrap rounded px-2 py-1 vendor-deposit-on-message <?= ($market_vendor['depositstatus']) ? '' : 'd-none' ?>">
                                         <?= __('Đang bật áp dụng thưởng đồng chia cho các thành viên đạt điều kiện Cấp bậc - Doanh số - Tuyển dụng') ?>
                                     </div>
                                 </h6>
 
                                 <h6>
-                                    <div class="mybadge bg-danger text-white rounded mb-2 text-wrap px-2 py-1 vendor-deposit-off-message <?= ($vendor['depositstatus']) ? 'd-none' : '' ?>">
+                                    <div class="mybadge bg-danger text-white rounded mb-2 text-wrap px-2 py-1 vendor-deposit-off-message <?= ($market_vendor['depositstatus']) ? 'd-none' : '' ?>">
                                         <?= __('Đang không áp dụng thưởng đồng chia') ?>
                                     </div>
                                 </h6>
@@ -508,7 +563,7 @@
                                     <div class="form-group">
                                         <label class="control-label"><?= __('Kích hoạt') ?></label>
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input update_all_settings" type="checkbox" <?= $vendor['bonus_shared_apply'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="bonus_shared_apply" data-setting_type="vendor">
+                                            <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['bonus_shared_apply'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="bonus_shared_apply" data-setting_type="market_vendor">
                                         </div>
                                     </div>
                                     <div class="card">
@@ -559,7 +614,7 @@
                                                 </div>
                                                 <div class="col-sm-4 py-2">
                                                     <div class="form-group">
-                                                        <label class="control-label"><?= __('Chọn cấp ') ?></label>
+                                                        <label class="control-label"><?= __('Chọn cấp hưởng') ?></label>
                                                         <select name="market_vendor[bonus_shared_benefit_user_rank]" class="form-control">
                                                             <option value=""><?= __('Chọn cấp hưởng') ?></option>
                                                             <option <?= ($market_vendor['bonus_shared_benefit_user_rank'] == 'everyrank') ? 'selected' : '' ?> value="everyrank"><?= __('Mọi cấp') ?></option>

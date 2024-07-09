@@ -220,8 +220,8 @@
                             </label>
                             <select class="form-control" name="con_refer_reward_id">
                                 <option value=""><?= __('Chọn Chức danh') ?></option>
-                                <?php foreach ($rewards as $reward) : ?>
-                                    <option value="<?= $reward['id'] ?>"><?= $reward['name'] ?></option>
+                                <?php foreach ($rewards as $reward_item) : ?>
+                                    <option value="<?= $reward_item['id'] ?>" <?= $reward['con_refer_reward_id'] == $reward_item['id'] ? 'selected="selected"' : ''; ?>><?= $reward_item['name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <p class="error-message"></p>

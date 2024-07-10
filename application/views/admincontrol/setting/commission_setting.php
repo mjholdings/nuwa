@@ -89,10 +89,10 @@
                                             }
 
                                             if ($(this).val() == 'percentage')
-                                                $("input[name='vendor[bonus_from_sales_personal_value]']").siblings(
+                                                $("input[name='market_vendor[bonus_from_sales_personal_value]']").siblings(
                                                     '.currency-symbol').text('%');
                                             else
-                                                $("input[name='vendor[bonus_from_sales_personal_value]']").siblings(
+                                                $("input[name='market_vendor[bonus_from_sales_personal_value]']").siblings(
                                                     '.currency-symbol').text('<?= $CurrencySymbol ?>');
                                         })
 
@@ -160,10 +160,10 @@
                                                 }
 
                                                 if ($(this).val() == 'percentage')
-                                                    $("input[name='vendor[bonus_from_sales_direct_members_value]']")
+                                                    $("input[name='market_vendor[bonus_from_sales_direct_members_value]']")
                                                     .siblings('.currency-symbol').text('%');
                                                 else
-                                                    $("input[name='vendor[bonus_from_sales_direct_members_value]']")
+                                                    $("input[name='market_vendor[bonus_from_sales_direct_members_value]']")
                                                     .siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
                                             })
 
@@ -183,6 +183,7 @@
                                         <?= __('Thành viên nhận hoa hồng từ doanh thu của các thành viên được Thành viên trực tiếp tuyển dụng và các thành viên được cấp dưới tuyển dụng vào hệ thống') ?>
                                     </label>
                                     <div class="form-check form-switch col-sm-2">
+
                                         <input class="form-check-input update_all_settings" type="checkbox" <?= $market_vendor['bonus_from_sales_indirect_members'] == 1 ? 'checked' : '' ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="bonus_from_sales_indirect_members" data-setting_type="market_vendor">
                                     </div>
                                     <div class="row">
@@ -231,12 +232,12 @@
 
                                                 if ($(this).val() == 'percentage')
                                                     $(
-                                                        "input[name='vendor[bonus_from_sales_indirect_members_value]']"
+                                                        "input[name='market_vendor[bonus_from_sales_indirect_members_value]']"
                                                     )
                                                     .siblings('.currency-symbol').text('%');
                                                 else
                                                     $(
-                                                        "input[name='vendor[bonus_from_sales_indirect_members_value]']"
+                                                        "input[name='market_vendor[bonus_from_sales_indirect_members_value]']"
                                                     )
                                                     .siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
                                             })
@@ -304,10 +305,10 @@
                                                 }
 
                                                 if ($(this).val() == 'percentage')
-                                                    $("input[name='vendor[bonus_from_sales_members_value]']")
+                                                    $("input[name='market_vendor[bonus_from_sales_members_value]']")
                                                     .siblings('.currency-symbol').text('%');
                                                 else
-                                                    $("input[name='vendor[bonus_from_sales_members_value]']")
+                                                    $("input[name='market_vendor[bonus_from_sales_members_value]']")
                                                     .siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
                                             })
 
@@ -373,10 +374,10 @@
                                                 }
 
                                                 if ($(this).val() == 'percentage')
-                                                    $("input[name='vendor[bonus_from_sales_team_value]']").siblings(
+                                                    $("input[name='market_vendor[bonus_from_sales_team_value]']").siblings(
                                                         '.currency-symbol').text('%');
                                                 else
-                                                    $("input[name='vendor[bonus_from_sales_team_value]']").siblings(
+                                                    $("input[name='market_vendor[bonus_from_sales_team_value]']").siblings(
                                                         '.currency-symbol').text('<?= $CurrencySymbol ?>');
                                             })
 
@@ -441,10 +442,10 @@
                                                 }
 
                                                 if ($(this).val() == 'percentage')
-                                                    $("input[name='vendor[bonus_from_sales_branch_members_value]']")
+                                                    $("input[name='market_vendor[bonus_from_sales_branch_members_value]']")
                                                     .siblings('.currency-symbol').text('%');
                                                 else
-                                                    $("input[name='vendor[bonus_from_sales_branch_members_value]']")
+                                                    $("input[name='market_vendor[bonus_from_sales_branch_members_value]']")
                                                     .siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
                                             })
 
@@ -556,10 +557,10 @@
                                             }
 
                                             if ($(this).val() == 'percentage')
-                                                $("input[name='vendor[bonus_from_consum_personal_value]']")
+                                                $("input[name='market_vendor[bonus_from_consum_personal_value]']")
                                                 .siblings('.currency-symbol').text('%');
                                             else
-                                                $("input[name='vendor[bonus_from_consum_personal_value]']")
+                                                $("input[name='market_vendor[bonus_from_consum_personal_value]']")
                                                 .siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
                                         })
 
@@ -625,12 +626,12 @@
 
                                                 if ($(this).val() == 'percentage')
                                                     $(
-                                                        "input[name='vendor[bonus_from_consum_direct_members_value]']"
+                                                        "input[name='market_vendor[bonus_from_consum_direct_members_value]']"
                                                     )
                                                     .siblings('.currency-symbol').text('%');
                                                 else
                                                     $(
-                                                        "input[name='vendor[bonus_from_consum_direct_members_value]']"
+                                                        "input[name='market_vendor[bonus_from_consum_direct_members_value]']"
                                                     )
                                                     .siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
                                             })
@@ -697,12 +698,12 @@
 
                                                 if ($(this).val() == 'percentage')
                                                     $(
-                                                        "input[name='vendor[bonus_from_consum_indirect_members_value]']"
+                                                        "input[name='market_vendor[bonus_from_consum_indirect_members_value]']"
                                                     )
                                                     .siblings('.currency-symbol').text('%');
                                                 else
                                                     $(
-                                                        "input[name='vendor[bonus_from_consum_indirect_members_value]']"
+                                                        "input[name='market_vendor[bonus_from_consum_indirect_members_value]']"
                                                     )
                                                     .siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
                                             })
@@ -768,10 +769,10 @@
                                                 }
 
                                                 if ($(this).val() == 'percentage')
-                                                    $("input[name='vendor[bonus_from_consum_members_value]']")
+                                                    $("input[name='market_vendor[bonus_from_consum_members_value]']")
                                                     .siblings('.currency-symbol').text('%');
                                                 else
-                                                    $("input[name='vendor[bonus_from_consum_members_value]']")
+                                                    $("input[name='market_vendor[bonus_from_consum_members_value]']")
                                                     .siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
                                             })
 
@@ -836,10 +837,10 @@
                                                 }
 
                                                 if ($(this).val() == 'percentage')
-                                                    $("input[name='vendor[bonus_from_consum_team_value]']")
+                                                    $("input[name='market_vendor[bonus_from_consum_team_value]']")
                                                     .siblings('.currency-symbol').text('%');
                                                 else
-                                                    $("input[name='vendor[bonus_from_consum_team_value]']")
+                                                    $("input[name='market_vendor[bonus_from_consum_team_value]']")
                                                     .siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
                                             })
 
@@ -905,12 +906,12 @@
 
                                                 if ($(this).val() == 'percentage')
                                                     $(
-                                                        "input[name='vendor[bonus_from_consum_branch_members_value]']"
+                                                        "input[name='market_vendor[bonus_from_consum_branch_members_value]']"
                                                     )
                                                     .siblings('.currency-symbol').text('%');
                                                 else
                                                     $(
-                                                        "input[name='vendor[bonus_from_consum_branch_members_value]']"
+                                                        "input[name='market_vendor[bonus_from_consum_branch_members_value]']"
                                                     )
                                                     .siblings('.currency-symbol').text('<?= $CurrencySymbol ?>');
                                             })
@@ -933,10 +934,10 @@
                                         }
 
                                         if ($(this).val() == 'percentage')
-                                            $("input[name='vendor[bonus_from_sales_shop_value]']").siblings(
+                                            $("input[name='market_vendor[bonus_from_sales_shop_value]']").siblings(
                                                 '.currency-symbol').text('%');
                                         else
-                                            $("input[name='vendor[bonus_from_sales_shop_value]']").siblings(
+                                            $("input[name='market_vendor[bonus_from_sales_shop_value]']").siblings(
                                                 '.currency-symbol').text('<?= $CurrencySymbol ?>');
                                     })
 
@@ -1048,10 +1049,10 @@
                                                     }
 
                                                     if ($(this).val() == 'percentage')
-                                                        $("input[name='vendor[bonus_recruitment_direct_value]']")
+                                                        $("input[name='market_vendor[bonus_recruitment_direct_value]']")
                                                         .siblings('.currency-symbol').text('%');
                                                     else
-                                                        $("input[name='vendor[bonus_recruitment_direct_value]']")
+                                                        $("input[name='market_vendor[bonus_recruitment_direct_value]']")
                                                         .siblings('.currency-symbol').text(
                                                             '<?= $CurrencySymbol ?>');
                                                 })
@@ -1163,10 +1164,10 @@
                                                     }
 
                                                     if ($(this).val() == 'percentage')
-                                                        $("input[name='vendor[bonus_recruitment_direct_value]']")
+                                                        $("input[name='market_vendor[bonus_recruitment_direct_value]']")
                                                         .siblings('.currency-symbol').text('%');
                                                     else
-                                                        $("input[name='vendor[bonus_recruitment_direct_value]']")
+                                                        $("input[name='market_vendor[bonus_recruitment_direct_value]']")
                                                         .siblings('.currency-symbol').text(
                                                             '<?= $CurrencySymbol ?>');
                                                 })
@@ -1277,10 +1278,10 @@
                                                     }
 
                                                     if ($(this).val() == 'percentage')
-                                                        $("input[name='vendor[bonus_recruitment_downline_value]']")
+                                                        $("input[name='market_vendor[bonus_recruitment_downline_value]']")
                                                         .siblings('.currency-symbol').text('%');
                                                     else
-                                                        $("input[name='vendor[bonus_recruitment_downline_value]']")
+                                                        $("input[name='market_vendor[bonus_recruitment_downline_value]']")
                                                         .siblings('.currency-symbol').text(
                                                             '<?= $CurrencySymbol ?>');
                                                 })
@@ -1380,12 +1381,12 @@
 
                                                     if ($(this).val() == 'percentage')
                                                         $(
-                                                            "input[name='vendor[bonus_from_recruitment_direct_value]']"
+                                                            "input[name='market_vendor[bonus_from_recruitment_direct_value]']"
                                                         )
                                                         .siblings('.currency-symbol').text('%');
                                                     else
                                                         $(
-                                                            "input[name='vendor[bonus_from_recruitment_direct_value]']"
+                                                            "input[name='market_vendor[bonus_from_recruitment_direct_value]']"
                                                         )
                                                         .siblings('.currency-symbol').text(
                                                             '<?= $CurrencySymbol ?>');
@@ -1481,10 +1482,10 @@
                                                     }
 
                                                     if ($(this).val() == 'percentage')
-                                                        $("input[name='vendor[admin_commission_value]']").siblings(
+                                                        $("input[name='market_vendor[admin_commission_value]']").siblings(
                                                             '.currency-symbol').text('%');
                                                     else
-                                                        $("input[name='vendor[admin_commission_value]']").siblings(
+                                                        $("input[name='market_vendor[admin_commission_value]']").siblings(
                                                             '.currency-symbol').text('<?= $CurrencySymbol ?>');
                                                 })
 
@@ -1577,10 +1578,10 @@
                                                     }
 
                                                     if ($(this).val() == 'percentage')
-                                                        $("input[name='vendor[admin_commission_value]']").siblings(
+                                                        $("input[name='market_vendor[admin_commission_value]']").siblings(
                                                             '.currency-symbol').text('%');
                                                     else
-                                                        $("input[name='vendor[admin_commission_value]']").siblings(
+                                                        $("input[name='market_vendor[admin_commission_value]']").siblings(
                                                             '.currency-symbol').text('<?= $CurrencySymbol ?>');
                                                 })
 

@@ -10319,7 +10319,7 @@ class Admincontrol extends MY_Controller {
 		$this->update_user_rank();
 
 		// Tính toán thưởng tất cả
-		$this->calculate_and_update_commissions();
+		// $this->calculate_and_update_commissions();
 
 
 		$this->view($data, 'users/index');

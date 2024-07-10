@@ -9929,10 +9929,232 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	// 18 - * Tính thưởng duy trì liên tiếp - peding
+	// 18 - Tính thưởng duy trì liên tiếp
 	private function calculate_retention_commission($user_id, $settings) {
-		// Implement retention goal commission logic here
+		// Lấy các thông tin cấu hình từ $settings
+		$months_goal = $settings['bonus_retention_by_month'];
+		$days_goal = $settings['bonus_retention_by_day'];
+		$revenue_condition = $settings['condition_bonus_retention'];
+		$revenue_goal = $settings['goal_bonus_retention'];
+		$recruitment_condition = $settings['condition_bonus_retention_recruitment'];
+		$recruitment_goal = $settings['goal_bonus_retention_recruitment_value'];
+		$bonus_source = $settings['bonus_retention_source'];
+		$bonus_type = $settings['bonus_retention_type'];
+		$bonus_value = $settings['bonus_retention_type_value'];
+
+		// Kiểm tra số tháng liên tiếp đạt mục tiêu
+		$months_achieved = $this->check_consecutive_months($user_id, $months_goal, $revenue_condition, $revenue_goal);
+
+		// Kiểm tra số ngày liên tiếp đạt mục tiêu
+		$days_achieved = $this->check_consecutive_days($user_id, $days_goal, $revenue_condition, $revenue_goal);
+
+		// Kiểm tra số lần tuyển dụng liên tiếp đạt mục tiêu
+		$recruitment_achieved = $this->check_consecutive_recruitment($user_id, $recruitment_condition, $recruitment_goal);
+
+		// Nếu đủ điều kiện, tính toán và cập nhật hoa hồng
+		if ($months_achieved && $days_achieved && $recruitment_achieved) {
+			// Tính toán hoa hồng dựa trên loại và giá trị thưởng
+			$commission = $this->calculate_commission($bonus_source, $bonus_type, $bonus_value);
+
+			// Cập nhật thông tin hoa hồng vào bảng user_commission
+			$this->update_commission($user_id, 0, $commission, 'retention', $bonus_type); // Để order_id = 0
+		}
 	}
+
+	private function check_consecutive_months($user_id, $months_goal, $revenue_condition, $revenue_goal) {
+		// Lấy danh sách các tháng và doanh thu từ bảng user_revenue
+		$revenues = $this->get_revenues_by_month($user_id);
+
+		// Sắp xếp mảng theo thời gian từ gần đến xa
+		usort($revenues, function ($a, $b) {
+			return strtotime($b->created_time) - strtotime($a->created_time);
+		});
+
+		// Đếm số tháng liên tiếp đạt mục tiêu
+		$consecutive_months = 0;
+		$current_month = null;
+
+		foreach ($revenues as $revenue) {
+			$month = date('Y-m', strtotime($revenue->created_time));
+
+			// Kiểm tra nếu không phải tháng hiện tại
+			if ($current_month !== null && $current_month !== $month) {
+				// Nếu số tháng liên tiếp đạt mục tiêu lớn hơn hoặc bằng mục tiêu
+				if ($consecutive_months >= $months_goal) {
+					return true;
+				} else {
+					$consecutive_months = 0; // Reset nếu không đạt mục tiêu liên tục
+				}
+			}
+
+			// Kiểm tra điều kiện doanh thu của tháng hiện tại
+			if ($this->check_revenue_condition_by_type($revenue, $revenue_condition, $revenue_goal)) {
+				$consecutive_months++;
+			} else {
+				$consecutive_months = 0; // Reset nếu không đạt mục tiêu trong tháng hiện tại
+			}
+
+			$current_month = $month;
+		}
+
+		// Kiểm tra lại sau khi kết thúc vòng lặp
+		return $consecutive_months >= $months_goal;
+	}
+
+	// Hàm kiểm tra điều kiện doanh thu theo loại
+	private function check_revenue_condition_by_type($revenue, $revenue_condition, $revenue_goal) {
+		switch ($revenue_condition) {
+			case 'sales_personal':
+				return $revenue->sales_personal >= $revenue_goal;
+			case 'sales_direct':
+				return $revenue->sales_direct >= $revenue_goal;
+			case 'sales_indirect':
+				return $revenue->sales_indirect >= $revenue_goal;
+			case 'sales_members':
+				return $revenue->sales_members >= $revenue_goal;
+			case 'sales_shop':
+				return $revenue->sales_shop >= $revenue_goal;
+			case 'sales_branch':
+				return $revenue->sales_branch >= $revenue_goal;
+			case 'sales_team':
+				return $revenue->sales_team >= $revenue_goal;
+			default:
+				return false;
+		}
+	}
+
+	// Hàm lấy danh sách doanh thu theo tháng từ bảng user_revenue
+	private function get_revenues_by_month($user_id) {
+		// Kết nối đến cơ sở dữ liệu
+		$db = $this->db;
+
+		// Truy vấn để lấy danh sách doanh thu theo tháng của user_id từ bảng user_revenue
+		$query = "
+			SELECT *
+			FROM user_revenue
+			WHERE user_id = ?
+			ORDER BY created_time DESC
+		";
+
+		// Thực hiện truy vấn
+		$revenues = $db->query($query, array($user_id))->result();
+
+		return $revenues;
+	}
+
+	// Kiểm tra ngày cho thưởng duy trì
+	private function check_consecutive_days($user_id, $days_goal, $revenue_condition, $revenue_goal) {
+		// Lấy danh sách doanh thu của user_id từ bảng user_revenue, sắp xếp theo thời gian giảm dần
+		$revenues = $this->get_revenues_by_day($user_id);
+
+		// Đếm số ngày liên tiếp đạt mục tiêu
+		$consecutive_days = 0;
+
+		foreach ($revenues as $revenue) {
+			// Kiểm tra điều kiện doanh thu của ngày hiện tại
+			if ($this->check_revenue_condition_by_type($revenue, $revenue_condition, $revenue_goal)) {
+				$consecutive_days++;
+			} else {
+				$consecutive_days = 0; // Reset nếu không đạt mục tiêu trong ngày hiện tại
+			}
+
+			// Nếu số ngày liên tiếp đạt mục tiêu lớn hơn hoặc bằng mục tiêu
+			if ($consecutive_days >= $days_goal) {
+				return true;
+			}
+		}
+
+		// Kiểm tra lại sau khi kết thúc vòng lặp
+		return false;
+	}
+
+	// Hàm lấy danh sách doanh thu theo ngày từ bảng user_revenue
+	private function get_revenues_by_day($user_id) {
+		// Kết nối đến cơ sở dữ liệu
+		$db = $this->db;
+
+		// Truy vấn để lấy danh sách doanh thu theo ngày của user_id từ bảng user_revenue
+		$query = "
+			SELECT *
+			FROM user_revenue
+			WHERE user_id = ?
+			ORDER BY created_time DESC
+		";
+
+		// Thực hiện truy vấn
+		$revenues = $db->query($query, array($user_id))->result();
+
+		return $revenues;
+	}
+
+
+	private function check_consecutive_recruitment($user_id, $recruitment_condition, $recruitment_goal) {
+		// Lấy danh sách các tuyển dụng từ bảng recruitment của user_id, sắp xếp theo thời gian giảm dần
+		$recruitments = $this->get_recruitments($user_id);
+
+		// Đếm số lần tuyển dụng liên tiếp đạt mục tiêu
+		$consecutive_recruitments = 0;
+
+		foreach ($recruitments as $recruitment) {
+			// Kiểm tra điều kiện tuyển dụng của lần hiện tại
+			if ($this->check_recruitment_condition_by_type($recruitment, $recruitment_condition, $recruitment_goal)) {
+				$consecutive_recruitments++;
+			} else {
+				$consecutive_recruitments = 0; // Reset nếu không đạt mục tiêu trong lần tuyển dụng hiện tại
+			}
+
+			// Nếu số lần tuyển dụng liên tiếp đạt mục tiêu lớn hơn hoặc bằng mục tiêu
+			if ($consecutive_recruitments >= $recruitment_goal) {
+				return true;
+			}
+		}
+
+		// Kiểm tra lại sau khi kết thúc vòng lặp
+		return false;
+	}
+
+	// Hàm lấy danh sách tuyển dụng từ bảng recruitment
+	private function get_recruitments($user_id) {
+		// Kết nối đến cơ sở dữ liệu
+		$db = $this->db;
+
+		// Truy vấn để lấy danh sách tuyển dụng của user_id từ bảng recruitment
+		$query = "
+			SELECT *
+			FROM user_recruitment
+			WHERE user_id = ?
+			ORDER BY created_time DESC
+		";
+
+		// Thực hiện truy vấn
+		$recruitments = $db->query($query, array($user_id))->result();
+
+		return $recruitments;
+	}
+
+	// Hàm kiểm tra điều kiện tuyển dụng theo loại
+	private function check_recruitment_condition_by_type($recruitment, $recruitment_condition, $recruitment_goal) {
+		switch ($recruitment_condition) {
+			case 'recruitment_personal':
+				return $recruitment->recruitment_personal >= $recruitment_goal;
+			case 'recruitment_direct':
+				return $recruitment->recruitment_direct >= $recruitment_goal;
+			case 'recruitment_indirect':
+				return $recruitment->recruitment_indirect >= $recruitment_goal;
+			case 'recruitment_members':
+				return $recruitment->recruitment_members >= $recruitment_goal;
+			case 'recruitment_shop':
+				return $recruitment->recruitment_shop >= $recruitment_goal;
+			case 'recruitment_branch':
+				return $recruitment->recruitment_branch >= $recruitment_goal;
+			case 'recruitment_team':
+				return $recruitment->recruitment_team >= $recruitment_goal;
+			default:
+				return false;
+		}
+	}
+
+
 
 	// 19 - * Tính thưởng điều kiện nhóm - peding
 	private function calculate_condition_commission($user_id, $settings) {
@@ -9982,6 +10204,9 @@ class Admincontrol extends MY_Controller {
 		$result = $this->db->get($table)->row();
 		return $result ? $result->$column : 0;
 	}
+
+
+
 	// Danh sách User
 	public function userslist() {
 

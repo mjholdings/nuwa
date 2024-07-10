@@ -9929,19 +9929,17 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-
-
-	// 18 - * Tính thưởng duy trì liên tiếp
+	// 18 - * Tính thưởng duy trì liên tiếp - peding
 	private function calculate_retention_commission($user_id, $settings) {
 		// Implement retention goal commission logic here
 	}
 
-	// 19 - * Tính thưởng điều kiện nhóm
+	// 19 - * Tính thưởng điều kiện nhóm - peding
 	private function calculate_condition_commission($user_id, $settings) {
 		// Implement conditionl commission logic here
 	}
 
-	// 20 - * Tính thưởng đồng chia
+	// 20 - * Tính thưởng đồng chia - peding
 	private function calculate_shared_goal_commission($user_id, $settings) {
 		// Implement shared goal commission logic here
 	}

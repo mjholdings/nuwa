@@ -113,9 +113,9 @@
 											<th><?= __('admin.user_level') ?></th>
 											<th><?= __('Sửa gói') ?></th>
 											<th><?= __('Trạng thái') ?></th>
-											<th><?= __('admin.country') ?></th>
+											<!-- <th><?= __('admin.country') ?></th> -->
 											<th><?= __('admin.groups') ?></th>
-											<th><?= __('NCC') ?></th>
+											<!-- <th><?= __('NCC') ?></th> -->
 											<th><?= __('admin.referred_by') ?></th>
 											<th><?= __('admin.action') ?></th>
 										</tr>

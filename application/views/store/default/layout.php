@@ -275,6 +275,11 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
         $storelogoheight = $store_setting['store_logo_custom_height'];
         $storelogowidthstr = 'width="' . $storelogowidth . '"';
     }
+
+
+    // Kiểm tra nếu có giá trị trong cookie selectedBranchId
+    $selectedBranchId = isset($_COOKIE['selectedBranchId']) ? $_COOKIE['selectedBranchId'] : '';
+    $url_location = $selectedBranchId == '' ? '' : '?location=' . $selectedBranchId;
     ?>
     <!-- Header  -->
     <div class="headerbar"></div>
@@ -282,21 +287,21 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
         <div class="container-fluid">
             <!--nav bar start here-->
             <nav class="navbar navbar-expand-lg">
-           
-                <?php $logo = ($store_setting['logo']) ? base_url('assets/images/site/' . $store_setting['logo']) : base_url('assets/store/default/') . 'img/logonuwa.png'; ?> 
-                <a class="navbar-brand" href="<?= $home_link ?>"><img class="imgNavBar--Brand" alt="<?= __('store.image') ?>" src="<?= $logo ?>" onerror="this.src='<?= base_url('assets/store/default/') . 'img/logonuwa.png' ?>';" height="<?php echo $storelogoheight; ?>" <?php echo $storelogowidthstr;  ?> /></a>
-               
+
+                <?php $logo = ($store_setting['logo']) ? base_url('assets/images/site/' . $store_setting['logo']) : base_url('assets/store/default/') . 'img/logonuwa.png'; ?>
+                <a class="navbar-brand" href="<?= $home_link . $url_location ?>"><img class="imgNavBar--Brand" alt="<?= __('store.image') ?>" src="<?= $logo ?>" onerror="this.src='<?= base_url('assets/store/default/') . 'img/logonuwa.png' ?>';" height="<?php echo $storelogoheight; ?>" <?php echo $storelogowidthstr;  ?> /></a>
+
                 <!-- <a class="navbar-brand" href="">
                 <img class="imgNavBar--Brand" src="<?= base_url('assets/store/default/'); ?>img/logonuwa.png" alt="" height="50" width="180">
                </a> -->
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><img src="<?= base_url('assets/store/default/'); ?>img/menu.png" class="img-toggler" alt="<?= __('store.menu') ?>"></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto">
-                        <li class="nav-item <?= ($page == 'home') ? 'active' : ''; ?>"><a href="<?= $home_link ?>" class="nav-link"><?= __('store.products') ?></a></li>
+                        <li class="nav-item <?= ($page == 'home') ? 'active' : ''; ?>"><a href="<?= $home_link ?><?= $selectedBranchId == '' ? '' : '?location=' . $selectedBranchId ?>" class="nav-link"><?= __('store.products') ?></a></li>
 
 
                         <li id="dropdownMenu2" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle nav-item <?= ($page == 'product' || $page == 'product_list' || $page == 'category') ? 'active' : ''; ?>">
-                            <a href="#" id="btn_mobile_mj" class="nav-link"><?= __('store.categories') ?></a>
+                            <a href="<?= $selectedBranchId == '' ? '' : '?location=' . $selectedBranchId ?>" id="btn_mobile_mj" class="nav-link"><?= __('store.categories') ?></a>
 
 
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" id="show_mj">
@@ -304,7 +309,11 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
                                 function display_with_children_maincategory($parentRow, $level = 0) {
                                     $space = $level > 0 ? str_repeat("", $level) . ' ' : '';
                                     foreach ($parentRow as $key => $row) {
-                                        echo '<li  data-id="' . $row['id'] . '" class="' . ($row['children'] ? 'has-children' : '') . '" ><span>' . $space . '<a href="' . base_url('store/category/' . $row['slug']) . '">' . $row['name'] . "</a></span>" . ($row['children'] ? "" : "");
+
+                                        // Tạo URL với tham số ?location=id nếu có selectedBranchId
+                                        $url = $selectedBranchId ? base_url('store/category/' . $row['slug'] . $url_location) : base_url('store/category/' . $row['slug'] . $url_location);
+
+                                        echo '<li  data-id="' . $row['id'] . '" class="' . ($row['children'] ? 'has-children' : '') . '" ><span>' . $space . '<a href="' . $url . $url_location . '">' . $row['name'] . "</a></span>" . ($row['children'] ? "" : "");
                                         if ($row['children']) {
                                             echo '<ul>';
                                             display_with_children_maincategory($row['children'], $level + 1);
@@ -314,16 +323,17 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
                                     }
                                     echo '</li>';
                                 }
+
                                 // }
-                                echo '<li class="childrenDropDown" data-id="0" ><span><a href="' . base_url('store/category/') . '">' . __('store.all_categories') . '</a></span>';
+                                echo '<li class="childrenDropDown" data-id="0" ><span><a href="' . base_url('store/category/') . $url_location . '">' . __('store.all_categories') . '</a></span>';
 
                                 display_with_children_maincategory($category_tree, 0);
                                 ?>
                             </ul>
                         </li>
 
-                        <li class="nav-item <?= ($page == 'about') ? 'active' : ''; ?>"><a href="<?= $base_url ?>about" class="nav-link"><?= __('store.about') ?></a></li>
-                        <li class="nav-item <?= ($page == 'contact') ? 'active' : ''; ?>"><a href="<?= $base_url ?>contact" class="nav-link"><?= __('store.contact') ?></a></li>
+                        <li class="nav-item <?= ($page == 'about') ? 'active' : ''; ?>"><a href="<?= $base_url ?>about<?= $url_location ?>" class="nav-link"><?= __('store.about') ?></a></li>
+                        <li class="nav-item <?= ($page == 'contact') ? 'active' : ''; ?>"><a href="<?= $base_url ?>contact<?= $url_location ?>" class="nav-link"><?= __('store.contact') ?></a></li>
                     </ul>
 
                     <div class="header-right-listing">
@@ -524,6 +534,17 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
 
     <!-- Script xử lý sự kiện -->
     <script>
+        // Lưu giá trị vào cookie
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const branchItems = document.querySelectorAll('.branch-item');
             const storeLocationMenu = document.querySelector('#store_location_menu a');
@@ -531,12 +552,14 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
             let selectedBranchId = currentUrl.searchParams.get('location'); // Lấy giá trị location hiện tại
             const priceContainer = document.querySelector('.regular-price');
 
+
             // Ẩn hoặc hiện phần tử regular-price dựa trên giá trị của tham số location
             if (selectedBranchId) {
-                priceContainer.style.display = 'none';
+                if (priceContainer) priceContainer.style.display = 'none';
             } else {
-                priceContainer.style.display = 'block';
+                if (priceContainer) priceContainer.style.display = 'block';
             }
+
 
             // Thiết lập lại trạng thái ban đầu
             if (selectedBranchId) {
@@ -551,6 +574,9 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
                         btn.classList.add('btn-outline-primary');
                     }
                 });
+
+                // Lưu selectedBranchId vào cookie
+                setCookie('selectedBranchId', selectedBranchId, 30); // Lưu trong 30 ngày
             }
 
             // Xử lý sự kiện khi người dùng chọn chi nhánh
@@ -561,6 +587,9 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
 
                     const branchId = btn.getAttribute('data-branch-id');
                     const branchName = btn.getAttribute('data-branch-name');
+
+                    // Lưu selectedBranchId vào cookie
+                    setCookie('selectedBranchId', branchId, 30); // Lưu trong 30 ngày
 
                     // Cập nhật giá trị location trong URL
                     currentUrl.searchParams.set('location', branchId);
@@ -589,22 +618,7 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
     </script>
 
 
-
-
     <!-- Các script khác -->
-
-    <script>
-        document.getElementById('addToHomeScreen').addEventListener('click', function(event) {
-            event.preventDefault(); // Ngăn chặn hành động mặc định của link
-
-
-            // Hiển thị thông báo hoặc hướng dẫn cho người dùng
-            alert('Cài App Mobile');
-
-            // Nếu bạn muốn chuyển hướng người dùng đến trang khác, bạn có thể sử dụng window.location.href
-            // window.location.href = 'https://example.com/other-page';
-        });
-    </script>
 
     <?php if (!empty($cookies_consent) && $cookies_consent['cookies_consent'] == 1) { ?>
         <script>

@@ -38,7 +38,7 @@
                         <?php
                         // Truy vấn danh sách cấp độ từ bảng award_level
                         $award_level = $this->Product_model->getAllAward();
-                        $current_level = $star['con_award_level_id'];
+                        $current_level = $reward['con_award_level_id'];
 
                         ?>
 
@@ -220,8 +220,8 @@
                             </label>
                             <select class="form-control" name="con_refer_reward_id">
                                 <option value=""><?= __('Chọn Chức danh') ?></option>
-                                <?php foreach ($rewards as $reward) : ?>
-                                    <option value="<?= $reward['id'] ?>"><?= $reward['name'] ?></option>
+                                <?php foreach ($rewards as $reward_item) : ?>
+                                    <option value="<?= $reward_item['id'] ?>" <?= $reward['con_refer_reward_id'] == $reward_item['id'] ? 'selected="selected"' : ''; ?>><?= $reward_item['name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <p class="error-message"></p>

@@ -4125,10 +4125,10 @@ class Admincontrol extends MY_Controller {
 				$insert['con_consum_total'] = $this->input->post('con_consum_total', true);
 				$insert['con_consum_team'] = $this->input->post('con_consum_team', true);
 				$insert['bonus_comission_source'] = $this->input->post('bonus_comission_source', true);
-
 				$insert['con_refer_number'] = $this->input->post('con_refer_number', true);
 				$insert['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 				$insert['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
+				$insert['con_award_level_id'] = $this->input->post('con_award_level_id', true);
 				$insert['sale_comission_rate'] = $this->input->post('sale_comission_rate', true);
 				$insert['sale_comission_fixed'] = $this->input->post('sale_comission_fixed', true);
 				$insert['con_and'] = $this->input->post('con_and', true);
@@ -4191,6 +4191,7 @@ class Admincontrol extends MY_Controller {
 							$update['con_refer_number'] = $this->input->post('con_refer_number', true);
 							$update['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 							$update['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
+							$update['con_award_level_id'] = $this->input->post('con_award_level_id', true);
 							$update['sale_comission_rate'] = $this->input->post('sale_comission_rate', true);
 							$update['sale_comission_fixed'] = $this->input->post('sale_comission_fixed', true);
 							$update['con_and'] = $this->input->post('con_and', true);
@@ -4492,7 +4493,11 @@ class Admincontrol extends MY_Controller {
 					}
 					foreach ($post as $key => $value) {
 						if (in_array($key, $commonSetting)) {
-							$this->Setting_model->save($key, $value);
+							if (!is_null($value)) {
+								$this->Setting_model->save($key, $value);
+							} else {
+								$this->Setting_model->save($key, 0);
+							}
 						}
 					}
 					if (!isset($json['errors'])) {
@@ -4888,7 +4893,8 @@ class Admincontrol extends MY_Controller {
 		//$data['branch_list'] = $this->db->query("SELECT * FROM branch")->result();
 
 		// Truy vấn để lấy danh sách chi nhánh cùng với số lượng và giá sản phẩm hiện tại
-		$data['branch_list'] = $this->db->query("
+		$data['branch_list'] = $this->db->query(
+			"
         SELECT 
             b.id, b.name, pb.stock_quantity, pb.product_price 
         FROM 
@@ -4897,7 +4903,7 @@ class Admincontrol extends MY_Controller {
             product_branch pb 
         ON 
             b.id = pb.branch_id AND pb.product_id = " . (int)$data['product']->product_id
-    )->result();
+		)->result();
 
 		$data['tags'] = $this->Product_model->getAllTags();
 
@@ -7555,6 +7561,7 @@ class Admincontrol extends MY_Controller {
 	}
 
 
+	// Thay đổi trạng thái đơn hàng
 	public function order_change_status() {
 
 		$order_id = (int)$this->input->post("id", true);
@@ -8275,6 +8282,1931 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'users/downline');
 	}
 
+
+	/*
+	* User Controllers
+	*/
+
+	public function update_user_tree() {
+		// Xóa dữ liệu cũ trong bảng users_direct và users_indirect
+		$this->db->truncate('users_direct');
+		$this->db->truncate('users_indirect');
+
+		// Lấy danh sách tất cả các user từ bảng users
+		$this->db->select('id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$id = $user['id'];
+
+			// Lấy danh sách các con của user hiện tại
+			$this->db->select('id');
+			$this->db->where('refid', $id);
+			$children_query = $this->db->get('users');
+			$children = $children_query->result_array();
+
+			// Chuyển danh sách các con thành chuỗi
+			$child_ids = array_map(function ($child) {
+				return $child['id'];
+			}, $children);
+
+			$childs_string = implode(',', $child_ids);
+
+			// Chèn vào bảng users_direct
+			$data = array(
+				'user_id' => $id,
+				'ids_direct' => $childs_string
+			);
+
+			$this->db->insert('users_direct', $data);
+		}
+
+
+		// Lấy danh sách tất cả các user từ bảng users
+		$this->db->select('id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$id = $user['id'];
+
+			// Lấy danh sách các con trực tiếp từ bảng users_direct
+			$this->db->select('ids_direct');
+			$this->db->where('user_id', $id);
+			$direct_query = $this->db->get('users_direct');
+			$direct_children = $direct_query->row_array();
+			$direct_children = $direct_children ? explode(',', $direct_children['ids_direct']) : [];
+
+			// Lấy danh sách toàn bộ các con thuộc cấp dưới từ bảng users
+			$all_descendants = $this->user->getAllDescendants($id);
+
+			// Loại bỏ các con trực tiếp khỏi danh sách toàn bộ các con thuộc cấp dưới
+			$indirect_children = array_diff($all_descendants, $direct_children);
+
+			// Chuyển danh sách các con gián tiếp thành chuỗi
+			$children_indirect_string = implode(',', $indirect_children);
+
+			// Chèn vào bảng users_indirect
+			$data = array(
+				'user_id' => $id,
+				'ids_indirect' => $children_indirect_string
+			);
+
+			$this->db->insert('users_indirect', $data);
+		}
+
+		echo "Bảng users_direct và users_indirect đã được cập nhật.";
+	}
+
+	// User Recruitment
+	public function update_user_recruitment() {
+		// Xóa dữ liệu cũ trong bảng users_recruitment
+		$this->db->truncate('user_recruitment');
+
+		// Lấy danh sách tất cả các user từ bảng user_tree
+		$this->db->select('id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['id'];
+			$update_time = date('Y-m-d H:i:s');  // Cập nhật thời gian hiện tại;
+
+
+			// Lấy danh sách các con trực tiếp từ bảng user_tree
+			$direct_children = $this->user->getChildren($user_id);
+			$direct_child_ids = array_map(function ($child) {
+				return $child['id'];
+			}, $direct_children);
+			$ids_direct_string = implode(',', $direct_child_ids);
+			$total_direct = count($direct_child_ids);
+
+			// Lấy danh sách toàn bộ các con thuộc cấp dưới từ bảng user_tree
+			$all_descendants = $this->user->getAllDescendants($user_id);
+			$indirect_children = array_diff($all_descendants, $direct_child_ids);
+			$ids_indirect_string = implode(',', $indirect_children);
+			$total_indirect = count($indirect_children);
+
+			// Tính tổng số con
+			$total_downline = $total_direct + $total_indirect;
+
+			// Chèn vào bảng users_recruitment
+			$data = array(
+				'user_id' => $user_id,
+				'ids_direct' => $ids_direct_string,
+				'ids_indirect' => $ids_indirect_string,
+				'total_direct' => $total_direct,
+				'total_indirect' => $total_indirect,
+				'total_downline' => $total_downline,
+				'updated_time' => $update_time
+			);
+
+			$this->db->insert('user_recruitment', $data);
+		}
+
+		echo "Bảng users_recruitment đã được cập nhật.";
+	}
+
+	// User Revenue - Doanh thu
+	public function calculate_revenue() {
+		// Xóa dữ liệu cũ trong bảng user_revenue
+		$this->db->truncate('user_revenue');
+
+		// Lấy danh sách tất cả các user từ bảng users
+		$this->db->select('id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['id'];
+
+			// Lấy danh sách các đơn hàng mà user tạo ra
+			$this->db->select('*');
+			$this->db->where('user_id', $user_id);
+			$orders = $this->db->get('order')->result_array();
+
+			foreach ($orders as $order) {
+				$order_id = $order['id'];
+				$order_user_id = $order['user_id'];
+				$order_time = $order['created_at'];
+
+				// Lấy các sản phẩm trong đơn hàng
+				$this->db->select('*');
+				$this->db->where('order_id', $order_id);
+				$order_products = $this->db->get('order_products')->result_array();
+
+				foreach ($order_products as $order_product) {
+					$product_id = $order_product['product_id'];
+					$refer_id = $order_product['refer_id'];
+					$total = $order_product['total'];
+
+					// Tính revenue
+					$revenue = ($refer_id == $user_id) ? $total : 0;
+
+					// Chèn dữ liệu vào bảng user_revenue
+					$data = array(
+						'user_id' => $user_id,
+						'order_id' => $order_id,
+						'product_id' => $product_id,
+						'revenue' => $revenue,
+						'created_time' => $order_time
+					);
+
+					$this->db->insert('user_revenue', $data);
+				}
+			}
+		}
+
+		echo "Bảng user_revenue đã được cập nhật.";
+	}
+
+	// User Update Revenue - Doanh thu khác
+	public function update_revenue() {
+		// Lấy danh sách tất cả các user từ bảng users_revenue
+		$this->db->select('user_id, revenue');
+		$query = $this->db->get('user_revenue');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['user_id'];
+			$user_revenue = $user['revenue'];
+			$update_time = date('Y-m-d H:i:s');  // Cập nhật thời gian hiện tại;
+
+			// Tính toán revenue_direct và revenue_indirect
+			$revenue_direct = $this->calculate_revenue_direct($user_id);
+			$revenue_indirect = $this->calculate_revenue_indirect($user_id);
+
+			// Cập nhật bảng user_revenue với các giá trị mới
+			$data = array(
+				'revenue_direct' => $revenue_direct,
+				'revenue_indirect' => $revenue_indirect,
+				'revenue_downline' => $revenue_direct + $revenue_indirect,
+				'revenue_team' => $user_revenue + $revenue_direct + $revenue_indirect,
+				'updated_time' => $update_time
+			);
+			$this->db->where('user_id', $user_id);
+			$this->db->update('user_revenue', $data);
+		}
+
+		echo "Bảng user_revenue đã được cập nhật.";
+	}
+
+	// Tính toán doanh thu trực tiếp
+	private function calculate_revenue_direct($user_id) {
+		// Lấy danh sách ids_direct từ bảng users_direct
+		$this->db->select('ids_direct');
+		$this->db->where('user_id', $user_id);
+		$result = $this->db->get('users_direct')->row_array();
+		$ids_direct = isset($result['ids_direct']) ? explode(',', $result['ids_direct']) : array();
+
+		if (empty($ids_direct)) {
+			return 0;
+		}
+
+		// Tính tổng revenue của các user_id trong danh sách ids_direct
+		$this->db->select('SUM(revenue) as total_revenue_direct');
+		$this->db->where_in('user_id', $ids_direct);
+		$total_revenue_direct = $this->db->get('user_revenue')->row()->total_revenue_direct;
+
+		return $total_revenue_direct;
+	}
+
+	// Tính toán doanh thu gián tiếp
+	private function calculate_revenue_indirect($user_id) {
+		// Lấy danh sách ids_indirect từ bảng users_indirect
+		$this->db->select('ids_indirect');
+		$this->db->where('user_id', $user_id);
+		$result = $this->db->get('users_indirect')->row_array();
+		$ids_indirect = isset($result['ids_indirect']) ? explode(',', $result['ids_indirect']) : array();
+
+		if (empty($ids_indirect)) {
+			return 0;
+		}
+
+		// Tính tổng revenue của các user_id trong danh sách ids_indirect
+		$this->db->select('SUM(revenue) as total_revenue_indirect');
+		$this->db->where_in('user_id', $ids_indirect);
+		$total_revenue_indirect = $this->db->get('user_revenue')->row()->total_revenue_indirect;
+
+		return $total_revenue_indirect;
+	}
+
+	// User Consum - Tiêu dùng
+	public function calculate_consum() {
+		// Xóa dữ liệu cũ trong bảng user_consum
+		$this->db->truncate('user_consum');
+
+		// Lấy danh sách tất cả các user từ bảng users
+		$this->db->select('id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['id'];
+
+			// Lấy danh sách các đơn hàng mà user tạo ra
+			$this->db->select('*');
+			$this->db->where('user_id', $user_id);
+			$orders = $this->db->get('order')->result_array();
+
+			foreach ($orders as $order) {
+				$order_id = $order['id'];
+				$order_user_id = $order['user_id'];
+				$order_time = $order['created_at'];
+
+
+				// Lấy các sản phẩm trong đơn hàng
+				$this->db->select('*');
+				$this->db->where('order_id', $order_id);
+				$order_products = $this->db->get('order_products')->result_array();
+
+				foreach ($order_products as $order_product) {
+					$product_id = $order_product['product_id'];
+					$refer_id = $order_product['refer_id'];
+					$total = $order_product['total'];
+
+					// Tính consum (tiêu cá nhân)
+					$consum = ($order_user_id == $user_id) ? $total : 0;
+
+					// Chèn dữ liệu vào bảng user_consum
+					$data = array(
+						'user_id' => $user_id,
+						'order_id' => $order_id,
+						'product_id' => $product_id,
+						'consum' => $consum,
+						'created_time' => $order_time
+
+					);
+
+					$this->db->insert('user_consum', $data);
+				}
+			}
+		}
+
+		echo "Bảng user_consum đã được cập nhật.";
+	}
+
+	// Cập nhật consum cho direct và indirect
+	public function update_consum() {
+		// Lấy danh sách tất cả các user từ bảng user_consum
+		$this->db->select('user_id, consum');
+		$query = $this->db->get('user_consum');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['user_id'];
+			$user_consum = $user['consum'];
+			$update_time = date('Y-m-d H:i:s');  // Cập nhật thời gian hiện tại;
+
+
+			// Tính toán consum_direct và consum_indirect
+			$consum_direct = $this->calculate_consum_direct($user_id);
+			$consum_indirect = $this->calculate_consum_indirect($user_id);
+
+			// Cập nhật bảng user_consum với các giá trị mới
+			$data = array(
+				'consum_direct' => $consum_direct,
+				'consum_indirect' => $consum_indirect,
+				'consum_downline' => $consum_direct + $consum_indirect,
+				'consum_team' => $user_consum + $consum_direct + $consum_indirect,
+				'updated_time' => $update_time
+			);
+			$this->db->where('user_id', $user_id);
+			$this->db->update('user_consum', $data);
+		}
+
+		echo "Bảng user_consum đã được cập nhật.";
+	}
+
+	// Tính doanh thu trực tiếp
+	private function calculate_consum_direct($user_id) {
+		// Lấy danh sách ids_direct từ bảng users_direct
+		$this->db->select('ids_direct');
+		$this->db->where('user_id', $user_id);
+		$result = $this->db->get('users_direct')->row_array();
+		$ids_direct = isset($result['ids_direct']) ? explode(',', $result['ids_direct']) : array();
+
+		if (empty($ids_direct)) {
+			return 0;
+		}
+
+		// Tính tổng consum của các user_id trong danh sách ids_direct
+		$this->db->select('SUM(consum) as total_consum_direct');
+		$this->db->where_in('user_id', $ids_direct);
+		$total_consum_direct = $this->db->get('user_consum')->row()->total_consum_direct;
+
+		return $total_consum_direct;
+	}
+
+	// Tính doanh thu gián tiếp
+	private function calculate_consum_indirect($user_id) {
+		// Lấy danh sách ids_indirect từ bảng users_indirect
+		$this->db->select('ids_indirect');
+		$this->db->where('user_id', $user_id);
+		$result = $this->db->get('users_indirect')->row_array();
+		$ids_indirect = isset($result['ids_indirect']) ? explode(',', $result['ids_indirect']) : array();
+
+		if (empty($ids_indirect)) {
+			return 0;
+		}
+
+		// Tính tổng consum của các user_id trong danh sách ids_indirect
+		$this->db->select('SUM(consum) as total_consum_indirect');
+		$this->db->where_in('user_id', $ids_indirect);
+		$total_consum_indirect = $this->db->get('user_consum')->row()->total_consum_indirect;
+
+		return $total_consum_indirect;
+	}
+
+	// Tính toán cập nhật User Rank
+	public function update_user_rank() {
+		// Xóa dữ liệu cũ trong bảng user_rank
+		$this->db->truncate('user_rank');
+
+
+		// Lấy danh sách tất cả các user từ bảng users
+		$this->db->select('id as user_id, plan_id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['user_id'];
+			$plan_id = $user['plan_id'];	// đơn hàng thành viên từ membership_user
+
+			// Lấy thông tin từ bảng membership_user
+			$this->db->select('plan_id');
+			$this->db->where('user_id', $user_id);
+			$this->db->where('is_active', 1);
+			$membership_user = $this->db->get('membership_user')->row_array();
+
+			if (!$membership_user) {
+				// Nếu không có bản ghi trong membership_user, gán award_id = 0 và user_level = 0
+				$data = array(
+					'user_id' => $user_id,
+					'award_id' => 0,
+					'reward_id' => 0, // Cần logic bổ sung để tính toán reward_id
+					'star_id' => 0, // Cần logic bổ sung để tính toán star_id
+					'user_level' => 0,
+					'user_star' => 0,
+					'user_reward' => 'Không',
+					'created_time' => date('Y-m-d H:i:s')
+				);
+				$this->db->insert('user_rank', $data);
+				continue;
+			}
+
+			$membership_plan_id = $membership_user['plan_id'];	// lấy gói thành viên từ membership_plan
+
+			// Lấy thông tin từ bảng membership_plan
+			$this->db->select('level_id');						// lấy cấp độ từ award_level
+			$this->db->where('id', $membership_plan_id);
+			$membership_plan = $this->db->get('membership_plans')->row_array();
+
+			if (!$membership_plan) {
+				continue;
+			}
+
+			$level_id = $membership_plan['level_id'];
+
+			// Lấy thông tin từ bảng award_level
+			$this->db->select('id as award_id, level_number');
+			$this->db->where('id', $level_id);
+			$award_level = $this->db->get('award_level')->row_array();
+
+			if (!$award_level) {
+				continue;
+			}
+
+			$award_id = $award_level['award_id'];
+			$level_number = $award_level['level_number'];
+
+			// Tính toán star và reward
+			$star_id = $this->calculate_user_star($award_id);
+			$reward_id = $this->calculate_user_reward($award_id);
+			$user_star = $this->calculate_user_star($award_id, true);
+			$user_reward = $this->calculate_user_reward($award_id, true);
+
+
+			// Lưu vào bảng user_rank
+			$data = array(
+				'user_id' => $user_id,
+				'award_id' => $award_id,
+				'reward_id' => $reward_id, // Cần logic bổ sung để tính toán reward_id
+				'star_id' => $star_id, // Cần logic bổ sung để tính toán star_id
+				'user_level' => $level_number,
+				'user_star' => $user_star,
+				'user_reward' => $user_reward,
+				'created_time' => date('Y-m-d H:i:s')
+			);
+			$this->db->insert('user_rank', $data);
+		}
+
+		echo "Bảng user_rank đã được cập nhật.";
+	}
+
+	// Tính toán star - value return value not id
+	public function calculate_user_star($level_id, $value = false) {
+		// Tìm trong bảng star_level với con_award_level_id = $level_id
+		$this->db->select('id, star');
+		$this->db->where('con_award_level_id', $level_id);
+		$star = $this->db->get('star_level')->row_array();
+
+		if (!$star) {
+			return $value ? 'No Star' : 0;
+		}
+
+		return $value ? $star['star'] : $star['id'];
+	}
+
+	// Tính toán reward của user
+	public function calculate_user_reward($level_id, $value = false) {
+
+		// Tìm trong bảng reward với con_award_level_id = $level_id
+		$this->db->select('id, name');
+		$this->db->where('con_award_level_id', $level_id);
+		$reward = $this->db->get('reward')->row_array();
+
+		if (!$reward) {
+			return $value ? 'No Reward' : 0;
+		}
+
+		return $value ? $reward['name'] : $reward['id'];
+	}
+
+	// Tính toán và cập nhật thưởng
+	public function calculate_and_update_commissions() {
+
+		// Xóa dữ liệu cũ trong bảng user_commission
+		$this->db->truncate('user_commission');
+
+		// Lấy danh sách tất cả các user từ bảng users
+		$this->db->select('id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		// Load settings
+		$settings = $this->load_commission_settings();
+
+		foreach ($users as $user) {
+			$user_id = $user['id'];
+
+			// Sales Commission ********************
+			// Calculate personal sales commission
+			if ($settings['bonus_from_sales_personal']) {
+				$this->calculate_personal_sales_commission($user_id, $settings);
+			}
+
+			// Calculate direct sales commission
+			if ($settings['bonus_from_sales_direct_members']) {
+				$this->calculate_direct_sales_commission($user_id, $settings);
+			}
+
+			// Calculate indirect sales commission
+			if ($settings['bonus_from_sales_indirect_members']) {
+				$this->calculate_indirect_sales_commission($user_id, $settings);
+			}
+
+			// Calculate downline sales commission
+			if ($settings['bonus_from_sales_members']) {
+				$this->calculate_downline_sales_commission($user_id, $settings);
+			}
+
+			// Calculate team sales commission
+			if ($settings['bonus_from_sales_team']) {
+				$this->calculate_team_sales_commission($user_id, $settings);
+			}
+
+			// Calculate branch sales commission
+			if ($settings['bonus_from_sales_branch_members']) {
+				$this->calculate_branch_sales_commission($user_id, $settings);
+			}
+
+			// Calculate shop sales commission
+			if ($settings['bonus_from_sales_shop']) {
+				$this->calculate_shop_sales_commission($user_id, $settings);
+			}
+
+			// Consum Commission *********************
+			// Calculate direct consumption commission
+			if ($settings['bonus_from_consum_personal']) {
+				$this->calculate_personal_consum_commission($user_id, $settings);
+			}
+
+			// Calculate direct consumption commission
+			if ($settings['bonus_from_consum_direct_members']) {
+				$this->calculate_direct_consum_commission($user_id, $settings);
+			}
+
+			// Calculate indirect consumption commission
+			if ($settings['bonus_from_consum_indirect_members']) {
+				$this->calculate_indirect_consum_commission($user_id, $settings);
+			}
+
+			// Calculate indirect consumption commission
+			if ($settings['bonus_from_consum_members']) {
+				$this->calculate_downline_consum_commission($user_id, $settings);
+			}
+
+			// Calculate indirect consumption commission
+			if ($settings['bonus_from_consum_team']) {
+				$this->calculate_team_consum_commission($user_id, $settings);
+			}
+
+			// Calculate indirect consumption commission
+			if ($settings['bonus_from_consum_branch_members']) {
+				$this->calculate_branch_consum_commission($user_id, $settings);
+			}
+
+			// Recruitment Commission ***********************
+			// Calculate recruitment commission
+			if ($settings['bonus_recruitment_direct']) {
+				$this->calculate_direct_recruitment_commission($user_id, $settings);
+			}
+
+			// Calculate recruitment commission indirect
+			if ($settings['bonus_recruitment_indirect']) {
+				$this->calculate_indirect_recruitment_commission($user_id, $settings);
+			}
+
+			// Calculate recruitment commission indirect
+			if ($settings['bonus_recruitment_downline']) {
+				$this->calculate_downline_recruitment_commission($user_id, $settings);
+			}
+
+			// Rank Commission and Other ***************************
+			// Calculate rank up commission
+			if ($settings['bonus_up_rank']) {
+				$this->calculate_rank_up_commission($user_id, $settings);
+			}
+
+			// Calculate retention commission
+			if ($settings['bonus_retention_apply']) {
+				$this->calculate_retention_commission($user_id, $settings);
+			}
+
+			// Calculate condition commission
+			if ($settings['condition_bonus_sales_team']) {
+				$this->calculate_condition_commission($user_id, $settings);
+			}
+
+			// Calculate shared goal commission
+			if ($settings['bonus_shared_apply']) {
+				$this->calculate_shared_goal_commission($user_id, $settings);
+			}
+		}
+	}
+
+	// Lấy settings commission
+	private function load_commission_settings() {
+
+		// Lấy toàn bộ Setting trong DB
+		$market_vendor = $this->Product_model->getSettings('market_vendor');
+		$vendor = $this->Product_model->getSettings('vendor');
+
+
+		// Load settings from your configuration or database
+		return array(
+
+			// apply
+			'bonus_from_sales_personal' => $market_vendor['bonus_from_sales_personal'],
+			'bonus_from_sales_direct_members' => $market_vendor['bonus_from_sales_direct_members'],
+			'bonus_from_sales_indirect_members' => $market_vendor['bonus_from_sales_indirect_members'],
+			'bonus_from_sales_members' => $market_vendor['bonus_from_sales_members'],
+			'bonus_from_sales_team' => $market_vendor['bonus_from_sales_team'],
+			'bonus_from_sales_branch_members' => $market_vendor['bonus_from_sales_branch_members'],
+			'bonus_from_sales_shop' => $market_vendor['bonus_from_sales_shop'],
+			'bonus_from_consum_personal' => $market_vendor['bonus_from_consum_personal'],
+			'bonus_from_consum_direct_members' => $market_vendor['bonus_from_consum_direct_members'],
+			'bonus_from_consum_indirect_members' => $market_vendor['bonus_from_consum_indirect_members'],
+			'bonus_from_consum_members' => $market_vendor['bonus_from_consum_members'],
+			'bonus_from_consum_team' => $market_vendor['bonus_from_consum_team'],
+			'bonus_from_consum_branch_members' => $market_vendor['bonus_from_consum_branch_members'],
+			'bonus_recruitment_direct' => $market_vendor['bonus_recruitment_direct'],
+			'bonus_recruitment_indirect' => $market_vendor['bonus_recruitment_indirect'],
+			'bonus_recruitment_downline' => $market_vendor['bonus_recruitment_downline'],
+			'bonus_up_rank' => $market_vendor['bonus_up_rank'],
+			'bonus_retention_apply' => $market_vendor['bonus_retention_apply'],
+			'condition_bonus_sales_team' => $market_vendor['condition_bonus_sales_team'],
+			'bonus_shared_apply' => $market_vendor['bonus_shared_apply'],
+			'calculator_bonus_after_discount' => $market_vendor['calculator_bonus_after_discount'],
+			'calculator_bonus_after_tax' => $market_vendor['calculator_bonus_after_tax'],
+
+
+			// 1 - 13 Thưởng doanh số - tiêu dùng
+
+			// bonus_value
+			'bonus_from_sales_personal_type' => $market_vendor['bonus_from_sales_personal_type'],
+			'bonus_from_sales_direct_members_type' => $market_vendor['bonus_from_sales_direct_members_type'],
+			'bonus_from_sales_indirect_members_type' => $market_vendor['bonus_from_sales_indirect_members_type'],
+			'bonus_from_sales_members_type' => $market_vendor['bonus_from_sales_members_type'],
+			'bonus_from_sales_team_type' => $market_vendor['bonus_from_sales_team_type'],
+			'bonus_from_sales_branch_members_type' => $market_vendor['bonus_from_sales_branch_members_type'],
+			'bonus_from_sales_shop_type' => $market_vendor['bonus_from_sales_shop_type'],
+
+			'bonus_from_consum_personal_type' => $market_vendor['bonus_from_consum_personal_type'],
+			'bonus_from_consum_direct_members_type' => $market_vendor['bonus_from_consum_direct_members_type'],
+			'bonus_from_consum_indirect_members_type' => $market_vendor['bonus_from_consum_indirect_members_type'],
+			'bonus_from_consum_members_type' => $market_vendor['bonus_from_consum_members_type'],
+			'bonus_from_consum_team_type' => $market_vendor['bonus_from_consum_team_type'],
+			'bonus_from_consum_branch_members_type' => $market_vendor['bonus_from_consum_branch_members_type'],
+
+			'bonus_from_recruitment_direct_type' => $market_vendor['bonus_from_recruitment_direct_type'],
+			'bonus_from_recruitment_direct_number' => $market_vendor['bonus_from_recruitment_direct_number'],
+			'bonus_from_recruitment_direct_value' => $market_vendor['bonus_from_recruitment_direct_value'],
+
+
+			// bonus value by type
+
+			'bonus_from_sales_personal_value' => $market_vendor['bonus_from_sales_personal_value'],
+			'bonus_from_sales_direct_members_value' => $market_vendor['bonus_from_sales_direct_members_value'],
+			'bonus_from_sales_indirect_members_value' => $market_vendor['bonus_from_sales_indirect_members_value'],
+			'bonus_from_sales_members_value' => $market_vendor['bonus_from_sales_members_value'],
+			'bonus_from_sales_team_value' => $market_vendor['bonus_from_sales_team_value'],
+			'bonus_from_sales_branch_members_value' => $market_vendor['bonus_from_sales_branch_members_value'],
+			'bonus_from_sales_shop_value' => $market_vendor['bonus_from_sales_shop_value'],
+
+			'bonus_from_consum_personal_value' => $market_vendor['bonus_from_consum_personal_value'],
+			'bonus_from_consum_direct_members_value' => $market_vendor['bonus_from_consum_direct_members_value'],
+			'bonus_from_consum_indirect_members_value1' => $market_vendor['bonus_from_consum_indirect_members_value1'],
+			'bonus_from_consum_members_value' => $market_vendor['bonus_from_consum_members_value'],
+			'bonus_from_consum_team_value' => $market_vendor['bonus_from_consum_team_value'],
+			'bonus_from_consum_branch_members_value' => $market_vendor['bonus_from_consum_branch_members_value'],
+
+
+			// 14 - Thưởng tuyển dụng trực tiếp
+			'bonus_recruitment_direct_number' => $market_vendor['bonus_recruitment_direct_number'],
+			'bonus_recruitment_direct_source' => $market_vendor['bonus_recruitment_direct_source'],
+			'bonus_recruitment_direct_type' => $market_vendor['bonus_recruitment_direct_type'],
+			'bonus_recruitment_direct_value' => $market_vendor['bonus_recruitment_direct_value'],
+
+			// 15 - Thưởng tuyển dụng gián tiếp
+			'bonus_recruitment_indirect_number' => $market_vendor['bonus_recruitment_indirect_number'],
+			'bonus_recruitment_indirect_source' => $market_vendor['bonus_recruitment_indirect_source'],
+			'bonus_recruitment_indirect_type' => $market_vendor['bonus_recruitment_indirect_type'],
+			'bonus_recruitment_indirect_value' => $market_vendor['bonus_recruitment_indirect_value'],
+
+			// 16 - Thưởng tuyển tuyến dưới
+			'bonus_recruitment_downline_number' => $market_vendor['bonus_recruitment_downline_number'],
+			'bonus_recruitment_downline_source' => $market_vendor['bonus_recruitment_downline_source'],
+			'bonus_recruitment_downline_type' => $market_vendor['bonus_recruitment_downline_type'],
+			'bonus_recruitment_downline_value' => $market_vendor['bonus_recruitment_downline_value'],
+
+			// 17 - Thưởng lên cấp - Lấy từ các trang cấu hình theo cấp - sao - chức danh
+			'bonus_up_rank_source' => $market_vendor['bonus_up_rank_source'],
+
+			// 18 - Thưởng duy trì
+			'bonus_retention_by_month' => $market_vendor['bonus_retention_by_month'],
+			'bonus_retention_by_day' => $market_vendor['bonus_retention_by_day'],
+			'condition_bonus_retention' => $market_vendor['condition_bonus_retention'],
+			'goal_bonus_retention' => $market_vendor['goal_bonus_retention'],
+			'condition_bonus_retention_recruitment' => $market_vendor['condition_bonus_retention_recruitment'],
+			'goal_bonus_retention_recruitment_value' => $market_vendor['goal_bonus_retention_recruitment_value'],
+			'bonus_retention_source' => $market_vendor['bonus_retention_source'],
+			'bonus_retention_type' => $market_vendor['bonus_retention_type'],
+			'bonus_retention_type_value' => $market_vendor['bonus_retention_type_value'],
+
+			// 19 - Thưởng Doanh Thu Nhóm 
+			'condition_bonus_sales_team_type' => $market_vendor['condition_bonus_sales_team_type'],
+			'condition_bonus_sales_team_value' => $market_vendor['condition_bonus_sales_team_value'],
+			'condition_bonus_recruitment_team_type' => $market_vendor['condition_bonus_recruitment_team_type'],
+			'goal_recruitment_team_number' => $market_vendor['goal_recruitment_team_number'],
+			'bonus_sales_goal_recruitment_team_rank' => $market_vendor['bonus_sales_goal_recruitment_team_rank'],	// điều kiện		
+			'bonus_sales_team_user_rank' => $market_vendor['bonus_sales_team_user_rank'],	// hưởng		
+			'bonus_sales_team_get_type' => $market_vendor['bonus_sales_team_get_type'],	// loại		
+			'bonus_sales_team_get_value' => $market_vendor['bonus_sales_team_get_value'],	// giá trị
+
+			// 20 - Thưởng Doanh Thu Hệ Thống
+			'condition_sales_all_system_type' => $market_vendor['condition_sales_all_system_type'],
+			'condition_sales_all_system_type_value' => $market_vendor['condition_sales_all_system_type_value'],
+			'condition_recuitment_all_system_type' => $market_vendor['condition_recuitment_all_system_type'],
+			'recuitment_all_system_goal_number' => $market_vendor['recuitment_all_system_goal_number'],
+			'bonus_sales_goal_recruitment_system_rank' => $market_vendor['bonus_sales_goal_recruitment_system_rank'],	// điều kiện		
+			'bonus_sales_system_user_rank' => $market_vendor['bonus_sales_system_user_rank'],	// hưởng		
+			'recuitment_all_system_sales_bonus_type' => $market_vendor['recuitment_all_system_sales_bonus_type'],	// loại		
+			'recuitment_all_system_consum_bonus_value' => $market_vendor['recuitment_all_system_consum_bonus_value'],	// giá trị
+
+			// 21 - Chính sách đồng chia
+			'bonus_shared_source' => $market_vendor['bonus_shared_source'],	// nguồn
+			'bonus_shared_benefit_user' => $market_vendor['bonus_shared_benefit_user'],	// người hưởng
+			'bonus_shared_benefit_user_rank' => $market_vendor['bonus_shared_benefit_user_rank'],	// cấp hưởng
+			'condition_get_bonus_shared' => $market_vendor['condition_get_bonus_shared'],	// điều kiện
+			'goal_get_bonus_shared_value' => $market_vendor['goal_get_bonus_shared_value'],	// giá trị
+			'condition_recuitment_get_bonus_shared' => $market_vendor['condition_recuitment_get_bonus_shared'],	// giá trị
+			'goal_recruitment_get_bonus_shared_type' => $market_vendor['goal_recruitment_get_bonus_shared_type'],	// giá trị
+
+
+		);
+	}
+
+	// 1 - * Tính thưởng doanh thu cá nhân 
+	private function calculate_personal_sales_commission($user_id, $settings) {
+
+		// Lấy doanh thu cá nhân của user_id từ bảng user_revenue
+		$this->db->select('order_id, revenue');
+		$this->db->from('user_revenue');
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get();
+		$revenues = $query->result();
+
+		// Loại thưởng và lượng thưởng từ cài đặt
+		$bonus_type = $settings['bonus_from_sales_personal_type'];
+		$bonus_value = $settings['bonus_from_sales_personal_value'];
+
+		// Với mỗi doanh thu tính thưởng riêng
+		foreach ($revenues as $revenue) {
+
+			// Tính thưởng cho mỗi mục doanh thu
+			$commission = $this->calculate_commission($revenue->revenue, $bonus_type, $bonus_value);
+
+			// Cập nhật bảng thưởng user_commission
+			$this->update_commission($user_id, $revenue->order_id, $commission, 'personal_sales', $bonus_type);
+		}
+	}
+
+	// 2 - Tính thưởng doanh thu trực tiếp
+	private function calculate_direct_sales_commission($user_id, $settings) {
+		// Logic tính toán doanh thu trực tiếp và cập nhật thưởng tương ứng
+		$direct_users = $this->user->get_direct_users($user_id);
+		$total_direct_sales = 0;
+
+		// Loại thưởng và lượng thưởng từ cài đặt
+		$bonus_type = $settings['bonus_from_sales_direct_members_type'];
+		$bonus_value = $settings['bonus_from_sales_direct_members_value'];
+
+		foreach ($direct_users as $direct_user_id) {
+			$this->db->select_sum('revenue');
+			$this->db->select('GROUP_CONCAT(order_id) as order_ids');
+			$this->db->where('user_id', $direct_user_id);
+			$result = $this->db->get('user_revenue')->row();
+
+			// Tổng doanh thu của người dùng trực tiếp
+			$direct_sales = $result->revenue;
+			$total_direct_sales += $direct_sales;
+
+			// Danh sách order_id của người dùng trực tiếp
+			$order_ids = explode(',', $result->order_ids);
+
+			foreach ($order_ids as $order_id) {
+				$commission = $this->calculate_commission($direct_sales, $bonus_type, $bonus_value);
+				$this->update_commission($user_id, $order_id, $commission, 'direct_sales', $bonus_type);
+			}
+		}
+	}
+
+	// 3 - Tính thưởng doanh thu gián tiếp
+	private function calculate_indirect_sales_commission($user_id, $settings) {
+		// Lấy danh sách người dùng gián tiếp
+		$indirect_users = $this->user->get_indirect_users($user_id);
+		$total_indirect_sales = 0;
+
+		// Loại thưởng và lượng thưởng từ cài đặt
+		$bonus_type = $settings['bonus_from_sales_indirect_members_type'];
+		$bonus_value = $settings['bonus_from_sales_indirect_members_value'];
+
+		foreach ($indirect_users as $indirect_user_id) {
+			$this->db->select_sum('revenue');
+			$this->db->select('GROUP_CONCAT(order_id) as order_ids');
+			$this->db->where('user_id', $indirect_user_id);
+			$result = $this->db->get('user_revenue')->row();
+
+			// Tổng doanh thu của người dùng gián tiếp
+			$indirect_sales = $result->revenue;
+			$total_indirect_sales += $indirect_sales;
+
+			// Danh sách order_id của người dùng gián tiếp
+			$order_ids = explode(',', $result->order_ids);
+
+			foreach ($order_ids as $order_id) {
+				$commission = $this->calculate_commission($indirect_sales, $bonus_type, $bonus_value);
+				$this->update_commission($user_id, $order_id, $commission, 'indirect_sales', $bonus_type);
+			}
+		}
+	}
+
+	// 4 - Tính thưởng doanh thu tuyến dưới
+	private function calculate_downline_sales_commission($user_id, $settings) {
+		// Lấy danh sách người dùng tuyến dưới
+		$downline_users = $this->user->get_downline_users($user_id);
+		$total_downline_sales = 0;
+
+		// Loại thưởng và lượng thưởng từ cài đặt
+		$bonus_type = $settings['bonus_from_sales_members_type'];
+		$bonus_value = $settings['bonus_from_sales_members_value'];
+
+		foreach ($downline_users as $downline_user_id) {
+			$this->db->select_sum('revenue');
+			$this->db->select('GROUP_CONCAT(order_id) as order_ids');
+			$this->db->where('user_id', $downline_user_id);
+			$result = $this->db->get('user_revenue')->row();
+
+			// Tổng doanh thu của người dùng tuyến dưới
+			$downline_sales = $result->revenue;
+			$total_downline_sales += $downline_sales;
+
+			// Danh sách order_id của người dùng tuyến dưới
+			$order_ids = explode(',', $result->order_ids);
+
+			foreach ($order_ids as $order_id) {
+				$commission = $this->calculate_commission($downline_sales, $bonus_type, $bonus_value);
+				$this->update_commission($user_id, $order_id, $commission, 'downline_sales', $bonus_type);
+			}
+		}
+	}
+
+	// 5 - Tính thưởng doanh thu đội nhóm
+	private function calculate_team_sales_commission($user_id, $settings) {
+		// Lấy danh sách người dùng đội nhóm
+		$team_users = $this->user->get_team_users($user_id);
+		$total_team_sales = 0;
+
+
+		// Loại thưởng và lượng thưởng từ cài đặt
+		$bonus_type = $settings['bonus_from_sales_team_type'];
+		$bonus_value = $settings['bonus_from_sales_team_value'];
+
+		foreach ($team_users as $team_user_id) {
+			$this->db->select_sum('revenue');
+			$this->db->select('GROUP_CONCAT(order_id) as order_ids');
+			$this->db->where('user_id', $team_user_id);
+			$result = $this->db->get('user_revenue')->row();
+
+			// Tổng doanh thu của người dùng đội nhóm
+			$team_sales = $result->revenue;
+			$total_team_sales += $team_sales;
+
+			// Danh sách order_id của người dùng đội nhóm
+			$order_ids = explode(',', $result->order_ids);
+
+			foreach ($order_ids as $order_id) {
+				$commission = $this->calculate_commission($team_sales, $bonus_type, $bonus_value);
+				$this->update_commission($user_id, $order_id, $commission, 'team_sales', $bonus_type);
+			}
+		}
+	}
+
+	// 6 - Tính thưởng doanh thu nhánh => incomplete
+	private function calculate_branch_sales_commission($user_id, $settings) {
+		// Logic tính toán doanh thu nhánh và cập nhật thưởng tương ứng
+		$indirect_users = $this->user->get_branch_users($user_id);
+		$total_indirect_sales = 0;
+		$order_id = 0;
+
+		foreach ($indirect_users as $indirect_user_id) {
+			$this->db->select_sum('revenue');
+			$this->db->where('user_id', $indirect_user_id);
+			$indirect_sales = $this->db->get('user_revenue')->row()->revenue;
+			$total_indirect_sales += $indirect_sales;
+		}
+
+		$commission = $this->calculate_commission($total_indirect_sales, $settings['bonus_from_sales_branch_members_type'], $settings['bonus_from_sales_branch_members_value']);
+		$this->update_commission($user_id, $order_id, $commission, 'branch_sales', $settings['bonus_from_sales_branch_members_type']);
+	}
+
+	// 7 - Tính thưởng doanh thu shop => incomplete
+	private function calculate_shop_sales_commission($user_id, $settings) {
+		// Logic tính toán doanh thu cửa hàng và cập nhật thưởng tương ứng
+		$indirect_users = $this->user->get_shop_users($user_id);
+		$total_indirect_sales = 0;
+		$order_id = 0;
+
+		foreach ($indirect_users as $indirect_user_id) {
+			$this->db->select_sum('revenue');
+			$this->db->where('user_id', $indirect_user_id);
+			$indirect_sales = $this->db->get('user_revenue')->row()->revenue;
+			$total_indirect_sales += $indirect_sales;
+		}
+
+		$commission = $this->calculate_commission($total_indirect_sales, $settings['bonus_from_sales_shop_type'], $settings['bonus_from_sales_shop_value']);
+		$this->update_commission($user_id, $order_id, $commission, 'shop_sales', $settings['bonus_from_sales_shop_type']);
+	}
+
+	// 8 - * Tính thưởng tiêu dùng cá nhân
+	private function calculate_personal_consum_commission($user_id, $settings) {
+		// Lấy thông tin tiêu dùng cá nhân từ bảng user_consum
+		$this->db->select('consum, order_id');
+		$this->db->where('user_id', $user_id);
+		$consum_data = $this->db->get('user_consum')->result();
+
+
+		// Loại thưởng và lượng thưởng từ cài đặt
+		$bonus_type = $settings['bonus_from_consum_personal_type'];
+		$bonus_value = $settings['bonus_from_consum_personal_value'];
+
+		foreach ($consum_data as $data) {
+			$consum = $data->consum;
+			$order_id = $data->order_id;
+
+			$commission = $this->calculate_commission($consum, $bonus_type, $bonus_value);
+			$this->update_commission($user_id, $order_id, $commission, 'personal_consum', $bonus_type);
+		}
+	}
+
+	// 9 - Tính thưởng tiêu dùng trực tiếp
+	private function calculate_direct_consum_commission($user_id, $settings) {
+		// Lấy danh sách người dùng trực tiếp
+		$direct_users = $this->user->get_direct_users($user_id);
+
+		// Loại thưởng và lượng thưởng từ cài đặt
+		$bonus_type = $settings['bonus_from_consum_direct_members_type'];
+		$bonus_value = $settings['bonus_from_consum_direct_members_value'];
+
+		$order_ids = []; // Mảng để lưu các order_id để sử dụng khi cập nhật
+
+		foreach ($direct_users as $direct_user_id) {
+			// Lấy tổng tiêu dùng trực tiếp từ bảng user_consum
+			$this->db->select('SUM(consum) as total_consum, order_id');
+			$this->db->where('user_id', $direct_user_id);
+			$this->db->group_by('order_id');
+			$direct_consum_data = $this->db->get('user_consum')->result();
+
+			foreach ($direct_consum_data as $data) {
+				$total_direct_consum += $data->total_consum;
+				$order_id = $data->order_id;
+
+				// Tính toán hoa hồng cho từng mục tiêu dùng trực tiếp
+				$commission = $this->calculate_commission($data->total_consum, $bonus_type, $bonus_value);
+
+				// Cập nhật thông tin hoa hồng vào bảng user_commission
+				$this->update_commission($user_id, $order_id, $commission, 'direct_consum', $bonus_type);
+
+				// Đưa order_id vào mảng để sau này cập nhật đồng loạt
+				$order_ids[] = $order_id;
+			}
+		}
+
+		// Cập nhật tổng hoa hồng cho các order_id đã tính toán
+		foreach (array_unique($order_ids) as $order_id) {
+			// Lấy tổng hoa hồng cho order_id
+			$this->db->select_sum('commission');
+			$this->db->where('user_id', $user_id);
+			$this->db->where('order_id', $order_id);
+			$total_commission = $this->db->get('user_commission')->row()->commission;
+
+			// Cập nhật vào bảng order_commission
+			$this->update_order_commission($order_id, $total_commission);
+		}
+	}
+
+	// 10 - Tính thưởng tiêu dùng gián tiếp
+	private function calculate_indirect_consum_commission($user_id, $settings) {
+		// Lấy danh sách người dùng gián tiếp
+		$indirect_users = $this->user->get_indirect_users($user_id);
+		$total_indirect_consum = 0;
+
+		// Loại thưởng và lượng thưởng từ cài đặt
+		$bonus_type = $settings['bonus_from_consum_indirect_members_type'];
+		$bonus_value = $settings['bonus_from_consum_indirect_members_value'];
+
+		foreach ($indirect_users as $indirect_user_id) {
+			// Lấy tổng tiêu dùng gián tiếp từ bảng user_consum
+			$this->db->select('SUM(consum) as total_consum, order_id');
+			$this->db->where('user_id', $indirect_user_id);
+			$this->db->group_by('order_id');
+			$indirect_consum_data = $this->db->get('user_consum')->result();
+
+			foreach ($indirect_consum_data as $data) {
+				$total_indirect_consum += $data->total_consum;
+				$order_id = $data->order_id;
+
+				// Tính toán hoa hồng cho từng mục tiêu dùng gián tiếp
+				$commission = $this->calculate_commission($data->total_consum, $bonus_type, $bonus_value);
+
+				// Cập nhật thông tin hoa hồng vào bảng user_commission
+				$this->update_commission($user_id, $order_id, $commission, 'indirect_consum', $bonus_type);
+			}
+		}
+	}
+
+	// 11 - Tính thưởng tiêu dùng tuyến dưới
+	private function calculate_downline_consum_commission($user_id, $settings) {
+		// Lấy danh sách người dùng tuyến dưới
+		$downline_users = $this->user->get_downline_users($user_id);
+
+		// Loại thưởng và lượng thưởng từ cài đặt
+		$bonus_type = $settings['bonus_from_consum_members_type'];
+		$bonus_value = $settings['bonus_from_consum_members_value'];
+
+		$order_ids = []; // Mảng để lưu các order_id để sử dụng khi cập nhật
+
+		foreach ($downline_users as $downline_user_id) {
+			// Lấy tổng tiêu dùng tuyến dưới từ bảng user_consum
+			$this->db->select('SUM(consum) as total_consum, order_id');
+			$this->db->where('user_id', $downline_user_id);
+			$this->db->group_by('order_id');
+			$downline_consum_data = $this->db->get('user_consum')->result();
+
+			foreach ($downline_consum_data as $data) {
+				$total_downline_consum += $data->total_consum;
+				$order_id = $data->order_id;
+
+				// Tính toán hoa hồng cho từng mục tiêu dùng tuyến dưới
+				$commission = $this->calculate_commission($data->total_consum, $bonus_type, $bonus_value);
+
+				// Cập nhật thông tin hoa hồng vào bảng user_commission
+				$this->update_commission($user_id, $order_id, $commission, 'downline_consum', $bonus_type);
+
+				// Đưa order_id vào mảng để sau này cập nhật đồng loạt
+				$order_ids[] = $order_id;
+			}
+		}
+
+		// Cập nhật tổng hoa hồng cho các order_id đã tính toán
+		foreach (array_unique($order_ids) as $order_id) {
+			// Lấy tổng hoa hồng cho order_id
+			$this->db->select_sum('commission');
+			$this->db->where('user_id', $user_id);
+			$this->db->where('order_id', $order_id);
+			$total_commission = $this->db->get('user_commission')->row()->commission;
+
+			// Cập nhật vào bảng order_commission
+			$this->update_order_commission($order_id, $total_commission);
+		}
+	}
+
+
+	// 12 - Tính thưởng tiêu dùng đội nhóm
+	private function calculate_team_consum_commission($user_id, $settings) {
+		// Lấy danh sách người dùng đội nhóm
+		$team_users = $this->user->get_team_users($user_id);
+
+		// Loại thưởng và lượng thưởng từ cài đặt
+		$bonus_type = $settings['bonus_from_consum_team_type'];
+		$bonus_value = $settings['bonus_from_consum_team_value'];
+
+		$order_ids = []; // Mảng để lưu các order_id để sử dụng khi cập nhật
+
+		foreach ($team_users as $team_user_id) {
+			// Lấy tổng tiêu dùng đội nhóm từ bảng user_consum
+			$this->db->select('SUM(consum) as total_consum, order_id');
+			$this->db->where('user_id', $team_user_id);
+			$this->db->group_by('order_id');
+			$team_consum_data = $this->db->get('user_consum')->result();
+
+			foreach ($team_consum_data as $data) {
+				$total_team_consum += $data->total_consum;
+				$order_id = $data->order_id;
+
+				// Tính toán hoa hồng cho từng mục tiêu dùng đội nhóm
+				$commission = $this->calculate_commission($data->total_consum, $bonus_type, $bonus_value);
+
+				// Cập nhật thông tin hoa hồng vào bảng user_commission
+				$this->update_commission($user_id, $order_id, $commission, 'team_consum', $bonus_type);
+
+				// Đưa order_id vào mảng để sau này cập nhật đồng loạt
+				$order_ids[] = $order_id;
+			}
+		}
+
+		// Cập nhật tổng hoa hồng cho các order_id đã tính toán
+		foreach (array_unique($order_ids) as $order_id) {
+			// Lấy tổng hoa hồng cho order_id
+			$this->db->select_sum('commission');
+			$this->db->where('user_id', $user_id);
+			$this->db->where('order_id', $order_id);
+			$total_commission = $this->db->get('user_commission')->row()->commission;
+
+			// Cập nhật vào bảng order_commission
+			$this->update_order_commission($order_id, $total_commission);
+		}
+	}
+
+
+	// 13 - Tính thưởng tiêu dùng nhánh - incomplete
+	private function calculate_branch_consum_commission($user_id, $settings) {
+		// Logic tính toán tiêu dùng gián tiếp và cập nhật thưởng tương ứng
+		$indirect_users = $this->user->get_branch_users($user_id);
+		$total_indirect_consum = 0;
+		$order_id = 0;
+
+		foreach ($indirect_users as $indirect_user_id) {
+			$this->db->select_sum('consum');
+			$this->db->where('user_id', $indirect_user_id);
+			$indirect_consum = $this->db->get('user_consum')->row()->consum;
+			$total_indirect_consum += $indirect_consum;
+		}
+
+		$commission = $this->calculate_commission($total_indirect_consum, $settings['bonus_from_consum_branch_members_type'], $settings['bonus_from_consum_branch_members_value']);
+		$this->update_commission($user_id, $order_id, $commission, 'branch_consum', $settings['bonus_from_consum_branch_members_type']);
+	}
+
+	// 14 - Tính thưởng tuyển dụng trực tiếp
+	private function calculate_direct_recruitment_commission($user_id, $settings) {
+		// Lấy danh sách người dùng trực tiếp
+		$direct_users = $this->user->get_direct_users($user_id);
+
+		// Xác định số lượng người dùng trực tiếp
+		$direct_count = count($direct_users);
+
+		// Điều kiện thưởng số lượng tuyển dụng trực tiếp
+		if ($direct_count >= $settings['bonus_recruitment_direct_number'] || $settings['bonus_recruitment_direct_number'] == 0) {
+			// Tính toán hoa hồng dựa trên loại và giá trị thưởng
+			$bonus_type = $settings['bonus_recruitment_direct_type'];
+			$bonus_value = $settings['bonus_recruitment_direct_value'];
+
+			// Nếu thưởng từ nguồn, lấy giá trị từ nguồn thích hợp
+			if ($settings['bonus_recruitment_direct_source'] == 'fixed') {
+				$bonus_source = $bonus_value;
+			} else {
+				// Lấy giá trị từ nguồn tương ứng
+				switch ($settings['bonus_recruitment_direct_source']) {
+					case 'sales_personal':
+						// Logic lấy giá trị từ doanh thu cá nhân
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_direct':
+						// Logic lấy giá trị từ doanh thu trực tiếp
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_indirect':
+						// Logic lấy giá trị từ doanh thu gián tiếp
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_members':
+						// Logic lấy giá trị từ doanh thu tuyến dưới
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_shop':
+						// Logic lấy giá trị từ doanh thu shop
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_branch':
+						// Logic lấy giá trị từ doanh thu nhánh
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_team':
+						// Logic lấy giá trị từ doanh thu đội nhóm
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'consum_personal':
+						// Logic lấy giá trị từ tiêu dùng cá nhân
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_direct':
+						// Logic lấy giá trị từ tiêu dùng trực tiếp
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_indirect':
+						// Logic lấy giá trị từ tiêu dùng gián tiếp
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_members':
+						// Logic lấy giá trị từ tiêu dùng tuyến dưới
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_shop':
+						// Logic lấy giá trị từ tiêu dùng shop
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_branch':
+						// Logic lấy giá trị từ tiêu dùng nhánh
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_team':
+						// Logic lấy giá trị từ tiêu dùng đội nhóm
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					default:
+						$bonus_source = 0; // Nếu không xác định nguồn, mặc định là 0
+						break;
+				}
+			}
+
+			// Tính toán hoa hồng
+			$commission = $this->calculate_commission($bonus_source, $bonus_type, $bonus_value);
+
+			// Cập nhật thông tin hoa hồng vào bảng user_commission
+			$this->update_commission($user_id, $order_id, $commission, 'direct_recruitment', $bonus_type);
+		}
+	}
+
+	// 15 - Tính thưởng tuyển dụng gián tiếp
+	private function calculate_indirect_recruitment_commission($user_id, $settings) {
+		// Lấy danh sách người dùng gián tiếp
+		$indirect_users = $this->user->get_indirect_users($user_id);
+
+		// Xác định số lượng người dùng gián tiếp
+		$indirect_count = count($indirect_users);
+
+		// Điều kiện thưởng số lượng tuyển dụng gián tiếp
+		if ($indirect_count >= $settings['bonus_recruitment_indirect_number'] || $settings['bonus_recruitment_indirect_number'] == 0) {
+			// Tính toán hoa hồng dựa trên loại và giá trị thưởng
+			$bonus_type = $settings['bonus_recruitment_indirect_type'];
+			$bonus_value = $settings['bonus_recruitment_indirect_value'];
+
+			// Nếu thưởng từ nguồn, lấy giá trị từ nguồn thích hợp
+			if ($settings['bonus_recruitment_indirect_source'] == 'fixed') {
+				$bonus_source = $bonus_value;
+			} else {
+				// Lấy giá trị từ nguồn tương ứng
+				switch ($settings['bonus_recruitment_indirect_source']) {
+					case 'sales_personal':
+						// Logic lấy giá trị từ doanh thu cá nhân
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_direct':
+						// Logic lấy giá trị từ doanh thu trực tiếp
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_indirect':
+						// Logic lấy giá trị từ doanh thu gián tiếp
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_members':
+						// Logic lấy giá trị từ doanh thu tuyến dưới
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_shop':
+						// Logic lấy giá trị từ doanh thu shop
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_branch':
+						// Logic lấy giá trị từ doanh thu nhánh
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_team':
+						// Logic lấy giá trị từ doanh thu đội nhóm
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'consum_personal':
+						// Logic lấy giá trị từ tiêu dùng cá nhân
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_direct':
+						// Logic lấy giá trị từ tiêu dùng trực tiếp
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_indirect':
+						// Logic lấy giá trị từ tiêu dùng gián tiếp
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_members':
+						// Logic lấy giá trị từ tiêu dùng tuyến dưới
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_shop':
+						// Logic lấy giá trị từ tiêu dùng shop
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_branch':
+						// Logic lấy giá trị từ tiêu dùng nhánh
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_team':
+						// Logic lấy giá trị từ tiêu dùng đội nhóm
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					default:
+						$bonus_source = 0; // Nếu không xác định nguồn, mặc định là 0
+						break;
+				}
+			}
+
+			// Tính toán hoa hồng
+			$commission = $this->calculate_commission($bonus_source, $bonus_type, $bonus_value);
+
+			// Cập nhật thông tin hoa hồng vào bảng user_commission
+			$this->update_commission($user_id, $order_id, $commission, 'indirect_recruitment', $bonus_type);
+		}
+	}
+
+	// 16 - Tính thưởng tuyển dụng tuyến dưới (trực tiếp và gián tiếp)
+	private function calculate_downline_recruitment_commission($user_id, $settings) {
+		// Lấy danh sách người dùng tuyến dưới (trực tiếp và gián tiếp)
+		$downline_users = $this->user->get_downline_users($user_id);
+
+		// Xác định số lượng người dùng tuyến dưới
+		$downline_count = count($downline_users);
+
+		// Điều kiện thưởng số lượng tuyển dụng tuyến dưới
+		if ($downline_count >= $settings['bonus_recruitment_downline_number'] || $settings['bonus_recruitment_downline_number'] == 0) {
+			// Tính toán hoa hồng dựa trên loại và giá trị thưởng
+			$bonus_type = $settings['bonus_recruitment_downline_type'];
+			$bonus_value = $settings['bonus_recruitment_downline_value'];
+
+			// Nếu thưởng từ nguồn, lấy giá trị từ nguồn thích hợp
+			if ($settings['bonus_recruitment_downline_source'] == 'fixed') {
+				$bonus_source = $bonus_value;
+			} else {
+				// Lấy giá trị từ nguồn tương ứng
+				switch ($settings['bonus_recruitment_downline_source']) {
+					case 'sales_personal':
+						// Logic lấy giá trị từ doanh thu cá nhân
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_direct':
+						// Logic lấy giá trị từ doanh thu trực tiếp
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_indirect':
+						// Logic lấy giá trị từ doanh thu gián tiếp
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_members':
+						// Logic lấy giá trị từ doanh thu tuyến dưới
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_shop':
+						// Logic lấy giá trị từ doanh thu shop
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_branch':
+						// Logic lấy giá trị từ doanh thu nhánh
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'sales_team':
+						// Logic lấy giá trị từ doanh thu đội nhóm
+						$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+						break;
+					case 'consum_personal':
+						// Logic lấy giá trị từ tiêu dùng cá nhân
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_direct':
+						// Logic lấy giá trị từ tiêu dùng trực tiếp
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_indirect':
+						// Logic lấy giá trị từ tiêu dùng gián tiếp
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_members':
+						// Logic lấy giá trị từ tiêu dùng tuyến dưới
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_shop':
+						// Logic lấy giá trị từ tiêu dùng shop
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_branch':
+						// Logic lấy giá trị từ tiêu dùng nhánh
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					case 'consum_team':
+						// Logic lấy giá trị từ tiêu dùng đội nhóm
+						$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+						break;
+					default:
+						$bonus_source = 0; // Nếu không xác định nguồn, mặc định là 0
+						break;
+				}
+			}
+
+			// Tính toán hoa hồng
+			$commission = $this->calculate_commission($bonus_source, $bonus_type, $bonus_value);
+
+			// Cập nhật thông tin hoa hồng vào bảng user_commission
+			$this->update_commission($user_id, 0, $commission, 'downline_recruitment', $bonus_type); // Để order_id = 0
+
+		}
+	}
+
+
+	// 17 - Tính thưởng tăng cấp
+	private function calculate_rank_up_commission($user_id, $settings) {
+		// Lấy thông tin cấp bậc hiện tại của user
+		$current_rank_id = $this->user->get_user_current_rank($user_id);
+
+		// Lấy thông tin về các cấp bậc từ bảng award_level
+		$award_levels = $this->user->get_award_levels();
+
+		// Lặp qua từng cấp bậc để xác định xem user có đủ điều kiện để tăng cấp hay không
+		foreach ($award_levels as $award_level) {
+			// Điều kiện để tăng cấp: cấp bậc tiếp theo phải có level_number lớn hơn cấp bậc hiện tại
+			if ($award_level->level_number > $current_rank_id) {
+				// Kiểm tra các điều kiện để xét thưởng tăng cấp
+				$conditions_met = true;
+				if ($award_level->con_revenue_team > 0) {
+					// Logic kiểm tra điều kiện doanh thu đội nhóm của user_id đạt
+					$conditions_met = $this->check_revenue_condition($user_id, $award_level->con_revenue_team, 'team');
+				}
+				if ($conditions_met && $award_level->con_revenue_personal > 0) {
+					// Logic kiểm tra điều kiện doanh thu cá nhân của user_id đạt
+					$conditions_met = $this->check_revenue_condition($user_id, $award_level->con_revenue_personal, 'personal');
+				}
+				if ($conditions_met && $award_level->con_revenue_direct_members > 0) {
+					// Logic kiểm tra điều kiện doanh thu trực tiếp của user_id đạt
+					$conditions_met = $this->check_revenue_condition($user_id, $award_level->con_revenue_direct_members, 'direct');
+				}
+				if ($conditions_met && $award_level->con_revenue_indirect_members > 0) {
+					// Logic kiểm tra điều kiện doanh thu gián tiếp của user_id đạt
+					$conditions_met = $this->check_revenue_condition($user_id, $award_level->con_revenue_indirect_members, 'indirect');
+				}
+				if ($conditions_met && $award_level->con_revenue_members > 0) {
+					// Logic kiểm tra điều kiện doanh thu tuyến dưới của user_id đạt
+					$conditions_met = $this->check_revenue_condition($user_id, $award_level->con_revenue_members, 'downline');
+				}
+				if ($conditions_met && $award_level->con_revenue_total > 0) {
+					// Logic kiểm tra điều kiện doanh thu cá nhân toàn bộ tổng từ đầu
+					$conditions_met = $this->check_total_revenue_condition($user_id, $award_level->con_revenue_total);
+				}
+				if ($conditions_met && $award_level->con_consum_personal > 0) {
+					// Logic kiểm tra điều kiện tiêu dùng cá nhân của user_id đạt
+					$conditions_met = $this->check_consum_condition($user_id, $award_level->con_consum_personal, 'personal');
+				}
+				if ($conditions_met && $award_level->con_consum_total > 0) {
+					// Logic kiểm tra điều kiện tiêu dùng cá nhân tổng từ đầu
+					$conditions_met = $this->check_total_consum_condition($user_id, $award_level->con_consum_total);
+				}
+				if ($conditions_met && $award_level->con_consum_team > 0) {
+					// Logic kiểm tra điều kiện tiêu dùng đội nhóm của user_id đạt
+					$conditions_met = $this->check_consum_condition($user_id, $award_level->con_consum_team, 'team');
+				}
+				if ($conditions_met && $award_level->con_consum_direct_members > 0) {
+					// Logic kiểm tra điều kiện tiêu dùng trực tiếp của user_id đạt
+					$conditions_met = $this->check_consum_condition($user_id, $award_level->con_consum_direct_members, 'direct');
+				}
+				if ($conditions_met && $award_level->con_consum_indirect_members > 0) {
+					// Logic kiểm tra điều kiện tiêu dùng gián tiếp của user_id đạt
+					$conditions_met = $this->check_consum_condition($user_id, $award_level->con_consum_indirect_members, 'indirect');
+				}
+				if ($conditions_met && $award_level->con_consum_members > 0) {
+					// Logic kiểm tra điều kiện tiêu dùng tuyến dưới của user_id đạt
+					$conditions_met = $this->check_consum_condition($user_id, $award_level->con_consum_members, 'downline');
+				}
+				if ($conditions_met && $award_level->con_refer_number > 0) {
+					// Logic kiểm tra số lượng tuyển dụng gián tiếp đạt
+					$conditions_met = $this->check_refer_number_condition($user_id, $award_level->con_refer_number);
+				}
+				if ($conditions_met && $award_level->con_refer_direct_number > 0) {
+					// Logic kiểm tra số lượng tuyển dụng trực tiếp đạt
+					$conditions_met = $this->check_refer_number_condition($user_id, $award_level->con_refer_direct_number);
+				}
+				if ($conditions_met && $award_level->con_refer_reward_id > 0) {
+					// Logic kiểm tra điều kiện tuyển dụng xem xét yêu cầu từ bảng reward
+					$conditions_met = $this->check_refer_reward_condition($user_id, $award_level->con_refer_reward_id);
+				}
+
+				// Nếu đủ điều kiện, tính toán hoa hồng
+				if ($conditions_met) {
+					$bonus_type = $award_level->sale_comission_rate > 0 ? 'percentage' : 'fixed';
+					$bonus_value = $award_level->sale_comission_rate > 0 ? $award_level->sale_comission_rate : $award_level->bonus;
+
+					// Lấy nguồn thưởng tùy thuộc vào cấu hình
+					switch ($settings['bonus_up_rank_source']) {
+						case 'sales_personal':
+							// Logic lấy giá trị từ doanh thu cá nhân
+							$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+							break;
+						case 'sales_direct':
+							// Logic lấy giá trị từ doanh thu trực tiếp
+							$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+							break;
+						case 'sales_indirect':
+							// Logic lấy giá trị từ doanh thu gián tiếp
+							$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+							break;
+						case 'sales_members':
+							// Logic lấy giá trị từ doanh thu tuyến dưới
+							$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+							break;
+						case 'sales_shop':
+							// Logic lấy giá trị từ doanh thu shop
+							$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+							break;
+						case 'sales_branch':
+							// Logic lấy giá trị từ doanh thu nhánh
+							$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+							break;
+						case 'sales_team':
+							// Logic lấy giá trị từ doanh thu đội nhóm
+							$bonus_source = $this->get_revenue_sum($user_id, 'user_revenue', 'revenue');
+							break;
+						case 'consum_personal':
+							// Logic lấy giá trị từ tiêu dùng cá nhân
+							$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+							break;
+						case 'consum_direct':
+							// Logic lấy giá trị từ tiêu dùng trực tiếp
+							$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+							break;
+						case 'consum_indirect':
+							// Logic lấy giá trị từ tiêu dùng gián tiếp
+							$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+							break;
+						case 'consum_members':
+							// Logic lấy giá trị từ tiêu dùng tuyến dưới
+							$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+							break;
+						case 'consum_shop':
+							// Logic lấy giá trị từ tiêu dùng shop
+							$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+							break;
+						case 'consum_branch':
+							// Logic lấy giá trị từ tiêu dùng nhánh
+							$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+							break;
+						case 'consum_team':
+							// Logic lấy giá trị từ tiêu dùng đội nhóm
+							$bonus_source = $this->get_consum_sum($user_id, 'user_consum', 'consum');
+							break;
+						default:
+							$bonus_source = 0; // Nếu không xác định nguồn, mặc định là 0
+							break;
+					}
+
+					// Tính toán hoa hồng
+					$commission = $this->calculate_commission($bonus_source, $bonus_type, $bonus_value);
+
+					// Cập nhật thông tin hoa hồng vào bảng user_commission
+					$this->update_commission($user_id, 0, $commission, 'rank_up', $bonus_type); // Để order_id = 0
+
+					// Sau khi tính hoa hồng và cập nhật thành công, thoát khỏi vòng lặp vì chỉ cần thưởng cho cấp bậc cao nhất thỏa mãn điều kiện
+					break;
+				}
+			}
+		}
+	}
+
+	// Hàm kiểm tra điều kiện doanh thu
+	private function check_revenue_condition($user_id, $amount, $type) {
+		switch ($type) {
+			case 'team':
+				// Thực hiện logic kiểm tra doanh thu đội nhóm của user_id đạt $amount
+				return $this->user->get_team_revenue($user_id) >= $amount;
+			case 'personal':
+				// Thực hiện logic kiểm tra doanh thu cá nhân của user_id đạt $amount
+				return $this->user->get_personal_revenue($user_id) >= $amount;
+			case 'direct':
+				// Thực hiện logic kiểm tra doanh thu trực tiếp của user_id đạt $amount
+				return $this->user->get_direct_revenue($user_id) >= $amount;
+			case 'indirect':
+				// Thực hiện logic kiểm tra doanh thu gián tiếp của user_id đạt $amount
+				return $this->user->get_indirect_revenue($user_id) >= $amount;
+			case 'downline':
+				// Thực hiện logic kiểm tra doanh thu tuyến dưới của user_id đạt $amount
+				return $this->user->get_downline_revenue($user_id) >= $amount;
+			default:
+				return false;
+		}
+	}
+
+	// Hàm kiểm tra điều kiện doanh thu tổng từ đầu
+	private function check_total_revenue_condition($user_id, $amount) {
+		// Thực hiện logic kiểm tra tổng doanh thu từ đầu của user_id đạt $amount
+		return $this->user->get_total_revenue($user_id) >= $amount;
+	}
+
+	// Hàm kiểm tra điều kiện tiêu dùng
+	private function check_consum_condition($user_id, $amount, $type) {
+		switch ($type) {
+			case 'personal':
+				// Thực hiện logic kiểm tra tiêu dùng cá nhân của user_id đạt $amount
+				return $this->user->get_personal_consum($user_id) >= $amount;
+			case 'direct':
+				// Thực hiện logic kiểm tra tiêu dùng trực tiếp của user_id đạt $amount
+				return $this->user->get_direct_consum($user_id) >= $amount;
+			case 'indirect':
+				// Thực hiện logic kiểm tra tiêu dùng gián tiếp của user_id đạt $amount
+				return $this->user->get_indirect_consum($user_id) >= $amount;
+			case 'downline':
+				// Thực hiện logic kiểm tra tiêu dùng tuyến dưới của user_id đạt $amount
+				return $this->user->get_downline_consum($user_id) >= $amount;
+			case 'team':
+				// Thực hiện logic kiểm tra tiêu dùng đội nhóm của user_id đạt $amount
+				return $this->user->get_team_consum($user_id) >= $amount;
+			default:
+				return false;
+		}
+	}
+
+	// Hàm kiểm tra điều kiện tiêu dùng tổng từ đầu
+	private function check_total_consum_condition($user_id, $amount) {
+		// Thực hiện logic kiểm tra tổng tiêu dùng từ đầu của user_id đạt $amount
+		return $this->user->get_total_consum($user_id) >= $amount;
+	}
+
+	// Hàm kiểm tra số lượng tuyển dụng gián tiếp hoặc trực tiếp
+	private function check_refer_number_condition($user_id, $number) {
+		// Thực hiện logic kiểm tra số lượng tuyển dụng gián tiếp hoặc trực tiếp của user_id đạt $number
+		return $this->user->get_refer_number($user_id) >= $number;
+	}
+
+	// Hàm kiểm tra điều kiện tuyển dụng xem xét yêu cầu từ bảng reward
+	private function check_refer_reward_condition($user_id, $reward_id) {
+		// Thực hiện logic kiểm tra điều kiện tuyển dụng xem xét yêu cầu từ bảng reward của user_id
+		return $this->user->get_refer_reward($user_id) == $reward_id; // Giả sử get_refer_reward là hàm lấy id của reward của user_id
+	}
+
+
+	// 18 - Tính thưởng duy trì liên tiếp
+	private function calculate_retention_commission($user_id, $settings) {
+		// Lấy các thông tin cấu hình từ $settings
+		$months_goal = $settings['bonus_retention_by_month'];
+		$days_goal = $settings['bonus_retention_by_day'];
+		$revenue_condition = $settings['condition_bonus_retention'];
+		$revenue_goal = $settings['goal_bonus_retention'];
+		$recruitment_condition = $settings['condition_bonus_retention_recruitment'];
+		$recruitment_goal = $settings['goal_bonus_retention_recruitment_value'];
+		$bonus_source = $settings['bonus_retention_source'];
+		$bonus_type = $settings['bonus_retention_type'];
+		$bonus_value = $settings['bonus_retention_type_value'];
+
+		// Kiểm tra số tháng liên tiếp đạt mục tiêu
+		$months_achieved = $this->check_consecutive_months($user_id, $months_goal, $revenue_condition, $revenue_goal);
+
+		// Kiểm tra số ngày liên tiếp đạt mục tiêu
+		$days_achieved = $this->check_consecutive_days($user_id, $days_goal, $revenue_condition, $revenue_goal);
+
+		// Kiểm tra số lần tuyển dụng liên tiếp đạt mục tiêu
+		$recruitment_achieved = $this->check_consecutive_recruitment($user_id, $recruitment_condition, $recruitment_goal);
+
+		// Nếu đủ điều kiện, tính toán và cập nhật hoa hồng
+		if ($months_achieved && $days_achieved && $recruitment_achieved) {
+			// Tính toán hoa hồng dựa trên loại và giá trị thưởng
+			$commission = $this->calculate_commission($bonus_source, $bonus_type, $bonus_value);
+
+			// Cập nhật thông tin hoa hồng vào bảng user_commission
+			$this->update_commission($user_id, 0, $commission, 'retention', $bonus_type); // Để order_id = 0
+		}
+	}
+
+	private function check_consecutive_months($user_id, $months_goal, $revenue_condition, $revenue_goal) {
+		// Lấy danh sách các tháng và doanh thu từ bảng user_revenue
+		$revenues = $this->get_revenues_by_month($user_id);
+
+		// Sắp xếp mảng theo thời gian từ gần đến xa
+		usort($revenues, function ($a, $b) {
+			return strtotime($b->created_time) - strtotime($a->created_time);
+		});
+
+		// Đếm số tháng liên tiếp đạt mục tiêu
+		$consecutive_months = 0;
+		$current_month = null;
+
+		foreach ($revenues as $revenue) {
+			$month = date('Y-m', strtotime($revenue->created_time));
+
+			// Kiểm tra nếu không phải tháng hiện tại
+			if ($current_month !== null && $current_month !== $month) {
+				// Nếu số tháng liên tiếp đạt mục tiêu lớn hơn hoặc bằng mục tiêu
+				if ($consecutive_months >= $months_goal) {
+					return true;
+				} else {
+					$consecutive_months = 0; // Reset nếu không đạt mục tiêu liên tục
+				}
+			}
+
+			// Kiểm tra điều kiện doanh thu của tháng hiện tại
+			if ($this->check_revenue_condition_by_type($revenue, $revenue_condition, $revenue_goal)) {
+				$consecutive_months++;
+			} else {
+				$consecutive_months = 0; // Reset nếu không đạt mục tiêu trong tháng hiện tại
+			}
+
+			$current_month = $month;
+		}
+
+		// Kiểm tra lại sau khi kết thúc vòng lặp
+		return $consecutive_months >= $months_goal;
+	}
+
+	// Hàm kiểm tra điều kiện doanh thu theo loại
+	private function check_revenue_condition_by_type($revenue, $revenue_condition, $revenue_goal) {
+		switch ($revenue_condition) {
+			case 'sales_personal':
+				return $revenue->sales_personal >= $revenue_goal;
+			case 'sales_direct':
+				return $revenue->sales_direct >= $revenue_goal;
+			case 'sales_indirect':
+				return $revenue->sales_indirect >= $revenue_goal;
+			case 'sales_members':
+				return $revenue->sales_members >= $revenue_goal;
+			case 'sales_shop':
+				return $revenue->sales_shop >= $revenue_goal;
+			case 'sales_branch':
+				return $revenue->sales_branch >= $revenue_goal;
+			case 'sales_team':
+				return $revenue->sales_team >= $revenue_goal;
+			default:
+				return false;
+		}
+	}
+
+	// Hàm lấy danh sách doanh thu theo tháng từ bảng user_revenue
+	private function get_revenues_by_month($user_id) {
+		// Kết nối đến cơ sở dữ liệu
+		$db = $this->db;
+
+		// Truy vấn để lấy danh sách doanh thu theo tháng của user_id từ bảng user_revenue
+		$query = "
+			SELECT *
+			FROM user_revenue
+			WHERE user_id = ?
+			ORDER BY created_time DESC
+		";
+
+		// Thực hiện truy vấn
+		$revenues = $db->query($query, array($user_id))->result();
+
+		return $revenues;
+	}
+
+	// Kiểm tra ngày cho thưởng duy trì
+	private function check_consecutive_days($user_id, $days_goal, $revenue_condition, $revenue_goal) {
+		// Lấy danh sách doanh thu của user_id từ bảng user_revenue, sắp xếp theo thời gian giảm dần
+		$revenues = $this->get_revenues_by_day($user_id);
+
+		// Đếm số ngày liên tiếp đạt mục tiêu
+		$consecutive_days = 0;
+
+		foreach ($revenues as $revenue) {
+			// Kiểm tra điều kiện doanh thu của ngày hiện tại
+			if ($this->check_revenue_condition_by_type($revenue, $revenue_condition, $revenue_goal)) {
+				$consecutive_days++;
+			} else {
+				$consecutive_days = 0; // Reset nếu không đạt mục tiêu trong ngày hiện tại
+			}
+
+			// Nếu số ngày liên tiếp đạt mục tiêu lớn hơn hoặc bằng mục tiêu
+			if ($consecutive_days >= $days_goal) {
+				return true;
+			}
+		}
+
+		// Kiểm tra lại sau khi kết thúc vòng lặp
+		return false;
+	}
+
+	// Hàm lấy danh sách doanh thu theo ngày từ bảng user_revenue
+	private function get_revenues_by_day($user_id) {
+		// Kết nối đến cơ sở dữ liệu
+		$db = $this->db;
+
+		// Truy vấn để lấy danh sách doanh thu theo ngày của user_id từ bảng user_revenue
+		$query = "
+			SELECT *
+			FROM user_revenue
+			WHERE user_id = ?
+			ORDER BY created_time DESC
+		";
+
+		// Thực hiện truy vấn
+		$revenues = $db->query($query, array($user_id))->result();
+
+		return $revenues;
+	}
+
+
+	private function check_consecutive_recruitment($user_id, $recruitment_condition, $recruitment_goal) {
+		// Lấy danh sách các tuyển dụng từ bảng recruitment của user_id, sắp xếp theo thời gian giảm dần
+		$recruitments = $this->get_recruitments($user_id);
+
+		// Đếm số lần tuyển dụng liên tiếp đạt mục tiêu
+		$consecutive_recruitments = 0;
+
+		foreach ($recruitments as $recruitment) {
+			// Kiểm tra điều kiện tuyển dụng của lần hiện tại
+			if ($this->check_recruitment_condition_by_type($recruitment, $recruitment_condition, $recruitment_goal)) {
+				$consecutive_recruitments++;
+			} else {
+				$consecutive_recruitments = 0; // Reset nếu không đạt mục tiêu trong lần tuyển dụng hiện tại
+			}
+
+			// Nếu số lần tuyển dụng liên tiếp đạt mục tiêu lớn hơn hoặc bằng mục tiêu
+			if ($consecutive_recruitments >= $recruitment_goal) {
+				return true;
+			}
+		}
+
+		// Kiểm tra lại sau khi kết thúc vòng lặp
+		return false;
+	}
+
+	// Hàm lấy danh sách tuyển dụng từ bảng recruitment
+	private function get_recruitments($user_id) {
+		// Kết nối đến cơ sở dữ liệu
+		$db = $this->db;
+
+		// Truy vấn để lấy danh sách tuyển dụng của user_id từ bảng recruitment
+		$query = "
+			SELECT *
+			FROM user_recruitment
+			WHERE user_id = ?
+			ORDER BY created_time DESC
+		";
+
+		// Thực hiện truy vấn
+		$recruitments = $db->query($query, array($user_id))->result();
+
+		return $recruitments;
+	}
+
+	// Hàm kiểm tra điều kiện tuyển dụng theo loại
+	private function check_recruitment_condition_by_type($recruitment, $recruitment_condition, $recruitment_goal) {
+		switch ($recruitment_condition) {
+			case 'recruitment_personal':
+				return $recruitment->recruitment_personal >= $recruitment_goal;
+			case 'recruitment_direct':
+				return $recruitment->recruitment_direct >= $recruitment_goal;
+			case 'recruitment_indirect':
+				return $recruitment->recruitment_indirect >= $recruitment_goal;
+			case 'recruitment_members':
+				return $recruitment->recruitment_members >= $recruitment_goal;
+			case 'recruitment_shop':
+				return $recruitment->recruitment_shop >= $recruitment_goal;
+			case 'recruitment_branch':
+				return $recruitment->recruitment_branch >= $recruitment_goal;
+			case 'recruitment_team':
+				return $recruitment->recruitment_team >= $recruitment_goal;
+			default:
+				return false;
+		}
+	}
+
+
+
+	// 19 - * Tính thưởng điều kiện nhóm - peding
+	private function calculate_condition_commission($user_id, $settings) {
+		// Implement conditionl commission logic here
+	}
+
+	// 20 - * Tính thưởng đồng chia - peding
+	private function calculate_shared_goal_commission($user_id, $settings) {
+		// Implement shared goal commission logic here
+	}
+
+	// Tính thưởng theo loại
+	private function calculate_commission($source, $type, $value = 0) {
+		if ($type == 'percentage') {	// Tính theo phần trăm
+			return $value * ($source / 100);
+		} else { 						// Thưởng fixed
+			return $value;
+		}
+	}
+
+	// CẬP NHẬT VÀO BẢNG THƯỞNG
+	public function update_commission($user_id, $order_id = 0, $commission = 0, $method, $commission_type) {
+		$commission_data = [
+			'user_id' => $user_id,
+			'order_id' => $order_id, // xác định nguồn doanh thu - tiêu dùng
+			'commission' => $commission, // xác định giá trị thưởng
+			'commission_method' => $method, // xác định loại thưởng
+			'commission_type' => $commission_type, // xác định kiểu thưởng
+			'commission_date' => date('Y-m-d H:i:s') // xác định ngày thưởng 
+		];
+
+		$this->db->insert('user_commission', $commission_data);
+	}
+
+	// Hàm hỗ trợ lấy tổng doanh thu từ bảng user_revenue
+	private function get_revenue_sum($user_id, $table, $column) {
+		$this->db->select_sum($column);
+		$this->db->where('user_id', $user_id);
+		$result = $this->db->get($table)->row();
+		return $result ? $result->$column : 0;
+	}
+
+	// Hàm hỗ trợ lấy tổng tiêu dùng từ bảng user_consum
+	private function get_consum_sum($user_id, $table, $column) {
+		$this->db->select_sum($column);
+		$this->db->where('user_id', $user_id);
+		$result = $this->db->get($table)->row();
+		return $result ? $result->$column : 0;
+	}
+
+
+
 	// Danh sách User
 	public function userslist() {
 
@@ -8285,6 +10217,7 @@ class Admincontrol extends MY_Controller {
 		$register_form = $this->PagebuilderModel->getSettings('registration_builder');
 
 		$data['data'] = json_decode($register_form['registration_builder'], 1);
+
 
 		if ($this->input->post()) {
 
@@ -8597,6 +10530,23 @@ class Admincontrol extends MY_Controller {
 		$data['user_groups'] = $this->user->getgrouplist();
 		$data['approvals_count'] = $this->Product_model->getApprovalCounts();
 
+
+		// Update User Statistic			
+		$this->update_user_tree();
+		$this->update_user_recruitment();
+
+		$this->calculate_revenue();
+		$this->update_revenue();
+
+		$this->calculate_consum();
+		$this->update_consum();
+
+		$this->update_user_rank();
+
+		// Tính toán thưởng tất cả
+		// $this->calculate_and_update_commissions();
+
+
 		$this->view($data, 'users/index');
 	}
 
@@ -8802,6 +10752,49 @@ class Admincontrol extends MY_Controller {
 		$data['levels'] = $this->Product_model->getAll('award_level', false, 0, 'id desc');
 
 		$this->view($data, 'users/tree');
+	}
+
+	// Tạo cây mời
+	public function make_users_reftree() {
+		$this->load->model('Product_model');
+
+		$users = $this->Product_model->get_all_users();
+
+		foreach ($users as $user) {
+			$direct_referrals = $this->get_direct_referrals_recursive($user['id']);
+			$indirect_referrals = $this->get_indirect_referrals_recursive($user['id']);
+
+			$direct_data = array(
+				'user_id' => $user['id'],
+				'refids_direct' => empty($direct_referrals) ? null : implode(',', $direct_referrals),
+			);
+			$this->Product_model->insert_users_direct($direct_data);
+
+			$indirect_data = array(
+				'user_id' => $user['id'],
+				'refids_indirect' => empty($indirect_referrals) ? null : implode(',', $indirect_referrals),
+			);
+			$this->Product_model->insert_users_indirect($indirect_data);
+		}
+
+		echo "User tree populated successfully!";
+	}
+
+	private function get_direct_referrals_recursive($user_id) {
+		$direct_referrals = $this->Product_model->get_direct_referrals($user_id);
+		return $direct_referrals;
+	}
+
+	private function get_indirect_referrals_recursive($user_id) {
+		$direct_referrals = $this->Product_model->get_direct_referrals($user_id);
+		$all_indirect_referrals = [];
+
+		foreach ($direct_referrals as $direct_referral) {
+			$indirect_referrals = $this->get_indirect_referrals_recursive($direct_referral);
+			$all_indirect_referrals = array_merge($all_indirect_referrals, $indirect_referrals, [$direct_referral]);
+		}
+
+		return $all_indirect_referrals;
 	}
 
 	public function addons() {
@@ -10844,7 +12837,7 @@ class Admincontrol extends MY_Controller {
 
 		$this->view($data, 'setting/mlm_levels');
 	}
-	
+
 	//                custom
 	public function mlm_levels_hang_hoa() {
 

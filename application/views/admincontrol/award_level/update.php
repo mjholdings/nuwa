@@ -229,7 +229,24 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 mb-3">
+                                <?php
+                                // Truy vấn danh sách chức danh từ bảng reward
+                                $rewards = $this->Product_model->getAllReward();
+                                ?>
+
+                                <div class="col-md-4 mb-3"> <label class="form-label">
+                                        <?= __('Chọn Chức danh') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Bất kỳ chức danh') ?>"></span>
+                                    </label>
+                                    <select class="form-control" name="con_refer_reward_id">
+                                        <option value=""><?= __('Bất kỳ chức danh') ?></option>
+                                        <?php foreach ($rewards as $reward_item) : ?>
+                                            <option value="<?= $reward_item['id'] ?>" <?= $reward['con_refer_reward_id'] == $reward_item['id'] ? 'selected="selected"' : ''; ?>><?= $reward_item['name'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <p class="error-message"></p>
+                                </div>
+                                <div class="col-md-4 mb-3">
                                     <label class="form-label">
                                         <?= __('admin.sale_comission_rate') ?>
                                         <span class="field-description" data-bs-toggle="tooltip" title="<?= __('admin.award_level_sale_comission_rate_desc') ?>"></span>
@@ -240,7 +257,7 @@
                                     </div>
                                     <p class="error-message"></p>
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <label class="form-label">
                                         <?= __('admin.bonus') ?>
                                         <span class="field-description" data-bs-toggle="tooltip" title="<?= __('admin.award_level_bonus_desc') ?>"></span>

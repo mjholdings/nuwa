@@ -195,6 +195,41 @@ class User_model extends MY_Model {
 		return $data;
 	}
 
+	/*
+	* User
+	*/
+	// Lấy toàn bộ cây dưới dạng mảng
+	public function getTree() {
+		$query = $this->db->get('users');
+		return $query->result_array();
+	}
+
+	// Lấy thông tin của một node
+	public function getNode($id) {
+		$query = $this->db->get_where('users', array('id' => $id));
+		return $query->row_array();
+	}
+
+	// Lấy các con của một node
+	public function getChildren($id) {
+		$query = $this->db->get_where('users', array('refid' => $id));
+		return $query->result_array();
+	}
+
+	// Lấy toàn bộ phần con bằng cách đệ quy
+	public function getAllDescendants($id) {
+		$descendants = [];
+
+		$children = $this->getChildren($id);
+		foreach ($children as $child) {
+			$descendants[] = $child['id'];
+			$grandChildren = $this->getAllDescendants($child['id']);
+			$descendants = array_merge($descendants, $grandChildren);
+		}
+
+		return $descendants;
+	}
+
 
 	/*
 	* Branch 
@@ -227,10 +262,268 @@ class User_model extends MY_Model {
 		return $this->db->get_where('branch', ['id' => $id])->row();
 	}
 
+	/** For commission and Users */
+
+	// Lấy các người dùng gián tiếp của user
+	public function get_indirect_users($user_id) {
+		$this->db->select('ids_indirect');
+		$this->db->from('users_indirect');
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get();
+		$result = $query->row();
+
+		if ($result && $result->ids_indirect) {
+			return explode(',', $result->ids_indirect);
+		}
+		return [];
+	}
+
+	// Hàm lấy người dùng trực tiếp của user
+	public function get_direct_users($user_id) {
+		$this->db->select('ids_direct');
+		$this->db->from('users_direct');
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get();
+		$result = $query->row();
+
+		if ($result && $result->ids_direct) {
+			return explode(',', $result->ids_direct);
+		}
+		return [];
+	}
+
+	// Hàm lấy người dùng tuyến dưới của user
+	public function get_downline_users($user_id) {
+		$this->db->select('ids_direct');
+		$this->db->from('users_downline');
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get();
+		$result = $query->row();
+
+		if ($result && $result->ids_direct) {
+			return explode(',', $result->ids_direct);
+		}
+		return [];
+	}
+
+	// Hàm lấy người dùng đội nhóm của user
+	public function get_team_users($user_id) {
+		$this->db->select('ids_direct');
+		$this->db->from('users_team');
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get();
+		$result = $query->row();
+
+		if ($result && $result->ids_direct) {
+			return explode(',', $result->ids_direct);
+		}
+		return [];
+	}
+
+	// Hàm lấy người dùng nhánh user nằm trong
+	public function get_branch_users($user_id) {
+		$this->db->select('ids_direct');
+		$this->db->from('users_branch');
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get();
+		$result = $query->row();
+
+		if ($result && $result->ids_direct) {
+			return explode(',', $result->ids_direct);
+		}
+		return [];
+	}
+
+	// Hàm lấy người dùng shop người dùng hoạt động
+	public function get_shop_users($user_id) {
+		$this->db->select('ids_direct');
+		$this->db->from('users_shop');
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get();
+		$result = $query->row();
+
+		if ($result && $result->ids_direct) {
+			return explode(',', $result->ids_direct);
+		}
+		return [];
+	}
+
+	// Hàm lấy doanh thu cho một user cụ thể
+	public function get_revenues_by_user($user_id) {
+		$this->db->select_sum('revenue');
+		$this->db->where('user_id', $user_id);
+		$result = $this->db->get('user_revenue')->row();
+		return $result ? $result->revenue : 0;
+	}
+
+	// Hàm lấy chi tiêu cho một user cụ thể
+	public function get_consum_by_user($user_id) {
+		$this->db->select_sum('consum');
+		$this->db->where('user_id', $user_id);
+		$result = $this->db->get('user_consum')->row();
+		return $result ? $result->consum : 0;
+	}
+
+	// Hàm lấy cấp bậc của một user cụ thể
+	public function get_user_rank($user_id) {
+		// Lấy thông tin từ bảng user_rank
+		$this->db->select('award_id, reward_id, star_id');
+		$this->db->from('user_rank');
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get();
+		$rank_result = $query->row();
+
+		if (!$rank_result) {
+			return null;
+		}
+
+		// Lấy thông tin user_level từ bảng award_level
+		$this->db->select('level_number as user_level');
+		$this->db->from('award_level');
+		$this->db->where('id', $rank_result->award_id);
+		$query = $this->db->get();
+		$award_result = $query->row();
+
+		// Lấy thông tin user_reward từ bảng reward
+		$this->db->select('name as user_reward');
+		$this->db->from('reward');
+		$this->db->where('id', $rank_result->reward_id);
+		$query = $this->db->get();
+		$reward_result = $query->row();
+
+		// Lấy thông tin user_star từ bảng star_level
+		$this->db->select('star');
+		$this->db->from('star_level');
+		$this->db->where('id', $rank_result->star_id);
+		$query = $this->db->get();
+		$star_result = $query->row();
+
+		return [
+			'award_id' => $rank_result->award_id,
+			'reward_id' => $rank_result->reward_id,
+			'star_id' => $rank_result->star_id,
+			'user_level' => $award_result ? $award_result->user_level : null,
+			'user_reward' => $reward_result ? $reward_result->user_reward : null,
+			'user_star' => $star_result ? $star_result->star : null
+		];
+	}
+
+	// Hàm lấy thông tin cấp bậc hiện tại của user
+	private function get_user_current_rank($user_id) {
+		$query = "SELECT award_id FROM user_rank WHERE user_id = :user_id ORDER BY created_time DESC LIMIT 1";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		$stmt->execute();
+		$result = $stmt->fetch(PDO::FETCH_ASSOC);
+		return $result['award_id'] ?? 0;
+	}
+
+	// Hàm lấy thông tin về các cấp bậc từ bảng award_level
+	private function get_award_levels() {
+		$query = "SELECT * FROM award_level";
+		$stmt = $this->db->prepare($query);
+		$stmt->execute();
+		return $stmt->fetchAll(PDO::FETCH_OBJ);
+	}
+
+	// Hàm lấy tổng doanh thu từ bảng user_revenue
+	private function get_revenue_sum($user_id, $table, $field) {
+		$query = "SELECT SUM($field) AS total FROM $table WHERE user_id = :user_id";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		$stmt->execute();
+		$result = $stmt->fetch(PDO::FETCH_ASSOC);
+		return $result['total'] ?? 0;
+	}
+
+	// Hàm lấy tổng tiêu dùng từ bảng user_consum
+	private function get_consum_sum($user_id, $table, $field) {
+		$query = "SELECT SUM($field) AS total FROM $table WHERE user_id = :user_id";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		$stmt->execute();
+		$result = $stmt->fetch(PDO::FETCH_ASSOC);
+		return $result['total'] ?? 0;
+	}
+
+	// Hàm lấy tổng doanh thu đội nhóm từ bảng user_revenue
+	private function get_team_revenue($user_id) {
+		return $this->get_revenue_sum($user_id, 'user_revenue', 'revenue_team');
+	}
+
+	// Hàm lấy tổng doanh thu cá nhân từ bảng user_revenue
+	private function get_personal_revenue($user_id) {
+		return $this->get_revenue_sum($user_id, 'user_revenue', 'revenue_personal');
+	}
+
+	// Hàm lấy tổng doanh thu trực tiếp từ bảng user_revenue
+	private function get_direct_revenue($user_id) {
+		return $this->get_revenue_sum($user_id, 'user_revenue', 'revenue_direct_members');
+	}
+
+	// Hàm lấy tổng doanh thu gián tiếp từ bảng user_revenue
+	private function get_indirect_revenue($user_id) {
+		return $this->get_revenue_sum($user_id, 'user_revenue', 'revenue_indirect_members');
+	}
+
+	// Hàm lấy tổng doanh thu tuyến dưới từ bảng user_revenue
+	private function get_downline_revenue($user_id) {
+		return $this->get_revenue_sum($user_id, 'user_revenue', 'revenue_members');
+	}
+
+	// Hàm lấy tổng doanh thu toàn bộ từ bảng user_revenue
+	private function get_total_revenue($user_id) {
+		return $this->get_revenue_sum($user_id, 'user_revenue', 'total_revenue');
+	}
+
+	// Hàm lấy tổng tiêu dùng cá nhân từ bảng user_consum
+	private function get_personal_consum($user_id) {
+		return $this->get_consum_sum($user_id, 'user_consum', 'consum_personal');
+	}
+
+	// Hàm lấy tổng tiêu dùng gián tiếp từ bảng user_consum
+	private function get_indirect_consum($user_id) {
+		return $this->get_consum_sum($user_id, 'user_consum', 'consum_indirect_members');
+	}
+
+	// Hàm lấy tổng tiêu dùng tuyến dưới từ bảng user_consum
+	private function get_downline_consum($user_id) {
+		return $this->get_consum_sum($user_id, 'user_consum', 'consum_members');
+	}
+
+	// Hàm lấy tổng tiêu dùng đội nhóm từ bảng user_consum
+	private function get_team_consum($user_id) {
+		return $this->get_consum_sum($user_id, 'user_consum', 'consum_team');
+	}
+
+	// Hàm lấy tổng tiêu dùng toàn bộ từ bảng user_consum
+	private function get_total_consum($user_id) {
+		return $this->get_consum_sum($user_id, 'user_consum', 'total_consum');
+	}
+
+	// Hàm lấy số lượng tuyển dụng gián tiếp từ bảng user_recruitment
+	private function get_refer_number($user_id) {
+		$query = "SELECT COUNT(*) AS refer_number FROM user_recruitment WHERE user_id = :user_id";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		$stmt->execute();
+		$result = $stmt->fetch(PDO::FETCH_ASSOC);
+		return $result['refer_number'] ?? 0;
+	}
+
+	// Hàm lấy id của chức vụ tuyển dụng từ bảng reward
+	private function get_refer_reward($user_id) {
+		$query = "SELECT reward_id FROM reward WHERE user_id = :user_id";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		$stmt->execute();
+		$result = $stmt->fetch(PDO::FETCH_ASSOC);
+		return $result['reward_id'] ?? 0;
+	}
 
 
 	/*
-	* user group 
+	* User group 
 	*/
 	function checkgroup($group_name, $id) {
 		$where['group_name'] = $group_name;

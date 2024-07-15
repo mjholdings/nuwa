@@ -85,8 +85,12 @@ class Order_model extends MY_Model {
         if ($status == 1) {         // Nếu là trạng thái hoàn thành đơn hàng
             $this->User_model->setStarForUser();
 
+            // Cập nhật Order History
             $sql = "UPDATE `orders_history` SET `paypal_status` = 'Complete' WHERE `orders_history`.`order_id` = ? AND `orders_history`.`history_type` = 'payment'";
             $this->db->query($sql, (int) $order_id);
+
+            // MJ UPDATE DOANH THU - TIÊU DÙNG TỪ ĐƠN HÀNG
+
 
             // Chỉ cấp nhật nếu loại hoa hồng là sale, refer, vendor, admin_sale...
             // Cập nhật ví là Hoàn tiền nếu người dùng không phải Admin

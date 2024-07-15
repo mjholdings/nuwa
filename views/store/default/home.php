@@ -2,8 +2,6 @@
 
 </style>
 
-
-
 <!-- Banner  -->
 
 <section class="banner-slider">
@@ -237,7 +235,6 @@
 				<?php
 
 				}
-
 			} else {
 
 				?>
@@ -263,7 +260,7 @@
 		</div>
 
 	</div>Nuwa
-Nuwa
+	Nuwa
 </section>Nuwa
 
 <!-- home page product grid -->
@@ -511,7 +508,7 @@ $homepage_features = (isset($store_setting['homepage_features']) && !empty($stor
 		<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/images/site/'); ?><?= $settings['hbanimage']; ?>" class="img-fluid img-banner-ads" />
 
 	<?php } else { ?>
-Nuwa
+		Nuwa
 		<img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/ad-bg.jpg" class="img-fluid img-banner-ads" />
 
 	<?php } ?>
@@ -522,7 +519,7 @@ Nuwa
 
 	<?php $homepage_banner = (isset($store_setting['homepage_banner'])) ? json_decode($store_setting['homepage_banner']) : []; ?>
 
-Nuwa
+	Nuwa
 
 	<div class="ad-caption">
 
@@ -533,7 +530,7 @@ Nuwa
 		<a href="<?= (isset($homepage_banner->button_link) && !empty($homepage_banner->button_link)) ? $homepage_banner->button_link : '#'; ?>"><?= (isset($homepage_banner->button_text) && !empty($homepage_banner->button_text)) ? $homepage_banner->button_text : 'OvanGlobal'; ?></a>
 
 	</div>
-Nuwa
+	Nuwa
 </section>
 
 
@@ -575,7 +572,6 @@ Nuwa
 				<?php
 
 				}
-
 			} else {
 
 				?>
@@ -686,7 +682,7 @@ Nuwa
 
 						<p class="card-text">
 
-						OVANGLOBAL mang sắc đẹp đến với mọi người
+							OVANGLOBAL mang sắc đẹp đến với mọi người
 
 						</p>
 
@@ -765,7 +761,6 @@ Nuwa
 								<?php
 
 									$product['product_avg_rating']++;
-
 								}
 
 								?>
@@ -981,11 +976,9 @@ Nuwa
 					<a class="bs_button_link" href="<?php echo $bs_button_link; ?>" target="<?php if ($hf->link_target == "true") {
 
 																								echo '_blank';
-
 																							} else {
 
 																								echo '_self';
-
 																							} ?>">
 
 						<div class="blog-wrapper bg-main2" <?= (!empty($hf->bg_color)) ? 'style="background-color:' . $hf->bg_color . '"' : '' ?>>
@@ -1147,7 +1140,6 @@ Nuwa
 
 
 <script type="text/javascript">
-
 	$(document).on('click', '.blog-more', function() {
 
 		var el = $(".blog-para"),
@@ -1205,9 +1197,6 @@ Nuwa
 		});
 
 	});
-
-
-
 
 
 	$(document).on('click', '.see-more', function() {
@@ -1331,5 +1320,4 @@ Nuwa
 		});
 
 	}
-
 </script>

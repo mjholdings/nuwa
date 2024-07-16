@@ -2171,5 +2171,73 @@ class Order_model extends MY_Model {
         }
         return true;
     }
+
+    // Cập nhật toàn bộ
+    public function mj_updateAllCommWallet() {
+
+        // Lấy danh sách các bản ghi trong user_comission với 
+        $this->db->select('*');
+        $this->db->from('user_comission');
+        $commissions = $this->db->get()->result();
+
+        // Dọn dữ liệu cũ wallet
+        $this->db->where_in('type', array('sales_personal', 'sales_direct', 'sales_indirect'));
+        $this->db->delete('wallet');
+
+
+        // Với mỗi bản ghi thưởng bổ sung
+        foreach ($commissions as $commission) {
+            $user_id = $commission->user_id;
+            $order_id = $commission->order_id;
+
+            // Lấy User_Level từ bảng user_rank
+            $this->db->select('user_level');
+            $this->db->from('user_rank');
+            $this->db->where('user_id', $user_id);
+            $user_rank = $this->db->get()->row();
+            $user_level = $user_rank ? $user_rank->user_level : '';
+
+            // Lấy Buyer_Name từ bảng order và users
+            $this->db->select('user_id');
+            $this->db->from('order');
+            $this->db->where('id', $order_id);
+            $order = $this->db->get()->row();
+            $buyer_id = $order ? $order->user_id : '';
+
+            $this->db->select('firstname, lastname');
+            $this->db->from('users');
+            $this->db->where('id', $buyer_id);
+            $user = $this->db->get()->row();
+            $buyer_name = $user ? $user->firstname . ' ' . $user->lastname : '';
+
+            // Tạo Comment
+            $comment = "Level " . $user_level . " : Hoa hồng cho đơn hàng OrderID = " . $order_id . " | User : " . $buyer_name;
+
+            // Chuẩn bị dữ liệu để chèn vào bảng wallet
+            $data = array(
+                'user_id' => $user_id,
+                'reference_id_2' => $order_id,
+                'reference_id' => $commission->product_id,
+                'amount' => $commission->comission_value,
+                'type' => $commission->comission_method,
+                'created_at' => $commission->created_at,
+                'comment' => $comment,
+                'group_id' => $order_id,
+                'status' => 1,
+                'commission_status' => 0,
+                'comm_from' => 'store',
+                'is_action' => 0,
+                'parent_id' => 0,
+                'is_vendor' => 0,
+                'withdraw_request' => 0
+            );
+
+            // Chèn dữ liệu vào bảng wallet
+            if ($commission->comission_value > 0) {
+                $this->db->insert('wallet', $data);
+            }
+        }
+        return true;
+    }
     // new section of all commissions for levels that related to vendor side      
 }

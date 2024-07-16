@@ -804,6 +804,7 @@ class User_model extends MY_Model {
 
 	// TÍNH THƯỞNG ***************
 	public function mj_calculate_commissions() {
+
 		// Kết nối đến cơ sở dữ liệu
 		$db = $this->db;
 
@@ -851,6 +852,9 @@ class User_model extends MY_Model {
 			if (!$this->check_direct_member_level($user_id, $current_settings->recruitment_number, $current_settings->recruitment_level) && $current_settings->recruitment_level != 0) {
 				$condition = false;
 			}
+
+			// KIỂM TRA THÊM CÁC ĐIỀU KIỆN KHÁC VỚI CÁC CẤP ĐỘ **************************
+			
 
 			// Đủ điều kiện thì cho thưởng
 			if ($condition) {

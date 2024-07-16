@@ -18067,6 +18067,13 @@ class Admincontrol extends MY_Controller {
 			if ($jumped_user)
 				$result['message'] = __('admin.user_jumped_to_level');
 
+		
+			// Nâng cấp độ đủ điều kiện
+			if ($jumped_user && $result['index'] <= 0) {
+				$this->rank_upgrade();
+				$result['message'] = __('Đã cập nhật lại cấp độ thành viên');
+			}
+				
 			echo json_encode($result);
 		}
 	}

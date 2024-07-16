@@ -215,6 +215,26 @@
                                     </div>
                                     <p class="error-message"></p>
                                 </div>
+                                <?php
+                                // Truy vấn danh sách chức danh từ bảng membership_plans
+                                $plans = $this->Product_model->getAllPlan();
+                                ?>
+
+                                <div class="col-md-4 mb-3"> <label class="form-label">
+                                        <?= __('Chọn Chức danh') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Bất kỳ vị trí') ?>"></span>
+                                    </label>
+                                    <select class="form-control" name="con_refer_reward_id">
+                                        <option value=""><?= __('Bất kỳ vị trí') ?></option>
+                                        <?php foreach ($plans as $plan_item) : ?>
+                                            <option value="<?= $plan_item['id'] ?>" <?= $award_level['con_refer_reward_id'] == $plan_item['id'] ? 'selected="selected"' : ''; ?>><?= $plan_item['name'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <p class="error-message"></p>
+                                </div>
+                                <!--  -->
+                            </div>
+                            <div class="row">
                                 <?php $current_logic = $award_level['con_and']; ?>
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">
@@ -227,25 +247,7 @@
                                     </select>
                                     <p class="error-message"></p>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <?php
-                                // Truy vấn danh sách chức danh từ bảng reward
-                                $rewards = $this->Product_model->getAllReward();
-                                ?>
 
-                                <div class="col-md-4 mb-3"> <label class="form-label">
-                                        <?= __('Chọn Chức danh') ?>
-                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Bất kỳ chức danh') ?>"></span>
-                                    </label>
-                                    <select class="form-control" name="con_refer_reward_id">
-                                        <option value=""><?= __('Bất kỳ chức danh') ?></option>
-                                        <?php foreach ($rewards as $reward_item) : ?>
-                                            <option value="<?= $reward_item['id'] ?>" <?= $reward['con_refer_reward_id'] == $reward_item['id'] ? 'selected="selected"' : ''; ?>><?= $reward_item['name'] ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <p class="error-message"></p>
-                                </div>
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">
                                         <?= __('admin.sale_comission_rate') ?>

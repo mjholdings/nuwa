@@ -2113,6 +2113,12 @@ class Product_model extends MY_Model {
     `child`.`con_revenue_team`,
     `child`.`con_revenue_total`,
     `child`.`con_refer_number`,
+    `child`.`con_consum_personal`,
+    `child`.`con_consum_total`,
+    `child`.`con_consum_team`,
+    `child`.`con_consum_direct_members`,
+    `child`.`con_consum_indirect_members`,
+    `child`.`con_consum_members`,
     `child`.`con_refer_direct_number`,
     `child`.`con_refer_reward_id`,
     `child`.`sale_comission_rate`,
@@ -5028,6 +5034,24 @@ class Product_model extends MY_Model {
         $ci = &get_instance();
 
         $sql = "SELECT * FROM `reward`";
+
+        if ($limit != false) {
+            $sql .= " LIMIT ? OFFSET ?";
+            $query = $ci->db->query($sql, array((int) $limit, (int) $offset));
+        } else {
+            $query = $ci->db->query($sql);
+        }
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+     // Lấy danh sách Vị trí
+     public function getAllPlan($limit = false, $offset = 0) {
+        $ci = &get_instance();
+
+        $sql = "SELECT * FROM `membership_plans`";
 
         if ($limit != false) {
             $sql .= " LIMIT ? OFFSET ?";

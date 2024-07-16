@@ -3759,7 +3759,7 @@ class Admincontrol extends MY_Controller {
 						$insert['con_refer_number'] = $this->input->post('con_refer_number', true);
 						$insert['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 						$insert['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
-						$insert['con_award_level_id'] = $this->input->post('con_award_level_id', true);
+						// $insert['con_award_level_id'] = $this->input->post('con_award_level_id', true);
 						$insert['con_revenue_team'] = $this->input->post('con_revenue_team', true);
 						$insert['con_revenue_personal'] = $this->input->post('con_revenue_personal', true);
 						$insert['con_revenue_direct_members'] = $this->input->post('con_revenue_direct_members', true);
@@ -3847,7 +3847,7 @@ class Admincontrol extends MY_Controller {
 									$update['minimum_earning'] = $this->input->post('minimum_earning', true);
 									$update['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 									$update['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
-									$update['con_award_level_id'] = $this->input->post('con_award_level_id', true);
+									// $update['con_award_level_id'] = $this->input->post('con_award_level_id', true);
 									$update['sale_comission_rate'] = $this->input->post('sale_comission_rate', true);
 									$update['bonus'] = $this->input->post('bonus', true);
 									$update['default_registration_level'] = ($this->input->post('default_registration_level')) ? $this->input->post('default_registration_level', true) : 0;

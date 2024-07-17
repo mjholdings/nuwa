@@ -3708,6 +3708,9 @@ class Admincontrol extends MY_Controller {
 		redirect('admincontrol/manageUsers');
 	}
 
+
+	
+
 	// Award Level - Kiểm tra nhảy cấp
 	public function award_level($offset = 0) {
 		$userdetails = $this->userdetails();
@@ -3721,7 +3724,7 @@ class Admincontrol extends MY_Controller {
 			$config['total_rows'] = $this->Product_model->countByTable('award_level');
 			$this->pagination->initialize($config);
 			$data['pagination'] = $this->pagination->create_links();
-			$data['award_level'] = $this->Product_model->getAllAwardLevel($config['per_page'], $offset);
+			$data['award_level'] = $this->Product_model->mj_getAllAwardLevel($config['per_page'], $offset);
 			$data['CurrencySymbol'] = $this->currency->getSymbol();
 		}
 
@@ -3850,7 +3853,6 @@ class Admincontrol extends MY_Controller {
 									$update['minimum_earning'] = $this->input->post('minimum_earning', true);
 									$update['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 									$update['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
-									// $update['con_award_level_id'] = $this->input->post('con_award_level_id', true);
 									$update['sale_comission_rate'] = $this->input->post('sale_comission_rate', true);
 									$update['bonus'] = $this->input->post('bonus', true);
 									$update['default_registration_level'] = ($this->input->post('default_registration_level')) ? $this->input->post('default_registration_level', true) : 0;

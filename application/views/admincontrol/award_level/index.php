@@ -23,6 +23,7 @@
                             <thead>
                                 <tr>
                                     <th><?= __('Cấp') ?></th>
+                                    <th><?= __('Vị trí') ?></th> 
                                     <!-- <th><?= __('Nhảy') ?></th>  -->
                                     <!-- <th><?= __('Tối thiểu') ?></th> -->
                                     <!-- <th><?= __('Cá nhân') ?></th> -->
@@ -45,6 +46,7 @@
                                 <?php foreach ($award_level as $key => $value) { ?>
                                     <tr>
                                         <td><?= $value['level_number'] ?></td>
+                                        <td><?= $value['membership_name'] ?></td>
                                         <!-- <td>
                                             <?php
                                             // if ($value['jump_level'] == '0')

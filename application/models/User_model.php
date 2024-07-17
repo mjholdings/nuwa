@@ -907,4 +907,21 @@ class User_model extends MY_Model {
 			}
 		}
 	}
+
+	// Lấy name membership qua level_number
+	public function get_membership_name_by_level_number($level_number) {
+        // Building the query
+        $this->db->select('membership_plans.name');
+        $this->db->from('award_level');
+        $this->db->join('membership_plans', 'membership_plans.level_id = award_level.id');
+        $this->db->where('award_level.level_number', $level_number);
+        $query = $this->db->get();
+
+        // Check if the query returns a result
+        if ($query->num_rows() > 0) {
+            return $query->row()->name;
+        } else {
+            return null; // Or handle the case where no result is found
+        }
+    }
 }

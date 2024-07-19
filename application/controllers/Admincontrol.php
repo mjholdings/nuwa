@@ -3499,6 +3499,8 @@ class Admincontrol extends MY_Controller {
 
 			$this->form_validation->set_rules('Country', __('admin.country'), 'required');
 
+			$this->form_validation->set_rules('role', __('Vai trò'), 'required');
+
 			$this->form_validation->set_rules('City', __('admin.city'), 'required');
 
 			$this->form_validation->set_rules('Zip', __('admin.pincode'), 'required');
@@ -3560,6 +3562,8 @@ class Admincontrol extends MY_Controller {
 						'twaddress'                 => '',
 
 						'type'                      => 'admin',
+
+						'role'                  	=> $this->input->post('role', true),
 
 						'avatar'                      => $avatar,
 
@@ -3667,6 +3671,7 @@ class Admincontrol extends MY_Controller {
 		}
 
 		$data['country'] = $this->Product_model->getcountry();
+		$data['role'] = $this->user->mj_all_role();
 		$this->view($data, 'admin_user/form');
 	}
 
@@ -3709,7 +3714,7 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	
+
 
 	// Award Level - Kiểm tra nhảy cấp
 	public function award_level($offset = 0) {
@@ -19012,6 +19017,259 @@ class Admincontrol extends MY_Controller {
 		// Xong thì quay lại
 		// redirect(base_url('admincontrol/award_level'));
 	}
+
+	// Vai trò
+	public function role($offset = 0) {
+		$userdetails = $this->userdetails();
+		$this->load->library('pagination');
+		$config['base_url'] = base_url('admincontrol/role');
+		$config['uri_segment'] = 3;
+		$config['per_page'] = 10;
+		$config['total_rows'] = $this->Product_model->countByTable('users_role');
+		$this->pagination->initialize($config);
+		$data['pagination'] = $this->pagination->create_links();
+		$data['role'] = $this->Product_model->getAllRole($config['per_page'], $offset);
+		$data['CurrencySymbol'] = $this->currency->getSymbol();
+		$this->view($data, 'role/index');
+	}
+
+	public function create_role() {
+		$userdetails = $this->userdetails();
+		$data['CurrencySymbol'] = $this->currency->getSymbol();
+		$data['permissions'] = $this->user->get_permissions();
+
+
+		if ($this->input->method() == 'post') {
+			$result['status'] = 0;
+			$result['message'] = __('admin.something_went_wrong');
+
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('name', __('Tên'), 'trim|required|max_length[100]');
+			$this->form_validation->set_rules('role', __('Vai trò'), 'trim|required');
+			if ($this->form_validation->run() == TRUE) {
+				$permissions = $this->input->post('permissions');
+				$insert['name'] = $this->input->post('name', true);
+				$insert['role'] = $this->input->post('role', true);				
+				$insert['ids_permission'] = implode(',', $permissions);
+				$success = true;
+
+				if ($success) {
+					$insertedId = $this->db->insert('users_role', $insert);
+					if ($insertedId) {
+						$result['status'] = 1;
+						$result['message'] = __('Đã lưu vai trò');
+					}
+				}
+			} else {
+				$result['validation'] = $this->form_validation->error_array();
+			}
+
+			echo json_encode($result);
+			die();
+		}
+
+		$this->view($data, 'role/create');
+	}
+
+	public function update_role($id) {
+		$userdetails = $this->userdetails();
+
+		if (isset($id)) {
+			$id = (int) $id;
+			if ($id) {
+				$data['role'] = $this->Product_model->getByField('users_role', 'id', $id);
+				$data['permissions'] = $this->user->get_permissions();
+
+				if ($data['role']) {
+					$data['CurrencySymbol'] = $this->currency->getSymbol();
+
+					if ($this->input->method() == 'post') {
+						$result['status'] = 0;
+						$result['message'] = __('admin.something_went_wrong');
+
+						$this->load->library('form_validation');
+						$this->form_validation->set_rules('name', __('Tên'), 'trim|required');
+						$this->form_validation->set_rules('role', __('Vai trò'), 'trim|required');
+						if ($this->form_validation->run() == TRUE) {
+							$permissions = $this->input->post('permissions');
+							$update['name'] = $this->input->post('name', true);
+							$update['role'] = $this->input->post('role', true);
+							$update['ids_permission'] = implode(',', $permissions);
+
+							$success = true;
+
+							if ($success) {
+								$success = $this->db->update('users_role', $update, ['id' => $id]);
+								if ($success) {
+									$result['status'] = 1;
+									$result['message'] = __('Đã cập nhật vai trò');
+								}
+							}
+						} else {
+							$result['validation'] = $this->form_validation->error_array();
+						}
+
+						echo json_encode($result);
+						die();
+					}
+
+					$this->view($data, 'role/update');
+				} else {
+					redirect('admincontrol/role');
+				}
+			} else {
+				redirect('admincontrol/role');
+			}
+		} else {
+			redirect('admincontrol/role');
+		}
+	}
+
+	public function delete_role($id) {
+		$userdetails = $this->userdetails();
+		$result['status'] = 0;
+		$result['message'] = __('admin.something_went_wrong');
+
+		if (isset($id)) {
+			$id = (int) $id;
+			if ($id) {
+				$award_level = $this->Product_model->getByField('users_role', 'id', $id);
+				if ($award_level) {
+					$success = $this->db->delete('users_role', ['id' => $id]);
+					if ($success)
+						$result['status'] = 1;
+					$this->session->set_flashdata('success', __('Đã xóa xong Vai trò'));
+				}
+			}
+		}
+
+		echo json_encode($result);
+		die();
+	}
+	//end Vai trò
+
+	// Phân quyền
+	public function permission($offset = 0) {
+		$userdetails = $this->userdetails();
+		$this->load->library('pagination');
+		$config['base_url'] = base_url('admincontrol/permission');
+		$config['uri_segment'] = 3;
+		$config['per_page'] = 10;
+		$config['total_rows'] = $this->Product_model->countByTable('users_permission');
+		$this->pagination->initialize($config);
+		$data['pagination'] = $this->pagination->create_links();
+		$data['permission'] = $this->Product_model->getAllPermission($config['per_page'], $offset);
+		$data['CurrencySymbol'] = $this->currency->getSymbol();
+		$this->view($data, 'permission/index');
+	}
+
+	public function create_permission() {
+		$userdetails = $this->userdetails();
+		$data['CurrencySymbol'] = $this->currency->getSymbol();
+
+		if ($this->input->method() == 'post') {
+			$result['status'] = 0;
+			$result['message'] = __('admin.something_went_wrong');
+
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('name', __('Tên'), 'trim|required|max_length[100]');
+			$this->form_validation->set_rules('url', __('URL Điều khiển'), 'trim|required');
+			if ($this->form_validation->run() == TRUE) {
+				$insert['name'] = $this->input->post('name', true);
+				$insert['description'] = $this->input->post('description', true);
+				$insert['url'] = $this->input->post('url', true);
+				$success = true;
+
+				if ($success) {
+					$insertedId = $this->db->insert('users_permission', $insert);
+					if ($insertedId) {
+						$result['status'] = 1;
+						$result['message'] = __('Đã lưu vai trò');
+					}
+				}
+			} else {
+				$result['validation'] = $this->form_validation->error_array();
+			}
+
+			echo json_encode($result);
+			die();
+		}
+
+		$this->view($data, 'permission/create');
+	}
+
+	public function update_permission($id) {
+		$userdetails = $this->userdetails();
+
+		if (isset($id)) {
+			$id = (int) $id;
+			if ($id) {
+				$data['permission'] = $this->Product_model->getByField('users_permission', 'id', $id);
+				if ($data['permission']) {
+					$data['CurrencySymbol'] = $this->currency->getSymbol();
+
+					if ($this->input->method() == 'post') {
+						$result['status'] = 0;
+						$result['message'] = __('admin.something_went_wrong');
+
+						$this->load->library('form_validation');
+						$this->form_validation->set_rules('name', __('Tên'), 'trim|required');
+						$this->form_validation->set_rules('url', __('Điều khiển'), 'trim|required');
+						if ($this->form_validation->run() == TRUE) {
+							$update['name'] = $this->input->post('name', true);
+							$update['description'] = $this->input->post('description', true);
+							$update['url'] = $this->input->post('url', true);
+							$success = true;
+
+							if ($success) {
+								$success = $this->db->update('users_permission', $update, ['id' => $id]);
+								if ($success) {
+									$result['status'] = 1;
+									$result['message'] = __('Đã cập nhật Quyền hạn');
+								}
+							}
+						} else {
+							$result['validation'] = $this->form_validation->error_array();
+						}
+
+						echo json_encode($result);
+						die();
+					}
+
+					$this->view($data, 'permission/update');
+				} else {
+					redirect('admincontrol/permission');
+				}
+			} else {
+				redirect('admincontrol/permission');
+			}
+		} else {
+			redirect('admincontrol/permission');
+		}
+	}
+
+	public function delete_permission($id) {
+		$userdetails = $this->userdetails();
+		$result['status'] = 0;
+		$result['message'] = __('admin.something_went_wrong');
+
+		if (isset($id)) {
+			$id = (int) $id;
+			if ($id) {
+				$award_level = $this->Product_model->getByField('users_permission', 'id', $id);
+				if ($award_level) {
+					$success = $this->db->delete('users_permission', ['id' => $id]);
+					if ($success)
+						$result['status'] = 1;
+					$this->session->set_flashdata('success', __('Đã xóa xong Quyền hạn'));
+				}
+			}
+		}
+
+		echo json_encode($result);
+		die();
+	}
+	//end Phân quyền
 
 	// Tính thưởng
 	public function commission_payout() {

@@ -5029,6 +5029,42 @@ class Product_model extends MY_Model {
         return $payment_methods;
     }
 
+    // Danh sách Vai trò
+    public function getAllRole($limit = false, $offset = 0) {
+        $ci = &get_instance();
+
+        $sql = "SELECT * FROM `users_role`";
+
+        if ($limit != false) {
+            $sql .= " LIMIT ? OFFSET ?";
+            $query = $ci->db->query($sql, array((int) $limit, (int) $offset));
+        } else {
+            $query = $ci->db->query($sql);
+        }
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+    // Danh sách Quyền lợi
+    public function getAllPermission($limit = false, $offset = 0) {
+        $ci = &get_instance();
+
+        $sql = "SELECT * FROM `users_permission`";
+
+        if ($limit != false) {
+            $sql .= " LIMIT ? OFFSET ?";
+            $query = $ci->db->query($sql, array((int) $limit, (int) $offset));
+        } else {
+            $query = $ci->db->query($sql);
+        }
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
     // Lấy danh sách Chức danh
     public function getAllReward($limit = false, $offset = 0) {
         $ci = &get_instance();

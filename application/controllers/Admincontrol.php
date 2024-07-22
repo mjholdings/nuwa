@@ -19049,7 +19049,7 @@ class Admincontrol extends MY_Controller {
 			if ($this->form_validation->run() == TRUE) {
 				$permissions = $this->input->post('permissions');
 				$insert['name'] = $this->input->post('name', true);
-				$insert['role'] = $this->input->post('role', true);				
+				$insert['role'] = $this->input->post('role', true);
 				$insert['ids_permission'] = implode(',', $permissions);
 				$success = true;
 

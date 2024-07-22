@@ -2099,7 +2099,6 @@ class Product_model extends MY_Model {
     // Lấy toàn bộ Award
     public function getAllAwardLevel($limit = false, $offset = 0) {
         $ci = &get_instance();
-
         $sql = "SELECT `child`.`id`,   
     `child`.`level_number`,
     `child`.`jump_level`, 
@@ -2113,6 +2112,12 @@ class Product_model extends MY_Model {
     `child`.`con_revenue_team`,
     `child`.`con_revenue_total`,
     `child`.`con_refer_number`,
+    `child`.`con_consum_personal`,
+    `child`.`con_consum_total`,
+    `child`.`con_consum_team`,
+    `child`.`con_consum_direct_members`,
+    `child`.`con_consum_indirect_members`,
+    `child`.`con_consum_members`,
     `child`.`con_refer_direct_number`,
     `child`.`con_refer_reward_id`,
     `child`.`sale_comission_rate`,
@@ -2136,6 +2141,7 @@ class Product_model extends MY_Model {
         return $result;
     }
 
+    // Kiểm tra nhảy cấp
     public function checkJumpLevel($jump_level, $id = false) {
         $ci = &get_instance();
 
@@ -5023,11 +5029,65 @@ class Product_model extends MY_Model {
         return $payment_methods;
     }
 
+    // Danh sách Vai trò
+    public function getAllRole($limit = false, $offset = 0) {
+        $ci = &get_instance();
+
+        $sql = "SELECT * FROM `users_role`";
+
+        if ($limit != false) {
+            $sql .= " LIMIT ? OFFSET ?";
+            $query = $ci->db->query($sql, array((int) $limit, (int) $offset));
+        } else {
+            $query = $ci->db->query($sql);
+        }
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+    // Danh sách Quyền lợi
+    public function getAllPermission($limit = false, $offset = 0) {
+        $ci = &get_instance();
+
+        $sql = "SELECT * FROM `users_permission`";
+
+        if ($limit != false) {
+            $sql .= " LIMIT ? OFFSET ?";
+            $query = $ci->db->query($sql, array((int) $limit, (int) $offset));
+        } else {
+            $query = $ci->db->query($sql);
+        }
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
     // Lấy danh sách Chức danh
     public function getAllReward($limit = false, $offset = 0) {
         $ci = &get_instance();
 
         $sql = "SELECT * FROM `reward`";
+
+        if ($limit != false) {
+            $sql .= " LIMIT ? OFFSET ?";
+            $query = $ci->db->query($sql, array((int) $limit, (int) $offset));
+        } else {
+            $query = $ci->db->query($sql);
+        }
+
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+     // Lấy danh sách Vị trí
+     public function getAllPlan($limit = false, $offset = 0) {
+        $ci = &get_instance();
+
+        $sql = "SELECT * FROM `membership_plans`";
 
         if ($limit != false) {
             $sql .= " LIMIT ? OFFSET ?";
@@ -5200,5 +5260,51 @@ class Product_model extends MY_Model {
         $query = $this->db->get('users');
         $result = $query->result_array();
         return array_column($result, 'id');
+    }
+
+    // Lấy Level
+    public function mj_getAllAwardLevel($limit = false, $offset = 0) {
+        $ci = &get_instance();
+        $sql = "SELECT 
+            award_level.id,
+            award_level.level_number,
+            award_level.jump_level, 
+            membership.name as membership_name,
+            award_level.minimum_earning,
+            award_level.con_revenue_team,
+            award_level.con_revenue_personal,
+            award_level.con_revenue_direct_members,
+            award_level.con_revenue_indirect_members,
+            award_level.con_revenue_members,
+            award_level.con_revenue_total,
+            award_level.con_refer_number,
+            award_level.con_consum_personal,
+            award_level.con_consum_total,
+            award_level.con_consum_team,
+            award_level.con_consum_direct_members,
+            award_level.con_consum_indirect_members,
+            award_level.con_consum_members,
+            award_level.con_refer_direct_number,
+            award_level.con_refer_reward_id,
+            award_level.sale_comission_rate,
+            award_level.con_and,
+            award_level.bonus,
+            award_level.split_branch,
+            award_level.default_registration_level
+        FROM award_level
+        LEFT JOIN membership_plans AS membership
+        ON award_level.id = membership.level_id";
+
+
+        if ($limit != false) {
+            $sql .= " LIMIT ? OFFSET ?";
+            $query = $ci->db->query($sql, array((int) $limit, (int) $offset));
+        } else {
+            $query = $ci->db->query($sql);
+        }
+
+        $result = $query->result_array();
+
+        return $result;
     }
 }

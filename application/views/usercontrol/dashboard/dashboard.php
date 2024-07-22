@@ -1438,7 +1438,90 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                       </div>
                     </div>
                   <?php } else { ?>
-
+                    <div class=" border-custom show-mega-link">
+                      <div class="form-group">
+                        <label class="form-label">
+                          Bạn chưa đủ điều kiện làm thành viên affilate của hệ thống. Hãy hoàn thành một trong hai điều kiện
+                          sau để làm thành viên affilate OVAN:
+                        </label>
+                        <br />
+                        <div class="col">
+                          <span class="ms-1">1. Mua thẻ quyền lợi đại lý (Thẻ thành viên: 500.000K) trong cửa hàng</span>
+                          <br />
+                          <?php
+                          if (!empty($productForAffiliate)) {
+                            foreach ($productForAffiliate as $product) {
+                              if ($product['product_id'] == "126") {
+                                $href = base_url("store/" . base64_encode($user_id) . "/product/" . $product['product_slug']);
+                                ?>
+                                <a href="<?= $href ?>" class="category-home pruduct-home" style="text-decoration: none">
+                                  <img alt="<?= __('store.image') ?>"
+                                    src="<?= base_url('assets/images/product/upload/thumb/'); ?><?= $product['product_featured_image']; ?>"
+                                    width="100" height="100" class="mt-2" />
+                                  <h3
+                                    style="font-size: 15px;font-weight: 500;font-weight: 500;display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: 	vertical; overflow: hidden;">
+                                    <?= $product['product_name']; ?>
+                                  </h3>
+                                  <h3
+                                    style="font-size: 10px;font-weight: 500;display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: 	hidden;">
+                                    <?= $product['product_short_description']; ?>
+                                  </h3>
+                                  <h3 style="font-size: 20px;font-weight: 700;"><?= c_format($product['product_price']); ?></h3>
+                                  <button class="btn btn-product bg-main2 text-white mt-3">Chi tiết</button>
+                                </a>
+                                <?php
+                              }
+                            }
+                          } ?>
+                        </div>
+                        <div class="col">
+                          <span class="ms-1">2. Mua đơn hàng kích hoạt trị giá trên 5tr trong cửa hàng</span>
+                          <br />
+                          <div class="container">
+                            <div class="categories-listing-row-strategy justify-content-center product-strategy mt-2">
+                              <?php
+                              if (!empty($productForAffiliate)) {
+                                foreach ($productForAffiliate as $product) {
+                                  if ($product['product_slug'] !== "ovan-global-member-account-126") {
+                                    $href = base_url("store/" . base64_encode($user_id) . "/product/" . $product['product_slug']);
+                                    ?>
+                                    <a href="<?= $href ?>" class="category-home pruduct-home col-lg-2 col-md-3 col-sm-4"
+                                      style="text-decoration: none">
+                                      <img alt="<?= __('store.image') ?>"
+                                        src="<?= base_url('assets/images/product/upload/thumb/'); ?><?= $product['product_featured_image']; ?>"
+                                        width="100" height="100" />
+                                      <h3 style="font-size: 15px;font-weight: 500;font-weight: 500;display: -webkit-box;
+                                          -webkit-line-clamp: 1;
+                                          -webkit-box-orient: vertical;
+                                          overflow: hidden;"><?= $product['product_name']; ?></h3>
+                                      <h3 style="font-size: 10px;font-weight: 500;display: -webkit-box;
+                                          -webkit-line-clamp: 1;
+                                          -webkit-box-orient: vertical;
+                                          overflow: hidden;
+                                          "><?= $product['product_short_description']; ?></h3>
+                                      <h3 style="font-size: 20px;font-weight: 700;"><?= c_format($product['product_price']); ?>
+                                      </h3>
+                                      <!-- <div class="rating-row d-flex justify-space-center"><?= $product['product_avg_rating_stars'] ?></div> -->
+                                      <button class="btn btn-product bg-main2 text-white mt-3">Chi tiết</button>
+                                    </a>
+                                    <?php
+                                  }
+                                }
+                              } else {
+                                ?>
+                                <div class="category-home pruduct-home">
+                                  <img alt="<?= __('store.image') ?>"
+                                    src="<?= base_url('assets/store/default/'); ?>img/ctg1.png" />
+                                  <h3><?= __('store.dog') ?></h3>
+                                </div>
+                                <?php
+                              }
+                              ?>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   <?php } ?>
                   <?php
                   if (isset($userdetails['store_slug']) && !empty($userdetails['store_slug'])) {
@@ -1555,7 +1638,46 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                         </a>
                       </div>
                     </div>
+                    <div class=" border-custom show-mega-link <?php if ($invitationlinkid == 0) {
+                      echo 'd-none';
+                    } ?>">
+                      <div class="form-group">
 
+                        <label class="form-label">
+                          <?= __('user.your_unique_reseller_link') ?>
+                        </label>
+                        <input type="text" name="text" readonly="readonly"
+                          value="<?= $share_url . '/?id=' . $userdetails['id'] ?>" class="input-register-url-0 form-control"
+                          data-addition-url="/?id=<?= $userdetails['id'] ?>">
+                      </div>
+                      <div class="flex align-items-center justify-content-end list-user-action">
+                        <a href="javascript:void(0)" class="bt-all btn-success qrcode"
+                          data-id="<?= $share_url . '/?id=' . $userdetails['id'] ?>">
+                          <i class="fas fa-walkie-talkie"></i>
+                        </a>
+
+                        <a class="bt-all btn-warning" href="javascript:void(0)"
+                          copyToClipboard="<?= $share_url . '/?id=' . $userdetails['id'] ?>"
+                          title="<?= __('user.copied'); ?>">
+                          <span class="btn-inner">
+                            <i class="far fa-copy" alt="<?= __('user.copy') ?>"></i>
+                          </span>
+                        </a>
+                        <a href="javascript:void(0)" class="dashboard-model-slug bt-all btn-danger" data-type="register"
+                          data-related-id="0" data-input-class="input-register-url-0">
+                          <span class="btn-inner">
+                            <i class="fas fa-cog" alt="<?= __('user.setting') ?>"></i>
+                          </span>
+                        </a>
+                        <a class="bt-all btn-success" href="javascript:void(0)" data-social-share
+                          data-share-url="<?= $share_url; ?>?id=<?= $userdetails['id'] ?>" data-share-title=""
+                          data-share-desc="">
+                          <span class="ms-1">
+                            <i class="fa-solid fa-share-from-square" alt="<?= __('user.share') ?>"></i>
+                          </span>
+                        </a>
+                      </div>
+                    </div>
                   <?php } ?>
                 <?php } ?>
 

@@ -11,7 +11,8 @@
 						<thead>
 							<tr>
 								<th><?= __('admin.first_last')?></th>
-								<th><?= __('admin.country')?></th>
+								<th><?= __('Phân quyền') ?></th>
+								<!-- <th><?= __('admin.country')?></th> -->
 								<th><?= __('admin.image')?></th>
 								<th><?= __('admin.email')?></th>
 								<th><?= __('admin.username')?></th>                                
@@ -27,18 +28,19 @@
 							<?php } ?>
 							<?php foreach ($users as $key => $user) { ?>
 								<tr>
-									<td><?= $user->firstname ?> <?= $user->lastname ?>
-								</td>
-									<td>
+									<td><?= $user->firstname ?> <?= $user->lastname ?></td>
+									<td><?= $user->role ?></td>
+
+									<!-- <td>
 									    <?php
-									        if ($user->Country != '') {
-									            $flag = 'flags/' . strtolower($user->sortname) . '.png';
-									        } else {
-									            $flag = 'users/avatar-1.png';
-									        }
+									        // if ($user->Country != '') {
+									        //     $flag = 'flags/' . strtolower($user->sortname) . '.png';
+									        // } else {
+									        //     $flag = 'users/avatar-1.png';
+									        // }
 									    ?>
-									    <img class="rounded-circle img-popover" src="<?php echo base_url('assets/vertical/assets/images/'.$flag); ?>" style="width:30px;height: 30px" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="<img src='<?php echo base_url('assets/vertical/assets/images/'.$flag); ?>' width='200'>">
-									</td>
+									    <img class="rounded-circle img-popover" src="<?php //echo base_url('assets/vertical/assets/images/'.$flag); ?>" style="width:30px;height: 30px" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="<img src='<?php echo base_url('assets/vertical/assets/images/'.$flag); ?>' width='200'>">
+									</td> -->
 									<td>
 									    <?php $avatar = $user->avatar != '' ? 'users/' . $user->avatar : 'no-user_image.jpg' ; ?>
 									    <img class="rounded-circle img-popover" src="<?php echo base_url();?>assets/images/<?php echo $avatar; ?>" style="width:30px;height: 30px" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="<img src='<?php echo base_url();?>assets/images/<?php echo $avatar; ?>' width='200'>">

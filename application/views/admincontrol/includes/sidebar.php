@@ -451,7 +451,8 @@ $sidebar_data = array(
 
             <?= __('admin.menu_list_affiliates_email') ?>
 
-          </a> <?php if ($userdetails['id'] == 1) { ?>
+          </a> 
+          <?php if ($userdetails['id'] == 1) { ?>
 
             <a class="dropdown-item" href="<?= base_url('admincontrol/admin_user') ?>">
 
@@ -460,6 +461,14 @@ $sidebar_data = array(
               <?= __('admin.menu_manage_admin') ?>
 
             </a>
+            <a class="dropdown-item" href="<?= base_url('admincontrol/role') ?>">
+                <i class="fas fa-sliders-h"></i>
+                <?= __('Quản lý Vai trò') ?>
+              </a>
+              <a class="dropdown-item" href="<?= base_url('admincontrol/permission') ?>">
+                <i class="fas fa-sliders-h"></i>
+                <?= __('Quản lý Quyền') ?>
+              </a>
 
           <?php } ?>
 

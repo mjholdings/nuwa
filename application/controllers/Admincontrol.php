@@ -1,11 +1,14 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 use App\User;
+use App\MembershipPlan;
+use App\MembershipUser;
 
 class Admincontrol extends MY_Controller {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('user_model', 'user');
+		$this->load->model('Order_model', 'order');
 		$this->load->model('Product_model');
 		$this->load->model('Setting_model');
 		$this->load->model('Common_model');
@@ -3496,6 +3499,8 @@ class Admincontrol extends MY_Controller {
 
 			$this->form_validation->set_rules('Country', __('admin.country'), 'required');
 
+			$this->form_validation->set_rules('role', __('Vai trò'), 'required');
+
 			$this->form_validation->set_rules('City', __('admin.city'), 'required');
 
 			$this->form_validation->set_rules('Zip', __('admin.pincode'), 'required');
@@ -3557,6 +3562,8 @@ class Admincontrol extends MY_Controller {
 						'twaddress'                 => '',
 
 						'type'                      => 'admin',
+
+						'role'                  	=> $this->input->post('role', true),
 
 						'avatar'                      => $avatar,
 
@@ -3664,6 +3671,7 @@ class Admincontrol extends MY_Controller {
 		}
 
 		$data['country'] = $this->Product_model->getcountry();
+		$data['role'] = $this->user->mj_all_role();
 		$this->view($data, 'admin_user/form');
 	}
 
@@ -3705,6 +3713,9 @@ class Admincontrol extends MY_Controller {
 		redirect('admincontrol/manageUsers');
 	}
 
+
+
+
 	// Award Level - Kiểm tra nhảy cấp
 	public function award_level($offset = 0) {
 		$userdetails = $this->userdetails();
@@ -3718,7 +3729,7 @@ class Admincontrol extends MY_Controller {
 			$config['total_rows'] = $this->Product_model->countByTable('award_level');
 			$this->pagination->initialize($config);
 			$data['pagination'] = $this->pagination->create_links();
-			$data['award_level'] = $this->Product_model->getAllAwardLevel($config['per_page'], $offset);
+			$data['award_level'] = $this->Product_model->mj_getAllAwardLevel($config['per_page'], $offset);
 			$data['CurrencySymbol'] = $this->currency->getSymbol();
 		}
 
@@ -3759,7 +3770,7 @@ class Admincontrol extends MY_Controller {
 						$insert['con_refer_number'] = $this->input->post('con_refer_number', true);
 						$insert['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 						$insert['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
-						$insert['con_award_level_id'] = $this->input->post('con_award_level_id', true);
+						// $insert['con_award_level_id'] = $this->input->post('con_award_level_id', true);
 						$insert['con_revenue_team'] = $this->input->post('con_revenue_team', true);
 						$insert['con_revenue_personal'] = $this->input->post('con_revenue_personal', true);
 						$insert['con_revenue_direct_members'] = $this->input->post('con_revenue_direct_members', true);
@@ -3847,7 +3858,6 @@ class Admincontrol extends MY_Controller {
 									$update['minimum_earning'] = $this->input->post('minimum_earning', true);
 									$update['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 									$update['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
-									$update['con_award_level_id'] = $this->input->post('con_award_level_id', true);
 									$update['sale_comission_rate'] = $this->input->post('sale_comission_rate', true);
 									$update['bonus'] = $this->input->post('bonus', true);
 									$update['default_registration_level'] = ($this->input->post('default_registration_level')) ? $this->input->post('default_registration_level', true) : 0;
@@ -8408,7 +8418,7 @@ class Admincontrol extends MY_Controller {
 		echo "Bảng users_recruitment đã được cập nhật.";
 	}
 
-	// User Revenue - Doanh thu
+	// User Revenue - Doanh thu cá nhân
 	public function calculate_revenue() {
 		// Xóa dữ liệu cũ trong bảng user_revenue
 		$this->db->truncate('user_revenue');
@@ -8461,7 +8471,7 @@ class Admincontrol extends MY_Controller {
 		echo "Bảng user_revenue đã được cập nhật.";
 	}
 
-	// User Update Revenue - Doanh thu khác
+	// User Update Revenue - Doanh thu khác (trực tiếp, gián tiếp,...)
 	public function update_revenue() {
 		// Lấy danh sách tất cả các user từ bảng users_revenue
 		$this->db->select('user_id, revenue');
@@ -10531,27 +10541,47 @@ class Admincontrol extends MY_Controller {
 		$data['approvals_count'] = $this->Product_model->getApprovalCounts();
 
 
-		// Update User Statistic			
+		// Update Bảng tuyển dụng
 		$this->update_user_tree();
 		$this->update_user_recruitment();
 
+		// Update Bảng doanh thu cá nhân + trực tiếp, gián tiếp,..
 		$this->calculate_revenue();
 		$this->update_revenue();
 
+		// Update bảng tiêu dùng cá nhân + trực tiếp, gián tiếp,..
 		$this->calculate_consum();
 		$this->update_consum();
 
+		// Update bảng thứ bậc
 		$this->update_user_rank();
+
+		// Tính toán chính sách cho Demo - update user_commission and wallet
+		$this->calculate_commission_for_demo();
 
 		// Tính toán thưởng tất cả
 		// $this->calculate_and_update_commissions();
 
-
 		$this->view($data, 'users/index');
 	}
 
+	// Tính toán thưởng - cập nhật bảng thưởng - bảng ví Demo => Dữ liệu đang lấy dữ liệu realtime chưa reset theo chu kỳ 30 ngày
+	public function calculate_commission_for_demo() {
 
+		if (!$this->userdetails()) {
+			die();
+		}
 
+		// Nâng cấp cho những thành viên đủ điều kiện update_user_levels
+		$this->update_user_levels_demo();
+
+		// Tính thưởng user_commission - update_commission
+
+		// Cập nhật vào Ví update_to_wallet
+
+	}
+
+	// Lấy dữ liệu người dùng
 	public function get_user_data() {
 
 		// Demo Mode
@@ -17987,6 +18017,13 @@ class Admincontrol extends MY_Controller {
 			if ($jumped_user)
 				$result['message'] = __('admin.user_jumped_to_level');
 
+
+			// Nâng cấp độ đủ điều kiện
+			if ($jumped_user && $result['index'] <= 0) {
+				$this->rank_upgrade();
+				$result['message'] = __('Đã cập nhật lại cấp độ thành viên');
+			}
+
 			echo json_encode($result);
 		}
 	}
@@ -18966,5 +19003,1085 @@ class Admincontrol extends MY_Controller {
 		}
 
 		echo json_encode($json);
+	}
+
+	// Nâng cấp thành viên
+	public function rank_upgrade() {
+		if (!$this->userdetails()) {
+			die();
+		}
+
+		// Kiểm tra và nâng cấp các thành viên nếu đủ điều kiện
+		$this->update_user_levels();
+
+		// Xong thì quay lại
+		// redirect(base_url('admincontrol/award_level'));
+	}
+
+	// Vai trò
+	public function role($offset = 0) {
+		$userdetails = $this->userdetails();
+		$this->load->library('pagination');
+		$config['base_url'] = base_url('admincontrol/role');
+		$config['uri_segment'] = 3;
+		$config['per_page'] = 10;
+		$config['total_rows'] = $this->Product_model->countByTable('users_role');
+		$this->pagination->initialize($config);
+		$data['pagination'] = $this->pagination->create_links();
+		$data['role'] = $this->Product_model->getAllRole($config['per_page'], $offset);
+		$data['CurrencySymbol'] = $this->currency->getSymbol();
+		$this->view($data, 'role/index');
+	}
+
+	public function create_role() {
+		$userdetails = $this->userdetails();
+		$data['CurrencySymbol'] = $this->currency->getSymbol();
+		$data['permissions'] = $this->user->get_permissions();
+
+
+		if ($this->input->method() == 'post') {
+			$result['status'] = 0;
+			$result['message'] = __('admin.something_went_wrong');
+
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('name', __('Tên'), 'trim|required|max_length[100]');
+			$this->form_validation->set_rules('role', __('Vai trò'), 'trim|required');
+			if ($this->form_validation->run() == TRUE) {
+				$permissions = $this->input->post('permissions');
+				$insert['name'] = $this->input->post('name', true);
+				$insert['role'] = $this->input->post('role', true);				
+				$insert['ids_permission'] = implode(',', $permissions);
+				$success = true;
+
+				if ($success) {
+					$insertedId = $this->db->insert('users_role', $insert);
+					if ($insertedId) {
+						$result['status'] = 1;
+						$result['message'] = __('Đã lưu vai trò');
+					}
+				}
+			} else {
+				$result['validation'] = $this->form_validation->error_array();
+			}
+
+			echo json_encode($result);
+			die();
+		}
+
+		$this->view($data, 'role/create');
+	}
+
+	public function update_role($id) {
+		$userdetails = $this->userdetails();
+
+		if (isset($id)) {
+			$id = (int) $id;
+			if ($id) {
+				$data['role'] = $this->Product_model->getByField('users_role', 'id', $id);
+				$data['permissions'] = $this->user->get_permissions();
+
+				if ($data['role']) {
+					$data['CurrencySymbol'] = $this->currency->getSymbol();
+
+					if ($this->input->method() == 'post') {
+						$result['status'] = 0;
+						$result['message'] = __('admin.something_went_wrong');
+
+						$this->load->library('form_validation');
+						$this->form_validation->set_rules('name', __('Tên'), 'trim|required');
+						$this->form_validation->set_rules('role', __('Vai trò'), 'trim|required');
+						if ($this->form_validation->run() == TRUE) {
+							$permissions = $this->input->post('permissions');
+							$update['name'] = $this->input->post('name', true);
+							$update['role'] = $this->input->post('role', true);
+							$update['ids_permission'] = implode(',', $permissions);
+
+							$success = true;
+
+							if ($success) {
+								$success = $this->db->update('users_role', $update, ['id' => $id]);
+								if ($success) {
+									$result['status'] = 1;
+									$result['message'] = __('Đã cập nhật vai trò');
+								}
+							}
+						} else {
+							$result['validation'] = $this->form_validation->error_array();
+						}
+
+						echo json_encode($result);
+						die();
+					}
+
+					$this->view($data, 'role/update');
+				} else {
+					redirect('admincontrol/role');
+				}
+			} else {
+				redirect('admincontrol/role');
+			}
+		} else {
+			redirect('admincontrol/role');
+		}
+	}
+
+	public function delete_role($id) {
+		$userdetails = $this->userdetails();
+		$result['status'] = 0;
+		$result['message'] = __('admin.something_went_wrong');
+
+		if (isset($id)) {
+			$id = (int) $id;
+			if ($id) {
+				$award_level = $this->Product_model->getByField('users_role', 'id', $id);
+				if ($award_level) {
+					$success = $this->db->delete('users_role', ['id' => $id]);
+					if ($success)
+						$result['status'] = 1;
+					$this->session->set_flashdata('success', __('Đã xóa xong Vai trò'));
+				}
+			}
+		}
+
+		echo json_encode($result);
+		die();
+	}
+	//end Vai trò
+
+	// Phân quyền
+	public function permission($offset = 0) {
+		$userdetails = $this->userdetails();
+		$this->load->library('pagination');
+		$config['base_url'] = base_url('admincontrol/permission');
+		$config['uri_segment'] = 3;
+		$config['per_page'] = 10;
+		$config['total_rows'] = $this->Product_model->countByTable('users_permission');
+		$this->pagination->initialize($config);
+		$data['pagination'] = $this->pagination->create_links();
+		$data['permission'] = $this->Product_model->getAllPermission($config['per_page'], $offset);
+		$data['CurrencySymbol'] = $this->currency->getSymbol();
+		$this->view($data, 'permission/index');
+	}
+
+	public function create_permission() {
+		$userdetails = $this->userdetails();
+		$data['CurrencySymbol'] = $this->currency->getSymbol();
+
+		if ($this->input->method() == 'post') {
+			$result['status'] = 0;
+			$result['message'] = __('admin.something_went_wrong');
+
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('name', __('Tên'), 'trim|required|max_length[100]');
+			$this->form_validation->set_rules('url', __('URL Điều khiển'), 'trim|required');
+			if ($this->form_validation->run() == TRUE) {
+				$insert['name'] = $this->input->post('name', true);
+				$insert['description'] = $this->input->post('description', true);
+				$insert['url'] = $this->input->post('url', true);
+				$success = true;
+
+				if ($success) {
+					$insertedId = $this->db->insert('users_permission', $insert);
+					if ($insertedId) {
+						$result['status'] = 1;
+						$result['message'] = __('Đã lưu vai trò');
+					}
+				}
+			} else {
+				$result['validation'] = $this->form_validation->error_array();
+			}
+
+			echo json_encode($result);
+			die();
+		}
+
+		$this->view($data, 'permission/create');
+	}
+
+	public function update_permission($id) {
+		$userdetails = $this->userdetails();
+
+		if (isset($id)) {
+			$id = (int) $id;
+			if ($id) {
+				$data['permission'] = $this->Product_model->getByField('users_permission', 'id', $id);
+				if ($data['permission']) {
+					$data['CurrencySymbol'] = $this->currency->getSymbol();
+
+					if ($this->input->method() == 'post') {
+						$result['status'] = 0;
+						$result['message'] = __('admin.something_went_wrong');
+
+						$this->load->library('form_validation');
+						$this->form_validation->set_rules('name', __('Tên'), 'trim|required');
+						$this->form_validation->set_rules('url', __('Điều khiển'), 'trim|required');
+						if ($this->form_validation->run() == TRUE) {
+							$update['name'] = $this->input->post('name', true);
+							$update['description'] = $this->input->post('description', true);
+							$update['url'] = $this->input->post('url', true);
+							$success = true;
+
+							if ($success) {
+								$success = $this->db->update('users_permission', $update, ['id' => $id]);
+								if ($success) {
+									$result['status'] = 1;
+									$result['message'] = __('Đã cập nhật Quyền hạn');
+								}
+							}
+						} else {
+							$result['validation'] = $this->form_validation->error_array();
+						}
+
+						echo json_encode($result);
+						die();
+					}
+
+					$this->view($data, 'permission/update');
+				} else {
+					redirect('admincontrol/permission');
+				}
+			} else {
+				redirect('admincontrol/permission');
+			}
+		} else {
+			redirect('admincontrol/permission');
+		}
+	}
+
+	public function delete_permission($id) {
+		$userdetails = $this->userdetails();
+		$result['status'] = 0;
+		$result['message'] = __('admin.something_went_wrong');
+
+		if (isset($id)) {
+			$id = (int) $id;
+			if ($id) {
+				$award_level = $this->Product_model->getByField('users_permission', 'id', $id);
+				if ($award_level) {
+					$success = $this->db->delete('users_permission', ['id' => $id]);
+					if ($success)
+						$result['status'] = 1;
+					$this->session->set_flashdata('success', __('Đã xóa xong Quyền hạn'));
+				}
+			}
+		}
+
+		echo json_encode($result);
+		die();
+	}
+	//end Phân quyền
+
+	// Tính thưởng
+	public function commission_payout() {
+
+		if (!$this->userdetails()) {
+			die();
+		}
+
+		// Update Bảng tuyển dụng user_recruitment			
+		$this->update_user_tree();
+		$this->update_user_recruitment();
+
+		// Update bảng doanh thu user_revenue
+		$this->calculate_revenue();
+		$this->update_revenue();
+
+		// Update bảng tiêu dùng user_consum
+		$this->calculate_consum();
+		$this->update_consum();
+
+		// Update bảng thứ hạng user_rank
+		$this->update_user_rank();
+
+
+		// Update thứ bậc users, membership_plans
+		// $this->update_user_levels();
+
+		// Update bảng thưởng user_commission
+		$this->user->calculate_commissions();
+
+		// Update thưởng vào Ví tài khoản
+		$this->order->updateAllCommWallet();
+
+		redirect(base_url('admincontrol/award_level'));
+
+		// End Update
+	}
+
+	// Cập nhật Rank for level cho user
+	public function update_user_levels() {
+
+		// Lấy các bản ghi từ bảng award_level
+		$this->db->where('level_number >=', 2);
+		$this->db->order_by('level_number', 'asc');
+		$query = $this->db->get('award_level');
+
+		// Chạy qua mỗi cấp độ bắt đầu từ số 2
+		foreach ($query->result() as $award_level) {
+
+			// Lấy ID của cấp độ sẽ nâng cấp lên nếu đạt điều kiện
+			$new_level_id = $award_level->id;
+			$new_level_number = $award_level->level_number;
+
+			// Lấy plan member ship của level hiện tại
+			// Gọi hàm get_plan_id_by_level để lấy plan_id cho level_number đã cho
+			$new_plan = $this->get_plan_id_by_level($new_level_number);
+
+			if ($new_plan) {
+				$new_plan_id = $new_plan->plan_id;
+			} else {
+				$new_plan_id = 6;
+			}
+
+			// Lấy điều kiện để được thăng cấp
+			$condition_recuruitment_number = $award_level->recuruitment_number;
+			$condition_recuruitment_level = $award_level->recuruitment_level;
+			$condition_revenue = $award_level->minimum_earning;
+
+			// Lấy danh sách user có điều kiện cần tăng cấp dựa vào
+			// Cấp độ muốn lấy < new_level_number, 
+			$users_query = $this->get_users_by_level($new_level_number);
+
+			// Với mỗi users cấp độ dưới trong danh sách cấp độ nhỏ hơn
+			foreach ($users_query as $user) {
+
+				// Kiểm tra doanh số cá nhân và số lượng thành viên trực tiếp
+				$user_id = $user->id;
+
+				if ($user->revenue >= $condition_revenue && $this->user->check_direct_member_level($user_id, $condition_recuruitment_number, $condition_recuruitment_level)) {
+
+					// Cập nhật plan_id và level_id mới cho user
+					$this->upgrade_plan($user_id, $new_plan_id);
+				}
+			}
+
+			// Cập nhật bảng rank và doanh thu			
+			$this->calculate_revenue();
+			$this->update_revenue();
+			$this->update_user_rank();
+
+			// Cập nhật thưởng
+		}
+	}
+
+	// Cập nhật Rank for level cho user
+	public function update_user_levels_demo() {
+
+		// Bảng điều kiện và Mức thưởng theo cấp bậc
+		$condition_levels = array(
+			array(
+				'id' => 2,
+				'level_number' => 1,
+				'name' => 'Tiêu dùng',
+				'minimum_earning' => 0,		// đk doanh thu cá nhân cộng dồn
+				'personal_consumption_single_order' => 0,	// đk doanh thu 1 đơn hàng
+				'recuruitment_number' => 0,		// đk số lượng tuyển cộng dồn
+				'recruitment_level' => 0,					// đk cấp độ tuyển
+				'product_sales_discount' => 0,				// mức triết khấu mua sản phẩm
+				'direct_sales_commission' => 0,				// mức thưởng doanh thu trực tiếp + cá nhân
+				'system_share' => 0							// đồng chia 
+			),
+			array(
+				'id' => 3,
+				'level_number' => 2,
+				'name' => 'Thành viên',
+				'minimum_earning' => 3000000,
+				'personal_consumption_single_order' => 0,
+				'recuruitment_number' => 0,
+				'recruitment_level' => 0,
+				'product_sales_discount' => 0.18,
+				'direct_sales_commission' => 0.10,
+				'system_share' => 0
+			),
+			array(
+				'id' => 4,
+				'level_number' => 3,
+				'name' => 'Phó phòng',
+				'minimum_earning' => 8000000,
+				'personal_consumption_single_order' => 5000000,
+				'recuruitment_number' => 0,
+				'recruitment_level' => 0,
+				'product_sales_discount' => 0.08,
+				'direct_sales_commission' => 0.20,
+				'system_share' => 0
+			),
+			array(
+				'id' => 8,
+				'level_number' => 4,
+				'name' => 'Trưởng phòng',
+				'minimum_earning' => 0,
+				'personal_consumption_single_order' => 0,
+				'recuruitment_number' => 20,
+				'recruitment_level' => 3,
+				'product_sales_discount' => 0.04,
+				'direct_sales_commission' => 0.24,
+				'system_share' => 0
+			),
+			array(
+				'id' => 9,
+				'level_number' => 5,
+				'name' => 'Giám đốc',
+				'minimum_earning' => 0,
+				'personal_consumption_single_order' => 0,
+				'recuruitment_number' => 20,
+				'recruitment_level' => 4,
+				'product_sales_discount' => 0,
+				'direct_sales_commission' => 0.28,
+				'system_share' => 0.02			// 2% đồng chia tổng doanh thu hệ thống nếu số lượng trực tiếp đạt cấp 5 > 0
+			)
+		);
+
+		// Lấy các bản ghi từ bảng award_level
+		$this->db->where('level_number >=', 2);
+		$this->db->order_by('level_number', 'asc');
+		$query = $this->db->get('award_level');
+
+		// Chạy qua mỗi cấp độ bắt đầu từ số 2
+		// foreach ($query->result() as $award_level) {
+
+		// Bắt đầu từ số 1
+		foreach ($condition_levels as $award_level) {
+
+			$current_level = $award_level['level_number'];
+
+			if ($current_level >= 2) {
+
+				// Lấy ID của cấp độ sẽ nâng cấp lên nếu đạt điều kiện
+				$new_level_id = $award_level['id'];
+				$new_level_number = $award_level['level_number'];
+
+				// Lấy plan member ship của level hiện tại
+				// Gọi hàm get_plan_id_by_level để lấy plan_id cho level_number đã cho
+				$new_plan = $this->get_plan_id_by_level($new_level_number);
+
+				if ($new_plan) {
+					$new_plan_id = $new_plan->plan_id;
+				} else {
+					$new_plan_id = 6;
+				}
+
+				// Lấy điều kiện để được thăng cấp
+				$condition_recuruitment_number = $award_level['recuruitment_number'];
+				$condition_recuruitment_level = $award_level['recuruitment_level'];
+				$condition_consum = $award_level['minimum_earning'];
+
+				// Lấy danh sách user có điều kiện cần tăng cấp dựa vào
+				// Cấp độ muốn lấy < new_level_number, 
+				$users_query = $this->get_users_by_level_demo($new_level_number);
+
+				// Với mỗi users cấp độ dưới trong danh sách cấp độ nhỏ hơn
+				foreach ($users_query as $user) {
+
+					// Kiểm tra doanh số cá nhân và số lượng thành viên trực tiếp
+					$user_id = $user->id;
+
+					if ($user->consum >= $condition_consum && $this->user->check_direct_member_level($user_id, $condition_recuruitment_number, $condition_recuruitment_level)) {
+
+						// Cập nhật plan_id và level_id mới cho user
+						$this->upgrade_plan($user_id, $new_plan_id);
+					}
+				}
+
+				// Cập nhật bảng rank và doanh thu			
+				$this->calculate_revenue();
+				$this->update_revenue();
+				$this->update_user_rank();
+
+				// Cập nhật thưởng
+			}
+		}
+	}
+
+	// Buy new plan - Update Level
+	public function upgrade_plan($user_id, $new_planid, $status_id = 1, $comment = 'Tăng cấp') {
+
+		$user = App\User::find($user_id);
+		$plan = MembershipPlan::find($new_planid);
+
+		$membership = $plan->buy($user, $status_id, $comment, 'Policy by System', 0, '', $plan);
+
+		// set default plan acive if refund given
+		if ((int)$status_id == 8) {
+			$this->setDefaultPlan($user_id);
+		}
+	}
+
+
+	// Lấy danh sách User theo level cấp dưới
+	public function get_users_by_level($new_level_number) {
+		$this->db->select('award_level.level_number, users.id, users.level_id, users.type, user_revenue.revenue, user_revenue.revenue_direct, user_revenue.revenue_indirect');
+		$this->db->from('users');
+		$this->db->join('award_level', 'users.level_id = award_level.id', 'left');
+		$this->db->join('user_revenue', 'users.id = user_revenue.user_id', 'left');
+		$this->db->where('users.type', 'user');
+
+		if ($new_level_number == 2) {
+			$this->db->where('users.level_id', 0);
+			$this->db->or_where('award_level.level_number', $new_level_number - 1);
+		} else {
+			$this->db->where('award_level.level_number', $new_level_number - 1);
+		}
+
+		$query = $this->db->get();
+
+		// Kiểm tra và xử lý kết quả trả về
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return array(); // hoặc return null; tùy theo logic của bạn
+		}
+	}
+
+	public function get_users_by_level_demo($new_level_number) {
+		$this->db->select('award_level.level_number, users.id, users.level_id, users.type, user_revenue.revenue, user_revenue.revenue_direct, user_revenue.revenue_indirect, user_consum.consum, user_consum.consum_direct');
+		$this->db->from('users');
+		$this->db->join('award_level', 'users.level_id = award_level.id', 'left');
+		$this->db->join('user_revenue', 'users.id = user_revenue.user_id', 'left');
+		$this->db->join('user_consum', 'users.id = user_consum.user_id', 'left');
+		$this->db->where('users.type', 'user');
+
+		if ($new_level_number == 2) {
+			$this->db->where('users.level_id', 0);
+			$this->db->or_where('award_level.level_number', $new_level_number - 1);
+		} else {
+			$this->db->where('award_level.level_number', $new_level_number - 1);
+		}
+
+		$query = $this->db->get();
+
+		// Kiểm tra và xử lý kết quả trả về
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return array(); // hoặc return null; tùy theo logic của bạn
+		}
+	}
+
+	// Lấy Plan ID của Level Number mới
+	public function get_memberplan_by_level($number_level) {
+		// Join the membership_plans and award_level tables
+		$this->db->select('membership_plans.id as memberplan_id');
+		$this->db->from('membership_plans');
+		$this->db->join('award_level', 'membership_plans.level_id = award_level.id');
+		$this->db->where('award_level.level_number', $number_level);
+
+		$query = $this->db->get();
+		return $query->row(); // Return a single row
+	}
+
+	// lấy plan_id của 1 level
+	public function get_plan_id_by_level($level_number) {
+		$this->db->select('membership_plans.id as plan_id');
+		$this->db->from('award_level');
+		$this->db->join('membership_plans', 'membership_plans.level_id = award_level.id');
+		$this->db->where('award_level.level_number', $level_number);
+
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			return $query->row(); // Return a single row
+		} else {
+			return null; // Return null if no row found
+		}
+	}
+
+	// Cập nhật cây tuyển dụng ===========================
+	public function mj_update_user_tree() {
+		// Lấy danh sách tất cả các user từ bảng users
+		$this->db->select('id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$id = $user['id'];
+
+			// Lấy danh sách các con của user hiện tại
+			$this->db->select('id');
+			$this->db->where('refid', $id);
+			$children_query = $this->db->get('users');
+			$children = $children_query->result_array();
+
+			// Chuyển danh sách các con thành chuỗi
+			$child_ids = array_map(function ($child) {
+				return $child['id'];
+			}, $children);
+
+			$childs_string = implode(',', $child_ids);
+
+			// Kiểm tra xem bản ghi đã tồn tại trong bảng users_direct chưa
+			$this->db->where('user_id', $id);
+			$direct_query = $this->db->get('users_direct');
+
+			if ($direct_query->num_rows() > 0) {
+				// Nếu có, cập nhật bản ghi
+				$this->db->where('user_id', $id);
+				$this->db->update('users_direct', array('ids_direct' => $childs_string));
+			} else {
+				// Nếu không, thêm mới bản ghi
+				$this->db->insert('users_direct', array('user_id' => $id, 'ids_direct' => $childs_string));
+			}
+		}
+
+		foreach ($users as $user) {
+			$id = $user['id'];
+
+			// Lấy danh sách các con trực tiếp từ bảng users_direct
+			$this->db->select('ids_direct');
+			$this->db->where('user_id', $id);
+			$direct_query = $this->db->get('users_direct');
+			$direct_children = $direct_query->row_array();
+			$direct_children = $direct_children ? explode(',', $direct_children['ids_direct']) : [];
+
+			// Lấy danh sách toàn bộ các con thuộc cấp dưới từ bảng users
+			$all_descendants = $this->user->getAllDescendants($id);
+
+			// Loại bỏ các con trực tiếp khỏi danh sách toàn bộ các con thuộc cấp dưới
+			$indirect_children = array_diff($all_descendants, $direct_children);
+
+			// Chuyển danh sách các con gián tiếp thành chuỗi
+			$children_indirect_string = implode(',', $indirect_children);
+
+			// Kiểm tra xem bản ghi đã tồn tại trong bảng users_indirect chưa
+			$this->db->where('user_id', $id);
+			$indirect_query = $this->db->get('users_indirect');
+
+			if ($indirect_query->num_rows() > 0) {
+				// Nếu có, cập nhật bản ghi
+				$this->db->where('user_id', $id);
+				$this->db->update('users_indirect', array('ids_indirect' => $children_indirect_string));
+			} else {
+				// Nếu không, thêm mới bản ghi
+				$this->db->insert('users_indirect', array('user_id' => $id, 'ids_indirect' => $children_indirect_string));
+			}
+		}
+	}
+
+	// Tính toán tuyển dụng user_recruitment -> users
+	public function mj_update_recruitment() {
+		// Lấy danh sách tất cả các user từ bảng users
+		$this->db->select('id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['id'];
+			$update_time = date('Y-m-d H:i:s');  // Cập nhật thời gian hiện tại;
+
+			// Lấy danh sách các con trực tiếp từ bảng user_tree
+			$direct_children = $this->user->getChildren($user_id);
+			$direct_child_ids = array_map(function ($child) {
+				return $child['id'];
+			}, $direct_children);
+			$ids_direct_string = implode(',', $direct_child_ids);
+			$total_direct = count($direct_child_ids);
+
+			// Lấy danh sách toàn bộ các con thuộc cấp dưới từ bảng user_tree
+			$all_descendants = $this->user->getAllDescendants($user_id);
+			$indirect_children = array_diff($all_descendants, $direct_child_ids);
+			$ids_indirect_string = implode(',', $indirect_children);
+			$total_indirect = count($indirect_children);
+
+			// Tính tổng số con
+			$total_downline = $total_direct + $total_indirect;
+
+			// Kiểm tra xem bản ghi đã tồn tại trong bảng users_recruitment chưa
+			$this->db->where('user_id', $user_id);
+			$recruitment_query = $this->db->get('user_recruitment');
+
+			if ($recruitment_query->num_rows() > 0) {
+				// Nếu có, cập nhật bản ghi
+				$data = array(
+					'ids_direct' => $ids_direct_string,
+					'ids_indirect' => $ids_indirect_string,
+					'total_direct' => $total_direct,
+					'total_indirect' => $total_indirect,
+					'total_downline' => $total_downline,
+					'updated_time' => $update_time
+				);
+
+				$this->db->where('user_id', $user_id);
+				$this->db->update('user_recruitment', $data);
+			} else {
+				// Nếu không, thêm mới bản ghi
+				$data = array(
+					'user_id' => $user_id,
+					'ids_direct' => $ids_direct_string,
+					'ids_indirect' => $ids_indirect_string,
+					'total_direct' => $total_direct,
+					'total_indirect' => $total_indirect,
+					'total_downline' => $total_downline,
+					'updated_time' => $update_time
+				);
+
+				$this->db->insert('user_recruitment', $data);
+			}
+		}
+	}
+
+	// Tính toán doanh thu user_revenue -> order, product_order
+	public function mj_update_revenue() {
+
+		// Lấy danh sách tất cả các user từ bảng users
+		$this->db->select('id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['id'];
+
+			// Lấy danh sách các đơn hàng mà user tạo ra
+			$this->db->select('*');
+			$this->db->where('user_id', $user_id);
+			$orders = $this->db->get('order')->result_array();
+
+			foreach ($orders as $order) {
+				$order_id = $order['id'];
+				$order_time = $order['created_at'];
+
+				// Lấy các sản phẩm trong đơn hàng
+				$this->db->select('*');
+				$this->db->where('order_id', $order_id);
+				$order_products = $this->db->get('order_products')->result_array();
+
+				foreach ($order_products as $order_product) {
+					$product_id = $order_product['product_id'];
+					$refer_id = $order_product['refer_id'];
+					$total = $order_product['total'];
+
+					// Tính revenue
+					$revenue = ($refer_id == $user_id) ? $total : 0;
+
+					// Kiểm tra xem bản ghi đã tồn tại trong bảng user_revenue chưa
+					$this->db->where('user_id', $user_id);
+					$this->db->where('order_id', $order_id);
+					$this->db->where('product_id', $product_id);
+					$existing_revenue_query = $this->db->get('user_revenue');
+
+					if ($existing_revenue_query->num_rows() > 0) {
+						// Nếu có, cập nhật bản ghi
+						$data = array(
+							'revenue' => $revenue,
+							'created_time' => $order_time
+						);
+
+						$this->db->where('user_id', $user_id);
+						$this->db->where('order_id', $order_id);
+						$this->db->where('product_id', $product_id);
+						$this->db->update('user_revenue', $data);
+					} else {
+						// Nếu không, thêm mới bản ghi
+						$data = array(
+							'user_id' => $user_id,
+							'order_id' => $order_id,
+							'product_id' => $product_id,
+							'revenue' => $revenue,
+							'created_time' => $order_time
+						);
+
+						$this->db->insert('user_revenue', $data);
+					}
+				}
+			}
+		}
+	}
+
+	// Các doanh thu khác
+	public function mj_update_revenue_other() {
+		// Lấy danh sách tất cả các user từ bảng users_revenue
+		$this->db->select('user_id, revenue');
+		$query = $this->db->get('user_revenue');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['user_id'];
+			$user_revenue = $user['revenue'];
+			$update_time = date('Y-m-d H:i:s');  // Cập nhật thời gian hiện tại
+
+			// Tính toán revenue_direct và revenue_indirect
+			$revenue_direct = $this->calculate_revenue_direct($user_id);
+			$revenue_indirect = $this->calculate_revenue_indirect($user_id);
+
+			// Cập nhật bảng user_revenue với các giá trị mới
+			$data = array(
+				'revenue_direct' => $revenue_direct,
+				'revenue_indirect' => $revenue_indirect,
+				'revenue_downline' => $revenue_direct + $revenue_indirect,
+				'revenue_team' => $user_revenue + $revenue_direct + $revenue_indirect,
+				'updated_time' => $update_time
+			);
+
+			// Kiểm tra xem bản ghi đã tồn tại trong bảng user_revenue chưa
+			$this->db->where('user_id', $user_id);
+			$existing_revenue_query = $this->db->get('user_revenue');
+
+			if ($existing_revenue_query->num_rows() > 0) {
+				// Nếu có, cập nhật bản ghi
+				$this->db->where('user_id', $user_id);
+				$this->db->update('user_revenue', $data);
+			} else {
+				// Nếu không, thêm mới bản ghi
+				$data['user_id'] = $user_id;  // Thêm user_id vào mảng data để chèn mới
+				$this->db->insert('user_revenue', $data);
+			}
+		}
+	}
+
+	// Tính toán tiêu dùng user_consum -> order, product_order
+	public function mj_update_consum() {
+		// User Consum - Tiêu dùng
+		// Lấy danh sách tất cả các user từ bảng users
+		$this->db->select('id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['id'];
+
+			// Lấy danh sách các đơn hàng mà user tạo ra
+			$this->db->select('*');
+			$this->db->where('user_id', $user_id);
+			$orders = $this->db->get('order')->result_array();
+
+			foreach ($orders as $order) {
+				$order_id = $order['id'];
+				$order_user_id = $order['user_id'];
+				$order_time = $order['created_at'];
+
+				// Lấy các sản phẩm trong đơn hàng
+				$this->db->select('*');
+				$this->db->where('order_id', $order_id);
+				$order_products = $this->db->get('order_products')->result_array();
+
+				foreach ($order_products as $order_product) {
+					$product_id = $order_product['product_id'];
+					$total = $order_product['total'];
+
+					// Tính consum (tiêu cá nhân)
+					$consum = ($order_user_id == $user_id) ? $total : 0;
+
+					// Tạo mảng dữ liệu để cập nhật
+					$data = array(
+						'user_id' => $user_id,
+						'order_id' => $order_id,
+						'product_id' => $product_id,
+						'consum' => $consum,
+						'created_time' => $order_time
+					);
+
+					// Kiểm tra xem bản ghi đã tồn tại trong bảng user_consum chưa
+					$this->db->where('user_id', $user_id);
+					$this->db->where('order_id', $order_id);
+					$this->db->where('product_id', $product_id);
+					$existing_consum_query = $this->db->get('user_consum');
+
+					if ($existing_consum_query->num_rows() > 0) {
+						// Nếu có, cập nhật bản ghi
+						$this->db->where('user_id', $user_id);
+						$this->db->where('order_id', $order_id);
+						$this->db->where('product_id', $product_id);
+						$this->db->update('user_consum', $data);
+					} else {
+						// Nếu không, thêm mới bản ghi
+						$this->db->insert('user_consum', $data);
+					}
+				}
+			}
+		}
+	}
+
+	// Cập nhật consum cho direct và indirect
+	public function mj_update_consum_other() {
+		// Lấy danh sách tất cả các user từ bảng user_consum
+		$this->db->select('user_id, consum');
+		$query = $this->db->get('user_consum');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['user_id'];
+			$user_consum = $user['consum'];
+			$update_time = date('Y-m-d H:i:s');  // Cập nhật thời gian hiện tại
+
+			// Tính toán consum_direct và consum_indirect
+			$consum_direct = $this->calculate_consum_direct($user_id);
+			$consum_indirect = $this->calculate_consum_indirect($user_id);
+
+			// Dữ liệu cập nhật
+			$data = array(
+				'consum_direct' => $consum_direct,
+				'consum_indirect' => $consum_indirect,
+				'consum_downline' => $consum_direct + $consum_indirect,
+				'consum_team' => $user_consum + $consum_direct + $consum_indirect,
+				'updated_time' => $update_time
+			);
+
+			// Kiểm tra xem bản ghi đã tồn tại chưa
+			$this->db->where('user_id', $user_id);
+			$existing_consum_query = $this->db->get('user_consum');
+
+			if ($existing_consum_query->num_rows() > 0) {
+				// Nếu có, cập nhật bản ghi
+				$this->db->where('user_id', $user_id);
+				$this->db->update('user_consum', $data);
+			} else {
+				// Nếu không, thêm mới bản ghi
+				$data['user_id'] = $user_id;  // Thêm user_id vào dữ liệu
+				$data['consum'] = $user_consum; // Thêm consum vào dữ liệu
+				$this->db->insert('user_consum', $data);
+			}
+		}
+	}
+
+	// Tính toán thứ hạng user_rank -> (users, reward, award_level)
+	public function mj_update_rank() {
+		// Tính toán cập nhật User Rank
+		// Lấy danh sách tất cả các user từ bảng users
+		$this->db->select('id as user_id, plan_id');
+		$query = $this->db->get('users');
+		$users = $query->result_array();
+
+		foreach ($users as $user) {
+			$user_id = $user['user_id'];
+			$plan_id = $user['plan_id']; // đơn hàng thành viên từ membership_user
+
+			// Lấy thông tin từ bảng membership_user
+			$this->db->select('plan_id');
+			$this->db->where('user_id', $user_id);
+			$this->db->where('is_active', 1);
+			$membership_user = $this->db->get('membership_user')->row_array();
+
+			if (!$membership_user) {
+				// Nếu không có bản ghi trong membership_user, gán award_id = 0 và user_level = 0
+				$data = array(
+					'user_id' => $user_id,
+					'award_id' => 0,
+					'reward_id' => 0, // Cần logic bổ sung để tính toán reward_id
+					'star_id' => 0, // Cần logic bổ sung để tính toán star_id
+					'user_level' => 0,
+					'user_star' => 0,
+					'user_reward' => 'Không',
+					'created_time' => date('Y-m-d H:i:s')
+				);
+			} else {
+				$membership_plan_id = $membership_user['plan_id']; // lấy gói thành viên từ membership_plan
+
+				// Lấy thông tin từ bảng membership_plan
+				$this->db->select('level_id'); // lấy cấp độ từ award_level
+				$this->db->where('id', $membership_plan_id);
+				$membership_plan = $this->db->get('membership_plans')->row_array();
+
+				if (!$membership_plan) {
+					continue;
+				}
+
+				$level_id = $membership_plan['level_id'];
+
+				// Lấy thông tin từ bảng award_level
+				$this->db->select('id as award_id, level_number');
+				$this->db->where('id', $level_id);
+				$award_level = $this->db->get('award_level')->row_array();
+
+				if (!$award_level) {
+					continue;
+				}
+
+				$award_id = $award_level['award_id'];
+				$level_number = $award_level['level_number'];
+
+				// Tính toán star và reward
+				$star_id = $this->calculate_user_star($award_id);
+				$reward_id = $this->calculate_user_reward($award_id);
+				$user_star = $this->calculate_user_star($award_id, true);
+				$user_reward = $this->calculate_user_reward($award_id, true);
+
+				// Dữ liệu cập nhật
+				$data = array(
+					'user_id' => $user_id,
+					'award_id' => $award_id,
+					'reward_id' => $reward_id,
+					'star_id' => $star_id,
+					'user_level' => $level_number,
+					'user_star' => $user_star,
+					'user_reward' => $user_reward,
+					'created_time' => date('Y-m-d H:i:s')
+				);
+			}
+
+			// Kiểm tra xem bản ghi đã tồn tại chưa
+			$this->db->where('user_id', $user_id);
+			$existing_rank_query = $this->db->get('user_rank');
+
+			if ($existing_rank_query->num_rows() > 0) {
+				// Nếu có, cập nhật bản ghi
+				$this->db->where('user_id', $user_id);
+				$this->db->update('user_rank', $data);
+			} else {
+				// Nếu không, thêm mới bản ghi
+				$this->db->insert('user_rank', $data);
+			}
+		}
+	}
+
+	// Tính toán cấp bậc theo điều kiện - nhảy cấp users -> levels (membership_plans)
+	public function mj_update_level() {
+
+		// Lấy các bản ghi từ bảng award_level
+		$this->db->where('level_number >=', 2);
+		$this->db->order_by('level_number', 'asc');
+		$query = $this->db->get('award_level');
+
+		// Chạy qua mỗi cấp độ bắt đầu từ số 2
+		foreach ($query->result() as $award_level) {
+
+			// Lấy ID của cấp độ sẽ nâng cấp lên nếu đạt điều kiện
+			$new_level_id = $award_level->id;
+			$new_level_number = $award_level->level_number;
+
+			// Lấy plan member ship của level hiện tại
+			// Gọi hàm get_plan_id_by_level để lấy plan_id cho level_number đã cho
+			$new_plan = $this->get_plan_id_by_level($new_level_number);
+
+			if ($new_plan) {
+				$new_plan_id = $new_plan->plan_id;
+			} else {
+				$new_plan_id = 6;
+			}
+
+			// Lấy điều kiện để được thăng cấp
+			$condition_recuruitment_number = $award_level->recuruitment_number;
+			$condition_recuruitment_level = $award_level->recuruitment_level;
+			$condition_revenue = $award_level->minimum_earning;
+
+			// Lấy danh sách user có điều kiện cần tăng cấp dựa vào
+			// Cấp độ muốn lấy < new_level_number, 
+			$users_query = $this->get_users_by_level($new_level_number);
+
+			// Với mỗi users cấp độ dưới trong danh sách cấp độ nhỏ hơn
+			foreach ($users_query as $user) {
+
+				// Kiểm tra doanh số cá nhân và số lượng thành viên trực tiếp
+				$user_id = $user->id;
+
+				if ($user->revenue >= $condition_revenue && $this->user->check_direct_member_level($user_id, $condition_recuruitment_number, $condition_recuruitment_level)) {
+
+					// Cập nhật plan_id và level_id mới cho user
+					$this->upgrade_plan($user_id, $new_plan_id);
+				}
+			}
+
+			// Cập nhật bảng rank và doanh thu			
+			$this->mj_update_revenue();
+			$this->mj_update_revenue_other();
+			$this->mj_update_rank();
+		}
+	}
+
+	// Tính toán thưởng theo các điều kiện và chính sách
+	public function mj_update_commission() {
+		$this->user->mj_calculate_commissions(); // user_commission
+	}
+
+	// Tính toán cấp nhật thưởng đưa vào Ví wallets -> update_plan
+	public function mj_update_commission_to_wallet() {
+		$this->order->mj_updateAllCommWallet(); // wallet
 	}
 }

@@ -253,7 +253,7 @@
 										<th><?= __('admin.payment') ?></th>
 										<th><?= __('admin.status') ?></th>
 										<th><?= __('admin.actions') ?></th>
-										<th><?= __('admin.automation') ?></th>
+										<!-- <th><?= __('admin.automation') ?></th> -->
 									</tr>
 								</thead>
 								<tbody>

@@ -622,54 +622,54 @@ $sidebar_data = array(
 
           <a class="dropdown-item" href="<?= base_url('admincontrol/report_list_product') ?>">
 
-            <i class="fas fa-box"></i>
+            <i class="fas fa-box" style="min-width:20px"></i>
 
             <?= __('Danh mục Sản phẩm') ?>
 
           </a>
           <a class="dropdown-item" href="<?= base_url('admincontrol/report_list_client') ?>">
 
-            <i class="fas fa-users"></i>
+            <i class="fas fa-users" style="min-width:20px"></i>
 
             <?= __('Danh mục Khách hàng') ?>
 
           </a>
           <a class="dropdown-item" href="<?= base_url('admincontrol/report_list_revenue') ?>">
 
-            <i class="fas fa-chart-line"></i>
+            <i class="fas fa-chart-line" style="min-width:20px"></i>
 
             <?= __('Báo cáo Doanh thu') ?>
 
           </a>
           <a class="dropdown-item" href="<?= base_url('admincontrol/report_list_commission') ?>">
 
-            <i class="fas fa-dollar-sign"></i>
+            <i class="fas fa-dollar-sign" style="min-width:20px"></i>
 
-            <?= __('TH & Chi tiết Thưởng') ?>
+            <?= __('Báo cáo Thưởng') ?>
 
           </a>
-          
+
           <a class="dropdown-item" href="<?= base_url('admincontrol/report_list_wallet') ?>">
 
-            <i class="fas fa-wallet"></i>
+            <i class="fas fa-wallet" style="min-width:20px"></i>
 
-            <?= __('TH & Chi tiết Ví') ?>
+            <?= __('Báo cáo Ví') ?>
 
           </a>
           <a class="dropdown-item" href="<?= base_url('admincontrol/report_list_user') ?>">
 
-            <i class="fas fa-chart-pie"></i>
+            <i class="fas fa-chart-pie" style="min-width:20px"></i>
 
-            <?= __('TH & Chi tiết User') ?>
+            <?= __('Báo cáo User') ?>
 
-          </a>         
+          </a>
           <a class="dropdown-item" href="<?= base_url('admincontrol/report_approve_bonus') ?>">
 
-            <i class="fas fa-file-alt"></i>
+            <i class="fas fa-file-alt" style="min-width:20px"></i>
 
             <?= __('Duyệt Chi thưởng') ?>
 
-          </a>         
+          </a>
 
         </div>
       </li>

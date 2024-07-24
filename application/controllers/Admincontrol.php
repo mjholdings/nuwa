@@ -8483,7 +8483,6 @@ class Admincontrol extends MY_Controller
 			$this->db->insert('users_indirect', $data);
 		}
 
-		echo "Bảng users_direct và users_indirect đã được cập nhật.";
 	}
 
 	// User Recruitment
@@ -8533,7 +8532,6 @@ class Admincontrol extends MY_Controller
 			$this->db->insert('user_recruitment', $data);
 		}
 
-		echo "Bảng users_recruitment đã được cập nhật.";
 	}
 
 	// User Revenue - Doanh thu cá nhân
@@ -8587,7 +8585,6 @@ class Admincontrol extends MY_Controller
 			}
 		}
 
-		echo "Bảng user_revenue đã được cập nhật.";
 	}
 
 	// User Update Revenue - Doanh thu khác (trực tiếp, gián tiếp,...)
@@ -8619,7 +8616,6 @@ class Admincontrol extends MY_Controller
 			$this->db->update('user_revenue', $data);
 		}
 
-		echo "Bảng user_revenue đã được cập nhật.";
 	}
 
 	// Tính toán doanh thu trực tiếp
@@ -8717,7 +8713,6 @@ class Admincontrol extends MY_Controller
 			}
 		}
 
-		echo "Bảng user_consum đã được cập nhật.";
 	}
 
 	// Cập nhật consum cho direct và indirect
@@ -8750,7 +8745,6 @@ class Admincontrol extends MY_Controller
 			$this->db->update('user_consum', $data);
 		}
 
-		echo "Bảng user_consum đã được cập nhật.";
 	}
 
 	// Tính doanh thu trực tiếp
@@ -8879,7 +8873,6 @@ class Admincontrol extends MY_Controller
 			$this->db->insert('user_rank', $data);
 		}
 
-		echo "Bảng user_rank đã được cập nhật.";
 	}
 
 	// Tính toán star - value return value not id

@@ -667,7 +667,7 @@ $sidebar_data = array(
 
             <i class="fas fa-file-alt"></i>
 
-            <?= __('Bảng duyệt Chi thưởng') ?>
+            <?= __('Duyệt Chi thưởng') ?>
 
           </a>         
 

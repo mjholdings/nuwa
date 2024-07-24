@@ -3,10 +3,10 @@
 	$userdetails=$db->userdetails();
 ?>
 <div class="row gx-3 gy-3 wallet-page">
-  <div class="col-xl-6 d-flex">
+  <div class="col-xl-4 d-flex">
     <div class="card flex-fill">
       <div class="card-header bg-secondary text-white text-center text-uppercase">
-        <h5><?= __('admin.admin_balance') ?></h5>
+        <h5><?= __('TỔNG NẠP (TIÊU DÙNG)') ?></h5>
       </div>
       <div class="card-body">
         <div class="text-center">
@@ -20,7 +20,58 @@
       </div>
     </div>
   </div>
-  <div class="col-xl-6 d-flex">
+  <div class="col-xl-4 d-flex">
+    <div class="card flex-fill">
+      <div class="card-header bg-secondary text-white text-center text-uppercase">
+        <h5><?= __('TỔNG THƯỞNG (HOA HỒNG)') ?></h5>
+      </div>
+      <div class="card-body">
+        <div class="text-center">
+          <ul class="list-inline row mb-0 clearfix">
+            <li class="col-12">
+              <p class="m-b-5 counter"><?= c_format($admin_totals['admin_balance']) ?></p>
+              <p class="mb-0 text-muted"><?= __('admin.total_admin_balance') ?></p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 d-flex">
+    <div class="card flex-fill">
+      <div class="card-header bg-secondary text-white text-center text-uppercase">
+        <h5><?= __('TỔNG ĐIỂM (NUWA)') ?></h5>
+      </div>
+      <div class="card-body">
+        <div class="text-center">
+          <ul class="list-inline row mb-0 clearfix">
+            <li class="col-12">
+              <p class="m-b-5 counter"><?= c_format($admin_totals['admin_balance']) ?></p>
+              <p class="mb-0 text-muted"><?= __('admin.total_admin_balance') ?></p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 d-flex">
+    <div class="card flex-fill">
+      <div class="card-header bg-secondary text-white text-center text-uppercase">
+        <h5><?= __('TỔNG TÀI KHOẢN (RÚT)') ?></h5>
+      </div>
+      <div class="card-body">
+        <div class="text-center">
+          <ul class="list-inline row mb-0 clearfix">
+            <li class="col-12">
+              <p class="m-b-5 counter"><?= c_format($admin_totals['admin_balance']) ?></p>
+              <p class="mb-0 text-muted"><?= __('admin.total_admin_balance') ?></p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-8 d-flex">
     <div class="card flex-fill">
       <div class="card-header bg-secondary text-white text-center text-uppercase">
         <h5><?= __('admin.total_sales') ?></h5>

@@ -27,7 +27,7 @@
 								<th><?= __('admin.type') ?></th>
 								<th><?= __('admin.price') ?></th>
 								<th><?= __('admin.payment_method') ?></th>
-								<th><?= __('admin.ip') ?></th>
+								<!-- <th><?= __('admin.ip') ?></th> -->
 								<th><?= __('admin.transaction') ?></th>
 								<th><?= __('admin.commission') ?></th>
 								<th><?= __('admin.status') ?></th>

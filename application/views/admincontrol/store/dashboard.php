@@ -30,7 +30,7 @@ $notifications_count = $products->getnotificationnew_count('admin',null);
                     </p>
                 </div>
             </div>
-            <div class="card col-md-2">
+            <div class="card col-md-2 d-none">
                 <div class="card-body text-center">
                     <h5 class="card-title"><?= __('admin.clicks_statistic') ?></h5>
                     <p class="card-text fs-2 ajax-all_clicks_comm"><?= $totals['full_all_clicks_comm'] ?></p>

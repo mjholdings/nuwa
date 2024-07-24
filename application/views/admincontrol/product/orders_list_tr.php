@@ -24,7 +24,7 @@
 													}
 													//echo str_replace("_", " ", $product['payment_method']);
 												?></td>
-												<td class="txt-cntr"><?php echo $product['order_country_flag'];?></td>
+												<!-- <td class="txt-cntr"><?php echo $product['order_country_flag'];?></td> -->
 												<td class="txt-cntr"><?php echo $product['txn_id'];?></td>
 
 												<td class="txt-cntr">

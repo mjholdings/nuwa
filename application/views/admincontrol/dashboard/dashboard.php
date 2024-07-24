@@ -484,7 +484,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                                     <div class="row justify-content-center mb-2">
                                                         <div class="col text-center">
                                                             <h6 class="card-title fw-bold text-primary py-2">
-                                                                <?= __('admin.admin_balance') ?>
+                                                                <?= __('Tổng Dư Nạp (Tiêu dùng)') ?>
                                                             </h6>
                                                         </div>
                                                     </div>
@@ -549,8 +549,119 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                             </div>
                                         </div>
 
-                                        <!-- Card 3: Actions -->
+                                        <!-- Card 5: Balance -->
                                         <div class="col">
+                                            <div class="card bg-light position-relative">
+                                                <div class="position-absolute top-0 end-0 card-dashboard-css1"></div>
+                                                <div class="card-body">
+                                                    <!-- Row 1: Title -->
+                                                    <div class="row justify-content-center mb-2">
+                                                        <div class="col text-center">
+                                                            <h6 class="card-title fw-bold text-primary py-2">
+                                                                <?= __('Tổng Hoa Hồng') ?>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Row 2: First Amount -->
+                                                    <div class="row justify-content-center mb-2">
+                                                        <div class="col text-center">
+                                                            <span class="card-text h5">
+                                                                <span class="card-text h6 ajax-admin_balance"><?= $fun_c_format($admin_totals['admin_balance']) ?>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Row 3: Second Amount -->
+                                                    <div class="row justify-content-center mb-2">
+                                                        <div class="col text-center">
+                                                            <span class="card-text h5">
+                                                                <span class="badge bg-success fs-6">
+                                                                    <span class="ajax-admin_balance"><?= $admin_totals['admin_balance_growth']; ?>
+                                                                    </span>% <i class="bi bi-arrow-up-short"></i>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Card 6: Balance -->
+                                        <div class="col">
+                                            <div class="card bg-light position-relative">
+                                                <div class="position-absolute top-0 end-0 card-dashboard-css1"></div>
+                                                <div class="card-body">
+                                                    <!-- Row 1: Title -->
+                                                    <div class="row justify-content-center mb-2">
+                                                        <div class="col text-center">
+                                                            <h6 class="card-title fw-bold text-primary py-2">
+                                                                <?= __('Tổng Điểm (Nuwa)') ?>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Row 2: First Amount -->
+                                                    <div class="row justify-content-center mb-2">
+                                                        <div class="col text-center">
+                                                            <span class="card-text h5">
+                                                                <span class="card-text h6 ajax-admin_balance"><?= $fun_c_format($admin_totals['admin_balance']) ?>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Row 3: Second Amount -->
+                                                    <div class="row justify-content-center mb-2">
+                                                        <div class="col text-center">
+                                                            <span class="card-text h5">
+                                                                <span class="badge bg-success fs-6">
+                                                                    <span class="ajax-admin_balance"><?= $admin_totals['admin_balance_growth']; ?>
+                                                                    </span>% <i class="bi bi-arrow-up-short"></i>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Card 7: Balance -->
+                                        <div class="col">
+                                            <div class="card bg-light position-relative">
+                                                <div class="position-absolute top-0 end-0 card-dashboard-css1"></div>
+                                                <div class="card-body">
+                                                    <!-- Row 1: Title -->
+                                                    <div class="row justify-content-center mb-2">
+                                                        <div class="col text-center">
+                                                            <h6 class="card-title fw-bold text-primary py-2">
+                                                                <?= __('Ví Tài Khoản Rút (VND)') ?>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Row 2: First Amount -->
+                                                    <div class="row justify-content-center mb-2">
+                                                        <div class="col text-center">
+                                                            <span class="card-text h5">
+                                                                <span class="card-text h6 ajax-admin_balance"><?= $fun_c_format($admin_totals['admin_balance']) ?>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Row 3: Second Amount -->
+                                                    <div class="row justify-content-center mb-2">
+                                                        <div class="col text-center">
+                                                            <span class="card-text h5">
+                                                                <span class="badge bg-success fs-6">
+                                                                    <span class="ajax-admin_balance"><?= $admin_totals['admin_balance_growth']; ?>
+                                                                    </span>% <i class="bi bi-arrow-up-short"></i>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                     
+
+                                        <!-- Card 3: Actions -->
+                                        <div class="col d-none">
                                             <div class="card bg-light position-relative">
                                                 <div class="position-absolute top-0 end-0 card-dashboard-css3"></div>
                                                 <div class="card-body">
@@ -588,7 +699,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                         </div>
 
                                         <!-- Card 4: Clicks -->
-                                        <div class="col">
+                                        <div class="col d-none">
                                             <div class="card bg-light position-relative">
                                                 <div class="position-absolute top-0 end-0 card-dashboard-css4"></div>
                                                 <div class="card-body">

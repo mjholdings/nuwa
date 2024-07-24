@@ -43,7 +43,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="card bg-soft-danger">
         <div class="card-body paidbalance ">
           <div class="d-flex align-itmes-center">
@@ -54,7 +54,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
             </div>
             <div class="action-balnce">
               <p class="mb-0">
-                <?= __('user.balance') ?>
+                <?= __('Số dư (Ví nạp - Tiêu dùng') ?>
               </p>
               <h1>
                 <?= c_format($user_totals['user_balance']) ?>
@@ -64,16 +64,79 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
               <div class="badge bg-primary">
                 <i class="fa-sharp fa-solid fa-arrow-up py-2"></i>
                 <span>
-                  <?= __('user.paid_balance') ?>
+                  <?= __('Số dư trả Thưởng') ?>
                   <?= c_format($user_totals['wallet_accept_amount']) ?>
                 </span>
-              </div>
-            </div>
+              </div>              
+            </div>            
           </div>
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
+      <div class="card bg-success text-white">
+        <div class="card-body paidbalance ">
+          <div class="d-flex align-itmes-center">
+            <div>
+              <div class="customebtn bg-soft-primary">
+                <i class="fa-sharp fa-solid fa-money-bill-trend-up icon-symbol"></i>
+              </div>
+            </div>
+            <div class="action-balnce">
+              <p class="mb-0">
+                <?= __('Số dư (ví Thưởng)') ?>
+              </p>
+              <h1>
+                <?= c_format($user_totals['user_balance']) ?>
+              </h1>
+            </div>            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-danger text-white">
+        <div class="card-body paidbalance ">
+          <div class="d-flex align-itmes-center">
+            <div>
+              <div class="customebtn bg-soft-primary">
+                <i class="fa-sharp fa-solid fa-money-bill-trend-up icon-symbol"></i>
+              </div>
+            </div>
+            <div class="action-balnce">
+              <p class="mb-0">
+                <?= __('Số dư ví Điểm') ?>
+              </p>
+              <h1>
+                <?= c_format($user_totals['user_balance']) ?>
+              </h1>
+            </div>            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-success text-white">
+        <div class="card-body paidbalance ">
+          <div class="d-flex align-itmes-center">
+            <div>
+              <div class="customebtn bg-soft-primary">
+                <i class="fa-sharp fa-solid fa-money-bill-trend-up icon-symbol"></i>
+              </div>
+            </div>
+            <div class="action-balnce">
+              <p class="mb-0">
+                <?= __('Số dư ví Tài khoản (Rút)') ?>
+              </p>
+              <h1>
+                <?= c_format($user_totals['user_balance']) ?>
+              </h1>
+            </div>            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mt-3 d-none">
       <div class="card bg-soft-primary">
         <div class="card-body paidbalance">
           <div class="d-flex align-itmes-center">
@@ -105,7 +168,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6 mt-3 d-none">
       <div class="card bg-soft-warning">
         <div class="card-body paidbalance">
           <div class="d-flex align-itmes-center">

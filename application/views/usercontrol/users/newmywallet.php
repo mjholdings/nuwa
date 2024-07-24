@@ -3,7 +3,7 @@
 <script type="text/javascript" src="<?= base_url('assets/plugins/datatable') ?>/daterangepicker.min.js"></script>
 
 <div class="row mb-4">
-    <div class="<?= ($userdetails['is_vendor'] == 1) ? "col-xl-3" : "col-xl-4"; ?>">
+    <div class="<?= ($userdetails['is_vendor'] == 1) ? "col-xl-3" : "col-xl-2"; ?>">
         <div class="card border mt-2">
             <div class="card-header">
                 <h6 class='card-title text-center text-uppercase text-primary m-0'><?= __('user.balance') ?></h6>
@@ -14,6 +14,69 @@
                         <li class="col-12">
                             <p class="m-b-5 font-18 font-500 counter text-primary set-color"><?= c_format($user_totals['user_balance']) ?></p>
                             <p class="mb-0 text-muted"><?= __('user.balance') ?></p>
+                        </li>
+<!--                        <li class="col-6 border-left">-->
+<!--                            <p class="m-b-5 font-18 font-500 counter text-primary set-color">--><?//= c_format($user_totals['wallet_accept_amount']); ?><!--</p>-->
+<!--                            <p class="mb-0 text-muted">--><?//= __('user.paid_balance') ?><!--</p>-->
+<!--                        </li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="<?= ($userdetails['is_vendor'] == 1) ? "col-xl-3" : "col-xl-2"; ?>">
+        <div class="card border mt-2">
+            <div class="card-header">
+                <h6 class='card-title text-center text-uppercase text-primary m-0'><?= __('Ví Thưởng') ?></h6>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <ul class="list-inline row mb-0 clearfix">
+                        <li class="col-12">
+                            <p class="m-b-5 font-18 font-500 counter text-primary set-color"><?= c_format($user_totals['user_balance']) ?></p>
+                            <p class="mb-0 text-muted"><?= __('Ví Thưởng') ?></p>
+                        </li>
+<!--                        <li class="col-6 border-left">-->
+<!--                            <p class="m-b-5 font-18 font-500 counter text-primary set-color">--><?//= c_format($user_totals['wallet_accept_amount']); ?><!--</p>-->
+<!--                            <p class="mb-0 text-muted">--><?//= __('user.paid_balance') ?><!--</p>-->
+<!--                        </li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="<?= ($userdetails['is_vendor'] == 1) ? "col-xl-3" : "col-xl-2"; ?>">
+        <div class="card border mt-2">
+            <div class="card-header">
+                <h6 class='card-title text-center text-uppercase text-primary m-0'><?= __('Ví Điểm') ?></h6>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <ul class="list-inline row mb-0 clearfix">
+                        <li class="col-12">
+                            <p class="m-b-5 font-18 font-500 counter text-primary set-color"><?= c_format($user_totals['user_balance']) ?></p>
+                            <p class="mb-0 text-muted"><?= __('Ví Điểm') ?></p>
+                        </li>
+<!--                        <li class="col-6 border-left">-->
+<!--                            <p class="m-b-5 font-18 font-500 counter text-primary set-color">--><?//= c_format($user_totals['wallet_accept_amount']); ?><!--</p>-->
+<!--                            <p class="mb-0 text-muted">--><?//= __('user.paid_balance') ?><!--</p>-->
+<!--                        </li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="<?= ($userdetails['is_vendor'] == 1) ? "col-xl-3" : "col-xl-2"; ?>">
+        <div class="card border mt-2">
+            <div class="card-header">
+                <h6 class='card-title text-center text-uppercase text-primary m-0'><?= __('Ví tài khoản (Rút ra)') ?></h6>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <ul class="list-inline row mb-0 clearfix">
+                        <li class="col-12">
+                            <p class="m-b-5 font-18 font-500 counter text-primary set-color"><?= c_format($user_totals['user_balance']) ?></p>
+                            <p class="mb-0 text-muted"><?= __('Ví tài khoản (Rút ra)') ?></p>
                         </li>
 <!--                        <li class="col-6 border-left">-->
 <!--                            <p class="m-b-5 font-18 font-500 counter text-primary set-color">--><?//= c_format($user_totals['wallet_accept_amount']); ?><!--</p>-->
@@ -43,7 +106,7 @@
         </div>
     </div>
     <?php } ?>
-    <div class="<?= ($userdetails['is_vendor'] == 1) ? "col-xl-3" : "col-xl-4"; ?>">
+    <div class="<?= ($userdetails['is_vendor'] == 1) ? "col-xl-3" : "col-xl-2"; ?>">
         <div class="card border mt-2">
             <div class="card-header">
                 <h6 class='card-title text-center text-uppercase text-primary m-0'><?= __('user.actions') ?></h6>
@@ -69,7 +132,7 @@
             </div>
         </div>
     </div>
-    <div class="<?= ($userdetails['is_vendor'] == 1) ? "col-xl-3" : "col-xl-4"; ?>">
+    <div class="<?= ($userdetails['is_vendor'] == 1) ? "col-xl-3" : "col-xl-2"; ?>">
         <div class="card border mt-2">
             <div class="card-header">
                 <h6 class='card-title text-center text-uppercase text-primary m-0'><?= __('user.clicks') ?></h6>

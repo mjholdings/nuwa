@@ -31,7 +31,7 @@
 				            <div class="d-flex justify-content-between align-items-center mb-4">
 				                <h3><?= __('admin.add_transaction') ?></h3>
 				                <span class="badge bg-secondary text-white px-3 py-2 fs-6">
-				                    <?= __('Số dư người dùng') ?>: <?= c_format($totals['unpaid_commition'] - $totals['withdraw_request']) ?>
+				                    <?= __('Số dư ví tiêu dùng') ?>: <?= c_format($totals['unpaid_commition'] - $totals['withdraw_request']) ?>
 				                </span>
 				            </div>
 

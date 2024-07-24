@@ -22,9 +22,9 @@ $market_vendor_marketvendorstatus = $this->Product_model->getSettings('market_ve
 
 $vendor_storestatus = $this->Product_model->getSettings('vendor', 'storestatus');
 
-$market_vendor_marketvendorstatus =  isset($market_vendor_marketvendorstatus['marketvendorstatus']) ? $market_vendor_marketvendorstatus['marketvendorstatus'] : 0;
+$market_vendor_marketvendorstatus = isset($market_vendor_marketvendorstatus['marketvendorstatus']) ? $market_vendor_marketvendorstatus['marketvendorstatus'] : 0;
 
-$vendor_storestatus =  isset($vendor_storestatus['storestatus']) ? $vendor_storestatus['storestatus'] : 0;
+$vendor_storestatus = isset($vendor_storestatus['storestatus']) ? $vendor_storestatus['storestatus'] : 0;
 
 
 
@@ -63,13 +63,15 @@ $sidebar_data = array(
 <style type="text/css">
   .menu-title {
 
-    color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;
+    color:
+      <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;
 
   }
 
   .left-menu ul>li>.dropdown-menu a {
 
-    color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;
+    color:
+      <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;
 
     font-size: 0.875rem;
 
@@ -85,7 +87,8 @@ $sidebar_data = array(
 
   .left-menu ul>li>.dropdown-menu a:hover {
 
-    color: <?= $admin_side_bar_text_hover_color['admin_side_bar_text_hover_color'] ?>;
+    color:
+      <?= $admin_side_bar_text_hover_color['admin_side_bar_text_hover_color'] ?>;
 
   }
 
@@ -93,7 +96,8 @@ $sidebar_data = array(
 
     background-color: unset;
 
-    color: <?= $admin_side_bar_text_hover_color['admin_side_bar_text_hover_color'] ?>;
+    color:
+      <?= $admin_side_bar_text_hover_color['admin_side_bar_text_hover_color'] ?>;
 
   }
 </style>
@@ -114,9 +118,13 @@ $sidebar_data = array(
 
     <div class="profile-name">
 
-      <p class="name" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.menu_welcome') ?>! <?= $this->session->userdata('administrator')['firstname'] . ' ' . $this->session->userdata('administrator')['lastname'] ?></p>
+      <p class="name" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;">
+        <?= __('admin.menu_welcome') ?>!
+        <?= $this->session->userdata('administrator')['firstname'] . ' ' . $this->session->userdata('administrator')['lastname'] ?>
+      </p>
 
-      <p class="designation" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.super_admin') ?></p>
+      <p class="designation" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;">
+        <?= __('admin.super_admin') ?></p>
 
     </div>
 
@@ -136,7 +144,8 @@ $sidebar_data = array(
 
             <i class="fas fa-home"></i>
 
-            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.menu_dashboard') ?> </span>
+            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"><?= __('admin.menu_dashboard') ?>
+            </span>
 
           </div>
 
@@ -152,7 +161,8 @@ $sidebar_data = array(
 
             <i class="fas fa-info-circle menu-icon"></i>
 
-            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;"> <?= __('admin.useful_links') ?></span>
+            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;">
+              <?= __('admin.useful_links') ?></span>
 
           </div>
 
@@ -311,7 +321,7 @@ $sidebar_data = array(
 
             <?= __('Áp dụng') ?></a>
 
-            <a class="dropdown-item" href="<?= base_url('admincontrol/condition') ?>">
+          <a class="dropdown-item" href="<?= base_url('admincontrol/condition') ?>">
 
             <i class="bi bi-gear-fill"></i>
 
@@ -451,7 +461,7 @@ $sidebar_data = array(
 
             <?= __('admin.menu_list_affiliates_email') ?>
 
-          </a> 
+          </a>
           <?php if ($userdetails['id'] == 1) { ?>
 
             <a class="dropdown-item" href="<?= base_url('admincontrol/admin_user') ?>">
@@ -462,13 +472,13 @@ $sidebar_data = array(
 
             </a>
             <a class="dropdown-item" href="<?= base_url('admincontrol/role') ?>">
-                <i class="fas fa-sliders-h"></i>
-                <?= __('Quản lý Vai trò') ?>
-              </a>
-              <a class="dropdown-item" href="<?= base_url('admincontrol/permission') ?>">
-                <i class="fas fa-sliders-h"></i>
-                <?= __('Quản lý Quyền') ?>
-              </a>
+              <i class="fas fa-sliders-h"></i>
+              <?= __('Quản lý Vai trò') ?>
+            </a>
+            <a class="dropdown-item" href="<?= base_url('admincontrol/permission') ?>">
+              <i class="fas fa-sliders-h"></i>
+              <?= __('Quản lý Quyền') ?>
+            </a>
 
           <?php } ?>
 
@@ -583,7 +593,85 @@ $sidebar_data = array(
           </a>
 
         </div>
+      </li>
+      <li id="sidebar_report" class="nav-item dropdown" <?= $sidebar_data['store_is_enable'] == 0 ? 'style="display:none;"' : ''; ?>>
 
+        <a class="nav-link dropdown" href="javascript:void(0);" data-bs-toggle="dropdown">
+
+          <div>
+
+            <i class="fas fa-chart-line"></i>
+
+            <span class="menu-title" style="color: <?= $admin_side_bar_text_color['admin_side_bar_text_color'] ?>;">
+
+              <?= __('Báo cáo') ?>
+
+            </span>
+
+          </div>
+
+          <div>
+
+            <i class="fas fa-angle-right"></i>
+
+          </div>
+
+        </a>
+
+        <div class="dropdown-menu">
+
+          <a class="dropdown-item" href="<?= base_url('admincontrol/report_list_product') ?>">
+
+            <i class="fas fa-box"></i>
+
+            <?= __('Danh mục Sản phẩm') ?>
+
+          </a>
+          <a class="dropdown-item" href="<?= base_url('admincontrol/report_list_client') ?>">
+
+            <i class="fas fa-users"></i>
+
+            <?= __('Danh mục Khách hàng') ?>
+
+          </a>
+          <a class="dropdown-item" href="<?= base_url('admincontrol/report_list_revenue') ?>">
+
+            <i class="fas fa-chart-line"></i>
+
+            <?= __('Báo cáo Doanh thu') ?>
+
+          </a>
+          <a class="dropdown-item" href="<?= base_url('admincontrol/report_list_commission') ?>">
+
+            <i class="fas fa-dollar-sign"></i>
+
+            <?= __('TH & Chi tiết Thưởng') ?>
+
+          </a>
+          
+          <a class="dropdown-item" href="<?= base_url('admincontrol/report_list_wallet') ?>">
+
+            <i class="fas fa-wallet"></i>
+
+            <?= __('TH & Chi tiết Ví') ?>
+
+          </a>
+          <a class="dropdown-item" href="<?= base_url('admincontrol/report_list_user') ?>">
+
+            <i class="fas fa-chart-pie"></i>
+
+            <?= __('TH & Chi tiết User') ?>
+
+          </a>         
+          <a class="dropdown-item" href="<?= base_url('admincontrol/report_approve_bonus') ?>">
+
+            <i class="fas fa-file-alt"></i>
+
+            <?= __('Bảng duyệt Chi thưởng') ?>
+
+          </a>         
+
+        </div>
       </li>
 
 

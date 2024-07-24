@@ -4,8 +4,10 @@ use App\User;
 use App\MembershipPlan;
 use App\MembershipUser;
 
-class Admincontrol extends MY_Controller {
-	function __construct() {
+class Admincontrol extends MY_Controller
+{
+	function __construct()
+	{
 		parent::__construct();
 		$this->load->model('user_model', 'user');
 		$this->load->model('Order_model', 'order');
@@ -35,7 +37,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function system_update_report() {
+	public function system_update_report()
+	{
 		// Verify that the user is an admin
 		$userdetails = $this->userdetails();
 
@@ -73,7 +76,8 @@ class Admincontrol extends MY_Controller {
 		$this->load->view('update_report', $data);
 	}
 
-	public function script_details() {
+	public function script_details()
+	{
 		$userdetails = $this->userdetails();
 
 		list($code, $res) = api('codecanyon/get-details', ['licence' => CODECANYON_LICENCE]);
@@ -81,12 +85,14 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'script_details/index');
 	}
 
-	public function update_langueges_data() {
+	public function update_langueges_data()
+	{
 		$this->update_user_langauges();
 		redirect('/admincontrol/dashboard');
 	}
 
-	public function system_status() {
+	public function system_status()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -99,7 +105,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'system_status');
 	}
 
-	public function date_compare($element1, $element2) {
+	public function date_compare($element1, $element2)
+	{
 
 		$datetime1 = strtotime($element1['created_at']);
 
@@ -109,7 +116,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function clear_commission_tables() {
+	public function clear_commission_tables()
+	{
 
 		// Demo Mode
 		if (ENVIRONMENT === 'demo') {
@@ -262,7 +270,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function clear_tables() {
+	public function clear_tables()
+	{
 
 		// Demo Mode
 		if (ENVIRONMENT === 'demo') {
@@ -931,7 +940,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// function to delete all files and subfolders from folder
-	public function deleteAll($dir, $remove = false) {
+	public function deleteAll($dir, $remove = false)
+	{
 		$structure = glob(rtrim($dir, "/") . '/*');
 
 		if (is_array($structure)) {
@@ -947,7 +957,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function logs() {
+	public function logs()
+	{
 
 		$data = array();
 
@@ -1213,19 +1224,22 @@ class Admincontrol extends MY_Controller {
 		die;
 	}
 
-	public function page_404() {
+	public function page_404()
+	{
 		$this->load->view("404");
 	}
 
 
-	public function install_new_version() {
+	public function install_new_version()
+	{
 		$userdetails = $this->userdetails();
 
 		$this->view($data, 'setting/install_new_version');
 	}
 
 
-	public function language_import() {
+	public function language_import()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -1324,7 +1338,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function language_export($id = 'default') {
+	public function language_export($id = 'default')
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -1382,7 +1397,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function language() {
+	public function language()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -1402,7 +1418,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function coupon_manage($coupon_id = 0) {
+	public function coupon_manage($coupon_id = 0)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -1418,7 +1435,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function coupon_delete($coupon_id) {
+	public function coupon_delete($coupon_id)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -1432,7 +1450,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function coupon() {
+	public function coupon()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -1461,7 +1480,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function save_coupon() {
+	public function save_coupon()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -1545,7 +1565,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function change_language($language_id = null) {
+	public function change_language($language_id = null)
+	{
 		if (empty($language_id) || !is_numeric($language_id)) {
 			show_404();
 			return;
@@ -1565,7 +1586,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function change_currency($currency_code = null) {
+	public function change_currency($currency_code = null)
+	{
 		if (empty($currency_code)) {
 			show_404();
 			return;
@@ -1588,7 +1610,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function lang_status_toggle() {
+	public function lang_status_toggle()
+	{
 		try {
 			$userdetails = $this->userdetails();
 			$json = array();
@@ -1612,7 +1635,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function update_language() {
+	public function update_language()
+	{
 
 		$userdetails = $this->userdetails();
 		$json = array();
@@ -1700,7 +1724,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function translation($language_id) {
+	public function translation($language_id)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -1715,7 +1740,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Upload and Extract zip file
-	public function language_zip_upload() {
+	public function language_zip_upload()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -1776,7 +1802,8 @@ class Admincontrol extends MY_Controller {
 		redirect(base_url('/admincontrol/language'));
 	}
 
-	private function deleteDir($dir) {
+	private function deleteDir($dir)
+	{
 		$it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
 		$files = new RecursiveIteratorIterator(
 			$it,
@@ -1792,7 +1819,8 @@ class Admincontrol extends MY_Controller {
 		rmdir($dir);
 	}
 
-	public function get_translation() {
+	public function get_translation()
+	{
 		$userdetails = $this->userdetails();
 		$default_language = $this->db->query("SELECT * FROM language WHERE is_default=1")->row_array();
 		$file_name = $this->input->post('id', true);
@@ -1813,7 +1841,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($newArray);
 	}
 
-	public function save_translation() {
+	public function save_translation()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -1839,13 +1868,15 @@ class Admincontrol extends MY_Controller {
 		die;
 	}
 
-	public function get_update_language() {
+	public function get_update_language()
+	{
 		$userdetails = $this->userdetails();
 		$json = $this->db->query("SELECT * FROM language WHERE id = " . (int)$this->input->post('id', true))->row_array();
 		echo json_encode($json);
 	}
 
-	public function translation_edit($lang_id = 0) {
+	public function translation_edit($lang_id = 0)
+	{
 		$userdetails = $this->userdetails();
 		$data['flags_files'] = glob("./assets/vertical/assets/images/flags/*.*");
 		$data['flags_code'] = [];
@@ -1862,7 +1893,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'language/edit');
 	}
 
-	public function delete_update_language() {
+	public function delete_update_language()
+	{
 		$userdetails = $this->userdetails();
 		if ((int)$this->input->post('id', true) != 1) {
 			$path = APPPATH . 'language/' . (int)$this->input->post('id', true) . "/";
@@ -1872,7 +1904,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode(array());
 	}
 
-	public function mails() {
+	public function mails()
+	{
 		$data = array();
 		$data['templates'] = $this->db->query("SELECT * FROM mail_templates")->result_array();
 		$data['emailsetting'] 	= $this->Product_model->getSettings('emailsetting');
@@ -1926,7 +1959,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function preview_mail($template_id) {
+	public function preview_mail($template_id)
+	{
 		$this->load->model('Mail_model');
 		$data['id'] = $template_id;
 		$data['prefix'] = '';
@@ -1934,7 +1968,8 @@ class Admincontrol extends MY_Controller {
 		echo $this->Mail_model->preview_mail($data);
 	}
 
-	public function mails_edit($template_id) {
+	public function mails_edit($template_id)
+	{
 
 		$data = array();
 
@@ -1992,7 +2027,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function backup($action = '') {
+	public function backup($action = '')
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -2123,7 +2159,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function userdetails() {
+	public function userdetails()
+	{
 		if (isset($this->session) && $this->session->userdata('user_type') !== FALSE && $this->session->userdata('user_type') == 'admin') {
 			$this->session->unset_userdata('user');
 			$this->session->unset_userdata('client');
@@ -2138,14 +2175,16 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function getSiteSetting() {
+	public function getSiteSetting()
+	{
 
 		return $this->Product_model->getSettings('site');
 	}
 
 
 
-	public function index($slug) {
+	public function index($slug)
+	{
 
 		if ($this->userdetails()) {
 			redirect($this->admin_domain_url, 'refresh');
@@ -2154,7 +2193,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function notification() {
+	public function notification()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -2206,7 +2246,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'dashboard/notification');
 	}
 
-	public function register($refid = null) {
+	public function register($refid = null)
+	{
 
 		if ($this->userdetails()) {
 			redirect($this->admin_domain_url, 'refresh');
@@ -2275,7 +2316,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function changePassword() {
+	public function changePassword()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -2328,7 +2370,8 @@ class Admincontrol extends MY_Controller {
 
 
 	// Hỏi lại việc rút tiền
-	public function ask_again_withdrawal() {
+	public function ask_again_withdrawal()
+	{
 
 		$this->db->query("UPDATE wallet SET status=1 WHERE (wv != 'V2' OR wv IS NULL) AND status = 2");
 
@@ -2351,7 +2394,8 @@ class Admincontrol extends MY_Controller {
 
 
 	// Danh sách yêu cầu rút tiền
-	public function wallet_withdraw() {
+	public function wallet_withdraw()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -2537,7 +2581,8 @@ class Admincontrol extends MY_Controller {
 
 
 	// Chi tiết yêu cầu rút
-	public function wallet_requests_details($id) {
+	public function wallet_requests_details($id)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -2604,7 +2649,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Lấy lịch sử rút tiền
-	public function get_withdrwal_history($id) {
+	public function get_withdrwal_history($id)
+	{
 		$status_history = $this->db->query("SELECT * FROM wallet_requests_history WHERE req_id={$id} ORDER BY id DESC ")->result_array();
 
 		$json['html'] = '';
@@ -2627,7 +2673,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function wallet_requests_list() {
+	public function wallet_requests_list()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -2829,7 +2876,8 @@ class Admincontrol extends MY_Controller {
 
 
 	// Liệt kê các giao dịch vô ví
-	public function mywallet() {
+	public function mywallet()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -2989,7 +3037,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'users/wallet');
 	}
 
-	public function change_commission_status() {
+	public function change_commission_status()
+	{
 
 		$id = $this->input->post('id');
 
@@ -3031,7 +3080,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Lấy đệ quy giao dịch
-	public function getRecurringTransaction() {
+	public function getRecurringTransaction()
+	{
 
 		$id = (int)$this->input->post("id");
 
@@ -3079,7 +3129,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function ajax_dashboard() {
+	public function ajax_dashboard()
+	{
 		$userdetails = $this->userdetails();
 		$hcurrency = $this->Product_model->getSettings('site', 'hide_currency_from');
 		$data['hcurrency'] = (isset($hcurrency['hide_currency_from']) && str_contains($hcurrency['hide_currency_from'], 'admin'));
@@ -3323,7 +3374,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function dashboard() {
+	public function dashboard()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -3441,7 +3493,8 @@ class Admincontrol extends MY_Controller {
 
 		$this->view($data, 'dashboard/dashboard');
 	}
-	public function popular_affiliates_sorting() {
+	public function popular_affiliates_sorting()
+	{
 
 		$hcurrency = $this->Product_model->getSettings('site', 'hide_currency_from');
 
@@ -3465,7 +3518,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function admin_user() {
+	public function admin_user()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -3475,7 +3529,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function admin_user_form($user_id = 0) {
+	public function admin_user_form($user_id = 0)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -3676,7 +3731,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function admin_user_delete($user_id) {
+	public function admin_user_delete($user_id)
+	{
 		$userdetails = $this->userdetails();
 		if ($userdetails['id'] == 1) {
 			if ((int)$user_id == 1) {
@@ -3695,14 +3751,16 @@ class Admincontrol extends MY_Controller {
 		redirect('/admincontrol/admin_user');
 	}
 
-	public function logout() {
+	public function logout()
+	{
 		$this->session->unset_userdata('administrator');
 		$this->session->sess_destroy();
 		redirect($this->admin_domain_url);
 		exit;
 	}
 
-	public function deleteUser($id) {
+	public function deleteUser($id)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -3717,7 +3775,8 @@ class Admincontrol extends MY_Controller {
 
 
 	// Award Level - Kiểm tra nhảy cấp
-	public function award_level($offset = 0) {
+	public function award_level($offset = 0)
+	{
 		$userdetails = $this->userdetails();
 		$award_level = $this->Product_model->getSettings('award_level', 'status');
 		$data['award_level_status'] = $award_level['status'];
@@ -3737,7 +3796,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tạo cấp độ thưởng
-	public function create_award_level() {
+	public function create_award_level()
+	{
 		$userdetails = $this->userdetails();
 
 		$award_level = $this->Product_model->getSettings('award_level', 'status');
@@ -3812,7 +3872,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'award_level/create');
 	}
 
-	public function update_award_level($id) {
+	public function update_award_level($id)
+	{
 		$userdetails = $this->userdetails();
 
 		$award_level = $this->Product_model->getSettings('award_level', 'status');
@@ -3910,7 +3971,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function delete_award_level($id) {
+	public function delete_award_level($id)
+	{
 		$userdetails = $this->userdetails();
 		$result['status'] = 0;
 		$result['message'] = __('admin.something_went_wrong');
@@ -3941,7 +4003,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Chi nhánh
-	public function branch($offset = 0) {
+	public function branch($offset = 0)
+	{
 		$userdetails = $this->userdetails();
 		$this->load->library('pagination');
 		$config['base_url'] = base_url('admincontrol/branch');
@@ -3954,7 +4017,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'branch/index');
 	}
 
-	public function create_branch() {
+	public function create_branch()
+	{
 		$userdetails = $this->userdetails();
 		$ref = $this->input->get('ref'); // Lấy giá trị ref từ URL
 
@@ -3996,7 +4060,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'branch/create');
 	}
 
-	public function update_branch($id) {
+	public function update_branch($id)
+	{
 		$userdetails = $this->userdetails();
 		$ref = $this->input->get('ref'); // Lấy giá trị ref từ URL
 
@@ -4052,7 +4117,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function delete_branch($id) {
+	public function delete_branch($id)
+	{
 		$userdetails = $this->userdetails();
 		$ref = $this->input->get('ref'); // Lấy giá trị ref từ URL
 
@@ -4077,7 +4143,8 @@ class Admincontrol extends MY_Controller {
 		die();
 	}
 
-	public function branch_bonus($offset = 0) {
+	public function branch_bonus($offset = 0)
+	{
 		$userdetails = $this->userdetails();
 		$this->load->library('pagination');
 		$config['base_url'] = base_url('admincontrol/branch_bonus');
@@ -4092,7 +4159,8 @@ class Admincontrol extends MY_Controller {
 	// End chi nhánh
 
 	// Khen thưởng 
-	public function reward($offset = 0) {
+	public function reward($offset = 0)
+	{
 		$userdetails = $this->userdetails();
 		$this->load->library('pagination');
 		$config['base_url'] = base_url('admincontrol/reward');
@@ -4107,7 +4175,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tạo chức vụ
-	public function create_reward() {
+	public function create_reward()
+	{
 		$userdetails = $this->userdetails();
 		$data['CurrencySymbol'] = $this->currency->getSymbol();
 
@@ -4164,7 +4233,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Cập nhật chức vụ
-	public function update_reward($id) {
+	public function update_reward($id)
+	{
 		$userdetails = $this->userdetails();
 
 		if (isset($id)) {
@@ -4234,7 +4304,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function delete_reward($id) {
+	public function delete_reward($id)
+	{
 		$userdetails = $this->userdetails();
 		$result['status'] = 0;
 		$result['message'] = __('admin.something_went_wrong');
@@ -4258,7 +4329,8 @@ class Admincontrol extends MY_Controller {
 	// End khen thưởng
 
 	// Cài đặt sao
-	public function star($offset = 0) {
+	public function star($offset = 0)
+	{
 		$userdetails = $this->userdetails();
 		$this->load->library('pagination');
 		$config['base_url'] = base_url('admincontrol/star');
@@ -4273,7 +4345,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Thêm sao
-	public function create_star() {
+	public function create_star()
+	{
 		$userdetails = $this->userdetails();
 		$data['CurrencySymbol'] = $this->currency->getSymbol();
 
@@ -4329,7 +4402,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Cập nhật sao
-	public function update_star($id) {
+	public function update_star($id)
+	{
 		$userdetails = $this->userdetails();
 
 		if (isset($id)) {
@@ -4400,7 +4474,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Xóa sao
-	public function delete_star($id) {
+	public function delete_star($id)
+	{
 		$userdetails = $this->userdetails();
 		$result['status'] = 0;
 		$result['message'] = __('admin.something_went_wrong');
@@ -4424,7 +4499,8 @@ class Admincontrol extends MY_Controller {
 	// End star
 
 	// Cài đặt điều kiện thưởng
-	public function condition() {
+	public function condition()
+	{
 		$config['base_url'] = base_url('admincontrol/condition');
 
 		$userdetails = $this->userdetails();
@@ -4475,7 +4551,8 @@ class Admincontrol extends MY_Controller {
 	// End điều kiện thưởng
 
 	// Cài đặt tính thưởng hệ thống
-	public function commission() {
+	public function commission()
+	{
 		$config['base_url'] = base_url('admincontrol/commission');
 
 		$userdetails = $this->userdetails();
@@ -4528,7 +4605,8 @@ class Admincontrol extends MY_Controller {
 	}
 	// End tính thưởng
 
-	public function lmsResourceupdate() {
+	public function lmsResourceupdate()
+	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$id  		 = $this->input->post('id');
 			$product_id  = $this->input->post('product_id');
@@ -4556,7 +4634,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	private function getSettings($file, $data) {
+	private function getSettings($file, $data)
+	{
 		extract($data);
 		ob_start();
 		require($file);
@@ -4564,7 +4643,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function store_dashboard() {
+	public function store_dashboard()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -4708,7 +4788,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'store/dashboard');
 	}
 
-	public function store_dashboard_order_list() {
+	public function store_dashboard_order_list()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -4760,7 +4841,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function product_logs() {
+	public function product_logs()
+	{
 
 		$category_id = (int)$this->input->post("category_id", true);
 
@@ -4788,7 +4870,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Stocks
-	public function stock_listproduct($only_review = false) {
+	public function stock_listproduct($only_review = false)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -4894,7 +4977,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function stock_updateproduct($id = null) {
+	public function stock_updateproduct($id = null)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -4941,7 +5025,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'product_stock/add_product');
 	}
 
-	public function stock_duplicateProduct($product_id) {
+	public function stock_duplicateProduct($product_id)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -4952,7 +5037,8 @@ class Admincontrol extends MY_Controller {
 		redirect(base_url('admincontrol/stock_listproduct'));
 	}
 
-	public function stock_editProduct() {
+	public function stock_editProduct()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -5709,7 +5795,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function stock_listproduct_ajax($page = 1) {
+	public function stock_listproduct_ajax($page = 1)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -5782,7 +5869,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Product
-	public function addproduct() {
+	public function addproduct()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -5800,7 +5888,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'product/add_product');
 	}
 
-	public function updateproduct($id = null) {
+	public function updateproduct($id = null)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -5832,7 +5921,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'product/add_product');
 	}
 
-	public function duplicateProduct($product_id) {
+	public function duplicateProduct($product_id)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -5843,7 +5933,8 @@ class Admincontrol extends MY_Controller {
 		redirect(base_url('admincontrol/listproduct'));
 	}
 
-	public function editProduct() {
+	public function editProduct()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -6555,7 +6646,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function listproduct_ajax($page = 1) {
+	public function listproduct_ajax($page = 1)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -6627,7 +6719,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function listproduct($only_review = false) {
+	public function listproduct($only_review = false)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -6735,7 +6828,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function bulkProductImportFromUrl() {
+	public function bulkProductImportFromUrl()
+	{
 		$userdetails = $this->userdetails();
 
 		$f_result = [
@@ -6793,7 +6887,8 @@ class Admincontrol extends MY_Controller {
 		echo $this->load->view('admincontrol/product/bulk_upload_modal', $data, true);
 	}
 
-	public function bulkProductImport() {
+	public function bulkProductImport()
+	{
 
 		require_once APPPATH . '/core/phpspreadsheet/autoload.php';
 
@@ -6907,7 +7002,8 @@ class Admincontrol extends MY_Controller {
 		echo $this->load->view('admincontrol/product/bulk_upload_modal', $data, true);
 	}
 
-	public function initialProductImportCheck($post) {
+	public function initialProductImportCheck($post)
+	{
 
 		try {
 
@@ -7121,7 +7217,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function bulkProductImportConfirm() {
+	public function bulkProductImportConfirm()
+	{
 
 		$data = json_decode(base64_decode($_POST['products']), true);
 		$category_id = json_decode(base64_decode($_POST['category_id']), true);
@@ -7159,7 +7256,8 @@ class Admincontrol extends MY_Controller {
 		echo $this->load->view('admincontrol/product/bulk_upload_modal', $result, true);
 	}
 
-	public function createUpdateImportedProduct($post, $category_id) {
+	public function createUpdateImportedProduct($post, $category_id)
+	{
 
 		try {
 
@@ -7284,7 +7382,8 @@ class Admincontrol extends MY_Controller {
 		die;
 	}
 
-	private function getProductXlsIndex($xlsHeaders) {
+	private function getProductXlsIndex($xlsHeaders)
+	{
 		$headers = $this->productXLSheaders();
 		$newHeaders = [];
 		foreach ($headers as $key => $value) {
@@ -7294,7 +7393,8 @@ class Admincontrol extends MY_Controller {
 		return $newHeaders;
 	}
 
-	private function productXLSheaders() {
+	private function productXLSheaders()
+	{
 		return array(
 			'product_id' => 'Product ID',
 
@@ -7320,7 +7420,8 @@ class Admincontrol extends MY_Controller {
 		);
 	}
 
-	public function exportproduct() {
+	public function exportproduct()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -7416,7 +7517,8 @@ class Admincontrol extends MY_Controller {
 		exit;
 	}
 
-	public function exportproductXML() {
+	public function exportproductXML()
+	{
 
 		$userdetails = $this->userdetails();
 		$store_setting = $this->Product_model->getSettings('store');
@@ -7513,14 +7615,16 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function downloadprodcutxmlstructurefile($filename = NULL) {
+	public function downloadprodcutxmlstructurefile($filename = NULL)
+	{
 		$userdetails = $this->userdetails();
 		$this->load->helper('download');
 		$data = file_get_contents(FCPATH . 'assets/xml/export_products_structure.xml');
 		force_download("export_products_structure.xml", $data);
 	}
 
-	public function downloadprodcutxmlfile($filename = NULL) {
+	public function downloadprodcutxmlfile($filename = NULL)
+	{
 		$userdetails = $this->userdetails();
 		$this->load->helper('download');
 		$data = file_get_contents(FCPATH . 'assets/xml/export_products.xml');
@@ -7528,14 +7632,16 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function insertnotification($postData = null) {
+	public function insertnotification($postData = null)
+	{
 
 		if (!empty($postData)) $this->Product_model->create_data('notification', $postData);
 	}
 
 
 
-	public function listorders() {
+	public function listorders()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -7572,7 +7678,8 @@ class Admincontrol extends MY_Controller {
 
 
 	// Thay đổi trạng thái đơn hàng
-	public function order_change_status() {
+	public function order_change_status()
+	{
 
 		$order_id = (int)$this->input->post("id", true);
 
@@ -7591,7 +7698,8 @@ class Admincontrol extends MY_Controller {
 
 
 	// Xem chi tiết đơn hàng
-	public function vieworder($order_id = null) {
+	public function vieworder($order_id = null)
+	{
 		$this->db->db_debug = FALSE;
 		try {
 			$userdetails = $this->userdetails();
@@ -7633,7 +7741,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function orderaction($order_id, $order_action, $transaction = false) {
+	public function orderaction($order_id, $order_action, $transaction = false)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -7687,7 +7796,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function deleteusers($id = null, $type = 'user') {
+	public function deleteusers($id = null, $type = 'user')
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -7713,7 +7823,8 @@ class Admincontrol extends MY_Controller {
 
 
 	// Thêm user
-	public function addusers($id = null) {
+	public function addusers($id = null)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -8146,7 +8257,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function add_transaction() {
+	public function add_transaction()
+	{
 
 		$this->load->library('form_validation');
 
@@ -8204,7 +8316,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function getpaymentdetail($user_id) {
+	public function getpaymentdetail($user_id)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -8246,7 +8359,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function getCountryName($country_id) {
+	public function getCountryName($country_id)
+	{
 
 		$query = $this->db->get_where('countries', array('id' => $country_id))->row_array();
 
@@ -8261,7 +8375,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function getStateName($state_id) {
+	public function getStateName($state_id)
+	{
 
 		$query = $this->db->get_where('states', array('id' => $state_id))->row_array();
 
@@ -8276,7 +8391,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function downline($user_id) {
+	public function downline($user_id)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -8297,7 +8413,8 @@ class Admincontrol extends MY_Controller {
 	* User Controllers
 	*/
 
-	public function update_user_tree() {
+	public function update_user_tree()
+	{
 		// Xóa dữ liệu cũ trong bảng users_direct và users_indirect
 		$this->db->truncate('users_direct');
 		$this->db->truncate('users_indirect');
@@ -8370,7 +8487,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// User Recruitment
-	public function update_user_recruitment() {
+	public function update_user_recruitment()
+	{
 		// Xóa dữ liệu cũ trong bảng users_recruitment
 		$this->db->truncate('user_recruitment');
 
@@ -8419,7 +8537,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// User Revenue - Doanh thu cá nhân
-	public function calculate_revenue() {
+	public function calculate_revenue()
+	{
 		// Xóa dữ liệu cũ trong bảng user_revenue
 		$this->db->truncate('user_revenue');
 
@@ -8472,7 +8591,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// User Update Revenue - Doanh thu khác (trực tiếp, gián tiếp,...)
-	public function update_revenue() {
+	public function update_revenue()
+	{
 		// Lấy danh sách tất cả các user từ bảng users_revenue
 		$this->db->select('user_id, revenue');
 		$query = $this->db->get('user_revenue');
@@ -8503,7 +8623,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính toán doanh thu trực tiếp
-	private function calculate_revenue_direct($user_id) {
+	private function calculate_revenue_direct($user_id)
+	{
 		// Lấy danh sách ids_direct từ bảng users_direct
 		$this->db->select('ids_direct');
 		$this->db->where('user_id', $user_id);
@@ -8523,7 +8644,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính toán doanh thu gián tiếp
-	private function calculate_revenue_indirect($user_id) {
+	private function calculate_revenue_indirect($user_id)
+	{
 		// Lấy danh sách ids_indirect từ bảng users_indirect
 		$this->db->select('ids_indirect');
 		$this->db->where('user_id', $user_id);
@@ -8543,7 +8665,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// User Consum - Tiêu dùng
-	public function calculate_consum() {
+	public function calculate_consum()
+	{
 		// Xóa dữ liệu cũ trong bảng user_consum
 		$this->db->truncate('user_consum');
 
@@ -8598,7 +8721,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Cập nhật consum cho direct và indirect
-	public function update_consum() {
+	public function update_consum()
+	{
 		// Lấy danh sách tất cả các user từ bảng user_consum
 		$this->db->select('user_id, consum');
 		$query = $this->db->get('user_consum');
@@ -8630,7 +8754,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính doanh thu trực tiếp
-	private function calculate_consum_direct($user_id) {
+	private function calculate_consum_direct($user_id)
+	{
 		// Lấy danh sách ids_direct từ bảng users_direct
 		$this->db->select('ids_direct');
 		$this->db->where('user_id', $user_id);
@@ -8650,7 +8775,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính doanh thu gián tiếp
-	private function calculate_consum_indirect($user_id) {
+	private function calculate_consum_indirect($user_id)
+	{
 		// Lấy danh sách ids_indirect từ bảng users_indirect
 		$this->db->select('ids_indirect');
 		$this->db->where('user_id', $user_id);
@@ -8670,7 +8796,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính toán cập nhật User Rank
-	public function update_user_rank() {
+	public function update_user_rank()
+	{
 		// Xóa dữ liệu cũ trong bảng user_rank
 		$this->db->truncate('user_rank');
 
@@ -8756,7 +8883,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính toán star - value return value not id
-	public function calculate_user_star($level_id, $value = false) {
+	public function calculate_user_star($level_id, $value = false)
+	{
 		// Tìm trong bảng star_level với con_award_level_id = $level_id
 		$this->db->select('id, star');
 		$this->db->where('con_award_level_id', $level_id);
@@ -8770,7 +8898,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính toán reward của user
-	public function calculate_user_reward($level_id, $value = false) {
+	public function calculate_user_reward($level_id, $value = false)
+	{
 
 		// Tìm trong bảng reward với con_award_level_id = $level_id
 		$this->db->select('id, name');
@@ -8785,7 +8914,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính toán và cập nhật thưởng
-	public function calculate_and_update_commissions() {
+	public function calculate_and_update_commissions()
+	{
 
 		// Xóa dữ liệu cũ trong bảng user_commission
 		$this->db->truncate('user_commission');
@@ -8908,7 +9038,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Lấy settings commission
-	private function load_commission_settings() {
+	private function load_commission_settings()
+	{
 
 		// Lấy toàn bộ Setting trong DB
 		$market_vendor = $this->Product_model->getSettings('market_vendor');
@@ -9050,7 +9181,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// 1 - * Tính thưởng doanh thu cá nhân 
-	private function calculate_personal_sales_commission($user_id, $settings) {
+	private function calculate_personal_sales_commission($user_id, $settings)
+	{
 
 		// Lấy doanh thu cá nhân của user_id từ bảng user_revenue
 		$this->db->select('order_id, revenue');
@@ -9075,7 +9207,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// 2 - Tính thưởng doanh thu trực tiếp
-	private function calculate_direct_sales_commission($user_id, $settings) {
+	private function calculate_direct_sales_commission($user_id, $settings)
+	{
 		// Logic tính toán doanh thu trực tiếp và cập nhật thưởng tương ứng
 		$direct_users = $this->user->get_direct_users($user_id);
 		$total_direct_sales = 0;
@@ -9105,7 +9238,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// 3 - Tính thưởng doanh thu gián tiếp
-	private function calculate_indirect_sales_commission($user_id, $settings) {
+	private function calculate_indirect_sales_commission($user_id, $settings)
+	{
 		// Lấy danh sách người dùng gián tiếp
 		$indirect_users = $this->user->get_indirect_users($user_id);
 		$total_indirect_sales = 0;
@@ -9135,7 +9269,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// 4 - Tính thưởng doanh thu tuyến dưới
-	private function calculate_downline_sales_commission($user_id, $settings) {
+	private function calculate_downline_sales_commission($user_id, $settings)
+	{
 		// Lấy danh sách người dùng tuyến dưới
 		$downline_users = $this->user->get_downline_users($user_id);
 		$total_downline_sales = 0;
@@ -9165,7 +9300,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// 5 - Tính thưởng doanh thu đội nhóm
-	private function calculate_team_sales_commission($user_id, $settings) {
+	private function calculate_team_sales_commission($user_id, $settings)
+	{
 		// Lấy danh sách người dùng đội nhóm
 		$team_users = $this->user->get_team_users($user_id);
 		$total_team_sales = 0;
@@ -9196,7 +9332,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// 6 - Tính thưởng doanh thu nhánh => incomplete
-	private function calculate_branch_sales_commission($user_id, $settings) {
+	private function calculate_branch_sales_commission($user_id, $settings)
+	{
 		// Logic tính toán doanh thu nhánh và cập nhật thưởng tương ứng
 		$indirect_users = $this->user->get_branch_users($user_id);
 		$total_indirect_sales = 0;
@@ -9214,7 +9351,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// 7 - Tính thưởng doanh thu shop => incomplete
-	private function calculate_shop_sales_commission($user_id, $settings) {
+	private function calculate_shop_sales_commission($user_id, $settings)
+	{
 		// Logic tính toán doanh thu cửa hàng và cập nhật thưởng tương ứng
 		$indirect_users = $this->user->get_shop_users($user_id);
 		$total_indirect_sales = 0;
@@ -9232,7 +9370,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// 8 - * Tính thưởng tiêu dùng cá nhân
-	private function calculate_personal_consum_commission($user_id, $settings) {
+	private function calculate_personal_consum_commission($user_id, $settings)
+	{
 		// Lấy thông tin tiêu dùng cá nhân từ bảng user_consum
 		$this->db->select('consum, order_id');
 		$this->db->where('user_id', $user_id);
@@ -9253,7 +9392,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// 9 - Tính thưởng tiêu dùng trực tiếp
-	private function calculate_direct_consum_commission($user_id, $settings) {
+	private function calculate_direct_consum_commission($user_id, $settings)
+	{
 		// Lấy danh sách người dùng trực tiếp
 		$direct_users = $this->user->get_direct_users($user_id);
 
@@ -9299,7 +9439,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// 10 - Tính thưởng tiêu dùng gián tiếp
-	private function calculate_indirect_consum_commission($user_id, $settings) {
+	private function calculate_indirect_consum_commission($user_id, $settings)
+	{
 		// Lấy danh sách người dùng gián tiếp
 		$indirect_users = $this->user->get_indirect_users($user_id);
 		$total_indirect_consum = 0;
@@ -9329,7 +9470,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// 11 - Tính thưởng tiêu dùng tuyến dưới
-	private function calculate_downline_consum_commission($user_id, $settings) {
+	private function calculate_downline_consum_commission($user_id, $settings)
+	{
 		// Lấy danh sách người dùng tuyến dưới
 		$downline_users = $this->user->get_downline_users($user_id);
 
@@ -9376,7 +9518,8 @@ class Admincontrol extends MY_Controller {
 
 
 	// 12 - Tính thưởng tiêu dùng đội nhóm
-	private function calculate_team_consum_commission($user_id, $settings) {
+	private function calculate_team_consum_commission($user_id, $settings)
+	{
 		// Lấy danh sách người dùng đội nhóm
 		$team_users = $this->user->get_team_users($user_id);
 
@@ -9423,7 +9566,8 @@ class Admincontrol extends MY_Controller {
 
 
 	// 13 - Tính thưởng tiêu dùng nhánh - incomplete
-	private function calculate_branch_consum_commission($user_id, $settings) {
+	private function calculate_branch_consum_commission($user_id, $settings)
+	{
 		// Logic tính toán tiêu dùng gián tiếp và cập nhật thưởng tương ứng
 		$indirect_users = $this->user->get_branch_users($user_id);
 		$total_indirect_consum = 0;
@@ -9441,7 +9585,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// 14 - Tính thưởng tuyển dụng trực tiếp
-	private function calculate_direct_recruitment_commission($user_id, $settings) {
+	private function calculate_direct_recruitment_commission($user_id, $settings)
+	{
 		// Lấy danh sách người dùng trực tiếp
 		$direct_users = $this->user->get_direct_users($user_id);
 
@@ -9531,7 +9676,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// 15 - Tính thưởng tuyển dụng gián tiếp
-	private function calculate_indirect_recruitment_commission($user_id, $settings) {
+	private function calculate_indirect_recruitment_commission($user_id, $settings)
+	{
 		// Lấy danh sách người dùng gián tiếp
 		$indirect_users = $this->user->get_indirect_users($user_id);
 
@@ -9621,7 +9767,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// 16 - Tính thưởng tuyển dụng tuyến dưới (trực tiếp và gián tiếp)
-	private function calculate_downline_recruitment_commission($user_id, $settings) {
+	private function calculate_downline_recruitment_commission($user_id, $settings)
+	{
 		// Lấy danh sách người dùng tuyến dưới (trực tiếp và gián tiếp)
 		$downline_users = $this->user->get_downline_users($user_id);
 
@@ -9713,7 +9860,8 @@ class Admincontrol extends MY_Controller {
 
 
 	// 17 - Tính thưởng tăng cấp
-	private function calculate_rank_up_commission($user_id, $settings) {
+	private function calculate_rank_up_commission($user_id, $settings)
+	{
 		// Lấy thông tin cấp bậc hiện tại của user
 		$current_rank_id = $this->user->get_user_current_rank($user_id);
 
@@ -9869,7 +10017,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Hàm kiểm tra điều kiện doanh thu
-	private function check_revenue_condition($user_id, $amount, $type) {
+	private function check_revenue_condition($user_id, $amount, $type)
+	{
 		switch ($type) {
 			case 'team':
 				// Thực hiện logic kiểm tra doanh thu đội nhóm của user_id đạt $amount
@@ -9892,13 +10041,15 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Hàm kiểm tra điều kiện doanh thu tổng từ đầu
-	private function check_total_revenue_condition($user_id, $amount) {
+	private function check_total_revenue_condition($user_id, $amount)
+	{
 		// Thực hiện logic kiểm tra tổng doanh thu từ đầu của user_id đạt $amount
 		return $this->user->get_total_revenue($user_id) >= $amount;
 	}
 
 	// Hàm kiểm tra điều kiện tiêu dùng
-	private function check_consum_condition($user_id, $amount, $type) {
+	private function check_consum_condition($user_id, $amount, $type)
+	{
 		switch ($type) {
 			case 'personal':
 				// Thực hiện logic kiểm tra tiêu dùng cá nhân của user_id đạt $amount
@@ -9921,26 +10072,30 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Hàm kiểm tra điều kiện tiêu dùng tổng từ đầu
-	private function check_total_consum_condition($user_id, $amount) {
+	private function check_total_consum_condition($user_id, $amount)
+	{
 		// Thực hiện logic kiểm tra tổng tiêu dùng từ đầu của user_id đạt $amount
 		return $this->user->get_total_consum($user_id) >= $amount;
 	}
 
 	// Hàm kiểm tra số lượng tuyển dụng gián tiếp hoặc trực tiếp
-	private function check_refer_number_condition($user_id, $number) {
+	private function check_refer_number_condition($user_id, $number)
+	{
 		// Thực hiện logic kiểm tra số lượng tuyển dụng gián tiếp hoặc trực tiếp của user_id đạt $number
 		return $this->user->get_refer_number($user_id) >= $number;
 	}
 
 	// Hàm kiểm tra điều kiện tuyển dụng xem xét yêu cầu từ bảng reward
-	private function check_refer_reward_condition($user_id, $reward_id) {
+	private function check_refer_reward_condition($user_id, $reward_id)
+	{
 		// Thực hiện logic kiểm tra điều kiện tuyển dụng xem xét yêu cầu từ bảng reward của user_id
 		return $this->user->get_refer_reward($user_id) == $reward_id; // Giả sử get_refer_reward là hàm lấy id của reward của user_id
 	}
 
 
 	// 18 - Tính thưởng duy trì liên tiếp
-	private function calculate_retention_commission($user_id, $settings) {
+	private function calculate_retention_commission($user_id, $settings)
+	{
 		// Lấy các thông tin cấu hình từ $settings
 		$months_goal = $settings['bonus_retention_by_month'];
 		$days_goal = $settings['bonus_retention_by_day'];
@@ -9971,7 +10126,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	private function check_consecutive_months($user_id, $months_goal, $revenue_condition, $revenue_goal) {
+	private function check_consecutive_months($user_id, $months_goal, $revenue_condition, $revenue_goal)
+	{
 		// Lấy danh sách các tháng và doanh thu từ bảng user_revenue
 		$revenues = $this->get_revenues_by_month($user_id);
 
@@ -10012,7 +10168,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Hàm kiểm tra điều kiện doanh thu theo loại
-	private function check_revenue_condition_by_type($revenue, $revenue_condition, $revenue_goal) {
+	private function check_revenue_condition_by_type($revenue, $revenue_condition, $revenue_goal)
+	{
 		switch ($revenue_condition) {
 			case 'sales_personal':
 				return $revenue->sales_personal >= $revenue_goal;
@@ -10034,7 +10191,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Hàm lấy danh sách doanh thu theo tháng từ bảng user_revenue
-	private function get_revenues_by_month($user_id) {
+	private function get_revenues_by_month($user_id)
+	{
 		// Kết nối đến cơ sở dữ liệu
 		$db = $this->db;
 
@@ -10053,7 +10211,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Kiểm tra ngày cho thưởng duy trì
-	private function check_consecutive_days($user_id, $days_goal, $revenue_condition, $revenue_goal) {
+	private function check_consecutive_days($user_id, $days_goal, $revenue_condition, $revenue_goal)
+	{
 		// Lấy danh sách doanh thu của user_id từ bảng user_revenue, sắp xếp theo thời gian giảm dần
 		$revenues = $this->get_revenues_by_day($user_id);
 
@@ -10079,7 +10238,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Hàm lấy danh sách doanh thu theo ngày từ bảng user_revenue
-	private function get_revenues_by_day($user_id) {
+	private function get_revenues_by_day($user_id)
+	{
 		// Kết nối đến cơ sở dữ liệu
 		$db = $this->db;
 
@@ -10098,7 +10258,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	private function check_consecutive_recruitment($user_id, $recruitment_condition, $recruitment_goal) {
+	private function check_consecutive_recruitment($user_id, $recruitment_condition, $recruitment_goal)
+	{
 		// Lấy danh sách các tuyển dụng từ bảng recruitment của user_id, sắp xếp theo thời gian giảm dần
 		$recruitments = $this->get_recruitments($user_id);
 
@@ -10124,7 +10285,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Hàm lấy danh sách tuyển dụng từ bảng recruitment
-	private function get_recruitments($user_id) {
+	private function get_recruitments($user_id)
+	{
 		// Kết nối đến cơ sở dữ liệu
 		$db = $this->db;
 
@@ -10143,7 +10305,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Hàm kiểm tra điều kiện tuyển dụng theo loại
-	private function check_recruitment_condition_by_type($recruitment, $recruitment_condition, $recruitment_goal) {
+	private function check_recruitment_condition_by_type($recruitment, $recruitment_condition, $recruitment_goal)
+	{
 		switch ($recruitment_condition) {
 			case 'recruitment_personal':
 				return $recruitment->recruitment_personal >= $recruitment_goal;
@@ -10167,17 +10330,20 @@ class Admincontrol extends MY_Controller {
 
 
 	// 19 - * Tính thưởng điều kiện nhóm - peding
-	private function calculate_condition_commission($user_id, $settings) {
+	private function calculate_condition_commission($user_id, $settings)
+	{
 		// Implement conditionl commission logic here
 	}
 
 	// 20 - * Tính thưởng đồng chia - peding
-	private function calculate_shared_goal_commission($user_id, $settings) {
+	private function calculate_shared_goal_commission($user_id, $settings)
+	{
 		// Implement shared goal commission logic here
 	}
 
 	// Tính thưởng theo loại
-	private function calculate_commission($source, $type, $value = 0) {
+	private function calculate_commission($source, $type, $value = 0)
+	{
 		if ($type == 'percentage') {	// Tính theo phần trăm
 			return $value * ($source / 100);
 		} else { 						// Thưởng fixed
@@ -10186,7 +10352,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// CẬP NHẬT VÀO BẢNG THƯỞNG
-	public function update_commission($user_id, $order_id = 0, $commission = 0, $method, $commission_type) {
+	public function update_commission($user_id, $order_id = 0, $commission = 0, $method, $commission_type)
+	{
 		$commission_data = [
 			'user_id' => $user_id,
 			'order_id' => $order_id, // xác định nguồn doanh thu - tiêu dùng
@@ -10200,7 +10367,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Hàm hỗ trợ lấy tổng doanh thu từ bảng user_revenue
-	private function get_revenue_sum($user_id, $table, $column) {
+	private function get_revenue_sum($user_id, $table, $column)
+	{
 		$this->db->select_sum($column);
 		$this->db->where('user_id', $user_id);
 		$result = $this->db->get($table)->row();
@@ -10208,7 +10376,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Hàm hỗ trợ lấy tổng tiêu dùng từ bảng user_consum
-	private function get_consum_sum($user_id, $table, $column) {
+	private function get_consum_sum($user_id, $table, $column)
+	{
 		$this->db->select_sum($column);
 		$this->db->where('user_id', $user_id);
 		$result = $this->db->get($table)->row();
@@ -10218,7 +10387,8 @@ class Admincontrol extends MY_Controller {
 
 
 	// Danh sách User
-	public function userslist() {
+	public function userslist()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -10566,7 +10736,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính toán thưởng - cập nhật bảng thưởng - bảng ví Demo => Dữ liệu đang lấy dữ liệu realtime chưa reset theo chu kỳ 30 ngày
-	public function calculate_commission_for_demo() {
+	public function calculate_commission_for_demo()
+	{
 
 		if (!$this->userdetails()) {
 			die();
@@ -10582,7 +10753,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Lấy dữ liệu người dùng
-	public function get_user_data() {
+	public function get_user_data()
+	{
 
 		// Demo Mode
 		if (ENVIRONMENT === 'demo') {
@@ -10744,7 +10916,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function import_user_data() {
+	public function import_user_data()
+	{
 
 		$filter = $this->input->post(null, true);;
 
@@ -10761,7 +10934,8 @@ class Admincontrol extends MY_Controller {
 		die;
 	}
 
-	public function userslisttree() {
+	public function userslisttree()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -10785,7 +10959,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tạo cây mời
-	public function make_users_reftree() {
+	public function make_users_reftree()
+	{
 		$this->load->model('Product_model');
 
 		$users = $this->Product_model->get_all_users();
@@ -10810,12 +10985,14 @@ class Admincontrol extends MY_Controller {
 		echo "User tree populated successfully!";
 	}
 
-	private function get_direct_referrals_recursive($user_id) {
+	private function get_direct_referrals_recursive($user_id)
+	{
 		$direct_referrals = $this->Product_model->get_direct_referrals($user_id);
 		return $direct_referrals;
 	}
 
-	private function get_indirect_referrals_recursive($user_id) {
+	private function get_indirect_referrals_recursive($user_id)
+	{
 		$direct_referrals = $this->Product_model->get_direct_referrals($user_id);
 		$all_indirect_referrals = [];
 
@@ -10827,7 +11004,8 @@ class Admincontrol extends MY_Controller {
 		return $all_indirect_referrals;
 	}
 
-	public function addons() {
+	public function addons()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -10900,7 +11078,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'addons/index');
 	}
 
-	private function modules_list($requestingFor = null) {
+	private function modules_list($requestingFor = null)
+	{
 
 		if ($requestingFor == null) {
 
@@ -11010,7 +11189,8 @@ class Admincontrol extends MY_Controller {
 		return $integration_modules;
 	}
 
-	public function userslistmail() {
+	public function userslistmail()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -11084,7 +11264,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'users/mail');
 	}
 
-	public function addclients($id = null) {
+	public function addclients($id = null)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -11201,7 +11382,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'clients/add_clients');
 	}
 
-	public function listclients($page = 1) {
+	public function listclients($page = 1)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -11242,7 +11424,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function addstock($id = null) {
+	public function addstock($id = null)
+	{
 
 
 
@@ -11465,7 +11648,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function liststocks($page = 1) {
+	public function liststocks($page = 1)
+	{
 
 
 
@@ -11540,7 +11724,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'stocks/index');
 	}
 
-	public function affiliate_theme() {
+	public function affiliate_theme()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -11653,7 +11838,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function setting() {
+	public function setting()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -11711,7 +11897,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function store_setting() {
+	public function store_setting()
+	{
 
 
 		$userdetails = $this->userdetails();
@@ -12340,7 +12527,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function market_tools_setting() {
+	public function market_tools_setting()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -12397,7 +12585,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'setting/market_tools_setting');
 	}
 
-	public function saas_setting() {
+	public function saas_setting()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect($this->admin_domain_url);
@@ -12443,7 +12632,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'setting/saas_setting');
 	}
 
-	public function wallet_setting() {
+	public function wallet_setting()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect($this->admin_domain_url);
@@ -12486,7 +12676,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function paymentsetting() {
+	public function paymentsetting()
+	{
 
 		$this->load->library('deflanguage');
 
@@ -12773,7 +12964,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function mlm_settings() {
+	public function mlm_settings()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -12819,7 +13011,8 @@ class Admincontrol extends MY_Controller {
 
 
 	// Cấp độ AFF hệ thống từng nhóm sản phẩm
-	public function mlm_levels() {
+	public function mlm_levels()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -12869,7 +13062,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	//                custom
-	public function mlm_levels_hang_hoa() {
+	public function mlm_levels_hang_hoa()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -12941,7 +13135,8 @@ class Admincontrol extends MY_Controller {
 		//dd($data);
 		$this->view($data, 'setting/mlm_levels_hang_hoa');
 	}
-	public function mlm_levels_te_bao_goc() {
+	public function mlm_levels_te_bao_goc()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -13011,7 +13206,8 @@ class Admincontrol extends MY_Controller {
 
 		$this->view($data, 'setting/mlm_levels_te_bao_goc');
 	}
-	public function mlm_levels_dich_vu() {
+	public function mlm_levels_dich_vu()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -13081,7 +13277,8 @@ class Admincontrol extends MY_Controller {
 
 		$this->view($data, 'setting/mlm_levels_dich_vu');
 	}
-	public function mlm_levels_dao_tao() {
+	public function mlm_levels_dao_tao()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -13154,7 +13351,8 @@ class Admincontrol extends MY_Controller {
 	//end custom
 
 
-	public function generateproductcode($affiliateads_id = null) {
+	public function generateproductcode($affiliateads_id = null)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -13178,12 +13376,14 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function setAffiliateClick($aff_id = null, $user_id = null) {
+	public function setAffiliateClick($aff_id = null, $user_id = null)
+	{
 	}
 
 
 
-	public function addsaveads($adsId = null) {
+	public function addsaveads($adsId = null)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -13251,7 +13451,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function editProfile() {
+	public function editProfile()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -13334,7 +13535,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function getstate($country_id = null) {
+	public function getstate($country_id = null)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -13368,7 +13570,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function delete_image($image_id = null) {
+	public function delete_image($image_id = null)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -13388,7 +13591,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function resetnotify() {
+	public function resetnotify()
+	{
 		$this->output->set_content_type('application/json');
 
 		$result['status'] = 0;
@@ -13407,7 +13611,8 @@ class Admincontrol extends MY_Controller {
 		$this->output->set_output(json_encode($result));
 	}
 
-	public function updatenotify($country_id = null) {
+	public function updatenotify($country_id = null)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -13464,7 +13669,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function getnotificationnew() {
+	public function getnotificationnew()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -13481,7 +13687,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function getnotificationall() {
+	public function getnotificationall()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -13498,7 +13705,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function getnotification() {
+	public function getnotification()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect($this->admin_domain_url);
@@ -13552,7 +13760,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function productupload($id = null) {
+	public function productupload($id = null)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -13721,7 +13930,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function videoupload($id = null) {
+	public function videoupload($id = null)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -13845,7 +14055,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function deleteAllusersMultiple() {
+	public function deleteAllusersMultiple()
+	{
 
 		// Demo Mode
 		if (ENVIRONMENT === 'demo') {
@@ -13894,7 +14105,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function deleteGoogleAds() {
+	public function deleteGoogleAds()
+	{
 
 		$responce = $this->db->query("DELETE FROM google_ads WHERE id =" . $_POST['id']);
 		if ($responce) {
@@ -13906,13 +14118,15 @@ class Admincontrol extends MY_Controller {
 		}
 		echo json_encode($json);
 	}
-	function refreshGoogleAds() {
+	function refreshGoogleAds()
+	{
 		$data['googleads'] 	= $this->Setting_model->getGoogleAds();
 		$json['adsList'] = $this->load->view("admincontrol/users/part/ads_tr", $data, true);
 		echo json_encode($json);
 	}
 
-	public function deleteAllusers() {
+	public function deleteAllusers()
+	{
 
 		$json = array();
 
@@ -13949,7 +14163,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function showTree() {
+	public function showTree()
+	{
 
 		$post = $this->input->post(null, true);
 
@@ -13966,7 +14181,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function myreferal_ajax($user_id) {
+	public function myreferal_ajax($user_id)
+	{
 
 		$data = $this->Product_model->getMyUnder($user_id);
 
@@ -13975,7 +14191,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function deleteUsersConfirm() {
+	public function deleteUsersConfirm()
+	{
 
 		// Demo Mode
 		if (ENVIRONMENT === 'demo') {
@@ -14045,7 +14262,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function delete($id = null) {
+	public function delete($id = null)
+	{
 
 		if (!empty($id)) {
 
@@ -14061,7 +14279,8 @@ class Admincontrol extends MY_Controller {
 		redirect(base_url() . 'admincontrol/userslist');
 	}
 
-	public function deleteAllproducts() {
+	public function deleteAllproducts()
+	{
 
 		$post = $this->input->post(null, true);
 
@@ -14120,7 +14339,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function user_info() {
+	public function user_info()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -14129,7 +14349,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function docs() {
+	public function docs()
+	{
 
 		$data['doc_config'] = $this->Product_model->getSettings('doc');
 		$this->load->view($control . '/includes/header', $data);
@@ -14141,7 +14362,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function form_manage($form_id = 0) {
+	public function form_manage($form_id = 0)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -14179,7 +14401,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function form() {
+	public function form()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -14226,7 +14449,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function save_form() {
+	public function save_form()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -14377,7 +14601,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function form_coupon_manage($form_coupon_id = 0) {
+	public function form_coupon_manage($form_coupon_id = 0)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -14393,7 +14618,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function form_coupon_delete($form_coupon_id) {
+	public function form_coupon_delete($form_coupon_id)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -14407,7 +14633,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function form_coupon() {
+	public function form_coupon()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -14422,7 +14649,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function save_form_coupon() {
+	public function save_form_coupon()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -14497,7 +14725,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function generateformcode($form = 0) {
+	public function generateformcode($form = 0)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -14521,7 +14750,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function deleteAllforms($form = 0) {
+	public function deleteAllforms($form = 0)
+	{
 
 		$this->load->model("Form_model");
 
@@ -14547,7 +14777,8 @@ class Admincontrol extends MY_Controller {
 		redirect(base_url() . 'admincontrol/listproduct');
 	}
 
-	public function form_delete($form = 0) {
+	public function form_delete($form = 0)
+	{
 
 		$this->load->model("Form_model");
 
@@ -14565,7 +14796,8 @@ class Admincontrol extends MY_Controller {
 		redirect(base_url() . 'admincontrol/listproduct');
 	}
 
-	public function currency_list() {
+	public function currency_list()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -14578,7 +14810,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'currency/index');
 	}
 
-	public function currency_delete($currency_id) {
+	public function currency_delete($currency_id)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -14590,7 +14823,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function currency_edit($currency_id = 0) {
+	public function currency_edit($currency_id = 0)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -14684,7 +14918,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'currency/form');
 	}
 
-	public function currency_refresh() {
+	public function currency_refresh()
+	{
 
 		$currency_data = array();
 
@@ -14747,7 +14982,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function order_attechment($filename, $mask) {
+	public function order_attechment($filename, $mask)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -14790,7 +15026,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function u_status_toggle($user_id) {
+	public function u_status_toggle($user_id)
+	{
 
 		// Demo Mode
 		if (ENVIRONMENT === 'demo') {
@@ -14811,7 +15048,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function info_remove_tran_multiple() {
+	public function info_remove_tran_multiple()
+	{
 
 		$uniqIDS = [];
 
@@ -14866,7 +15104,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function confirm_remove_tran_multi() {
+	public function confirm_remove_tran_multi()
+	{
 
 		$json = [];
 
@@ -14913,7 +15152,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function info_remove_tran() {
+	public function info_remove_tran()
+	{
 
 		$delete_id = $this->input->post("id", true);
 
@@ -14950,7 +15190,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function info_remove_tran_by_commission() {
+	public function info_remove_tran_by_commission()
+	{
 
 		$dataCollection = $this->Wallet_model->getDeleteData((int)$this->input->post("id", true));
 
@@ -14993,7 +15234,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function confirm_remove_tran() {
+	public function confirm_remove_tran()
+	{
 
 		$json['dataCollection'] = $dataCollection = $this->Wallet_model->getDeleteData((int)$this->input->post("id", true));
 
@@ -15024,7 +15266,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function info_recursion_tran() {
+	public function info_recursion_tran()
+	{
 
 		$mainID = $this->input->post("id", true);
 
@@ -15099,7 +15342,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function confirm_recursion_tran() {
+	public function confirm_recursion_tran()
+	{
 		$data = $this->input->post();
 
 		$mainID = $data['transaction_id'];
@@ -15141,7 +15385,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function wallet_change_status() {
+	public function wallet_change_status()
+	{
 
 		$id = (int)$this->input->post("id", true);
 
@@ -15282,7 +15527,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	function list_files($path) {
+	function list_files($path)
+	{
 
 		$files = array();
 
@@ -15322,7 +15568,8 @@ class Admincontrol extends MY_Controller {
 		return $result;
 	}
 
-	public function front_template() {
+	public function front_template()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -15412,7 +15659,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'template_editor/editor');
 	}
 
-	public function load_image_manager() {
+	public function load_image_manager()
+	{
 
 		$filter_name = '';
 
@@ -15588,7 +15836,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function image_upload_filemanager() {
+	public function image_upload_filemanager()
+	{
 
 		$json = array();
 
@@ -15655,7 +15904,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function folder_filemanager() {
+	public function folder_filemanager()
+	{
 
 		$json = array();
 
@@ -15703,7 +15953,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function delete_image_filemanager() {
+	public function delete_image_filemanager()
+	{
 
 		$json = array();
 
@@ -15784,7 +16035,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function editor_get_file() {
+	public function editor_get_file()
+	{
 
 		$json = array();
 
@@ -15807,7 +16059,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function editor_save_file() {
+	public function editor_save_file()
+	{
 
 		$json = array();
 
@@ -15829,7 +16082,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function registration_builder() {
+	public function registration_builder()
+	{
 		$userdetails = $this->userdetails();
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			$post = $this->input->post(null, true);
@@ -15871,7 +16125,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function sendAffiliateEmail() {
+	public function sendAffiliateEmail()
+	{
 
 		// Demo Mode
 		if (ENVIRONMENT === 'demo') {
@@ -15936,7 +16191,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function theme_setting() {
+	public function theme_setting()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -15976,7 +16232,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function getDatesFromType() {
+	public function getDatesFromType()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -16000,7 +16257,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function get_integartion_data($return  = false) {
+	public function get_integartion_data($return  = false)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -16327,7 +16585,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function category_auto() {
+	public function category_auto()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -16341,7 +16600,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function store_category_delete($category_id = 0) {
+	public function store_category_delete($category_id = 0)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -16359,7 +16619,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function store_category_add($category_id = 0) {
+	public function store_category_add($category_id = 0)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -16498,7 +16759,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function store_category($page = 1) {
+	public function store_category($page = 1)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -16542,7 +16804,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'store/store_category');
 	}
 
-	public function get_orders_transactions($orderType, $orderId, $type = '') {
+	public function get_orders_transactions($orderType, $orderId, $type = '')
+	{
 		$userdetails = $this->userdetails();
 
 		if (!$this->userdetails()) {
@@ -16580,7 +16843,8 @@ class Admincontrol extends MY_Controller {
 		die;
 	}
 
-	public function store_orders($page = 1) {
+	public function store_orders($page = 1)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -16640,7 +16904,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'store/orders');
 	}
 
-	public function get_latest_dashboard_orders($page = 1) {
+	public function get_latest_dashboard_orders($page = 1)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -16671,7 +16936,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function store_logs($page = 0) {
+	public function store_logs($page = 0)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -16719,7 +16985,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function store_markettools($page = 0) {
+	public function store_markettools($page = 0)
+	{
 		set_default_currency();
 		$userdetails = $this->userdetails();
 		$this->load->model('Form_model');
@@ -16815,7 +17082,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function info_remove_order() {
+	public function info_remove_order()
+	{
 
 		$id = (int)$this->input->post("id", true);
 
@@ -16858,7 +17126,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function confirm_remove_order() {
+	public function confirm_remove_order()
+	{
 
 		$id = $this->input->post('id', true);
 
@@ -16915,7 +17184,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính toán hoa hồng
-	public function calc_commission() {
+	public function calc_commission()
+	{
 
 		$data = $this->input->post(null, true);
 
@@ -16955,7 +17225,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function withdrawal_payment_gateways_doc() {
+	public function withdrawal_payment_gateways_doc()
+	{
 		set_default_currency();
 
 		$data = [];
@@ -16965,7 +17236,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function withdrawal_payment_gateways() {
+	public function withdrawal_payment_gateways()
+	{
 
 		set_default_currency();
 
@@ -16980,7 +17252,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function withdrawal_payment_gateways_status_change($code) {
+	public function withdrawal_payment_gateways_status_change($code)
+	{
 		// Demo Mode
 		if (ENVIRONMENT === 'demo') {
 			$this->session->set_flashdata('error', __('admin.demo_mode'));
@@ -17001,7 +17274,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function withdrawal_payment_gateways_edit($code = null) {
+	public function withdrawal_payment_gateways_edit($code = null)
+	{
 
 		// Demo Mode
 		if (ENVIRONMENT === 'demo') {
@@ -17049,7 +17323,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function withdrawal_payment_gateways_setting_save($code) {
+	public function withdrawal_payment_gateways_setting_save($code)
+	{
 
 		$post = $this->input->post(null, true);
 		$this->Setting_model->save('withdrawalpayment_' . $code, $post);
@@ -17061,7 +17336,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function withdrawal_payment_gateways_setting_save_ajax() {
+	public function withdrawal_payment_gateways_setting_save_ajax()
+	{
 
 		// Demo Mode
 		if (ENVIRONMENT === 'demo') {
@@ -17092,7 +17368,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function contactus($id = null) {
+	public function contactus($id = null)
+	{
 		$data  = array();
 		$where = array('notification_type' => 'contact_us', 'notification_id' => $id);
 		$data['notification_details'] = $this->Common_model->select_where_result('notification', $where);
@@ -17102,7 +17379,8 @@ class Admincontrol extends MY_Controller {
 
 
 
-	public function orders_notifications($id = null) {
+	public function orders_notifications($id = null)
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) {
@@ -17126,7 +17404,8 @@ class Admincontrol extends MY_Controller {
 			redirect('/admincontrol/notification');
 	}
 
-	public function click_notification($id = null) {
+	public function click_notification($id = null)
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) {
@@ -17154,7 +17433,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function usergroup() {
+	public function usergroup()
+	{
 		$userdetails = $this->userdetails();
 
 		$data['groups'] = $this->user->getgrouplist();
@@ -17162,7 +17442,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'usergroup/index');
 	}
 
-	public function group_form($id = '') {
+	public function group_form($id = '')
+	{
 		$userdetails = $this->userdetails();
 
 		if (!empty($id)) {
@@ -17172,7 +17453,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'usergroup/form');
 	}
 
-	public function admin_group_form() {
+	public function admin_group_form()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -17255,7 +17537,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function group_status_toggle() {
+	public function group_status_toggle()
+	{
 		try {
 			$userdetails = $this->userdetails();
 			$json = array();
@@ -17275,7 +17558,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function delete_user_group() {
+	public function delete_user_group()
+	{
 		$id = $this->input->post('id');
 
 		$this->db->select('id');
@@ -17303,7 +17587,8 @@ class Admincontrol extends MY_Controller {
 
 
 	// Affiliate
-	public function doLoginAff() {
+	public function doLoginAff()
+	{
 		if (!$this->userdetails()) {
 			die('Unauthorized Access!');
 		} else {
@@ -17314,7 +17599,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function vendor_deposits() {
+	public function vendor_deposits()
+	{
 		$userdetails = $this->userdetails();
 
 		$market_vendor_marketvendorstatus = $this->Product_model->getSettings('market_vendor', 'marketvendorstatus');
@@ -17390,7 +17676,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'users/deposit');
 	}
 
-	public function vendor_deposit_details($id) {
+	public function vendor_deposit_details($id)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -17459,7 +17746,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'users/vendor_deposit_details');
 	}
 
-	public function get_vendor_deposit_history($id) {
+	public function get_vendor_deposit_history($id)
+	{
 
 		$status_history = $this->db->query("SELECT * FROM deposit_requests_history WHERE vd_id={$id} ORDER BY id DESC ")->result_array();
 
@@ -17481,7 +17769,8 @@ class Admincontrol extends MY_Controller {
 		die;
 	}
 
-	public function payment_gateway() {
+	public function payment_gateway()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -17560,7 +17849,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'users/payment_gateway');
 	}
 
-	public function payment_gateway_edit($edit_code) {
+	public function payment_gateway_edit($edit_code)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -17642,7 +17932,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function payment_gateway_documentation() {
+	public function payment_gateway_documentation()
+	{
 		$data = array();
 		foreach (glob(APPPATH . "/payment_gateway/sample_data/*") as $file)
 			$data['sample_data'][] = pathinfo(basename($file))['filename'];
@@ -17650,19 +17941,22 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'users/payment_gateway_documentation');
 	}
 
-	public function payment_gateway_documentation_sample_data($filename) {
+	public function payment_gateway_documentation_sample_data($filename)
+	{
 		if (file_exists(APPPATH . 'payment_gateway/sample_data/' . $filename . '.json'))
 			debug(file_get_contents(APPPATH . 'payment_gateway/sample_data/' . $filename . '.json'));
 		else
 			redirect('admincontrol/payment_gateway_documentation');
 	}
 
-	public function payment_gateway_documentation_to_pdf() {
+	public function payment_gateway_documentation_to_pdf()
+	{
 		$this->load->helper('documentation');
 		documentationToPdf();
 	}
 
-	public function payment_gateway_sample_data_to_pdf() {
+	public function payment_gateway_sample_data_to_pdf()
+	{
 		foreach (glob(APPPATH . "/payment_gateway/sample_data/*") as $file) {
 			$sample_data['filename'] = pathinfo(basename($file))['filename'];
 			$sample_data['structure'] = file_get_contents($file);
@@ -17674,7 +17968,8 @@ class Admincontrol extends MY_Controller {
 		sampleDataToPdf($data);
 	}
 
-	public function payment_gateway_install() {
+	public function payment_gateway_install()
+	{
 
 		// Demo Mode
 		if (ENVIRONMENT === 'demo') {
@@ -17807,7 +18102,8 @@ class Admincontrol extends MY_Controller {
 		die();
 	}
 
-	private function clearPaymentGatewayTmpDirectory($tmpDirectory, $rmdir = false) {
+	private function clearPaymentGatewayTmpDirectory($tmpDirectory, $rmdir = false)
+	{
 		$files = glob($tmpDirectory . '*', GLOB_MARK);
 		foreach ($files as $file) {
 			if (is_dir($file))
@@ -17822,7 +18118,8 @@ class Admincontrol extends MY_Controller {
 		return;
 	}
 
-	public function payment_gateway_status_change($code) {
+	public function payment_gateway_status_change($code)
+	{
 
 		// Demo Mode
 		if (ENVIRONMENT === 'demo') {
@@ -17855,7 +18152,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function delete_payment_gateway($code) {
+	public function delete_payment_gateway($code)
+	{
 		$this->load->config('payment_gateway');
 		$payment_method = config_item('payment_method');
 		if (!in_array($code, $payment_method)) {
@@ -17892,7 +18190,8 @@ class Admincontrol extends MY_Controller {
 		redirect('admincontrol/payment_gateway');
 	}
 
-	public function all_transaction() {
+	public function all_transaction()
+	{
 		$userdetails = $this->userdetails();
 		$filter = $this->input->post(null, true);
 		$this->load->model('Order_model');
@@ -17925,7 +18224,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'users/all_transaction');
 	}
 
-	public function all_transaction_export_to_excel() {
+	public function all_transaction_export_to_excel()
+	{
 		$userdetails = $this->userdetails();
 		$filter = $this->input->get(null, true);
 
@@ -17934,7 +18234,8 @@ class Admincontrol extends MY_Controller {
 		exportToExcel($all_transaction);
 	}
 
-	public function all_transaction_export_to_pdf() {
+	public function all_transaction_export_to_pdf()
+	{
 		$userdetails = $this->userdetails();
 		$filter = $this->input->get(null, true);
 		$this->load->helper('all_transaction');
@@ -17942,7 +18243,8 @@ class Admincontrol extends MY_Controller {
 		exportToPdf($userdetails['admin'], $all_transaction);
 	}
 
-	public function getOrderDetails() {
+	public function getOrderDetails()
+	{
 		$post = $this->input->post(null, true);
 
 		$filter = array(
@@ -17965,7 +18267,8 @@ class Admincontrol extends MY_Controller {
 		echo $this->load->view("admincontrol/store/order_details_mb", $data, true);
 	}
 
-	public function uploadMailImages() {
+	public function uploadMailImages()
+	{
 		if (!is_dir('assets/user_upload/mail_template_images')) {
 			mkdir('./assets/user_upload/mail_template_images', 0644, TRUE);
 		}
@@ -17989,7 +18292,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Kiểm tra nhảy cấp
-	public function check_award_level() {
+	public function check_award_level()
+	{
 		if (!$this->userdetails()) {
 			die();
 		}
@@ -18028,7 +18332,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function multiApproveDecline() {
+	public function multiApproveDecline()
+	{
 		$post = $this->input->post(null, true);
 
 		$approval_data = [];
@@ -18182,17 +18487,20 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function set_default_admin_url() {
+	public function set_default_admin_url()
+	{
 		$set_default = $this->Setting_model->set_default_admin_url();
 		echo $set_default;
 	}
 
-	public function set_default_front_url() {
+	public function set_default_front_url()
+	{
 		$set_default = $this->Setting_model->set_default_front_url();
 		echo $set_default;
 	}
 
-	public function update_store_status() {
+	public function update_store_status()
+	{
 		$status = $this->input->post('status');
 
 		$update = $this->Setting_model->update_store_status($status);
@@ -18205,28 +18513,32 @@ class Admincontrol extends MY_Controller {
 		echo $update;
 	}
 
-	public function update_store_menu_on_front() {
+	public function update_store_menu_on_front()
+	{
 		$status = $this->input->post('status');
 
 		$update = $this->Setting_model->update_store_menu_on_front($status);
 		echo $update;
 	}
 
-	public function update_cookies_menu() {
+	public function update_cookies_menu()
+	{
 		$status = $this->input->post('status');
 		$update = $this->Setting_model->update_cookies_menu($status);
 		echo $update;
 	}
 
 
-	public function update_store_menu_on_front_blank() {
+	public function update_store_menu_on_front_blank()
+	{
 		$status = $this->input->post('status');
 
 		$update = $this->Setting_model->update_store_menu_on_front_blank($status);
 		echo $update;
 	}
 
-	public function update_store_mode() {
+	public function update_store_mode()
+	{
 
 		$mode = $this->input->post('mode');
 		$theme = $this->input->post('theme');
@@ -18236,7 +18548,8 @@ class Admincontrol extends MY_Controller {
 		echo $update;
 	}
 
-	public function update_all_settings() {
+	public function update_all_settings()
+	{
 
 		$status = $this->input->post('status');
 		$setting_key = $this->input->post('setting_key');
@@ -18260,7 +18573,8 @@ class Admincontrol extends MY_Controller {
 		echo $update;
 	}
 
-	public function getShippingDetails() {
+	public function getShippingDetails()
+	{
 		if ($this->input->server('REQUEST_METHOD') === 'POST') {
 			$user_id = $this->input->post('id');
 			$data = $this->db->query("SELECT shipping_address.*,countries.name as country_name,states.name as state_name FROM shipping_address INNER JOIN countries ON countries.id=shipping_address.country_id INNER JOIN states ON states.id=shipping_address.state_id WHERE user_id = $user_id")->row_array();
@@ -18269,12 +18583,14 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function cron() {
+	public function cron()
+	{
 		$userdetails = $this->userdetails();
 		$this->view($data, 'cron/index');
 	}
 
-	public function update_product_settings() {
+	public function update_product_settings()
+	{
 		$status = $this->input->post('status');
 		$setting_key = $this->input->post('setting_key');
 		$product_id = $this->input->post('product_id');
@@ -18283,7 +18599,8 @@ class Admincontrol extends MY_Controller {
 		echo $update;
 	}
 
-	public function default_theme_settings() {
+	public function default_theme_settings()
+	{
 		$setting = $this->input->post('setting');
 		$color = $this->input->post('color');
 
@@ -18291,7 +18608,8 @@ class Admincontrol extends MY_Controller {
 		echo $update;
 	}
 
-	public function default_font_settings() {
+	public function default_font_settings()
+	{
 		$setting = $this->input->post('setting');
 		$font = $this->input->post('font');
 
@@ -18299,7 +18617,8 @@ class Admincontrol extends MY_Controller {
 		echo $update;
 	}
 
-	public function set_default_theme_color_settings() {
+	public function set_default_theme_color_settings()
+	{
 		$setting_array = [
 			'admin_side_bar_color' => '#ffffff',
 			'admin_side_bar_scroll_color' => '#007bff',
@@ -18325,7 +18644,8 @@ class Admincontrol extends MY_Controller {
 		echo $update;
 	}
 
-	public function set_default_theme_font_settings() {
+	public function set_default_theme_font_settings()
+	{
 		$setting_array = [
 			'admin_side_font' => 'Be Vietnam Pro',
 			'user_side_font' => 'Poppins',
@@ -18338,23 +18658,27 @@ class Admincontrol extends MY_Controller {
 		echo $update;
 	}
 
-	public function firstsetting() {
+	public function firstsetting()
+	{
 		$userdetails = $this->userdetails();
 		$this->view($data, '../firstsetting/index');
 	}
 
 
-	public function todolist() {
+	public function todolist()
+	{
 		$userdetails = $this->userdetails();
 		$this->view($data, 'todo/todo');
 	}
 
-	public function ticketssubject() {
+	public function ticketssubject()
+	{
 		$userdetails = $this->userdetails();
 		$this->view($data, 'ticket/ticket-subject');
 	}
 
-	public function tickets() {
+	public function tickets()
+	{
 		$userdetails = $this->userdetails();
 		$this->load->model('Tickets_model');
 		$this->load->model('Product_model');
@@ -18364,7 +18688,8 @@ class Admincontrol extends MY_Controller {
 		$data['subjects'] = $this->Tickets_model->getsubjectlist();
 		$this->view($data, 'ticket/ticket-listing');
 	}
-	public function ticketdetails($ticket_id = Null) {
+	public function ticketdetails($ticket_id = Null)
+	{
 		$userdetails = $this->userdetails();
 		$this->userdetails();
 		$this->load->model('Tickets_model');
@@ -18380,7 +18705,8 @@ class Admincontrol extends MY_Controller {
 			redirect(base_url('admincontrol/tickets'), 'refresh');
 		}
 	}
-	public function ticketcreate() {
+	public function ticketcreate()
+	{
 		$userdetails = $this->userdetails();
 		$data['subjects'] = $this->Common_model->get_data_all_asc('tickets_subject', [], 'id,subject', 'id');
 		$data['users'] = $this->db->query("SELECT id,username FROM users WHERE type = 'user'")->result_array();
@@ -18388,7 +18714,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'ticket/ticket-create');
 	}
 
-	public function countries_and_states() {
+	public function countries_and_states()
+	{
 		$userdetails = $this->userdetails();
 		//$data['countries'] = $this->Common_model->get_data_all_asc('countries',[],'*','name');
 		$data['countries'] = $this->db->query("SELECT * FROM countries ORDER BY name ASC")->result_array();
@@ -18396,7 +18723,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'countries_and_states/list');
 	}
 
-	public function createUpdateCountry() {
+	public function createUpdateCountry()
+	{
 		$userdetails = $this->userdetails();
 		$this->load->library('form_validation');
 		$json = array();
@@ -18454,7 +18782,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function createUpdateState() {
+	public function createUpdateState()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -18510,7 +18839,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function deleteCountry($id) {
+	public function deleteCountry($id)
+	{
 		$userdetails = $this->userdetails();
 		$country = $this->db->query("SELECT created_by FROM countries WHERE id='{$id}'")->row_array();
 		if ($userdetails['type'] == 'admin' || $country['created_by'] == $userdetails['id']) {
@@ -18524,7 +18854,8 @@ class Admincontrol extends MY_Controller {
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	}
 
-	public function deleteState($id) {
+	public function deleteState($id)
+	{
 		$userdetails = $this->userdetails();
 		$state = $this->db->query("SELECT created_by FROM states WHERE id='{$id}'")->row_array();
 		if ($userdetails['type'] == 'admin' || $state['created_by'] == $userdetails['id']) {
@@ -18537,7 +18868,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function refactor_database() {
+	public function refactor_database()
+	{
 		try {
 			// Demo Mode
 			if (ENVIRONMENT === 'demo') {
@@ -18571,7 +18903,8 @@ class Admincontrol extends MY_Controller {
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	}
 
-	public function uncompleted_payments() {
+	public function uncompleted_payments()
+	{
 		$userdetails = $this->userdetails();
 		$filter = $this->input->post(null, true);
 		$this->load->model('Order_model');
@@ -18619,7 +18952,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function listreviews_ajax($page = 1) {
+	public function listreviews_ajax($page = 1)
+	{
 
 		$userdetails = $this->userdetails();
 		$get = $this->input->get(null, true);
@@ -18668,7 +19002,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function manage_review($id = null) {
+	public function manage_review($id = null)
+	{
 		$userdetails = $this->userdetails();
 		$post = $this->input->post(null, true);
 		if (!empty($post) && isset($post['product_name'])) {
@@ -18802,7 +19137,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function deleteReview($id = null) {
+	public function deleteReview($id = null)
+	{
 
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
@@ -18819,7 +19155,8 @@ class Admincontrol extends MY_Controller {
 		redirect('admincontrol/listproduct');
 	}
 
-	public function checkDateTime($date) {
+	public function checkDateTime($date)
+	{
 		$format = 'Y-m-d H:i:s';
 		$d = DateTime::createFromFormat($format, $date);
 		if ($d && $d->format($format) == $date)
@@ -18830,19 +19167,22 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function bulkReviewImportFromUrl() {
+	public function bulkReviewImportFromUrl()
+	{
 		$userdetails = $this->userdetails();
 		$data = $this->Review_model->bulkReviewImportFromUrlData($userdetails);
 		echo $this->load->view("admincontrol/product/bulk_review_upload_modal", $data, true);
 	}
 
-	public function bulkReviewsImport() {
+	public function bulkReviewsImport()
+	{
 		$userdetails = $this->userdetails();
 		$data = $this->Review_model->bulkReviewsImportData($userdetails);
 		echo $this->load->view("admincontrol/product/bulk_review_upload_modal", $data, true);
 	}
 
-	public function bulkReviewImportConfirm() {
+	public function bulkReviewImportConfirm()
+	{
 		$userdetails = $this->userdetails();
 		$data = json_decode(base64_decode($_POST['reviews']), true);
 		$result = $this->Review_model->bulkReviewImportConfirmData($userdetails, $data);
@@ -18850,27 +19190,31 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function exportReviewXML() {
+	public function exportReviewXML()
+	{
 		$userdetails = $this->userdetails();
 		$json = $this->Review_model->exportReviewXMLData($userdetails);
 		echo json_encode($json);
 	}
 
-	public function downloadproductreviewxmlstructurefile($filename = NULL) {
+	public function downloadproductreviewxmlstructurefile($filename = NULL)
+	{
 		$userdetails = $this->userdetails();
 		$this->load->helper('download');
 		$data = file_get_contents(FCPATH . 'assets/xml/export_admin_product_reviews_structure.xml');
 		force_download("export_admin_product_reviews_structure.xml", $data);
 	}
 
-	public function downloadproductreviewxmlfile($filename = NULL) {
+	public function downloadproductreviewxmlfile($filename = NULL)
+	{
 		$userdetails = $this->userdetails();
 		$this->load->helper('download');
 		$data = file_get_contents(FCPATH . 'assets/xml/export_admin_product_reviews.xml');
 		force_download("export_admin_product_reviews.xml", $data);
 	}
 
-	public function getTermAndCondition() {
+	public function getTermAndCondition()
+	{
 		$userdetails = $this->userdetails();
 		$post = $this->input->post(null, true);
 		if (!empty($post) && isset($post['language_id'])) {
@@ -18881,7 +19225,8 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function getStaticPages() {
+	public function getStaticPages()
+	{
 		$userdetails = $this->userdetails();
 		$post = $this->input->post(null, true);
 		if (!empty($post) && isset($post['language_id'])) {
@@ -18899,13 +19244,15 @@ class Admincontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	function troubleshoot() {
+	function troubleshoot()
+	{
 		$userdetails = $this->userdetails();
 		$data = array();
 		$this->view($data, 'document/troubleshoot');
 	}
 
-	public function tutorial() {
+	public function tutorial()
+	{
 		$userdetails = $this->userdetails();
 		$data = array();
 		$data['site'] = $this->Product_model->getSettings('site');
@@ -18918,26 +19265,30 @@ class Admincontrol extends MY_Controller {
 
 		$this->view($data, '../tutorial/index');
 	}
-	public function listTutorals_ajax($page = 1) {
+	public function listTutorals_ajax($page = 1)
+	{
 		$userdetails = $this->userdetails();
 		$this->load->model('Tutorial_model');
 		$this->Tutorial_model->list();
 	}
 
-	public function manage_tutorial($id = null) {
+	public function manage_tutorial($id = null)
+	{
 		$userdetails = $this->userdetails();
 		$this->load->model('Tutorial_model');
 		$data = $this->Tutorial_model->manage($userdetails, $id);
 		$this->view($data, '../tutorial/manage_tutorial');
 	}
 
-	public function getTutorialCategory() {
+	public function getTutorialCategory()
+	{
 		$this->load->model('Tutorial_model');
 		$json['html'] = $this->Tutorial_model->getCateogryDropdown();
 		echo json_encode($json);
 	}
 
-	public function deleteTutorial($id = null) {
+	public function deleteTutorial($id = null)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect($this->admin_domain_url);
@@ -18955,20 +19306,23 @@ class Admincontrol extends MY_Controller {
 	}
 
 
-	public function listTutorialCategory_ajax($page = 1) {
+	public function listTutorialCategory_ajax($page = 1)
+	{
 		$userdetails = $this->userdetails();
 		$this->load->model('Tutorial_model');
 		$this->Tutorial_model->listCategory();
 	}
 
-	public function manage_tutorial_catgory($id = null) {
+	public function manage_tutorial_catgory($id = null)
+	{
 		$userdetails = $this->userdetails();
 		$this->load->model('Tutorial_model');
 		$data = $this->Tutorial_model->manageCategory($userdetails, $id);
 		$this->view($data, '../tutorial/manage_category');
 	}
 
-	public function deleteTutorialCategory($id = null) {
+	public function deleteTutorialCategory($id = null)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect($this->admin_domain_url);
@@ -18987,7 +19341,8 @@ class Admincontrol extends MY_Controller {
 		redirect('admincontrol/tutorial');
 	}
 
-	public function getLoginContent_ajax() {
+	public function getLoginContent_ajax()
+	{
 		$userdetails = $this->userdetails();
 		$post = $this->input->post(null, true);
 		if (!empty($post) && isset($post['language_id'])) {
@@ -19006,7 +19361,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Nâng cấp thành viên
-	public function rank_upgrade() {
+	public function rank_upgrade()
+	{
 		if (!$this->userdetails()) {
 			die();
 		}
@@ -19019,7 +19375,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Vai trò
-	public function role($offset = 0) {
+	public function role($offset = 0)
+	{
 		$userdetails = $this->userdetails();
 		$this->load->library('pagination');
 		$config['base_url'] = base_url('admincontrol/role');
@@ -19033,7 +19390,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'role/index');
 	}
 
-	public function create_role() {
+	public function create_role()
+	{
 		$userdetails = $this->userdetails();
 		$data['CurrencySymbol'] = $this->currency->getSymbol();
 		$data['permissions'] = $this->user->get_permissions();
@@ -19071,7 +19429,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'role/create');
 	}
 
-	public function update_role($id) {
+	public function update_role($id)
+	{
 		$userdetails = $this->userdetails();
 
 		if (isset($id)) {
@@ -19125,7 +19484,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function delete_role($id) {
+	public function delete_role($id)
+	{
 		$userdetails = $this->userdetails();
 		$result['status'] = 0;
 		$result['message'] = __('admin.something_went_wrong');
@@ -19149,7 +19509,8 @@ class Admincontrol extends MY_Controller {
 	//end Vai trò
 
 	// Phân quyền
-	public function permission($offset = 0) {
+	public function permission($offset = 0)
+	{
 		$userdetails = $this->userdetails();
 		$this->load->library('pagination');
 		$config['base_url'] = base_url('admincontrol/permission');
@@ -19163,7 +19524,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'permission/index');
 	}
 
-	public function create_permission() {
+	public function create_permission()
+	{
 		$userdetails = $this->userdetails();
 		$data['CurrencySymbol'] = $this->currency->getSymbol();
 
@@ -19198,7 +19560,8 @@ class Admincontrol extends MY_Controller {
 		$this->view($data, 'permission/create');
 	}
 
-	public function update_permission($id) {
+	public function update_permission($id)
+	{
 		$userdetails = $this->userdetails();
 
 		if (isset($id)) {
@@ -19248,7 +19611,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function delete_permission($id) {
+	public function delete_permission($id)
+	{
 		$userdetails = $this->userdetails();
 		$result['status'] = 0;
 		$result['message'] = __('admin.something_went_wrong');
@@ -19272,7 +19636,8 @@ class Admincontrol extends MY_Controller {
 	//end Phân quyền
 
 	// Tính thưởng
-	public function commission_payout() {
+	public function commission_payout()
+	{
 
 		if (!$this->userdetails()) {
 			die();
@@ -19309,7 +19674,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Cập nhật Rank for level cho user
-	public function update_user_levels() {
+	public function update_user_levels()
+	{
 
 		// Lấy các bản ghi từ bảng award_level
 		$this->db->where('level_number >=', 2);
@@ -19365,7 +19731,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Cập nhật Rank for level cho user
-	public function update_user_levels_demo() {
+	public function update_user_levels_demo()
+	{
 
 		// Bảng điều kiện và Mức thưởng theo cấp bậc
 		$condition_levels = array(
@@ -19493,7 +19860,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Buy new plan - Update Level
-	public function upgrade_plan($user_id, $new_planid, $status_id = 1, $comment = 'Tăng cấp') {
+	public function upgrade_plan($user_id, $new_planid, $status_id = 1, $comment = 'Tăng cấp')
+	{
 
 		$user = App\User::find($user_id);
 		$plan = MembershipPlan::find($new_planid);
@@ -19508,7 +19876,8 @@ class Admincontrol extends MY_Controller {
 
 
 	// Lấy danh sách User theo level cấp dưới
-	public function get_users_by_level($new_level_number) {
+	public function get_users_by_level($new_level_number)
+	{
 		$this->db->select('award_level.level_number, users.id, users.level_id, users.type, user_revenue.revenue, user_revenue.revenue_direct, user_revenue.revenue_indirect');
 		$this->db->from('users');
 		$this->db->join('award_level', 'users.level_id = award_level.id', 'left');
@@ -19532,7 +19901,8 @@ class Admincontrol extends MY_Controller {
 		}
 	}
 
-	public function get_users_by_level_demo($new_level_number) {
+	public function get_users_by_level_demo($new_level_number)
+	{
 		$this->db->select('award_level.level_number, users.id, users.level_id, users.type, user_revenue.revenue, user_revenue.revenue_direct, user_revenue.revenue_indirect, user_consum.consum, user_consum.consum_direct');
 		$this->db->from('users');
 		$this->db->join('award_level', 'users.level_id = award_level.id', 'left');
@@ -19558,7 +19928,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Lấy Plan ID của Level Number mới
-	public function get_memberplan_by_level($number_level) {
+	public function get_memberplan_by_level($number_level)
+	{
 		// Join the membership_plans and award_level tables
 		$this->db->select('membership_plans.id as memberplan_id');
 		$this->db->from('membership_plans');
@@ -19570,7 +19941,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// lấy plan_id của 1 level
-	public function get_plan_id_by_level($level_number) {
+	public function get_plan_id_by_level($level_number)
+	{
 		$this->db->select('membership_plans.id as plan_id');
 		$this->db->from('award_level');
 		$this->db->join('membership_plans', 'membership_plans.level_id = award_level.id');
@@ -19586,7 +19958,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Cập nhật cây tuyển dụng ===========================
-	public function mj_update_user_tree() {
+	public function mj_update_user_tree()
+	{
 		// Lấy danh sách tất cả các user từ bảng users
 		$this->db->select('id');
 		$query = $this->db->get('users');
@@ -19657,7 +20030,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính toán tuyển dụng user_recruitment -> users
-	public function mj_update_recruitment() {
+	public function mj_update_recruitment()
+	{
 		// Lấy danh sách tất cả các user từ bảng users
 		$this->db->select('id');
 		$query = $this->db->get('users');
@@ -19719,7 +20093,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính toán doanh thu user_revenue -> order, product_order
-	public function mj_update_revenue() {
+	public function mj_update_revenue()
+	{
 
 		// Lấy danh sách tất cả các user từ bảng users
 		$this->db->select('id');
@@ -19786,7 +20161,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Các doanh thu khác
-	public function mj_update_revenue_other() {
+	public function mj_update_revenue_other()
+	{
 		// Lấy danh sách tất cả các user từ bảng users_revenue
 		$this->db->select('user_id, revenue');
 		$query = $this->db->get('user_revenue');
@@ -19827,7 +20203,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính toán tiêu dùng user_consum -> order, product_order
-	public function mj_update_consum() {
+	public function mj_update_consum()
+	{
 		// User Consum - Tiêu dùng
 		// Lấy danh sách tất cả các user từ bảng users
 		$this->db->select('id');
@@ -19890,7 +20267,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Cập nhật consum cho direct và indirect
-	public function mj_update_consum_other() {
+	public function mj_update_consum_other()
+	{
 		// Lấy danh sách tất cả các user từ bảng user_consum
 		$this->db->select('user_id, consum');
 		$query = $this->db->get('user_consum');
@@ -19932,7 +20310,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính toán thứ hạng user_rank -> (users, reward, award_level)
-	public function mj_update_rank() {
+	public function mj_update_rank()
+	{
 		// Tính toán cập nhật User Rank
 		// Lấy danh sách tất cả các user từ bảng users
 		$this->db->select('id as user_id, plan_id');
@@ -20022,7 +20401,8 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính toán cấp bậc theo điều kiện - nhảy cấp users -> levels (membership_plans)
-	public function mj_update_level() {
+	public function mj_update_level()
+	{
 
 		// Lấy các bản ghi từ bảng award_level
 		$this->db->where('level_number >=', 2);
@@ -20076,12 +20456,1275 @@ class Admincontrol extends MY_Controller {
 	}
 
 	// Tính toán thưởng theo các điều kiện và chính sách
-	public function mj_update_commission() {
+	public function mj_update_commission()
+	{
 		$this->user->mj_calculate_commissions(); // user_commission
 	}
 
 	// Tính toán cấp nhật thưởng đưa vào Ví wallets -> update_plan
-	public function mj_update_commission_to_wallet() {
+	public function mj_update_commission_to_wallet()
+	{
 		$this->order->mj_updateAllCommWallet(); // wallet
+	}
+
+	// DANH SÁCH CÁC PHẦN BÁO CÁO
+
+	// Danh mục Sản phẩm
+	public function report_list_product($only_review = false)
+	{
+
+		$userdetails = $this->userdetails();
+
+		$this->load->model('Form_model');
+
+		$store_setting = $this->Product_model->getSettings('store');
+
+		$data['totals'] = $this->Wallet_model->getTotals(array(), true);
+
+		$filter = array();
+
+		$get = $this->input->get(null, true);
+
+		$filter['is_campaign_and_cart_product'] = 1;
+
+		if (isset($get['category_id']) && $get['category_id']) {
+			$filter['category_id'] = (int)$this->input->get('category_id');
+		}
+
+		if (isset($get['seller_id']) && $get['seller_id']) {
+
+			$filter['seller_id'] = (int)$this->input->get('seller_id');
+		}
+
+		$filter['product_status_in'] =	 '1';
+
+		if ($only_review == 'reviews') {
+
+			$filter['product_status_in'] =	 '0,2,3';
+		}
+
+		set_default_language();
+
+		$data['productlist'] = $this->Product_model->getAllProduct($userdetails['id'], $userdetails['type'], $filter);
+
+
+		$data['client_count'] = $this->db->query('SELECT count(*) as total FROM users WHERE  type like "client"')->row()->total;
+
+		$data['ordercount'] = $this->db->query('SELECT COUNT(op.id) as total FROM `order_products` op LEFT JOIN `order` as o ON o.id = op.order_id WHERE o.status > 0 ')->row()->total;
+
+		$data['categories'] = $this->db->query("SELECT id,name FROM categories")->result_array();
+
+		$data['vendors'] = $this->db->query("SELECT users.id,CONCAT(users.firstname,' ',users.lastname) as name FROM `product_affiliate` INNER JOIN users ON users.id= user_id GROUP by user_id")->result_array();
+
+
+		$data['user'] = $userdetails;
+
+		$this->load->library("socialshare");
+
+		$data['social_share_modal'] =  $this->socialshare->get_dynamic_social_share_btns();
+
+		$this->load->model("Coupon_model");
+
+		$data['coupons'] = $this->Coupon_model->getCoupons();
+
+		$ptotal = $this->db->query('SELECT product_id FROM product')->num_rows();
+
+		foreach ($data['coupons'] as $key => $value) {
+
+			if (strtolower($value['allow_for']) == 's') {
+
+				$data['coupons'][$key]['product_count'] = count(explode(',', $value['products']));
+			} else {
+
+				$data['coupons'][$key]['product_count'] = $ptotal;
+			}
+
+			$data['coupons'][$key]['count_coupon'] = $this->Coupon_model->getCouponCount($value['coupon_id']);
+		}
+		$data['currentTheme'] = User::getActiveTheme();
+		$data['StoreStatus'] = User::getStoreStatus();
+
+		$data['forms'] = $this->Form_model->getForms();
+
+		foreach ($data['forms'] as $key => $value) {
+
+			$data['forms'][$key]['coupon_name'] = $this->Form_model->getFormCouponname(($value['coupon']) ? $value['coupon'] : 0);
+
+			$data['forms'][$key]['public_page'] = base_url('form/' . $value['seo'] . '/' . base64_encode($this->userdetails()['id']));
+
+			$data['forms'][$key]['count_coupon'] = $this->Form_model->getFormCouponCount($value['form_id']);
+
+			if ($value['coupon']) {
+
+				$data['forms'][$key]['coupon_code'] = $this->Form_model->getFormCouponCode($value['coupon']);
+			}
+
+			$data['forms'][$key]['seo'] = str_replace('_', ' ', $value['seo']);
+		}
+
+		$data['product_count'] = $this->db->query("SELECT count(p.product_id) as total FROM product p 
+
+						LEFT JOIN product_affiliate pa ON pa.product_id = p.product_id
+
+						WHERE pa.user_id IS NULL ")->row()->total;
+
+		$data['form_coupons'] = $this->Form_model->getFormCoupons();
+
+		if ($only_review == 'reviews') {
+
+			$this->view($data, 'product/reviews');
+		} else {
+
+			$this->view($data, 'product/index');
+		}
+	}
+
+	public function report_list_product_ajax($page = 1)
+	{
+
+		$userdetails = $this->userdetails();
+
+		$get = $this->input->get(null, true);
+
+		$post = $this->input->post(null, true);
+
+		$filter = array(
+
+			'page' => isset($get['page']) ? $get['page'] : $page,
+
+			'limit' => 20,
+		);
+
+
+		if (isset($post['category_id']) && $post['category_id']) {
+
+			$filter['category_id'] = (int)$this->input->post('category_id');
+		}
+
+
+
+		if (isset($post['seller_id']) && $post['seller_id']) {
+
+			$filter['seller_id'] = (int)$this->input->post('seller_id');
+		}
+
+
+		$filter['product_status_in'] =	 '1';
+
+		if ($only_review == 'reviews') {
+
+			$filter['product_status_in'] =	 '0,2,3';
+		}
+
+
+		$data['default_commition'] = $this->Product_model->getSettings('productsetting');
+
+		$record = $this->Product_model->getAllProduct($userdetails['id'], $userdetails['type'], $filter);
+
+		$data['productlist'] = $record['data'];
+
+		$json['view'] = $this->load->view("admincontrol/product/product_list", $data, true);
+
+		$this->load->library('pagination');
+
+		$this->pagination->cur_page = $filter['page'];
+
+		$config['base_url'] = base_url('admincontrol/report_list_product_ajax');
+
+		$config['per_page'] = $filter['limit'];
+
+		$config['total_rows'] = $record['total'];
+
+		$config['use_page_numbers'] = TRUE;
+
+		$config['page_query_string'] = TRUE;
+
+		$config['enable_query_strings'] = TRUE;
+
+		$_GET['page'] = $filter['page'];
+
+		$config['query_string_segment'] = 'page';
+
+		$this->pagination->initialize($config);
+
+		$json['pagination'] = $this->pagination->create_links();
+
+		echo json_encode($json);
+	}
+
+	// Danh mục Khách hàng
+	public function report_list_client($page = 1)
+	{
+
+		$userdetails = $this->userdetails();
+
+		$data['countries'] 	= $this->Product_model->getcountry('id,name');
+
+		$data['user'] = $userdetails;
+
+		$store_setting = $this->Product_model->getSettings('store');
+
+		if (isset($_POST['report_list_client'])) {
+
+			$page = max((int)$page, 1);
+
+			$filter = array(
+				'limit' => 50,
+				'page' => $page
+			);
+
+			list($data['clientslist'], $total) = $this->Product_model->getAllClients($filter);
+			$data['start_from'] = (($page - 1) * $filter['limit']) + 1;
+			$json['html'] = $this->load->view("admincontrol/clients/clients_list_tr", $data, true);
+
+			$this->load->library('pagination');
+			$config['base_url'] = base_url('admincontrol/report_list_client/');
+			$config['per_page'] = $filter['limit'];
+			$config['total_rows'] = $total;
+			$config['use_page_numbers'] = TRUE;
+			$config['enable_query_strings'] = TRUE;
+			$this->pagination->initialize($config);
+			$json['pagination'] = $this->pagination->create_links();
+			echo json_encode($json);
+			die;
+
+			exit;
+		}
+
+		$this->view($data, 'clients/index');
+	}
+
+
+	// Báo cáo Doanh thu
+	public function report_list_revenue()
+	{
+
+		$userdetails = $this->userdetails();
+
+		$get = $this->input->get(null, true);
+
+		$data['status'] = $this->Wallet_model->status();
+
+		$data['status_icon'] = $this->Wallet_model->status_icon;
+
+		$data['request_status'] = $this->Wallet_model->request_status;
+
+		$filter['sortBy'] = isset($get['sortby']) ? $get['sortby'] : '';
+
+		$filter['orderBy'] = isset($get['order']) ? $get['order'] : '';
+
+		if (isset($get['user_id']) && $get['user_id'] > 0) {
+
+			$filter['user_id'] = (int)$get['user_id'];
+
+			$data['user_id'] = $filter['user_id'];
+		}
+
+		if (isset($get['recurring']) && $get['recurring'] > 0) {
+
+			$filter['recurring'] = (int)$get['recurring'];
+
+			$data['recurring'] = $filter['recurring'];
+		}
+
+
+		if (isset($get['paid_status']) && $get['paid_status']) {
+
+			$filter['paid_status'] = $get['paid_status'];
+		}
+
+		if (isset($get['status']) && $get['status'] != '') {
+
+			$filter['status'] = (int)$get['status'];
+		} else {
+
+			$filter['status_gt'] = 0;
+		}
+
+
+
+		if (isset($get['date'])) {
+
+			$filter['date'] = $get['date'];
+		}
+
+		$filter['parent_id'] = 0;
+
+
+
+		if (isset($get['type']) && $get['type']) {
+
+			$filter['types'] = $get['type'];
+		}
+
+		$filter['not_negative_balence'] = true;
+
+
+		$this->load->library('pagination');
+
+		$config['base_url'] = base_url('admincontrol/report_list_revenue/');
+
+		// Lấy tổng số giao dịch đã phát sinh
+		$config['total_rows'] = $this->Wallet_model->getTransaction($filter, true, 'ONLY_PARENTS');
+
+		$config['per_page'] = 100;
+
+		$config['attributes'] = array('class' => 'single_paginate_link');
+
+		$filter['per_page'] = $config['per_page'];
+
+		$config['reuse_query_string'] = TRUE;
+
+		$config['query_string_segment'] = 'page';
+
+		$config['use_page_numbers'] = TRUE;
+
+		$this->pagination->initialize($config);
+
+		$filter['page_num'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 1;
+
+		$data['offset'] = $filter['offset'] = ($filter['page_num'] - 1) * $config['per_page'];
+
+		$data['transaction'] = $this->Wallet_model->getTransaction($filter, false, 'ONLY_PARENTS');
+
+		$data['pagination_link'] = $this->pagination->create_links();
+
+		$data['users'] = $this->db->query("SELECT id,CONCAT(firstname,' ',lastname) as name FROM users ")->result_array();
+
+		$data['totals'] = $this->Wallet_model->getTotals(array(), true);
+
+
+
+		$data['table'] = $this->load->view("admincontrol/users/part/wallet_tr", $data, true);
+
+
+		if (isset($_GET['a'])) {
+			$this->view($data, 'users/mywallet');
+			return false;
+		}
+
+		$_data = objectToArray($data);
+
+		$this->load->model('Total_model');
+
+		$data['admin_totals'] = $this->Total_model->adminTotals();
+
+		unset($filter['per_page']);
+		unset($filter['offset']);
+		unset($filter['page_num']);
+
+		$transactionSorted = [];
+
+
+		for ($i = 0; $i < sizeof($data['transaction']); $i++) {
+			$filter['group_id'] = $data['transaction'][$i]['group_id'];
+
+			$filter['not_tran_id'] = $data['transaction'][$i]['id'];
+
+			$child_transaction = $this->Wallet_model->getTransaction($filter);
+
+
+			$child_transaction[]  = $data['transaction'][$i];
+
+			$child_transaction = array_reverse($child_transaction);
+
+			$child_transaction_sorted = $child_transaction;
+
+			foreach ($child_transaction as $key => $ch) {
+				$moveFirst = false;
+
+				if (strpos($a['type'], 'refer') === false) {
+					if (in_array($ch['type'], ['vendor_sale_commission', 'sale_commission', 'external_sale_commission', 'click_comission'])) {
+						$moveFirst = true;
+					} else if (strpos($a['type'], 'click')) {
+						$moveFirst = true;
+					}
+				}
+
+				if ($moveFirst) {
+					unset($child_transaction_sorted[$key]);
+					array_unshift($child_transaction_sorted, $ch);
+				}
+			}
+
+			$transactionSorted = array_merge($transactionSorted, $child_transaction_sorted);
+		}
+
+		$data['userdetails'] = $this->userdetails();
+
+		$data['transaction'] = $transactionSorted;
+
+		$this->view($data, 'users/wallet');
+	}
+
+	// Báo cáo Thưởng
+	function report_list_commission()
+	{
+		$userdetails = $this->userdetails();
+
+		$get = $this->input->get(null, true);
+
+		$data['status'] = $this->Wallet_model->status();
+
+		$data['status_icon'] = $this->Wallet_model->status_icon;
+
+		$data['request_status'] = $this->Wallet_model->request_status;
+
+		$filter['sortBy'] = isset($get['sortby']) ? $get['sortby'] : '';
+
+		$filter['orderBy'] = isset($get['order']) ? $get['order'] : '';
+
+		if (isset($get['user_id']) && $get['user_id'] > 0) {
+
+			$filter['user_id'] = (int)$get['user_id'];
+
+			$data['user_id'] = $filter['user_id'];
+		}
+
+		if (isset($get['recurring']) && $get['recurring'] > 0) {
+
+			$filter['recurring'] = (int)$get['recurring'];
+
+			$data['recurring'] = $filter['recurring'];
+		}
+
+
+		if (isset($get['paid_status']) && $get['paid_status']) {
+
+			$filter['paid_status'] = $get['paid_status'];
+		}
+
+		if (isset($get['status']) && $get['status'] != '') {
+
+			$filter['status'] = (int)$get['status'];
+		} else {
+
+			$filter['status_gt'] = 0;
+		}
+
+
+
+		if (isset($get['date'])) {
+
+			$filter['date'] = $get['date'];
+		}
+
+		$filter['parent_id'] = 0;
+
+
+
+		if (isset($get['type']) && $get['type']) {
+
+			$filter['types'] = $get['type'];
+		}
+
+		$filter['not_negative_balence'] = true;
+
+
+		$this->load->library('pagination');
+
+		$config['base_url'] = base_url('admincontrol/report_list_commission/');
+
+		// Lấy tổng số giao dịch đã phát sinh
+		$config['total_rows'] = $this->Wallet_model->getTransaction($filter, true, 'ONLY_PARENTS');
+
+		$config['per_page'] = 100;
+
+		$config['attributes'] = array('class' => 'single_paginate_link');
+
+		$filter['per_page'] = $config['per_page'];
+
+		$config['reuse_query_string'] = TRUE;
+
+		$config['query_string_segment'] = 'page';
+
+		$config['use_page_numbers'] = TRUE;
+
+		$this->pagination->initialize($config);
+
+		$filter['page_num'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 1;
+
+		$data['offset'] = $filter['offset'] = ($filter['page_num'] - 1) * $config['per_page'];
+
+		$data['transaction'] = $this->Wallet_model->getTransaction($filter, false, 'ONLY_PARENTS');
+
+		$data['pagination_link'] = $this->pagination->create_links();
+
+		$data['users'] = $this->db->query("SELECT id,CONCAT(firstname,' ',lastname) as name FROM users ")->result_array();
+
+		$data['totals'] = $this->Wallet_model->getTotals(array(), true);
+
+
+
+		$data['table'] = $this->load->view("admincontrol/users/part/wallet_tr", $data, true);
+
+
+		if (isset($_GET['a'])) {
+			$this->view($data, 'users/mywallet');
+			return false;
+		}
+
+		$_data = objectToArray($data);
+
+		$this->load->model('Total_model');
+
+		$data['admin_totals'] = $this->Total_model->adminTotals();
+
+		unset($filter['per_page']);
+		unset($filter['offset']);
+		unset($filter['page_num']);
+
+		$transactionSorted = [];
+
+
+		for ($i = 0; $i < sizeof($data['transaction']); $i++) {
+			$filter['group_id'] = $data['transaction'][$i]['group_id'];
+
+			$filter['not_tran_id'] = $data['transaction'][$i]['id'];
+
+			$child_transaction = $this->Wallet_model->getTransaction($filter);
+
+
+			$child_transaction[]  = $data['transaction'][$i];
+
+			$child_transaction = array_reverse($child_transaction);
+
+			$child_transaction_sorted = $child_transaction;
+
+			foreach ($child_transaction as $key => $ch) {
+				$moveFirst = false;
+
+				if (strpos($a['type'], 'refer') === false) {
+					if (in_array($ch['type'], ['vendor_sale_commission', 'sale_commission', 'external_sale_commission', 'click_comission'])) {
+						$moveFirst = true;
+					} else if (strpos($a['type'], 'click')) {
+						$moveFirst = true;
+					}
+				}
+
+				if ($moveFirst) {
+					unset($child_transaction_sorted[$key]);
+					array_unshift($child_transaction_sorted, $ch);
+				}
+			}
+
+			$transactionSorted = array_merge($transactionSorted, $child_transaction_sorted);
+		}
+
+		$data['userdetails'] = $this->userdetails();
+
+		$data['transaction'] = $transactionSorted;
+
+		$this->view($data, 'users/wallet');
+	}
+
+	// Báo cáo Ví nội bộ
+	function report_list_wallet()
+	{
+		$userdetails = $this->userdetails();
+
+		$get = $this->input->get(null, true);
+
+		$data['status'] = $this->Wallet_model->status();
+
+		$data['status_icon'] = $this->Wallet_model->status_icon;
+
+		$data['request_status'] = $this->Wallet_model->request_status;
+
+		$filter['sortBy'] = isset($get['sortby']) ? $get['sortby'] : '';
+
+		$filter['orderBy'] = isset($get['order']) ? $get['order'] : '';
+
+		if (isset($get['user_id']) && $get['user_id'] > 0) {
+
+			$filter['user_id'] = (int)$get['user_id'];
+
+			$data['user_id'] = $filter['user_id'];
+		}
+
+		if (isset($get['recurring']) && $get['recurring'] > 0) {
+
+			$filter['recurring'] = (int)$get['recurring'];
+
+			$data['recurring'] = $filter['recurring'];
+		}
+
+
+		if (isset($get['paid_status']) && $get['paid_status']) {
+
+			$filter['paid_status'] = $get['paid_status'];
+		}
+
+		if (isset($get['status']) && $get['status'] != '') {
+
+			$filter['status'] = (int)$get['status'];
+		} else {
+
+			$filter['status_gt'] = 0;
+		}
+
+
+
+		if (isset($get['date'])) {
+
+			$filter['date'] = $get['date'];
+		}
+
+		$filter['parent_id'] = 0;
+
+
+
+		if (isset($get['type']) && $get['type']) {
+
+			$filter['types'] = $get['type'];
+		}
+
+		$filter['not_negative_balence'] = true;
+
+
+		$this->load->library('pagination');
+
+		$config['base_url'] = base_url('admincontrol/report_list_wallet/');
+
+		// Lấy tổng số giao dịch đã phát sinh
+		$config['total_rows'] = $this->Wallet_model->getTransaction($filter, true, 'ONLY_PARENTS');
+
+		$config['per_page'] = 100;
+
+		$config['attributes'] = array('class' => 'single_paginate_link');
+
+		$filter['per_page'] = $config['per_page'];
+
+		$config['reuse_query_string'] = TRUE;
+
+		$config['query_string_segment'] = 'page';
+
+		$config['use_page_numbers'] = TRUE;
+
+		$this->pagination->initialize($config);
+
+		$filter['page_num'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 1;
+
+		$data['offset'] = $filter['offset'] = ($filter['page_num'] - 1) * $config['per_page'];
+
+		$data['transaction'] = $this->Wallet_model->getTransaction($filter, false, 'ONLY_PARENTS');
+
+		$data['pagination_link'] = $this->pagination->create_links();
+
+		$data['users'] = $this->db->query("SELECT id,CONCAT(firstname,' ',lastname) as name FROM users ")->result_array();
+
+		$data['totals'] = $this->Wallet_model->getTotals(array(), true);
+
+
+
+		$data['table'] = $this->load->view("admincontrol/users/part/wallet_tr", $data, true);
+
+
+		if (isset($_GET['a'])) {
+			$this->view($data, 'users/mywallet');
+			return false;
+		}
+
+		$_data = objectToArray($data);
+
+		$this->load->model('Total_model');
+
+		$data['admin_totals'] = $this->Total_model->adminTotals();
+
+		unset($filter['per_page']);
+		unset($filter['offset']);
+		unset($filter['page_num']);
+
+		$transactionSorted = [];
+
+
+		for ($i = 0; $i < sizeof($data['transaction']); $i++) {
+			$filter['group_id'] = $data['transaction'][$i]['group_id'];
+
+			$filter['not_tran_id'] = $data['transaction'][$i]['id'];
+
+			$child_transaction = $this->Wallet_model->getTransaction($filter);
+
+
+			$child_transaction[]  = $data['transaction'][$i];
+
+			$child_transaction = array_reverse($child_transaction);
+
+			$child_transaction_sorted = $child_transaction;
+
+			foreach ($child_transaction as $key => $ch) {
+				$moveFirst = false;
+
+				if (strpos($a['type'], 'refer') === false) {
+					if (in_array($ch['type'], ['vendor_sale_commission', 'sale_commission', 'external_sale_commission', 'click_comission'])) {
+						$moveFirst = true;
+					} else if (strpos($a['type'], 'click')) {
+						$moveFirst = true;
+					}
+				}
+
+				if ($moveFirst) {
+					unset($child_transaction_sorted[$key]);
+					array_unshift($child_transaction_sorted, $ch);
+				}
+			}
+
+			$transactionSorted = array_merge($transactionSorted, $child_transaction_sorted);
+		}
+
+		$data['userdetails'] = $this->userdetails();
+
+		$data['transaction'] = $transactionSorted;
+
+		$this->view($data, 'users/wallet');
+	}
+
+	// Báo cáo Người dùng
+	function report_list_user()
+	{
+		$userdetails = $this->userdetails();
+
+		$this->load->model('PagebuilderModel');
+
+		$register_form = $this->PagebuilderModel->getSettings('registration_builder');
+
+		$data['data'] = json_decode($register_form['registration_builder'], 1);
+
+
+		if ($this->input->post()) {
+
+			$post = $this->input->post(null, true);
+
+			if (isset($post['action']) && $post['action'] == "process_approval") {
+
+				$approval_data = [];
+
+				if (isset($post['approve_users']) && !empty($post['approve_users'])) {
+
+					$approval_data['users_ids'] = $post['approve_users'];
+
+					$approval_data['reg_approved'] = 1;
+				}
+
+
+
+				if (isset($post['decline_users']) && !empty($post['decline_users'])) {
+
+					$approval_data['users_ids'] = $post['decline_users'];
+
+					$approval_data['reg_approved'] = 2;
+				}
+
+
+
+				if (!empty($approval_data)) {
+
+					$json['approvals_status'] = $this->Product_model->process_approval($approval_data);
+
+					if ($json['approvals_status']['status']) {
+
+						$this->load->model('Mail_model');
+
+						$user = App\User::find(array('id' => $approval_data['users_ids'][0]));
+
+						if (isset($post['approve_users']) && !empty($post['approve_users'])) {
+
+							$membership = $this->Product_model->getSettings('membership');
+
+							switch ((int)$membership['status']) {
+								case 0:
+									//disabled
+									$plan_id = -1;
+									break;
+								case 1:
+									//all users
+									$plan_id = 0;
+									break;
+								case 2:
+									//all vendors
+									if ($is_vendor == 1) {
+										$plan_id = 0;
+									} else {
+										$plan_id = -1;
+									}
+									break;
+								case 3:
+									//all affiliates
+									$plan_id = -1;
+									if ($is_vendor == 1) {
+										$plan_id = -1;
+									} else {
+										$plan_id = 0;
+									}
+									break;
+								default:
+									$plan_id = -1;
+									break;
+							}
+
+							if ($plan_id == 0) {
+								if ((int)$user[0]['is_vendor'] == 1) {
+									$plan_id = $membership['default_vendor_plan_id'] ?? $membership['default_plan_id'];
+								} else {
+									$plan_id = $membership['default_affiliate_plan_id'] ?? $membership['default_plan_id'];
+								}
+							}
+
+
+
+							if ($membership['status'] && $plan_id > 0) {
+
+								$plan = App\MembershipPlan::find($plan_id);
+
+								if ($plan) {
+									$plan->buy($user[0], 1, 'Default plan started', 'Default');
+
+									$commission_processed = $this->db->query('SELECT id from wallet WHERE reference_id=' . $approval_data['users_ids'][0] . ' AND type="refer_registration_commission"')->result();
+
+									$refid = (int)$user[0]['refid'];
+
+									if (empty($commission_processed) && $refid > 0) {
+										$this->load->model('Wallet_model');
+										$comission_group_id = time() . rand(10, 100);
+										$referlevelSettings = $this->Product_model->getSettings('referlevel');
+										$max_level = isset($referlevelSettings['levels']) ? (int)$referlevelSettings['levels'] : 3;
+
+										$json['max_level'] = $max_level;
+
+										$disabled_for = json_decode((isset($referlevelSettings['disabled_for']) ? $referlevelSettings['disabled_for'] : '[]'), 1);
+										$refer_status = true;
+										if ((int)$referlevelSettings['status'] == 0) {
+											$refer_status = false;
+										} else if ((int)$referlevelSettings['status'] == 2 && in_array($refid, $disabled_for)) {
+											$refer_status = false;
+										}
+
+										$json['refer_status'] = $refer_status;
+
+										if ($refer_status) {
+											$json['level'] = $level = $this->Product_model->getMyLevel($refid);
+											$json['max_level_user'] = [];
+											for ($l = 1; $l <= $max_level; $l++) {
+
+												if ($l == 1) {
+													$json['max_level_user'][] = $levelUser = (int)$refid;
+												} else {
+													$json['max_level_user'][] = $levelUser = (int)$level['level' . ($l - 1)];
+												}
+
+												$s = $this->Product_model->getSettings('referlevel_' . $l);
+
+
+												if ($s && $levelUser > 0) {
+													$_giveAmount = 0;
+
+													if ($referlevelSettings['reg_comission_type'] == 'custom_percentage') {
+														if ((int) $referlevelSettings['reg_comission_custom_amt'] > 0) {
+															$_giveAmount = (($referlevelSettings['reg_comission_custom_amt'] * (float)$s['reg_commission']) / 100);
+														}
+													} else if ($referlevelSettings['reg_comission_type'] == 'fixed') {
+														$_giveAmount = (float)$s['reg_commission'];
+													}
+
+													$json['max_level_user']['_giveAmount'] = $_giveAmount;
+
+													if ($_giveAmount > 0) {
+														$transaction_id1 = $this->Wallet_model->addTransaction(array(
+															'status'       => 1,
+															'user_id'      => $levelUser,
+															'amount'       => $_giveAmount,
+															'dis_type'     => '',
+															'comment'      => "Level {$l} : " . 'Commission for new affiliate registrion Id =' . $user[0]['id'] . ' | Name : ' . $user[0]['firstname'] . " " . $user[0]['lastname'],
+															'type'         => 'refer_registration_commission',
+															'reference_id' => $user[0]['id'],
+															'group_id' => $comission_group_id,
+														));
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+
+							$this->Mail_model->send_registration_approved_mail(json_decode(json_encode($user[0])));
+						}
+
+
+						if (isset($post['decline_users']) && !empty($post['decline_users'])) {
+
+							$this->Mail_model->send_registration_declined_mail(json_decode(json_encode($user[0])));
+						}
+					}
+
+
+					$json['approvals_count'] = $this->Product_model->getApprovalCounts();
+
+					echo json_encode($json);
+					die;
+				}
+			} else {
+
+				if (isset($post['action']) && $post['action'] == 'get_all_ids') {
+
+					$data['ids'] = array_column($this->db->query("SELECT id FROM users WHERE type='user' ")->result_array(), 'id');
+
+					echo json_encode($data);
+					die;
+				}
+
+
+
+				$filter = array(
+
+					'limit' => 25,
+
+					'page' => isset($post['page']) ? (int)$post['page'] : 1,
+
+					'reg_approved' => null
+
+				);
+
+
+
+
+
+				if (isset($post['apr']) && !empty($post['apr'])) {
+
+					switch ($post['apr']) {
+
+						case 'pending':
+
+							$filter['reg_approved'] = 0;
+
+							break;
+
+						case 'approved':
+
+							$filter['reg_approved'] = 1;
+
+							break;
+
+						case 'declined':
+
+							$filter['reg_approved'] = 2;
+
+							break;
+
+						default:
+
+							$filter['reg_approved'] = null;
+
+							break;
+					}
+				}
+
+
+
+
+
+				if (isset($post['name']) && $post['name'] != '') {
+
+					$filter['name'] = $post['name'];
+				}
+
+
+
+				if (isset($post['email']) && $post['email'] != '') {
+
+					$filter['email'] = $post['email'];
+				}
+
+				if (isset($post['groups']) && !empty($post['groups'])) {
+
+					$filter['groups'] = $post['groups'];
+				}
+
+
+
+				$userslist = $this->Product_model->getAllUsers($filter);
+
+
+
+				$data['userslist'] = $userslist['data'];
+
+
+
+				$this->load->library('pagination');
+
+
+
+				$this->pagination->cur_page = $filter['page'];
+
+
+
+				$config['base_url'] = base_url('admincontrol/report_list_user');
+
+				$config['per_page'] = $filter['limit'];
+
+				$config['total_rows'] = $userslist['total'];
+
+				$config['use_page_numbers'] = TRUE;
+
+				$config['page_query_string'] = TRUE;
+
+				$config['enable_query_strings'] = TRUE;
+
+				$_GET['page'] = $post['page'];
+
+				$config['query_string_segment'] = 'page';
+
+				$this->pagination->initialize($config);
+
+				$data['commission_type'] = $this->Product_model->getCommissionType();
+
+				$data['user'] = $userdetails;
+
+
+				$data['membership'] = $this->Product_model->getSettings('membership', 'status');
+
+				$data['award_level'] = $this->Product_model->getSettings('award_level', 'status');
+
+				$json['table'] = $this->load->view("admincontrol/users/part/user_tr", $data, true);
+
+
+				$json['pagination'] = $this->pagination->create_links();
+
+				$json['approvals_count'] = $this->Product_model->getApprovalCounts();
+
+				set_tmp_cache('user_list_cache');
+
+				echo json_encode($json);
+				die;
+			}
+		}
+
+		$data['user_groups'] = $this->user->getgrouplist();
+		$data['approvals_count'] = $this->Product_model->getApprovalCounts();
+
+
+		// Update Bảng tuyển dụng
+		// $this->update_user_tree();
+		// $this->update_user_recruitment();
+
+		// Update Bảng doanh thu cá nhân + trực tiếp, gián tiếp,..
+		// $this->calculate_revenue();
+		// $this->update_revenue();
+
+		// Update bảng tiêu dùng cá nhân + trực tiếp, gián tiếp,..
+		// $this->calculate_consum();
+		// $this->update_consum();
+
+		// Update bảng thứ bậc
+		// $this->update_user_rank();
+
+		// Tính toán chính sách cho Demo - update user_commission and wallet
+		// $this->calculate_commission_for_demo();
+
+		// Tính toán thưởng tất cả
+		// $this->calculate_and_update_commissions();
+
+		$this->view($data, 'users/index');
+	}
+
+	// Danh sách duyệt chi
+	function report_approve_bonus()
+	{
+		$userdetails = $this->userdetails();
+
+		$get = $this->input->get(null, true);
+
+		$post = $this->input->post(null, true);
+
+		if (isset($post['delete_request'])) {
+			$json['id'] = [];
+
+			$ids = explode(",", $post['id']);
+
+			foreach ($ids as $id) {
+				$dataCollection = $this->Wallet_model->getDeleteData((int)$id);
+
+				$request = $this->db->query("SELECT id FROM wallet_requests WHERE tran_ids='" . $post['id'] . "'")->row();
+
+
+				foreach ($dataCollection as $data) {
+
+					if (!empty($data['id'])) {
+						$this->db->query("UPDATE wallet SET status=1 WHERE id =" . $data['id']);
+					}
+
+					if (isset($request->id)) {
+						$this->db->query("DELETE FROM wallet_requests WHERE id=" . $request->id);
+
+						$this->db->query("DELETE FROM wallet_requests_history WHERE req_id=" . $request->id);
+					}
+				}
+			}
+
+			$json['success'] = 1;
+
+			echo json_encode($json);
+			die;
+		}
+
+
+
+
+		if (isset($post['get_new'])) {
+
+			$get = $this->input->post(null, true);
+
+			$filter = array();
+
+			if (isset($get['user_id']) && $get['user_id'] > 0) {
+
+				$filter['user_id'] = (int)$get['user_id'];
+
+				$data['user_id'] = $filter['user_id'];
+			}
+
+
+
+			if (isset($get['date'])) {
+
+				$filter['date'] = $get['date'];
+
+				$data['date'] = $filter['date'];
+			}
+
+			$this->load->model('Withdrawal_payment_model');
+
+			$data['lists'] = $this->Withdrawal_payment_model->getRequests($filter);
+
+
+			$json['html'] = $this->load->view("admincontrol/users/part/tr_w_request_new", $data, true);
+
+			echo json_encode($json);
+			die;
+		}
+
+
+
+		if (isset($post['get_old'])) {
+
+			$get = $this->input->post(null, true);
+
+			$filter = array(
+
+				'status' => 2,
+
+				'old_with' => 'V2',
+
+			);
+
+
+
+			if (isset($get['user_id']) && $get['user_id'] > 0) {
+
+				$filter['user_id'] = (int)$get['user_id'];
+
+				$data['user_id'] = $filter['user_id'];
+			}
+
+
+
+			if (isset($get['date'])) {
+
+				$filter['date'] = $get['date'];
+
+				$data['date'] = $filter['date'];
+			}
+
+
+
+			$data['transaction'] = $this->Wallet_model->getTransaction($filter);
+
+
+			$data['request_status'] = $this->Wallet_model->status();
+
+			$json['html'] = $this->load->view("admincontrol/users/part/tr_w_request_old", $data, true);
+
+
+
+			echo json_encode($json);
+			die;
+		}
+
+
+		$data['users'] = $this->db->query("SELECT id,username FROM users WHERE type = 'user'")->result_array();
+
+
+
+		$query = $this->db->query('SELECT sum(amount) as amount,count(`status`) as counts,`status` FROM `wallet` WHERE (wallet.wv != "V2" OR wallet.wv IS NULL) GROUP BY `status`')->result_array();
+
+		foreach ($query as $key => $value) {
+
+			switch ($value['status']) {
+
+				case '0':
+
+					$data['totals']['wallet_on_hold_amount'] = (float)$value['amount'];
+
+					$data['totals']['wallet_on_hold_count'] = (float)$value['counts'];
+
+					break;
+
+				case '1':
+
+					$data['totals']['wallet_unpaid_amount'] = (float)$value['amount'];
+
+					$data['totals']['wallet_unpaid_count'] = (float)$value['counts'];
+
+					break;
+
+				case '2':
+
+					$data['totals']['wallet_request_sent_amount'] = (float)$value['amount'];
+
+					$data['totals']['wallet_request_sent_count'] = (float)$value['counts'];
+
+					break;
+
+				case '3':
+
+					$data['totals']['wallet_accept_amount'] = (float)$value['amount'];
+
+					$data['totals']['wallet_accept_count'] = (float)$value['counts'];
+
+					break;
+
+				default:
+					break;
+			}
+		}
+
+		$query = $this->db->query('SELECT sum(amount) as amount,count(`commission_status`) as counts,`commission_status` FROM `wallet` WHERE (wallet.wv != "V2" OR wallet.wv IS NULL) GROUP BY `commission_status`')->result_array();
+
+		foreach ($query as $key => $value) {
+
+			switch ($value['commission_status']) {
+
+				case '1':
+
+					$data['totals']['wallet_cancel_amount'] = (float)$value['amount'];
+
+					$data['totals']['wallet_cancel_count'] = (float)$value['counts'];
+
+					break;
+
+				case '2':
+
+					$data['totals']['wallet_trash_amount'] = (float)$value['amount'];
+
+					$data['totals']['wallet_trash_count'] = (float)$value['counts'];
+
+					break;
+
+				default:
+					break;
+			}
+		}
+
+		$this->view($data, 'users/wallet_requests_list');
 	}
 }

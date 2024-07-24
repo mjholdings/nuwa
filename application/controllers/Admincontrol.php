@@ -20560,7 +20560,7 @@ class Admincontrol extends MY_Controller
 			$this->view($data, 'product/reviews');
 		} else {
 
-			$this->view($data, 'product/index');
+			$this->view($data, 'product/index_report');
 		}
 	}
 
@@ -20608,7 +20608,7 @@ class Admincontrol extends MY_Controller
 
 		$data['productlist'] = $record['data'];
 
-		$json['view'] = $this->load->view("admincontrol/product/product_list", $data, true);
+		$json['view'] = $this->load->view("admincontrol/product/product_list_report", $data, true);
 
 		$this->load->library('pagination');
 
@@ -20660,7 +20660,7 @@ class Admincontrol extends MY_Controller
 
 			list($data['clientslist'], $total) = $this->Product_model->getAllClients($filter);
 			$data['start_from'] = (($page - 1) * $filter['limit']) + 1;
-			$json['html'] = $this->load->view("admincontrol/clients/clients_list_tr", $data, true);
+			$json['html'] = $this->load->view("admincontrol/clients/clients_list_tr_report", $data, true);
 
 			$this->load->library('pagination');
 			$config['base_url'] = base_url('admincontrol/report_list_client/');
@@ -20676,7 +20676,7 @@ class Admincontrol extends MY_Controller
 			exit;
 		}
 
-		$this->view($data, 'clients/index');
+		$this->view($data, 'clients/index_report');
 	}
 
 
@@ -20780,11 +20780,11 @@ class Admincontrol extends MY_Controller
 
 
 
-		$data['table'] = $this->load->view("admincontrol/users/part/wallet_tr", $data, true);
+		$data['table'] = $this->load->view("admincontrol/users/part/wallet_tr_revenue", $data, true);
 
 
 		if (isset($_GET['a'])) {
-			$this->view($data, 'users/mywallet');
+			$this->view($data, 'users/mywallet_revenue');
 			return false;
 		}
 
@@ -20839,7 +20839,7 @@ class Admincontrol extends MY_Controller
 
 		$data['transaction'] = $transactionSorted;
 
-		$this->view($data, 'users/wallet');
+		$this->view($data, 'users/wallet_revenue');
 	}
 
 	// Báo cáo Thưởng
@@ -20941,11 +20941,11 @@ class Admincontrol extends MY_Controller
 
 
 
-		$data['table'] = $this->load->view("admincontrol/users/part/wallet_tr", $data, true);
+		$data['table'] = $this->load->view("admincontrol/users/part/wallet_tr_commission", $data, true);
 
 
 		if (isset($_GET['a'])) {
-			$this->view($data, 'users/mywallet');
+			$this->view($data, 'users/mywallet_commission');
 			return false;
 		}
 
@@ -21000,7 +21000,7 @@ class Admincontrol extends MY_Controller
 
 		$data['transaction'] = $transactionSorted;
 
-		$this->view($data, 'users/wallet');
+		$this->view($data, 'users/wallet_commission');
 	}
 
 	// Báo cáo Ví nội bộ
@@ -21102,11 +21102,11 @@ class Admincontrol extends MY_Controller
 
 
 
-		$data['table'] = $this->load->view("admincontrol/users/part/wallet_tr", $data, true);
+		$data['table'] = $this->load->view("admincontrol/users/part/wallet_tr_report", $data, true);
 
 
 		if (isset($_GET['a'])) {
-			$this->view($data, 'users/mywallet');
+			$this->view($data, 'users/mywallet_report');
 			return false;
 		}
 
@@ -21161,7 +21161,7 @@ class Admincontrol extends MY_Controller
 
 		$data['transaction'] = $transactionSorted;
 
-		$this->view($data, 'users/wallet');
+		$this->view($data, 'users/wallet_report');
 	}
 
 	// Báo cáo Người dùng
@@ -21470,7 +21470,7 @@ class Admincontrol extends MY_Controller
 
 				$data['award_level'] = $this->Product_model->getSettings('award_level', 'status');
 
-				$json['table'] = $this->load->view("admincontrol/users/part/user_tr", $data, true);
+				$json['table'] = $this->load->view("admincontrol/users/part/user_tr_report", $data, true);
 
 
 				$json['pagination'] = $this->pagination->create_links();
@@ -21582,7 +21582,7 @@ class Admincontrol extends MY_Controller
 			$data['lists'] = $this->Withdrawal_payment_model->getRequests($filter);
 
 
-			$json['html'] = $this->load->view("admincontrol/users/part/tr_w_request_new", $data, true);
+			$json['html'] = $this->load->view("admincontrol/users/part/tr_w_request_new_report", $data, true);
 
 			echo json_encode($json);
 			die;
@@ -21627,7 +21627,7 @@ class Admincontrol extends MY_Controller
 
 			$data['request_status'] = $this->Wallet_model->status();
 
-			$json['html'] = $this->load->view("admincontrol/users/part/tr_w_request_old", $data, true);
+			$json['html'] = $this->load->view("admincontrol/users/part/tr_w_request_old_report", $data, true);
 
 
 
@@ -21710,6 +21710,6 @@ class Admincontrol extends MY_Controller
 			}
 		}
 
-		$this->view($data, 'users/wallet_requests_list');
+		$this->view($data, 'users/wallet_requests_list_report');
 	}
 }

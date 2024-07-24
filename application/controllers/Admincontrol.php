@@ -8482,7 +8482,6 @@ class Admincontrol extends MY_Controller
 
 			$this->db->insert('users_indirect', $data);
 		}
-
 	}
 
 	// User Recruitment
@@ -8531,7 +8530,6 @@ class Admincontrol extends MY_Controller
 
 			$this->db->insert('user_recruitment', $data);
 		}
-
 	}
 
 	// User Revenue - Doanh thu cá nhân
@@ -8584,7 +8582,6 @@ class Admincontrol extends MY_Controller
 				}
 			}
 		}
-
 	}
 
 	// User Update Revenue - Doanh thu khác (trực tiếp, gián tiếp,...)
@@ -8615,7 +8612,6 @@ class Admincontrol extends MY_Controller
 			$this->db->where('user_id', $user_id);
 			$this->db->update('user_revenue', $data);
 		}
-
 	}
 
 	// Tính toán doanh thu trực tiếp
@@ -8712,7 +8708,6 @@ class Admincontrol extends MY_Controller
 				}
 			}
 		}
-
 	}
 
 	// Cập nhật consum cho direct và indirect
@@ -8744,7 +8739,6 @@ class Admincontrol extends MY_Controller
 			$this->db->where('user_id', $user_id);
 			$this->db->update('user_consum', $data);
 		}
-
 	}
 
 	// Tính doanh thu trực tiếp
@@ -8872,7 +8866,6 @@ class Admincontrol extends MY_Controller
 			);
 			$this->db->insert('user_rank', $data);
 		}
-
 	}
 
 	// Tính toán star - value return value not id
@@ -20460,8 +20453,7 @@ class Admincontrol extends MY_Controller
 		$this->order->mj_updateAllCommWallet(); // wallet
 	}
 
-	// DANH SÁCH CÁC PHẦN BÁO CÁO
-
+	// DANH SÁCH CÁC PHẦN BÁO CÁO =====================================
 	// Danh mục Sản phẩm
 	public function report_list_product($only_review = false)
 	{

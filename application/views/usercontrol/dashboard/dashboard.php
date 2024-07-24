@@ -759,7 +759,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
         <div class="col-md-12 mt-3">
           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 mb-3 text-center">
             <div class="col">
-              <div class="card mb-3 rounded-3 shadow-sm">
+              <div class="card mb-3 rounded-3 shadow-sm 1">
                 <div class="card-body">
                   <h4 class="my-0 fw-normal">
                     <b>
@@ -1458,7 +1458,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                     </div>
                   </div>
                   <?php if ($wallet >= $site_wallet['wallet_unlock_amount_affiliate'] || $product_id == 126) { ?>
-                    <div class=" border-custom show-mega-link">
+                    <div class=" border-custom show-mega-link d-none">
                       <div class="form-group">
                         <label class="form-label">
                           <?= __('user.affiliate_store_url') ?>
@@ -1501,7 +1501,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                       </div>
                     </div>
                   <?php } else { ?>
-                    <div class=" border-custom show-mega-link">
+                    <div class=" border-custom show-mega-link d-none">
                       <div class="form-group">
                         <label class="form-label">
                           Bạn chưa đủ điều kiện làm thành viên affilate của hệ thống. Hãy hoàn thành một trong hai điều kiện
@@ -1589,7 +1589,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                   <?php
                   if (isset($userdetails['store_slug']) && !empty($userdetails['store_slug'])) {
                     $store_page_url = base_url('store/' . $userdetails['store_slug'] . '/' . base64_encode($userdetails['id'])); ?>
-                    <div class=" border-custom show-tiny-link">
+                    <div class=" border-custom show-tiny-link d-none">
                       <div class="form-group">
                         <label class="form-label">
                           <?= __('user.your_store_page') ?>
@@ -1622,7 +1622,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                         </a>
                       </div>
                     </div>
-                    <div class=" border-custom show-mega-link">
+                    <div class=" border-custom show-mega-link d-none">
                       <div class="form-group">
                         <label class="form-label">
                           <?= __('user.your_store_page') ?>
@@ -1666,7 +1666,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                   else
                     $share_url = base_url('register/' . base64_encode($userdetails['id'])); ?>
                   <?php if (true) { ?>
-                    <div class=" border-custom show-tiny-link">
+                    <div class=" border-custom show-tiny-link d-none">
                       <div class="form-group">
                         <label class="form-label">
                           <?= __('user.your_unique_reseller_link') ?>

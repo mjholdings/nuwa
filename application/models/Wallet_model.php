@@ -717,6 +717,7 @@ class Wallet_model extends MY_Model
 		return $data;
 	}
 
+	// Lấy giá trị tổng số trong Database
 	public function getTotals($filter = array(), $extraTotals = false, $calling_for = 'admin')
 	{
 		$where = ' 1 ';
@@ -763,32 +764,88 @@ class Wallet_model extends MY_Model
 			$where_vendor .= '  AND op.vendor_id = ' . (int)$filter['user_id'];
 		}
 
-		$data['unpaid_commition'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE status IN (1,2) AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
+		// Những giao dịch ở đây là NHẬN không phải GỬI => NẠP TIỀN
+		// Tổng tiền trong ví Tài khoản chưa rút (withdraw)
+		$data['unpaid_commition_withdraw'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `currency` = "withdraw" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
+
+		// Tổng tiền trong ví Tiêu dùng chưa chuyển (purchase)
+		$data['unpaid_commition_purchase'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `currency` = "purchase" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
+
+		// Tổng tiền trong ví Hoa hồng chưa chuyển (reward)
+		$data['unpaid_commition_reward'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `currency` = "reward" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
+
+		// Tổng tiền trong ví Điểm chưa chuyển (credit)
+		$data['unpaid_commition_credit'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `currency` = "credit" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
+
+		// Những giao dịch dưới đây là GỬI đi từ tiền tệ đó	=> RÚT TIỀN	
+		// Tổng yêu cầu rút tiền Withdraw về Bank (bank money)
+		$data['withdraw_request_withdraw'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND `currency` = "withdraw" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+
+		// Tổng yêu cầu rút tiền Purchase về Withdraw (tài khoản)
+		$data['withdraw_request_purchase'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND `currency` = "purchase" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+
+		// Tổng yêu cầu rút tiền Reward về Withdraw (tài khoản)
+		$data['withdraw_request_reward'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND `currency` = "reward" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+
+		// Tổng yêu cầu rút tiền Credit về Purchase (tiêu dùng)
+		$data['withdraw_request_credit'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND `currency` = "credit" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+
+
+		// Tổng tiền dư chuyển từ Ví tài khoản => Bank
+		$data['balance_wallet_withdraw'] = $data['unpaid_commition_withdraw'] - $data['withdraw_request_withdraw'];
+
+		// Tổng tiền dư chuyển từ Ví tiêu dùng => Ví tài khoản
+		$data['balance_wallet_purchase'] = $data['unpaid_commition_purchase'] - $data['withdraw_request_purchase'];
+
+		// Tổng tiền dư chuyển từ Ví hoa hồng => Ví tài khoản
+		$data['balance_wallet_reward'] = $data['unpaid_commition_reward'] - $data['withdraw_request_reward'];
+
+		// Tổng tiền dư chuyển từ Ví điểm => Ví tiêu dùng
+		$data['balance_wallet_credit'] = $data['unpaid_commition_credit'] - $data['withdraw_request_credit'];
+
+
+
+		// Tổng yêu cầu rút tiền
 		$data['withdraw_request'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE  withdraw_request = 1 AND ' . $where)->row_array()['total'];
 
+		// Tổng thưởng chưa trả => Trạng thái Ví là 1,2 - trạng thái Rút là 0
+		$data['unpaid_commition'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE status IN (1,2) AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
+
+		// Tổng hoa hồng bán hàng - Doanh thu
 		$data['total_sale_commi'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE status > 0 AND  type IN("sale_commission","vendor_sale_commission") AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
+		// Tổng yêu cầu rút tiền chưa xong
 		$data['total_in_request'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE status=2 AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
+		// Tổng hoa hồng dạng clicks
 		$data['total_click_commi'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE type = "click_commission" AND withdraw_request = 0 AND status > 0 AND ' . $where)->row_array()['total'];
 
+		// Tổng hoa hồng dạng click form
 		$data['total_form_click_commi'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE type = "form_click_commission" AND withdraw_request = 0 AND status > 0 AND ' . $where)->row_array()['total'];
 
+		// Tổng hoa hồng cửa hàng
 		$data['total_store_m_commission'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE type = "store_m_commission" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
+		// Tổng hoa hồng AFF clicks
 		$data['total_affiliate_click_commission'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE type = "affiliate_click_commission" AND withdraw_request = 0 AND  status > 0 AND ' . $where)->row_array()['total'];
 
+		// Tổng hành động không click
 		$data['total_no_click'] = (int)$this->db->query('SELECT COUNT(action_id) as total FROM product_action WHERE  ' . $where)->row_array()['total'];
 
+		// Tổng hành động không click form
 		$data['total_no_form_click'] = (int)$this->db->query('SELECT COUNT(action_id) as total FROM form_action WHERE ' . $where)->row_array()['total'];
 
+		// Tổng AFF không clicks
 		$data['aff_total_no_click'] = (int)$this->db->query('SELECT COUNT(id) as total FROM affiliate_action WHERE ' . $where)->row_array()['total'];
 
+		// Tổng doanh thu Admin click
 		$data['admin_click_earning'] = (float)$this->db->query('SELECT SUM(amount) as total FROM wallet WHERE reference_id_2 = "vendor_click_commission_for_admin" AND withdraw_request = 0 ')->row_array()['total'];
 
+		// Tổng hoa hồng clicks
 		$data['all_clicks_comm'] = $data['total_click_commi'] + $data['total_form_click_commi'] + $data['total_affiliate_click_commission'];
 
+		// Tổng hoa hồng doanh thu
 		$data['all_sale_comm'] = $data['total_sale_commi'];
 
 		if ($extraTotals) {
@@ -837,25 +894,47 @@ class Wallet_model extends MY_Model
 				$data['total_no_click'] += (int)$this->db->query('SELECT COUNT(pa.action_id) as total FROM product_action pa LEFT JOIN product_affiliate paff ON (paff.product_id = pa.product_id) WHERE paff.user_id=   ' . (int)$filter['user_id'])->row_array()['total'];
 			}
 
+			// Tổng số clicks
 			$data['all_clicks'] = $data['total_no_click'] + $data['total_no_form_click'] + $data['aff_total_no_click'];
+
+			// Tổng đơn hàng NCC
 			$data['vendor_order_count'] += (float)$this->db->query('SELECT COUNT(op.id) as total FROM `order` o LEFT JOIN order_products op ON op.order_id = o.id WHERE ' . $where_vendor . ' AND op.vendor_id > 0 AND o.status > 0')->row_array()['total'];
 			$data['vendor_order_count'] += (float)$this->db->query('SELECT COUNT(id) as total FROM `integration_orders`  WHERE ' . $where . '  AND status > 0')->row_array()['total'];
 
+			// Tổng yêu cầu đã từ chối
 			$data['total_paid'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE status=3 AND ' . $where)->row_array()['total'];
 
+			// Tổng hoa hồng đã từ chối
 			$data['total_paid_commition'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE status=3 AND ' . $where)->row_array()['total'];
+
+			// Tổng hoa hồng click và bán hàng đã từ chối
 			$data['paid_commition'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE status=3 AND type IN("click_commission","sale_commission") AND ' . $where)->row_array()['total'];
+
+			// Tổng hoa hồng click và bán hàng không khớp
 			$data['requested_commition'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE status=2 AND type IN("click_commission","sale_commission") AND ' . $where)->row_array()['total'];
+
+			// Tổng hoa hồng click AFF đã từ chối
 			$data['aff_paid_commition'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE status=3 AND type IN("affiliate_click_commission") AND ' . $where)->row_array()['total'];
+
+			// Tổng hoa hồng click AFF đã hoàn thành
 			$data['aff_unpaid_commition'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE status=1 AND type IN("affiliate_click_commission") AND ' . $where)->row_array()['total'];
+
+			// Tổng hoa hồng yêu cầu AFF không khớp
 			$data['aff_requested_commition'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE status=2 AND type IN("affiliate_click_commission") AND ' . $where)->row_array()['total'];
 
+			// Tổng form hoa hồng đã trả từ chối
 			$data['form_paid_commition'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE status=3 AND type IN("form_click_commission") AND ' . $where)->row_array()['total'];
+
+			// Tổng form hoa hồng chưa trả đã xong
 			$data['form_unpaid_commition'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE status=1 AND type IN("form_click_commission") AND ' . $where)->row_array()['total'];
+
+			// Tổng form hoa hồng đã trả không khớp
 			$data['form_requested_commition'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE status=2 AND type IN("form_click_commission") AND ' . $where)->row_array()['total'];
 
+			// Tổng số giao dịch
 			$data['total_transaction'] = (float)$this->db->query('SELECT count(amount) as total FROM wallet WHERE 1 AND ' . $where)->row_array()['total'];
 
+			// Tổng đã giữ
 			$data['wallet_on_hold_amount'] = $data['wallet_on_hold_count'] = $data['wallet_request_sent_amount'] = $data['wallet_request_sent_count'] = $data['wallet_accept_amount'] = $data['wallet_accept_count'] = $data['wallet_cancel_amount'] = $data['wallet_cancel_count'] = $data['wallet_trash_amount'] = $data['wallet_trash_count'] = 0;
 
 			$query = $this->db->query('SELECT sum(amount) as amount,count(`status`) as counts,`status` FROM `wallet` WHERE ' . $where . ' GROUP BY `status`')->result_array();
@@ -1031,26 +1110,43 @@ class Wallet_model extends MY_Model
 
 			$data['integration']['total_commission'] = ($data['integration']['click_amount'] + $data['integration']['sale'] + $data['integration']['action_amount']);
 
+			// Tổng số đơn hàng bị giữ trong cửa hàng
 			$data['store']['hold_orders'] = (int)$this->db->query('SELECT count(*) as total FROM `order` WHERE ' . $where . ' AND status IN (1,7)')->row_array()['total'];
 
 			$data['integration']['hold_orders'] = (int)$this->db->query('SELECT count(*) as total FROM `wallet` WHERE type="sale_commission" AND ' . $where . ' AND status  = 0')->row_array()['total'];
 
+			// Tổng doanh số bán hàng - tổng đơn hàng
 			$data['total_sale_count']                += $data['integration']['total_orders'];
 
-
+			// Tổng số dư của cửa hàng
 			$data['store']['balance']                = $data['total_sale'];
+
+			// Tổng doanh số bán hàng
 			$data['store']['sale']                   = ($data['all_sale_comm'] - $data['integration']['sale']);
 
 
+			// Tổng số clicks
 			$data['store']['click_count']            = ($data['all_clicks'] - $data['integration']['click_count']);
+
+			// Tổng số hoa hồng clicks
 			$data['store']['click_amount']           = ($data['all_clicks_comm'] - $data['integration']['click_amount']);
+
+			// Tổng số hoa hồng doanh thu cửa hàng
 			$data['store']['total_commission']       = ($data['store']['click_amount'] + $data['store']['sale']);
 
+			// Tổng doanh số bán hàng theo đơn hàng
 			$data['total_sale_amount'] = $data['total_sale'] + $data['integration']['total_orders_amount'];
 
+			// Tổng số dư
 			$data['total_balance'] = $data['total_sale'] + $data['integration']['balance'];
+
+			// Tổng số dư theo tuần
 			$data['weekly_balance'] =  $data['admin_click_earning_week'] +  $data['total_sale_week'] + $integration_balance_week;
+
+			// Tổng số dư theo tháng
 			$data['monthly_balance'] =  $data['admin_click_earning_month'] +  $data['total_sale_month'] + $integration_balance_month;
+
+			// Tổng số dư theo năm
 			$data['yearly_balance'] =  $data['admin_click_earning_year'] +  $data['total_sale_year'] + $integration_balance_year;
 		}
 

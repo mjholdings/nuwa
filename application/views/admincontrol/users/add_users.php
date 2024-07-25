@@ -32,16 +32,16 @@
 								<div class="d-flex justify-content-between align-items-center mb-4">
 									<h3><?= __('admin.add_transaction') ?></h3>
 									<span class="badge bg-primary text-white px-3 py-2 fs-6">
-										<?= __('Số dư Ví Tiêu dùng') ?>: <?= c_format($totals['unpaid_commition'] - $totals['withdraw_request']) ?>
+										<?= __('Số dư Ví Tiêu dùng') ?>: <?= c_format($totals['balance_wallet_purchase']) ?>
 									</span>
 									<span class="badge bg-danger text-white px-3 py-2 fs-6">
-										<?= __('Ví Thưởng') ?>: <?= c_format($totals['unpaid_commition'] - $totals['withdraw_request']) ?>
+										<?= __('Ví Thưởng') ?>: <?= c_format($totals['balance_wallet_reward']) ?>
 									</span>
 									<span class="badge bg-secondary text-white px-3 py-2 fs-6">
-										<?= __('Ví Điểm (Nuwa)') ?>: <?= c_format($totals['unpaid_commition'] - $totals['withdraw_request']) ?>
+										<?= __('Ví Điểm (Nuwa)') ?>: <?= c_format($totals['balance_wallet_credit']) ?>
 									</span>
 									<span class="badge bg-success text-white px-3 py-2 fs-6">
-										<?= __('Ví Tài khoản (VND)') ?>: <?= c_format($totals['unpaid_commition'] - $totals['withdraw_request']) ?>
+										<?= __('Ví Tài khoản (VND)') ?>: <?= c_format($totals['balance_wallet_withdraw']) ?>
 									</span>
 								</div>
 
@@ -51,11 +51,11 @@
 								<div class="row">
 									<div class="col-6 form-group mb-3">
 										<label class="form-label"><?= __('Nạp vào') ?></label>
-										<select class="form-control input-transaction">
-											<option value="account" selected>Ví tài khoản (VND)</option>
-											<option value="consum">Ví tiêu dùng</option>
-											<option value="bonus">Ví thưởng</option>
-											<option value="point">Ví điểm (Nuwa)</option>
+										<select class="form-control input-transaction" name="deposit">
+											<option value="withdraw" selected>Ví tài khoản (VND)</option>
+											<option value="purchase">Ví tiêu dùng</option>
+											<option value="reward">Ví thưởng</option>
+											<option value="credit">Ví điểm (Nuwa)</option>
 										</select>
 									</div>
 									<div class="col-6 form-group mb-3">

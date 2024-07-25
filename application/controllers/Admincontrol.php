@@ -8261,13 +8261,13 @@ class Admincontrol extends MY_Controller
 
 		$this->load->library('form_validation');
 
+		$this->form_validation->set_rules('deposit', 'Deposit', 'required|trim');
+
 		$this->form_validation->set_rules('amount', 'Amount', 'required|trim');
 
 		$this->form_validation->set_rules('comment', 'Comment', 'required|trim');
 
 		$this->form_validation->set_rules('user_id', 'user_id', 'required|trim');
-
-
 
 		if ($this->form_validation->run() == FALSE) {
 			$json['errors'] = $this->form_validation->error_array();
@@ -8282,6 +8282,8 @@ class Admincontrol extends MY_Controller
 				'amount'         => $this->input->post("amount", true),
 
 				'comment'        => $this->input->post("comment", true),
+
+				'currency'        => $this->input->post("deposit", true),
 
 				'type'           => 'admin_transaction',
 

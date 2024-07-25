@@ -242,10 +242,10 @@
 														<div class="mt-2 mb-3">
 															<h6>Rút tiền từ</h6>
 															<select class="form-control input-transaction" id="withdraw_from">
-																<option value="account">Ví Tài khoản (VND)</option>
+																<option value="withdraw">Ví Tài khoản (VND)</option>
 																<option value="consum" selected>Ví Tiêu dùng</option>
-																<option value="bonus">Ví Thưởng</option>
-																<option value="point">Ví Điểm (Nuwa)</option>
+																<option value="reward">Ví Thưởng</option>
+																<option value="credit">Ví Điểm (Nuwa)</option>
 															</select>
 														</div>
 														<span class="text-danger">Quý khách chỉ được rút tối đa 70% số tiền hiện có. (<?= c_format(($wallet_unpaid_amount * 70) / 100) ?>)</span>
@@ -255,10 +255,10 @@
 														<div class="mt-3 mb-2">
 															<h6>Tới ví hoặc ngân hàng</h6>
 															<select class="form-control input-transaction" id="withdraw_to">
-																<option value="account" selected>Ví tài khoản (VND)</option>
+																<option value="withdraw" selected>Ví tài khoản (VND)</option>
 																<option value="consum">Ví Tiêu dùng</option>
-																<option value="bonus">Ví Thưởng</option>
-																<option value="point">Ví Điểm (Nuwa)</option>
+																<option value="reward">Ví Thưởng</option>
+																<option value="credit">Ví Điểm (Nuwa)</option>
 																<option value="bank">Tài khoản Ngân hàng</option>
 															</select>
 														</div>

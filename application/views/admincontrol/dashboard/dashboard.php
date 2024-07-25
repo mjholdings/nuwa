@@ -470,7 +470,7 @@ $enable_disable = array(
                                                     <div class="row justify-content-center mb-2">
                                                         <div class="col text-center">
                                                             <span class="card-text h5">
-                                                                <span class="card-text h6 ajax-admin_balance"><?= $fun_c_format($admin_totals['admin_balance']) ?>
+                                                                <span class="card-text h6 ajax-admin_balance"><?= $fun_c_format($admin_totals['admin_balance_purchase']) ?>
                                                                 </span>
                                                             </span>
                                                         </div>
@@ -544,7 +544,7 @@ $enable_disable = array(
                                                     <div class="row justify-content-center mb-2">
                                                         <div class="col text-center">
                                                             <span class="card-text h5">
-                                                                <span class="card-text h6 ajax-admin_balance"><?= $fun_c_format($admin_totals['admin_balance']) ?>
+                                                                <span class="card-text h6 ajax-admin_balance"><?= $fun_c_format($admin_totals['admin_balance_reward']) ?>
                                                                 </span>
                                                             </span>
                                                         </div>
@@ -581,7 +581,7 @@ $enable_disable = array(
                                                     <div class="row justify-content-center mb-2">
                                                         <div class="col text-center">
                                                             <span class="card-text h5">
-                                                                <span class="card-text h6 ajax-admin_balance"><?= $fun_c_format($admin_totals['admin_balance']) ?>
+                                                                <span class="card-text h6 ajax-admin_balance"><?= $fun_c_format($admin_totals['admin_balance_credit']) ?>
                                                                 </span>
                                                             </span>
                                                         </div>
@@ -618,7 +618,7 @@ $enable_disable = array(
                                                     <div class="row justify-content-center mb-2">
                                                         <div class="col text-center">
                                                             <span class="card-text h5">
-                                                                <span class="card-text h6 ajax-admin_balance"><?= $fun_c_format($admin_totals['admin_balance']) ?>
+                                                                <span class="card-text h6 ajax-admin_balance"><?= $fun_c_format($admin_totals['admin_balance_withdraw']) ?>
                                                                 </span>
                                                             </span>
                                                         </div>

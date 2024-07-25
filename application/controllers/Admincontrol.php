@@ -8283,9 +8283,15 @@ class Admincontrol extends MY_Controller
 
 				'comment'        => $this->input->post("comment", true),
 
-				'currency'        => $this->input->post("deposit", true),
+				'wallet_to'      => $this->input->post("deposit", true),
+
+				'wallet_from'    => 'admin',
 
 				'type'           => 'admin_transaction',
+
+				'is_sent'        => '0',
+
+				'withdraw_request'        => '0',
 
 				'dis_type'       => '',
 

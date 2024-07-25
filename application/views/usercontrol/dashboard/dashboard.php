@@ -57,7 +57,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                 <?= __('Số dư (Ví nạp - Tiêu dùng') ?>
               </p>
               <h1>
-                <?= c_format($user_totals['user_balance']) ?>
+                <?= c_format($user_totals_wallet['balance_wallet_purchase']) ?>
               </h1>
             </div>
             <div>
@@ -87,7 +87,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                 <?= __('Số dư (ví Thưởng)') ?>
               </p>
               <h1>
-                <?= c_format($user_totals['user_balance']) ?>
+                <?= c_format($user_totals_wallet['balance_wallet_reward']) ?>
               </h1>
             </div>
           </div>
@@ -108,7 +108,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                 <?= __('Số dư ví Điểm') ?>
               </p>
               <h1>
-                <?= c_format($user_totals['user_balance']) ?>
+                <?= c_format($user_totals_wallet['balance_wallet_credit']) ?>
               </h1>
             </div>
           </div>
@@ -129,7 +129,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                 <?= __('Số dư ví Tài khoản (Rút)') ?>
               </p>
               <h1>
-                <?= c_format($user_totals['user_balance']) ?>
+                <?= c_format($user_totals_wallet['balance_wallet_withdraw']) ?>
               </h1>
             </div>
           </div>

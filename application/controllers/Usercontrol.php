@@ -1199,6 +1199,10 @@ class Usercontrol extends MY_Controller {
 		$data['refer_total'] = $this->Product_model->getReferalTotals($userdetails['id']);
 
 		$data['user_totals'] = $this->Total_model->getUserTotals((int)$userdetails['id']);
+
+		$data['user_totals_wallet'] = $this->Wallet_model->getTotals((int)$userdetails['id']);
+
+	
 		//        khen thưởng
 		$data['reward'] = $this->db->query("SELECT * FROM reward")->result_array();
 		foreach ($data['reward'] as $reward) {

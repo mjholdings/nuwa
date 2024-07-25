@@ -765,48 +765,97 @@ class Wallet_model extends MY_Model
 		}
 
 
-		// Những giao dịch ở đây là NHẬN không phải GỬI => NẠP TIỀN
-		// Tổng tiền trong ví Tài khoản chưa rút (withdraw)
-		$data['unpaid_commition_withdraw'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `currency` = "withdraw" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
+		// NHỮNG GIAO DỊCH TIỀN DƯƠNG + nạp tiền deposit, trả hoa hồng commission
+		// Tổng tiền nạp ví Tài khoản
+		$data['deposit_withdraw'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `wallet_from` = "bank" AND `wallet_to` = "withdraw" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
-		// Tổng tiền trong ví Tiêu dùng chưa chuyển (purchase)
-		$data['unpaid_commition_purchase'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `currency` = "purchase" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
+		// Tổng tiền nạp ví Tiêu dùng
+		$data['deposit_purchase'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `wallet_from` = "bank" AND `wallet_to` = "purchase" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
-		// Tổng tiền trong ví Hoa hồng chưa chuyển (reward)
-		$data['unpaid_commition_reward'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `currency` = "reward" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
+		// Tổng tiền nạp ví Thưởng
+		$data['deposit_reward'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `wallet_from` = "bank" AND `wallet_to` = "reward" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
-		// Tổng tiền trong ví Điểm chưa chuyển (credit)
-		$data['unpaid_commition_credit'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `currency` = "credit" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
+		// Tổng tiền nạp ví Điểm
+		$data['deposit_credit'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `wallet_from` = "bank" AND `wallet_to` = "credit" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
-		// Những giao dịch dưới đây là GỬI đi từ tiền tệ đó	=> RÚT TIỀN	
-		// Tổng yêu cầu rút tiền Withdraw về Bank (bank money)
-		$data['withdraw_request_withdraw'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND `currency` = "withdraw" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+		// Tổng tiền thưởng ví Thưởng ==========
+		$data['commission_withdraw'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `wallet_from` = "admin" AND `wallet_to` = "withdraw" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
-		// Tổng yêu cầu rút tiền Purchase về Withdraw (tài khoản)
-		$data['withdraw_request_purchase'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND `currency` = "purchase" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+		$data['commission_purchase'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `wallet_from` = "admin" AND `wallet_to` = "purchase" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
-		// Tổng yêu cầu rút tiền Reward về Withdraw (tài khoản)
-		$data['withdraw_request_reward'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND `currency` = "reward" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+		$data['commission_reward'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `wallet_from` = "admin" AND `wallet_to` = "reward" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
-		// Tổng yêu cầu rút tiền Credit về Purchase (tiêu dùng)
-		$data['withdraw_request_credit'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND `currency` = "credit" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+		// Tổng tiền thưởng ví Điểm
+		$data['commission_credit'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 0 AND status IN (1,2) AND `wallet_from` = "admin" AND `wallet_to` = "credit" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
+		// Tổng tiền chuyển ví Tài khoản ============		
+		$data['transfer_withdraw'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_to` = "withdraw" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
-		// Tổng tiền dư chuyển từ Ví tài khoản => Bank
-		$data['balance_wallet_withdraw'] = $data['unpaid_commition_withdraw'] - $data['withdraw_request_withdraw'];
+		// Tổng tiền chuyển ví Tiêu dùng
+		$data['transfer_purchase'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_to` = "purchase" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
-		// Tổng tiền dư chuyển từ Ví tiêu dùng => Ví tài khoản
-		$data['balance_wallet_purchase'] = $data['unpaid_commition_purchase'] - $data['withdraw_request_purchase'];
+		// Tổng tiền chuyển ví Thưởng
+		$data['transfer_reward'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_to` = "reward" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
-		// Tổng tiền dư chuyển từ Ví hoa hồng => Ví tài khoản
-		$data['balance_wallet_reward'] = $data['unpaid_commition_reward'] - $data['withdraw_request_reward'];
-
-		// Tổng tiền dư chuyển từ Ví điểm => Ví tiêu dùng
-		$data['balance_wallet_credit'] = $data['unpaid_commition_credit'] - $data['withdraw_request_credit'];
+		// Tổng tiền chuyển ví Điểm
+		$data['transfer_credit'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_to` = "credit" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
 
+		// NHỮNG GIAO DỊCH TIỀN ÂM - rút tiền withdraw, chuyển tiền transfer, mua hàng purchase
+		// Tổng tiền chuyển từ Ví Tài khoản ============		
+		$data['transfer_withdraw_negative'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_from` = "withdraw" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
 
-		// Tổng yêu cầu rút tiền
+		// Tổng tiền chuyển từ Ví Tiêu dùng
+		$data['transfer_purchase_negative'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_from` = "purchase" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
+
+		// Tổng tiền chuyển từ Ví Thưởng
+		$data['transfer_reward_negative'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_from` = "reward" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
+
+		// Tổng tiền chuyển từ Ví Điểm
+		$data['transfer_credit_negative'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_from` = "credit" AND withdraw_request = 0 AND ' . $where)->row_array()['total'];
+
+
+		// Tổng tiền rút từ ví Tài khoản ================
+		$data['withdraw_withdraw'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_from` = "withdraw" AND `wallet_to` = "bank" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+
+		// Tổng tiền rút từ ví Tiêu dùng
+		$data['withdraw_purchase'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_from` = "purchase" AND `wallet_to` = "bank" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+
+		// Tổng tiền rút từ ví Thưởng
+		$data['withdraw_reward'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_from` = "reward" AND `wallet_to` = "bank" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+
+		// Tổng tiền rút từ ví Điểm
+		$data['withdraw_credit'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_from` = "credit" AND `wallet_to` = "bank" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+
+		// Tổng tiền thanh toán mua hàng từ ví Tài khoản ================
+		$data['purchase_withdraw'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_from` = "withdraw" AND `wallet_to` = "order" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+
+		// Tổng tiền thanh toán mua hàng từ ví Tiêu dùng
+		$data['purchase_purchase'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_from` = "purchase" AND `wallet_to` = "order" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+
+		// Tổng tiền thanh toán mua hàng từ ví Thưởng
+		$data['purchase_reward'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_from` = "reward" AND `wallet_to` = "order" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+
+		// Tổng tiền thanh toán mua hàng từ ví Điểm
+		$data['purchase_credit'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_from` = "credit" AND `wallet_to` = "order" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
+
+
+		// TÍNH TOÁN TỔNG SỐ DƯ CÁC VÍ ==============================		
+
+		// Tổng tiền dư Ví tài khoản withdraw
+		$data['balance_wallet_withdraw'] = $data['deposit_withdraw'] + $data['commission_withdraw'] + $data['transfer_withdraw'] - $data['transfer_withdraw_negative'] - $data['withdraw_withdraw'] - $data['purchase_withdraw'];
+
+		// Tổng tiền dư Ví tiêu dùng purchase
+		$data['balance_wallet_purchase'] = $data['deposit_purchase'] + $data['commission_purchase'] + $data['transfer_purchase'] - $data['transfer_purchase_negative'] - $data['withdraw_purchase'] - $data['purchase_purchase'];
+
+		// Tổng tiền dư Ví hoa hồng reward
+		$data['balance_wallet_reward'] = $data['deposit_reward'] + $data['commission_reward'] + $data['transfer_reward'] - $data['transfer_reward_negative'] - $data['withdraw_reward'] - $data['purchase_reward'];
+
+		// Tổng tiền dư Ví điểm credit
+		$data['balance_wallet_credit'] = $data['deposit_credit'] + $data['commission_credit'] + $data['transfer_credit'] - $data['transfer_credit_negative'] - $data['withdraw_credit'] - $data['purchase_credit'];
+
+
+		// Tổng yêu cầu rút tiền =======================================
 		$data['withdraw_request'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE  withdraw_request = 1 AND ' . $where)->row_array()['total'];
 
 		// Tổng thưởng chưa trả => Trạng thái Ví là 1,2 - trạng thái Rút là 0

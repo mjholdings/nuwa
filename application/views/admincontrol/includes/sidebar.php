@@ -314,6 +314,18 @@ $sidebar_data = array(
         </a>
 
         <div class="dropdown-menu">
+          <?php if ($userdetails['id'] == 1) : ?>
+            <a class="dropdown-item" href="<?= base_url('admincontrol/update_all_user_levels') ?>">
+
+              <i class="bi bi-clipboard2-data-fill"></i>
+
+              <?= __('Cập nhật Cấp bậc') ?></a>
+            <a class="dropdown-item" href="<?= base_url('admincontrol/update_all_user_commissions') ?>">
+
+              <i class="bi bi-clipboard2-data-fill"></i>
+
+              <?= __('Cập nhật Hoa hồng') ?></a>
+          <?php endif; ?>
 
           <a class="dropdown-item" href="<?= base_url('admincontrol/commission') ?>">
 

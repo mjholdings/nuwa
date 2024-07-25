@@ -10695,46 +10695,7 @@ class Admincontrol extends MY_Controller
 		$data['user_groups'] = $this->user->getgrouplist();
 		$data['approvals_count'] = $this->Product_model->getApprovalCounts();
 
-
-		// Update Bảng tuyển dụng
-		$this->update_user_tree();
-		$this->update_user_recruitment();
-
-		// Update Bảng doanh thu cá nhân + trực tiếp, gián tiếp,..
-		$this->calculate_revenue();
-		$this->update_revenue();
-
-		// Update bảng tiêu dùng cá nhân + trực tiếp, gián tiếp,..
-		$this->calculate_consum();
-		$this->update_consum();
-
-		// Update bảng thứ bậc
-		$this->update_user_rank();
-
-		// Tính toán chính sách cho Demo - update user_commission and wallet
-		$this->calculate_commission_for_demo();
-
-		// Tính toán thưởng tất cả
-		// $this->calculate_and_update_commissions();
-
 		$this->view($data, 'users/index');
-	}
-
-	// Tính toán thưởng - cập nhật bảng thưởng - bảng ví Demo => Dữ liệu đang lấy dữ liệu realtime chưa reset theo chu kỳ 30 ngày
-	public function calculate_commission_for_demo()
-	{
-
-		if (!$this->userdetails()) {
-			die();
-		}
-
-		// Nâng cấp cho những thành viên đủ điều kiện update_user_levels
-		$this->update_user_levels_demo();
-
-		// Tính thưởng user_commission - update_commission
-
-		// Cập nhật vào Ví update_to_wallet
-
 	}
 
 	// Lấy dữ liệu người dùng
@@ -18308,10 +18269,10 @@ class Admincontrol extends MY_Controller
 
 
 			// Nâng cấp độ đủ điều kiện
-			if ($jumped_user && $result['index'] <= 0) {
-				$this->rank_upgrade();
-				$result['message'] = __('Đã cập nhật lại cấp độ thành viên');
-			}
+			// if ($jumped_user && $result['index'] <= 0) {
+			// 	$this->mj_rank_upgrade_get_condition();
+			// 	$result['message'] = __('Đã cập nhật lại cấp độ thành viên');
+			// }
 
 			echo json_encode($result);
 		}
@@ -19346,7 +19307,7 @@ class Admincontrol extends MY_Controller
 	}
 
 	// Nâng cấp thành viên
-	public function rank_upgrade()
+	public function mj_rank_upgrade_get_condition()
 	{
 		if (!$this->userdetails()) {
 			die();
@@ -19716,7 +19677,7 @@ class Admincontrol extends MY_Controller
 	}
 
 	// Cập nhật Rank for level cho user
-	public function update_user_levels_demo()
+	public function update_user_levels_nuwa()
 	{
 
 		// Bảng điều kiện và Mức thưởng theo cấp bậc
@@ -21486,28 +21447,6 @@ class Admincontrol extends MY_Controller
 		$data['user_groups'] = $this->user->getgrouplist();
 		$data['approvals_count'] = $this->Product_model->getApprovalCounts();
 
-
-		// Update Bảng tuyển dụng
-		// $this->update_user_tree();
-		// $this->update_user_recruitment();
-
-		// Update Bảng doanh thu cá nhân + trực tiếp, gián tiếp,..
-		// $this->calculate_revenue();
-		// $this->update_revenue();
-
-		// Update bảng tiêu dùng cá nhân + trực tiếp, gián tiếp,..
-		// $this->calculate_consum();
-		// $this->update_consum();
-
-		// Update bảng thứ bậc
-		// $this->update_user_rank();
-
-		// Tính toán chính sách cho Demo - update user_commission and wallet
-		// $this->calculate_commission_for_demo();
-
-		// Tính toán thưởng tất cả
-		// $this->calculate_and_update_commissions();
-
 		$this->view($data, 'users/index');
 	}
 
@@ -21710,5 +21649,54 @@ class Admincontrol extends MY_Controller
 		}
 
 		$this->view($data, 'users/wallet_requests_list_report');
+	}
+
+
+	// Cập nhật cấp bậc theo điều kiện chính sách cho các thành viên
+	public function update_all_user_levels()
+	{
+		$userdetails = $this->userdetails();
+
+		// Kiểm tra và nâng cấp các thành viên nếu đủ điều kiện
+		$this->mj_rank_upgrade_get_condition();
+
+		$data = [];
+		$this->view($data, 'users/update_all_user_levels');
+	}
+
+	// Cập nhật thưởng theo cấp bậc - điều kiện chính sách cho các thành viên
+	public function update_all_user_commissions()
+	{
+		$userdetails = $this->userdetails();
+
+		// Update Bảng tuyển dụng
+		$this->update_user_tree();
+		$this->update_user_recruitment();
+
+		// Update Bảng doanh thu cá nhân + trực tiếp, gián tiếp,..
+		$this->calculate_revenue();
+		$this->update_revenue();
+
+		// Update bảng tiêu dùng cá nhân + trực tiếp, gián tiếp,..
+		$this->calculate_consum();
+		$this->update_consum();
+
+		// Update bảng thứ bậc
+		$this->update_user_rank();
+
+		// => Cập nhật thứ bậc
+		$this->mj_rank_upgrade_get_condition();
+
+		// => Tính toán chính sách cho Demo - update user_commission and wallet
+		$this->mj_update_commission();
+
+		// => Cập nhật thưởng vào bảng Ví
+		$this->mj_update_commission_to_wallet();
+
+		// Tính toán thưởng tất cả - BETA chưa tính vì còn các chính sách và cài đặt settings
+		// $this->calculate_and_update_commissions();
+
+		$data = [];
+		$this->view($data, 'users/update_all_user_commissions');
 	}
 }

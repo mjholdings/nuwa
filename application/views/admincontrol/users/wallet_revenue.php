@@ -5,7 +5,7 @@ $userdetails = $db->userdetails();
 <div class="row gx-3 gy-3 wallet-page">
 	<div class="col-xl-4 d-flex">
 		<div class="card flex-fill">
-			<div class="card-header bg-secondary text-white text-center text-uppercase">
+			<div class="card-header bg-primary text-white text-center text-uppercase">
 				<h5><?= __('TỔNG NẠP (TIÊU DÙNG)') ?></h5>
 			</div>
 			<div class="card-body">
@@ -22,7 +22,7 @@ $userdetails = $db->userdetails();
 	</div>
 	<div class="col-xl-4 d-flex">
 		<div class="card flex-fill">
-			<div class="card-header bg-secondary text-white text-center text-uppercase">
+			<div class="card-header bg-danger text-white text-center text-uppercase">
 				<h5><?= __('TỔNG THƯỞNG (HOA HỒNG)') ?></h5>
 			</div>
 			<div class="card-body">
@@ -56,7 +56,7 @@ $userdetails = $db->userdetails();
 	</div>
 	<div class="col-xl-4 d-flex">
 		<div class="card flex-fill">
-			<div class="card-header bg-secondary text-white text-center text-uppercase">
+			<div class="card-header bg-success text-white text-center text-uppercase">
 				<h5><?= __('TỔNG TÀI KHOẢN (RÚT)') ?></h5>
 			</div>
 			<div class="card-body">
@@ -73,7 +73,7 @@ $userdetails = $db->userdetails();
 	</div>
 	<div class="col-xl-8 d-flex">
 		<div class="card flex-fill">
-			<div class="card-header bg-secondary text-white text-center text-uppercase">
+			<div class="card-header bg-success text-white text-center text-uppercase">
 				<h5><?= __('admin.total_sales') ?></h5>
 			</div>
 			<div class="card-body">

@@ -1,5 +1,5 @@
 <?php
-$db =& get_instance();
+$db = &get_instance();
 $method = $this->CI->router->fetch_method();
 $userdetails = $db->userdetails();
 $products = $db->Product_model;
@@ -67,8 +67,8 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                   <?= __('Số dư trả Thưởng') ?>
                   <?= c_format($user_totals['wallet_accept_amount']) ?>
                 </span>
-              </div>              
-            </div>            
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
               <h1>
                 <?= c_format($user_totals['user_balance']) ?>
               </h1>
-            </div>            
+            </div>
           </div>
         </div>
       </div>
@@ -110,7 +110,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
               <h1>
                 <?= c_format($user_totals['user_balance']) ?>
               </h1>
-            </div>            
+            </div>
           </div>
         </div>
       </div>
@@ -131,7 +131,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
               <h1>
                 <?= c_format($user_totals['user_balance']) ?>
               </h1>
-            </div>            
+            </div>
           </div>
         </div>
       </div>
@@ -194,7 +194,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                   <?= ($userdetails['is_vendor']) ? __('user.vendor_pay') : '' ?>
                   <?= ($userdetails['is_vendor']) ? c_format(
                     $user_totals['vendor_click_localstore_commission_pay'] +
-                    $user_totals['vendor_click_external_commission_pay']
+                      $user_totals['vendor_click_external_commission_pay']
                   ) : '' ?>
                 </span>
               </div>
@@ -288,80 +288,51 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                   </b>
                 </h6>
                 <div id="iq-chart-box1" class="chat-short" style="min-height: 50px;">
-                  <div id="apexchartslnl34wm0i" class="apexcharts-canvas apexchartslnl34wm0i apexcharts-theme-light"
-                    style="width: 100px; height: 50px;">
-                    <svg id="SvgjsSvg2229" width="100" height="50" xmlns="http://www.w3.org/2000/svg" version="1.1"
-                      xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs"
-                      class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)"
-                      style="background: transparent;">
+                  <div id="apexchartslnl34wm0i" class="apexcharts-canvas apexchartslnl34wm0i apexcharts-theme-light" style="width: 100px; height: 50px;">
+                    <svg id="SvgjsSvg2229" width="100" height="50" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;">
                       <g id="SvgjsG2231" class="apexcharts-inner apexcharts-graphical" transform="translate(0, 10)">
                         <defs id="SvgjsDefs2230">
                           <clipPath id="gridRectMasklnl34wm0i">
-                            <rect id="SvgjsRect2237" width="109" height="45" x="-4.5" y="-2.5" rx="0" ry="0" opacity="1"
-                              stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
+                            <rect id="SvgjsRect2237" width="109" height="45" x="-4.5" y="-2.5" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
                           </clipPath>
                           <clipPath id="forecastMasklnl34wm0i"></clipPath>
                           <clipPath id="nonForecastMasklnl34wm0i"></clipPath>
                           <clipPath id="gridRectMarkerMasklnl34wm0i">
-                            <rect id="SvgjsRect2238" width="104" height="44" x="-2" y="-2" rx="0" ry="0" opacity="1"
-                              stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
+                            <rect id="SvgjsRect2238" width="104" height="44" x="-2" y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
                           </clipPath>
                         </defs>
-                        <line id="SvgjsLine2236" x1="0" y1="0" x2="0" y2="40" stroke="#b6b6b6" stroke-dasharray="3"
-                          class="apexcharts-xcrosshairs" x="0" y="0" width="1" height="40" fill="#b1b9c4" filter="none"
-                          fill-opacity="0.9" stroke-width="1"></line>
+                        <line id="SvgjsLine2236" x1="0" y1="0" x2="0" y2="40" stroke="#b6b6b6" stroke-dasharray="3" class="apexcharts-xcrosshairs" x="0" y="0" width="1" height="40" fill="#b1b9c4" filter="none" fill-opacity="0.9" stroke-width="1"></line>
                         <g id="SvgjsG2244" class="apexcharts-xaxis" transform="translate(0, 0)">
                           <g id="SvgjsG2245" class="apexcharts-xaxis-texts-g" transform="translate(0, -4)"></g>
                         </g>
                         <g id="SvgjsG2251" class="apexcharts-grid">
                           <g id="SvgjsG2252" class="apexcharts-gridlines-horizontal" style="display: none;">
-                            <line id="SvgjsLine2254" x1="0" y1="0" x2="100" y2="0" stroke="#e0e0e0" stroke-dasharray="0"
-                              class="apexcharts-gridline"></line>
-                            <line id="SvgjsLine2255" x1="0" y1="8" x2="100" y2="8" stroke="#e0e0e0" stroke-dasharray="0"
-                              class="apexcharts-gridline"></line>
-                            <line id="SvgjsLine2256" x1="0" y1="16" x2="100" y2="16" stroke="#e0e0e0"
-                              stroke-dasharray="0" class="apexcharts-gridline"></line>
-                            <line id="SvgjsLine2257" x1="0" y1="24" x2="100" y2="24" stroke="#e0e0e0"
-                              stroke-dasharray="0" class="apexcharts-gridline"></line>
-                            <line id="SvgjsLine2258" x1="0" y1="32" x2="100" y2="32" stroke="#e0e0e0"
-                              stroke-dasharray="0" class="apexcharts-gridline"></line>
-                            <line id="SvgjsLine2259" x1="0" y1="40" x2="100" y2="40" stroke="#e0e0e0"
-                              stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2254" x1="0" y1="0" x2="100" y2="0" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2255" x1="0" y1="8" x2="100" y2="8" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2256" x1="0" y1="16" x2="100" y2="16" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2257" x1="0" y1="24" x2="100" y2="24" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2258" x1="0" y1="32" x2="100" y2="32" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2259" x1="0" y1="40" x2="100" y2="40" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
                           </g>
                           <g id="SvgjsG2253" class="apexcharts-gridlines-vertical" style="display: none;"></g>
-                          <line id="SvgjsLine2261" x1="0" y1="40" x2="100" y2="40" stroke="transparent"
-                            stroke-dasharray="0"></line>
-                          <line id="SvgjsLine2260" x1="0" y1="1" x2="0" y2="40" stroke="transparent"
-                            stroke-dasharray="0"></line>
+                          <line id="SvgjsLine2261" x1="0" y1="40" x2="100" y2="40" stroke="transparent" stroke-dasharray="0"></line>
+                          <line id="SvgjsLine2260" x1="0" y1="1" x2="0" y2="40" stroke="transparent" stroke-dasharray="0"></line>
                         </g>
                         <g id="SvgjsG2239" class="apexcharts-line-series apexcharts-plot-series">
-                          <g id="SvgjsG2240" class="apexcharts-series" seriesName="Totalxsales"
-                            data:longestSeries="true" rel="1" data:realIndex="0">
-                            <path id="SvgjsPath2243"
-                              d="M 0 34.666666666666664L 33.333333333333336 34.666666666666664L 66.66666666666667 1.3333333333333357L 100 34.666666666666664"
-                              fill="none" fill-opacity="1" stroke="rgba(52,78,209,0.85)" stroke-opacity="1"
-                              stroke-linecap="butt" stroke-width="5" stroke-dasharray="0" class="apexcharts-line"
-                              index="0" clip-path="url(#gridRectMasklnl34wm0i)"
-                              pathTo="M 0 34.666666666666664L 33.333333333333336 34.666666666666664L 66.66666666666667 1.3333333333333357L 100 34.666666666666664"
-                              pathFrom="M -1 48L -1 48L 33.333333333333336 48L 66.66666666666667 48L 100 48"></path>
+                          <g id="SvgjsG2240" class="apexcharts-series" seriesName="Totalxsales" data:longestSeries="true" rel="1" data:realIndex="0">
+                            <path id="SvgjsPath2243" d="M 0 34.666666666666664L 33.333333333333336 34.666666666666664L 66.66666666666667 1.3333333333333357L 100 34.666666666666664" fill="none" fill-opacity="1" stroke="rgba(52,78,209,0.85)" stroke-opacity="1" stroke-linecap="butt" stroke-width="5" stroke-dasharray="0" class="apexcharts-line" index="0" clip-path="url(#gridRectMasklnl34wm0i)" pathTo="M 0 34.666666666666664L 33.333333333333336 34.666666666666664L 66.66666666666667 1.3333333333333357L 100 34.666666666666664" pathFrom="M -1 48L -1 48L 33.333333333333336 48L 66.66666666666667 48L 100 48"></path>
                             <g id="SvgjsG2241" class="apexcharts-series-markers-wrap" data:realIndex="0"></g>
                           </g>
                           <g id="SvgjsG2242" class="apexcharts-datalabels" data:realIndex="0"></g>
                         </g>
-                        <line id="SvgjsLine2262" x1="0" y1="0" x2="100" y2="0" stroke="#b6b6b6" stroke-dasharray="0"
-                          stroke-width="1" class="apexcharts-ycrosshairs"></line>
-                        <line id="SvgjsLine2263" x1="0" y1="0" x2="100" y2="0" stroke-dasharray="0" stroke-width="0"
-                          class="apexcharts-ycrosshairs-hidden"></line>
+                        <line id="SvgjsLine2262" x1="0" y1="0" x2="100" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" class="apexcharts-ycrosshairs"></line>
+                        <line id="SvgjsLine2263" x1="0" y1="0" x2="100" y2="0" stroke-dasharray="0" stroke-width="0" class="apexcharts-ycrosshairs-hidden"></line>
                         <g id="SvgjsG2264" class="apexcharts-yaxis-annotations"></g>
                         <g id="SvgjsG2265" class="apexcharts-xaxis-annotations"></g>
                         <g id="SvgjsG2266" class="apexcharts-point-annotations"></g>
                       </g>
-                      <text id="SvgjsText2233" font-family="Be Vietnam Pro, Arial, sans-serif" x="10" y="16.5"
-                        text-anchor="start" dominant-baseline="auto" font-size="14px" font-weight="900" fill="#373d3f"
-                        class="apexcharts-title-text"
-                        style="font-family: Be Vietnam Pro, Arial, sans-serif; opacity: 1;"></text>
-                      <rect id="SvgjsRect2235" width="0" height="0" x="0" y="0" rx="0" ry="0" opacity="1"
-                        stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fefefe"></rect>
+                      <text id="SvgjsText2233" font-family="Be Vietnam Pro, Arial, sans-serif" x="10" y="16.5" text-anchor="start" dominant-baseline="auto" font-size="14px" font-weight="900" fill="#373d3f" class="apexcharts-title-text" style="font-family: Be Vietnam Pro, Arial, sans-serif; opacity: 1;"></text>
+                      <rect id="SvgjsRect2235" width="0" height="0" x="0" y="0" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fefefe"></rect>
                       <g id="SvgjsG2250" class="apexcharts-yaxis" rel="0" transform="translate(-18, 0)"></g>
                       <g id="SvgjsG2232" class="apexcharts-annotations"></g>
                     </svg>
@@ -372,11 +343,8 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                   <b>
                     <?= $user_totals_week_grouwth ?>%
                   </b>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 20"
-                    fill="currentColor">
-                    <path fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"></path>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                   </svg>
                 </div>
                 <div class="resize-triggers">
@@ -409,80 +377,51 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                   </b>
                 </h6>
                 <div id="iq-chart-box2" class="chat-short" style="min-height: 50px;">
-                  <div id="apexcharts1n03tiam" class="apexcharts-canvas apexcharts1n03tiam apexcharts-theme-light"
-                    style="width: 100px; height: 50px;">
-                    <svg id="SvgjsSvg2267" width="100" height="50" xmlns="http://www.w3.org/2000/svg" version="1.1"
-                      xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs"
-                      class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)"
-                      style="background: transparent;">
+                  <div id="apexcharts1n03tiam" class="apexcharts-canvas apexcharts1n03tiam apexcharts-theme-light" style="width: 100px; height: 50px;">
+                    <svg id="SvgjsSvg2267" width="100" height="50" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;">
                       <g id="SvgjsG2269" class="apexcharts-inner apexcharts-graphical" transform="translate(0, 10)">
                         <defs id="SvgjsDefs2268">
                           <clipPath id="gridRectMask1n03tiam">
-                            <rect id="SvgjsRect2275" width="109" height="45" x="-4.5" y="-2.5" rx="0" ry="0" opacity="1"
-                              stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
+                            <rect id="SvgjsRect2275" width="109" height="45" x="-4.5" y="-2.5" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
                           </clipPath>
                           <clipPath id="forecastMask1n03tiam"></clipPath>
                           <clipPath id="nonForecastMask1n03tiam"></clipPath>
                           <clipPath id="gridRectMarkerMask1n03tiam">
-                            <rect id="SvgjsRect2276" width="104" height="44" x="-2" y="-2" rx="0" ry="0" opacity="1"
-                              stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
+                            <rect id="SvgjsRect2276" width="104" height="44" x="-2" y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
                           </clipPath>
                         </defs>
-                        <line id="SvgjsLine2274" x1="0" y1="0" x2="0" y2="40" stroke="#b6b6b6" stroke-dasharray="3"
-                          class="apexcharts-xcrosshairs" x="0" y="0" width="1" height="40" fill="#b1b9c4" filter="none"
-                          fill-opacity="0.9" stroke-width="1"></line>
+                        <line id="SvgjsLine2274" x1="0" y1="0" x2="0" y2="40" stroke="#b6b6b6" stroke-dasharray="3" class="apexcharts-xcrosshairs" x="0" y="0" width="1" height="40" fill="#b1b9c4" filter="none" fill-opacity="0.9" stroke-width="1"></line>
                         <g id="SvgjsG2282" class="apexcharts-xaxis" transform="translate(0, 0)">
                           <g id="SvgjsG2283" class="apexcharts-xaxis-texts-g" transform="translate(0, -4)"></g>
                         </g>
                         <g id="SvgjsG2289" class="apexcharts-grid">
                           <g id="SvgjsG2290" class="apexcharts-gridlines-horizontal" style="display: none;">
-                            <line id="SvgjsLine2292" x1="0" y1="0" x2="100" y2="0" stroke="#e0e0e0" stroke-dasharray="0"
-                              class="apexcharts-gridline"></line>
-                            <line id="SvgjsLine2293" x1="0" y1="8" x2="100" y2="8" stroke="#e0e0e0" stroke-dasharray="0"
-                              class="apexcharts-gridline"></line>
-                            <line id="SvgjsLine2294" x1="0" y1="16" x2="100" y2="16" stroke="#e0e0e0"
-                              stroke-dasharray="0" class="apexcharts-gridline"></line>
-                            <line id="SvgjsLine2295" x1="0" y1="24" x2="100" y2="24" stroke="#e0e0e0"
-                              stroke-dasharray="0" class="apexcharts-gridline"></line>
-                            <line id="SvgjsLine2296" x1="0" y1="32" x2="100" y2="32" stroke="#e0e0e0"
-                              stroke-dasharray="0" class="apexcharts-gridline"></line>
-                            <line id="SvgjsLine2297" x1="0" y1="40" x2="100" y2="40" stroke="#e0e0e0"
-                              stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2292" x1="0" y1="0" x2="100" y2="0" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2293" x1="0" y1="8" x2="100" y2="8" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2294" x1="0" y1="16" x2="100" y2="16" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2295" x1="0" y1="24" x2="100" y2="24" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2296" x1="0" y1="32" x2="100" y2="32" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2297" x1="0" y1="40" x2="100" y2="40" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
                           </g>
                           <g id="SvgjsG2291" class="apexcharts-gridlines-vertical" style="display: none;"></g>
-                          <line id="SvgjsLine2299" x1="0" y1="40" x2="100" y2="40" stroke="transparent"
-                            stroke-dasharray="0"></line>
-                          <line id="SvgjsLine2298" x1="0" y1="1" x2="0" y2="40" stroke="transparent"
-                            stroke-dasharray="0"></line>
+                          <line id="SvgjsLine2299" x1="0" y1="40" x2="100" y2="40" stroke="transparent" stroke-dasharray="0"></line>
+                          <line id="SvgjsLine2298" x1="0" y1="1" x2="0" y2="40" stroke="transparent" stroke-dasharray="0"></line>
                         </g>
                         <g id="SvgjsG2277" class="apexcharts-line-series apexcharts-plot-series">
-                          <g id="SvgjsG2278" class="apexcharts-series" seriesName="SalexToday" data:longestSeries="true"
-                            rel="1" data:realIndex="0">
-                            <path id="SvgjsPath2281"
-                              d="M 0 34.666666666666664L 33.333333333333336 34.666666666666664L 66.66666666666667 1.3333333333333357L 100 34.666666666666664"
-                              fill="none" fill-opacity="1" stroke="rgba(185,29,18,0.85)" stroke-opacity="1"
-                              stroke-linecap="butt" stroke-width="5" stroke-dasharray="0" class="apexcharts-line"
-                              index="0" clip-path="url(#gridRectMask1n03tiam)"
-                              pathTo="M 0 34.666666666666664L 33.333333333333336 34.666666666666664L 66.66666666666667 1.3333333333333357L 100 34.666666666666664"
-                              pathFrom="M -1 48L -1 48L 33.333333333333336 48L 66.66666666666667 48L 100 48"></path>
+                          <g id="SvgjsG2278" class="apexcharts-series" seriesName="SalexToday" data:longestSeries="true" rel="1" data:realIndex="0">
+                            <path id="SvgjsPath2281" d="M 0 34.666666666666664L 33.333333333333336 34.666666666666664L 66.66666666666667 1.3333333333333357L 100 34.666666666666664" fill="none" fill-opacity="1" stroke="rgba(185,29,18,0.85)" stroke-opacity="1" stroke-linecap="butt" stroke-width="5" stroke-dasharray="0" class="apexcharts-line" index="0" clip-path="url(#gridRectMask1n03tiam)" pathTo="M 0 34.666666666666664L 33.333333333333336 34.666666666666664L 66.66666666666667 1.3333333333333357L 100 34.666666666666664" pathFrom="M -1 48L -1 48L 33.333333333333336 48L 66.66666666666667 48L 100 48"></path>
                             <g id="SvgjsG2279" class="apexcharts-series-markers-wrap" data:realIndex="0"></g>
                           </g>
                           <g id="SvgjsG2280" class="apexcharts-datalabels" data:realIndex="0"></g>
                         </g>
-                        <line id="SvgjsLine2300" x1="0" y1="0" x2="100" y2="0" stroke="#b6b6b6" stroke-dasharray="0"
-                          stroke-width="1" class="apexcharts-ycrosshairs"></line>
-                        <line id="SvgjsLine2301" x1="0" y1="0" x2="100" y2="0" stroke-dasharray="0" stroke-width="0"
-                          class="apexcharts-ycrosshairs-hidden"></line>
+                        <line id="SvgjsLine2300" x1="0" y1="0" x2="100" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" class="apexcharts-ycrosshairs"></line>
+                        <line id="SvgjsLine2301" x1="0" y1="0" x2="100" y2="0" stroke-dasharray="0" stroke-width="0" class="apexcharts-ycrosshairs-hidden"></line>
                         <g id="SvgjsG2302" class="apexcharts-yaxis-annotations"></g>
                         <g id="SvgjsG2303" class="apexcharts-xaxis-annotations"></g>
                         <g id="SvgjsG2304" class="apexcharts-point-annotations"></g>
                       </g>
-                      <text id="SvgjsText2271" font-family="Helvetica, Arial, sans-serif" x="10" y="16.5"
-                        text-anchor="start" dominant-baseline="auto" font-size="14px" font-weight="900" fill="#373d3f"
-                        class="apexcharts-title-text"
-                        style="font-family: Helvetica, Arial, sans-serif; opacity: 1;"></text>
-                      <rect id="SvgjsRect2273" width="0" height="0" x="0" y="0" rx="0" ry="0" opacity="1"
-                        stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fefefe"></rect>
+                      <text id="SvgjsText2271" font-family="Helvetica, Arial, sans-serif" x="10" y="16.5" text-anchor="start" dominant-baseline="auto" font-size="14px" font-weight="900" fill="#373d3f" class="apexcharts-title-text" style="font-family: Helvetica, Arial, sans-serif; opacity: 1;"></text>
+                      <rect id="SvgjsRect2273" width="0" height="0" x="0" y="0" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fefefe"></rect>
                       <g id="SvgjsG2288" class="apexcharts-yaxis" rel="0" transform="translate(-18, 0)"></g>
                       <g id="SvgjsG2270" class="apexcharts-annotations"></g>
                     </svg>
@@ -493,11 +432,8 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                   <b>
                     <?= $user_totals_month_grouwth ?>%
                   </b>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 20"
-                    fill="currentColor">
-                    <path fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"></path>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                   </svg>
                 </div>
                 <div class="resize-triggers">
@@ -530,80 +466,51 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                   </b>
                 </h6>
                 <div id="iq-chart-box3" class="chat-short" style="min-height: 50px;">
-                  <div id="apexcharts5zhbehzb" class="apexcharts-canvas apexcharts5zhbehzb apexcharts-theme-light"
-                    style="width: 100px; height: 50px;">
-                    <svg id="SvgjsSvg2305" width="100" height="50" xmlns="http://www.w3.org/2000/svg" version="1.1"
-                      xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs"
-                      class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)"
-                      style="background: transparent;">
+                  <div id="apexcharts5zhbehzb" class="apexcharts-canvas apexcharts5zhbehzb apexcharts-theme-light" style="width: 100px; height: 50px;">
+                    <svg id="SvgjsSvg2305" width="100" height="50" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;">
                       <g id="SvgjsG2307" class="apexcharts-inner apexcharts-graphical" transform="translate(0, 10)">
                         <defs id="SvgjsDefs2306">
                           <clipPath id="gridRectMask5zhbehzb">
-                            <rect id="SvgjsRect2313" width="109" height="45" x="-4.5" y="-2.5" rx="0" ry="0" opacity="1"
-                              stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
+                            <rect id="SvgjsRect2313" width="109" height="45" x="-4.5" y="-2.5" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
                           </clipPath>
                           <clipPath id="forecastMask5zhbehzb"></clipPath>
                           <clipPath id="nonForecastMask5zhbehzb"></clipPath>
                           <clipPath id="gridRectMarkerMask5zhbehzb">
-                            <rect id="SvgjsRect2314" width="104" height="44" x="-2" y="-2" rx="0" ry="0" opacity="1"
-                              stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
+                            <rect id="SvgjsRect2314" width="104" height="44" x="-2" y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
                           </clipPath>
                         </defs>
-                        <line id="SvgjsLine2312" x1="0" y1="0" x2="0" y2="40" stroke="#b6b6b6" stroke-dasharray="3"
-                          class="apexcharts-xcrosshairs" x="0" y="0" width="1" height="40" fill="#b1b9c4" filter="none"
-                          fill-opacity="0.9" stroke-width="1"></line>
+                        <line id="SvgjsLine2312" x1="0" y1="0" x2="0" y2="40" stroke="#b6b6b6" stroke-dasharray="3" class="apexcharts-xcrosshairs" x="0" y="0" width="1" height="40" fill="#b1b9c4" filter="none" fill-opacity="0.9" stroke-width="1"></line>
                         <g id="SvgjsG2320" class="apexcharts-xaxis" transform="translate(0, 0)">
                           <g id="SvgjsG2321" class="apexcharts-xaxis-texts-g" transform="translate(0, -4)"></g>
                         </g>
                         <g id="SvgjsG2327" class="apexcharts-grid">
                           <g id="SvgjsG2328" class="apexcharts-gridlines-horizontal" style="display: none;">
-                            <line id="SvgjsLine2330" x1="0" y1="0" x2="100" y2="0" stroke="#e0e0e0" stroke-dasharray="0"
-                              class="apexcharts-gridline"></line>
-                            <line id="SvgjsLine2331" x1="0" y1="8" x2="100" y2="8" stroke="#e0e0e0" stroke-dasharray="0"
-                              class="apexcharts-gridline"></line>
-                            <line id="SvgjsLine2332" x1="0" y1="16" x2="100" y2="16" stroke="#e0e0e0"
-                              stroke-dasharray="0" class="apexcharts-gridline"></line>
-                            <line id="SvgjsLine2333" x1="0" y1="24" x2="100" y2="24" stroke="#e0e0e0"
-                              stroke-dasharray="0" class="apexcharts-gridline"></line>
-                            <line id="SvgjsLine2334" x1="0" y1="32" x2="100" y2="32" stroke="#e0e0e0"
-                              stroke-dasharray="0" class="apexcharts-gridline"></line>
-                            <line id="SvgjsLine2335" x1="0" y1="40" x2="100" y2="40" stroke="#e0e0e0"
-                              stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2330" x1="0" y1="0" x2="100" y2="0" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2331" x1="0" y1="8" x2="100" y2="8" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2332" x1="0" y1="16" x2="100" y2="16" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2333" x1="0" y1="24" x2="100" y2="24" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2334" x1="0" y1="32" x2="100" y2="32" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
+                            <line id="SvgjsLine2335" x1="0" y1="40" x2="100" y2="40" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line>
                           </g>
                           <g id="SvgjsG2329" class="apexcharts-gridlines-vertical" style="display: none;"></g>
-                          <line id="SvgjsLine2337" x1="0" y1="40" x2="100" y2="40" stroke="transparent"
-                            stroke-dasharray="0"></line>
-                          <line id="SvgjsLine2336" x1="0" y1="1" x2="0" y2="40" stroke="transparent"
-                            stroke-dasharray="0"></line>
+                          <line id="SvgjsLine2337" x1="0" y1="40" x2="100" y2="40" stroke="transparent" stroke-dasharray="0"></line>
+                          <line id="SvgjsLine2336" x1="0" y1="1" x2="0" y2="40" stroke="transparent" stroke-dasharray="0"></line>
                         </g>
                         <g id="SvgjsG2315" class="apexcharts-line-series apexcharts-plot-series">
-                          <g id="SvgjsG2316" class="apexcharts-series" seriesName="TotalxClasson"
-                            data:longestSeries="true" rel="1" data:realIndex="0">
-                            <path id="SvgjsPath2319"
-                              d="M 0 34.666666666666664L 33.333333333333336 34.666666666666664L 66.66666666666667 1.3333333333333357L 100 34.666666666666664"
-                              fill="none" fill-opacity="1" stroke="rgba(7,117,11,0.85)" stroke-opacity="1"
-                              stroke-linecap="butt" stroke-width="5" stroke-dasharray="0" class="apexcharts-line"
-                              index="0" clip-path="url(#gridRectMask5zhbehzb)"
-                              pathTo="M 0 34.666666666666664L 33.333333333333336 34.666666666666664L 66.66666666666667 1.3333333333333357L 100 34.666666666666664"
-                              pathFrom="M -1 48L -1 48L 33.333333333333336 48L 66.66666666666667 48L 100 48"></path>
+                          <g id="SvgjsG2316" class="apexcharts-series" seriesName="TotalxClasson" data:longestSeries="true" rel="1" data:realIndex="0">
+                            <path id="SvgjsPath2319" d="M 0 34.666666666666664L 33.333333333333336 34.666666666666664L 66.66666666666667 1.3333333333333357L 100 34.666666666666664" fill="none" fill-opacity="1" stroke="rgba(7,117,11,0.85)" stroke-opacity="1" stroke-linecap="butt" stroke-width="5" stroke-dasharray="0" class="apexcharts-line" index="0" clip-path="url(#gridRectMask5zhbehzb)" pathTo="M 0 34.666666666666664L 33.333333333333336 34.666666666666664L 66.66666666666667 1.3333333333333357L 100 34.666666666666664" pathFrom="M -1 48L -1 48L 33.333333333333336 48L 66.66666666666667 48L 100 48"></path>
                             <g id="SvgjsG2317" class="apexcharts-series-markers-wrap" data:realIndex="0"></g>
                           </g>
                           <g id="SvgjsG2318" class="apexcharts-datalabels" data:realIndex="0"></g>
                         </g>
-                        <line id="SvgjsLine2338" x1="0" y1="0" x2="100" y2="0" stroke="#b6b6b6" stroke-dasharray="0"
-                          stroke-width="1" class="apexcharts-ycrosshairs"></line>
-                        <line id="SvgjsLine2339" x1="0" y1="0" x2="100" y2="0" stroke-dasharray="0" stroke-width="0"
-                          class="apexcharts-ycrosshairs-hidden"></line>
+                        <line id="SvgjsLine2338" x1="0" y1="0" x2="100" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" class="apexcharts-ycrosshairs"></line>
+                        <line id="SvgjsLine2339" x1="0" y1="0" x2="100" y2="0" stroke-dasharray="0" stroke-width="0" class="apexcharts-ycrosshairs-hidden"></line>
                         <g id="SvgjsG2340" class="apexcharts-yaxis-annotations"></g>
                         <g id="SvgjsG2341" class="apexcharts-xaxis-annotations"></g>
                         <g id="SvgjsG2342" class="apexcharts-point-annotations"></g>
                       </g>
-                      <text id="SvgjsText2309" font-family="Helvetica, Arial, sans-serif" x="10" y="16.5"
-                        text-anchor="start" dominant-baseline="auto" font-size="14px" font-weight="900" fill="#373d3f"
-                        class="apexcharts-title-text"
-                        style="font-family: Helvetica, Arial, sans-serif; opacity: 1;"></text>
-                      <rect id="SvgjsRect2311" width="0" height="0" x="0" y="0" rx="0" ry="0" opacity="1"
-                        stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fefefe"></rect>
+                      <text id="SvgjsText2309" font-family="Helvetica, Arial, sans-serif" x="10" y="16.5" text-anchor="start" dominant-baseline="auto" font-size="14px" font-weight="900" fill="#373d3f" class="apexcharts-title-text" style="font-family: Helvetica, Arial, sans-serif; opacity: 1;"></text>
+                      <rect id="SvgjsRect2311" width="0" height="0" x="0" y="0" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fefefe"></rect>
                       <g id="SvgjsG2326" class="apexcharts-yaxis" rel="0" transform="translate(-18, 0)"></g>
                       <g id="SvgjsG2308" class="apexcharts-annotations"></g>
                     </svg>
@@ -614,11 +521,8 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                   <b>
                     <?= $user_totals_year_grouwth ?>%
                   </b>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 20"
-                    fill="currentColor">
-                    <path fill-rule="evenodd"
-                      d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"></path>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                   </svg>
                 </div>
                 <div class="resize-triggers">
@@ -635,13 +539,11 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
         <?php
         $googleAdsCenter = $this->Setting_model->getGoogleAds(5, 1);
         if (!empty($googleAdsCenter)) {
-          ?>
+        ?>
           <div class="col-xl-12 col-lg-12 col-md-12 mt-3">
             <div class="googleaddsecond-bg text-center">
               Google Add Here
-              <ins class="adsbygoogle" style="display:block" data-ad-client="<?= @$googleAdsCenter[0]['client_key'] ?>"
-                data-ad-slot="<?= @$googleAdsCenter[0]['unit_key'] ?>" data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
+              <ins class="adsbygoogle" style="display:block" data-ad-client="<?= @$googleAdsCenter[0]['client_key'] ?>" data-ad-slot="<?= @$googleAdsCenter[0]['unit_key'] ?>" data-ad-format="auto" data-full-width-responsive="true"></ins>
               <script>
                 (adsbygoogle = window.adsbygoogle || []).push({});
               </script>
@@ -650,10 +552,10 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
         <?php } ?>
         <?php if (allowMarketVendorPanelSections($marketvendorpanelmode, $userdetails['is_vendor'])) { ?>
           <script type="text/javascript">
-            $(document).ready(function () {
+            $(document).ready(function() {
               getMarketTools(1);
 
-              $(".display-vendor-links").change(function () {
+              $(".display-vendor-links").change(function() {
 
                 getMarketTools();
               })
@@ -661,6 +563,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
 
 
             });
+
             function getMarketTools(page) {
               $this = $(this);
               $.ajax({
@@ -671,12 +574,11 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                   get_tools: true,
                   page: page
                 },
-                beforeSend: function () {
+                beforeSend: function() {
                   $(".site-order #affiliate-accordion").html("<p class='text-center'>" + '<?= __('user.loading') ?>' + "....</p>");
                 },
-                complete: function () {
-                },
-                success: function (json) {
+                complete: function() {},
+                success: function(json) {
                   if (json['html']) {
                     $(".site-order .pagination-div").html(json['pagination']);
                     $(".site-order #affiliate-accordion").html(json['html']);
@@ -689,7 +591,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                 },
               })
             }
-            $(document).on('click', '.site-order .pagination-div ul li a', function (e) {
+            $(document).on('click', '.site-order .pagination-div ul li a', function(e) {
               e.preventDefault();
 
               let page = $(this).data('ci-pagination-page');
@@ -697,7 +599,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
               if (page)
                 getMarketTools(page);
             })
-            $(document).on('click', '.qrcode', function () {
+            $(document).on('click', '.qrcode', function() {
               $('#model-codemodal .modal-body').html("<span id='QRDataModal'></span>");
               $("#model-codemodal").modal("show");
               var qrdata = $(this).attr('data-id');
@@ -945,8 +847,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                       </span>
                     </div>
                   </div>
-                  <div class="d-flex justify-content-between align-items-center my-3"
-                    style="margin-bottom: 0.8rem !important;">
+                  <div class="d-flex justify-content-between align-items-center my-3" style="margin-bottom: 0.8rem !important;">
                     <div>
                       <span></span>
                     </div>
@@ -1224,7 +1125,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
     </div>
     <div class="col-md-12 col-xl-4 mt-3">
       <div class="row">
-        <?php if ($userdetails['is_vendor']): ?>
+        <?php if ($userdetails['is_vendor']) : ?>
           <div class="col-md-12 col-lg-12">
             <div class="card credit-card-widget" data-aos="fade-up" data-aos-delay="900">
               <div class="card-header pb-4 border-0"></div>
@@ -1322,7 +1223,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                   if ($isMembershipAccess) {
                     $remain = $plan->remainDay();
                     $planto = ($plan->is_lifetime) ? __('user.lifetime') : dateFormat($plan->expire_at, 'd F Y h:i A');
-                    ?>
+                  ?>
 
                     <div class="card-body">
                       <div class="text-center">
@@ -1341,34 +1242,34 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                       </div>
                     </div>
 
-                  </div>
+              </div>
 
-                <?php } ?>
-                <?php if ($isMembershipAccess) { ?>
+            <?php } ?>
+            <?php if ($isMembershipAccess) { ?>
 
-                  <div class="modal description fade" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered  scanner">
-                      <div class="modal-content ">
-                        <div class="modal-header">
-                          <h5 class="modal-title exampleModalLabel1">
-                            <?= __('user.description') ?>
-                          </h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <?= $plan->plan ? $plan->plan->description : '' ?>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary text-center" data-bs-dismiss="modal">
-                            <?= __('user.close') ?>
-                          </button>
-                        </div>
-                      </div>
+              <div class="modal description fade" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered  scanner">
+                  <div class="modal-content ">
+                    <div class="modal-header">
+                      <h5 class="modal-title exampleModalLabel1">
+                        <?= __('user.description') ?>
+                      </h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <?= $plan->plan ? $plan->plan->description : '' ?>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary text-center" data-bs-dismiss="modal">
+                        <?= __('user.close') ?>
+                      </button>
                     </div>
                   </div>
-                <?php }
+                </div>
+              </div>
+          <?php }
                 } ?>
-            <?php } ?>
+        <?php } ?>
           </div>
         </div>
       </div>
@@ -1386,7 +1287,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
               }
 
               if ($invitationlinkid == 0) {
-                ?>
+            ?>
 
                 <div class="card-header flex justify-content-between">
                   <div class="row">
@@ -1409,7 +1310,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                     </div>
                   </div>
                 </div>
-                <?php
+            <?php
               }
             } ?>
 
@@ -1424,8 +1325,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                         <?= __('user.affiliate_store_url') ?>
                       </label>
 
-                      <input type="text" readonly="readonly" value="<?= $share_url ?>"
-                        class="input-store-url-0 form-control">
+                      <input type="text" readonly="readonly" value="<?= $share_url ?>" class="input-store-url-0 form-control">
                     </div>
                     <div class="flex align-items-center justify-content-end list-user-action">
                       <a class="bt-all btn-success qrcode" href="javascript:void(0)" data-id="<?= $share_url ?>">
@@ -1436,21 +1336,17 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                           <i class="fa fa-share"></i>
                         </span>
                       </a>
-                      <a class="bt-all btn-warning" href="javascript:void(0)" copyToClipboard="<?= $share_url ?>"
-                        title="<?= __('user.copied'); ?>">
+                      <a class="bt-all btn-warning" href="javascript:void(0)" copyToClipboard="<?= $share_url ?>" title="<?= __('user.copied'); ?>">
                         <span class="btn-inner">
                           <i class="far fa-copy" alt="<?= __('user.copy') ?>"></i>
                         </span>
                       </a>
-                      <a href="javascript:void(0)" class="bt-all btn-danger dashboard-model-slug" data-type="store"
-                        data-related-id="0" data-input-class="input-store-url-0">
+                      <a href="javascript:void(0)" class="bt-all btn-danger dashboard-model-slug" data-type="store" data-related-id="0" data-input-class="input-store-url-0">
                         <span class="btn-inner">
                           <i class="fas fa-cog" alt="<?= __('user.setting') ?>"></i>
                         </span>
                       </a>
-                      <a class="bt-all btn-success" href="javascript:void(0)" data-social-share
-                        data-share-url="<?= $share_url; ?>?id=<?= $userdetails['id'] ?>" data-share-title=""
-                        data-share-desc="">
+                      <a class="bt-all btn-success" href="javascript:void(0)" data-social-share data-share-url="<?= $share_url; ?>?id=<?= $userdetails['id'] ?>" data-share-title="" data-share-desc="">
                         <span class="ms-1">
                           <i class="fa-solid fa-share-from-square" alt="<?= __('user.share') ?>"></i>
                         </span>
@@ -1463,37 +1359,28 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                         <label class="form-label">
                           <?= __('user.affiliate_store_url') ?>
                         </label>
-                        <input type="text" name="text" readonly="readonly"
-                          value="<?= $share_url . '/?id=' . $userdetails['id'] ?>" class="input-store-url-0 form-control"
-                          data-addition-url="/?id=<?= $userdetails['id'] ?>">
+                        <input type="text" name="text" readonly="readonly" value="<?= $share_url . '/?id=' . $userdetails['id'] ?>" class="input-store-url-0 form-control" data-addition-url="/?id=<?= $userdetails['id'] ?>">
                       </div>
                       <div class="flex align-items-center justify-content-end list-user-action">
-                        <a class="bt-all btn-success qrcode" href="javascript:void(0)"
-                          data-id="<?= $share_url . '/?id=' . $userdetails['id'] ?>">
+                        <a class="bt-all btn-success qrcode" href="javascript:void(0)" data-id="<?= $share_url . '/?id=' . $userdetails['id'] ?>">
                           <i class="fas fa-walkie-talkie"></i>
                         </a>
-                        <a class="bt-all btn-warning target-share-link"
-                          href="<?= $share_url . '/?id=' . $userdetails['id'] ?>" target="_blank">
+                        <a class="bt-all btn-warning target-share-link" href="<?= $share_url . '/?id=' . $userdetails['id'] ?>" target="_blank">
                           <span class="btn-inner">
                             <i class="fa fa-share"></i>
                           </span>
                         </a>
-                        <a class="bt-all btn-warning" href="javascript:void(0)"
-                          copyToClipboard="<?= $share_url . '/?id=' . $userdetails['id'] ?>"
-                          title="<?= __('user.copied'); ?>">
+                        <a class="bt-all btn-warning" href="javascript:void(0)" copyToClipboard="<?= $share_url . '/?id=' . $userdetails['id'] ?>" title="<?= __('user.copied'); ?>">
                           <span class="btn-inner">
                             <i class="far fa-copy" alt="<?= __('user.copy') ?>"></i>
                           </span>
                         </a>
-                        <a href="javascript:void(0)" class="bt-all btn-danger dashboard-model-slug" data-type="store"
-                          data-related-id="0" data-input-class="input-store-url-0">
+                        <a href="javascript:void(0)" class="bt-all btn-danger dashboard-model-slug" data-type="store" data-related-id="0" data-input-class="input-store-url-0">
                           <span class="btn-inner">
                             <i class="fas fa-cog" alt="<?= __('user.setting') ?>"></i>
                           </span>
                         </a>
-                        <a href="javascript:void(0);" class="bt-all btn-success" data-social-share
-                          data-share-url="<?= $share_url; ?>?id=<?= $userdetails['id'] ?>" data-share-title=""
-                          data-share-desc="">
+                        <a href="javascript:void(0);" class="bt-all btn-success" data-social-share data-share-url="<?= $share_url; ?>?id=<?= $userdetails['id'] ?>" data-share-title="" data-share-desc="">
                           <span class="ms-1">
                             <i class="fa-solid fa-share-from-square" alt="<?= __('user.share') ?>"></i>
                           </span>
@@ -1516,23 +1403,19 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                             foreach ($productForAffiliate as $product) {
                               if ($product['product_id'] == "126") {
                                 $href = base_url("store/" . base64_encode($user_id) . "/product/" . $product['product_slug']);
-                                ?>
+                          ?>
                                 <a href="<?= $href ?>" class="category-home pruduct-home" style="text-decoration: none">
-                                  <img alt="<?= __('store.image') ?>"
-                                    src="<?= base_url('assets/images/product/upload/thumb/'); ?><?= $product['product_featured_image']; ?>"
-                                    width="100" height="100" class="mt-2" />
-                                  <h3
-                                    style="font-size: 15px;font-weight: 500;font-weight: 500;display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: 	vertical; overflow: hidden;">
+                                  <img alt="<?= __('store.image') ?>" src="<?= base_url('assets/images/product/upload/thumb/'); ?><?= $product['product_featured_image']; ?>" width="100" height="100" class="mt-2" />
+                                  <h3 style="font-size: 15px;font-weight: 500;font-weight: 500;display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: 	vertical; overflow: hidden;">
                                     <?= $product['product_name']; ?>
                                   </h3>
-                                  <h3
-                                    style="font-size: 10px;font-weight: 500;display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: 	hidden;">
+                                  <h3 style="font-size: 10px;font-weight: 500;display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: 	hidden;">
                                     <?= $product['product_short_description']; ?>
                                   </h3>
                                   <h3 style="font-size: 20px;font-weight: 700;"><?= c_format($product['product_price']); ?></h3>
                                   <button class="btn btn-product bg-main2 text-white mt-3">Chi tiết</button>
                                 </a>
-                                <?php
+                          <?php
                               }
                             }
                           } ?>
@@ -1547,12 +1430,9 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                                 foreach ($productForAffiliate as $product) {
                                   if ($product['product_slug'] !== "ovan-global-member-account-126") {
                                     $href = base_url("store/" . base64_encode($user_id) . "/product/" . $product['product_slug']);
-                                    ?>
-                                    <a href="<?= $href ?>" class="category-home pruduct-home col-lg-2 col-md-3 col-sm-4"
-                                      style="text-decoration: none">
-                                      <img alt="<?= __('store.image') ?>"
-                                        src="<?= base_url('assets/images/product/upload/thumb/'); ?><?= $product['product_featured_image']; ?>"
-                                        width="100" height="100" />
+                              ?>
+                                    <a href="<?= $href ?>" class="category-home pruduct-home col-lg-2 col-md-3 col-sm-4" style="text-decoration: none">
+                                      <img alt="<?= __('store.image') ?>" src="<?= base_url('assets/images/product/upload/thumb/'); ?><?= $product['product_featured_image']; ?>" width="100" height="100" />
                                       <h3 style="font-size: 15px;font-weight: 500;font-weight: 500;display: -webkit-box;
                                           -webkit-line-clamp: 1;
                                           -webkit-box-orient: vertical;
@@ -1567,17 +1447,16 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                                       <!-- <div class="rating-row d-flex justify-space-center"><?= $product['product_avg_rating_stars'] ?></div> -->
                                       <button class="btn btn-product bg-main2 text-white mt-3">Chi tiết</button>
                                     </a>
-                                    <?php
+                                <?php
                                   }
                                 }
                               } else {
                                 ?>
                                 <div class="category-home pruduct-home">
-                                  <img alt="<?= __('store.image') ?>"
-                                    src="<?= base_url('assets/store/default/'); ?>img/ctg1.png" />
+                                  <img alt="<?= __('store.image') ?>" src="<?= base_url('assets/store/default/'); ?>img/ctg1.png" />
                                   <h3><?= __('store.dog') ?></h3>
                                 </div>
-                                <?php
+                              <?php
                               }
                               ?>
                             </div>
@@ -1594,28 +1473,23 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                         <label class="form-label">
                           <?= __('user.your_store_page') ?>
                         </label>
-                        <input type="text" readonly="readonly" value="<?= $store_page_url ?>"
-                          class="input-store-url-0 form-control" name="text">
+                        <input type="text" readonly="readonly" value="<?= $store_page_url ?>" class="input-store-url-0 form-control" name="text">
                       </div>
                       <div class="flex align-items-center justify-content-end list-user-action">
                         <a href="javascript:void(0)" class="bt-all btn-success qrcode" data-id="<?= $store_page_url ?>">
                           <i class="fas fa-walkie-talkie"></i>
                         </a>
-                        <a class="bt-all btn-warning" href="javascript:void(0)" copyToClipboard="<?= $store_page_url ?>"
-                          title="<?= __('user.copied'); ?>">
+                        <a class="bt-all btn-warning" href="javascript:void(0)" copyToClipboard="<?= $store_page_url ?>" title="<?= __('user.copied'); ?>">
                           <span class="btn-inner">
                             <i class="far fa-copy" alt="<?= __('user.copy') ?>"></i>
                           </span>
                         </a>
-                        <a href="javascript:void(0)" class="bt-all btn-danger dashboard-model-slug" data-type="store"
-                          data-related-id="0" data-input-class="input-store-url-0">
+                        <a href="javascript:void(0)" class="bt-all btn-danger dashboard-model-slug" data-type="store" data-related-id="0" data-input-class="input-store-url-0">
                           <span class="btn-inner">
                             <i class="fas fa-cog" alt="<?= __('user.setting') ?>"></i>
                           </span>
                         </a>
-                        <a class="bt-all btn-success" href="javascript:void(0)" data-social-share
-                          data-share-url="<?= $share_url; ?>?id=<?= $userdetails['id'] ?>" data-share-title=""
-                          data-share-desc="">
+                        <a class="bt-all btn-success" href="javascript:void(0)" data-social-share data-share-url="<?= $share_url; ?>?id=<?= $userdetails['id'] ?>" data-share-title="" data-share-desc="">
                           <span class="ms-1">
                             <i class="fa-solid fa-share-from-square" alt="<?= __('user.share') ?>"></i>
                           </span>
@@ -1627,38 +1501,31 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                         <label class="form-label">
                           <?= __('user.your_store_page') ?>
                         </label>
-                        <input type="text" readonly="readonly" value="<?= $store_page_url . '/?id=' . $userdetails['id'] ?>"
-                          class="input-store-url-0 form-control" data-addition-url="/?id=<?= $userdetails['id'] ?>">
+                        <input type="text" readonly="readonly" value="<?= $store_page_url . '/?id=' . $userdetails['id'] ?>" class="input-store-url-0 form-control" data-addition-url="/?id=<?= $userdetails['id'] ?>">
                       </div>
 
                       <div class="flex align-items-center justify-content-end list-user-action">
-                        <a href="javascript:void(0)" class="bt-all btn-success qrcode"
-                          data-id="<?= $store_page_url . '/?id=' . $userdetails['id'] ?>">
+                        <a href="javascript:void(0)" class="bt-all btn-success qrcode" data-id="<?= $store_page_url . '/?id=' . $userdetails['id'] ?>">
                           <i class="fas fa-walkie-talkie"></i>
                         </a>
-                        <a class="bt-all btn-warning" href="javascript:void(0)"
-                          copyToClipboard="<?= $store_page_url . '/?id=' . $userdetails['id'] ?>"
-                          title="<?= __('user.copied'); ?>">
+                        <a class="bt-all btn-warning" href="javascript:void(0)" copyToClipboard="<?= $store_page_url . '/?id=' . $userdetails['id'] ?>" title="<?= __('user.copied'); ?>">
                           <span class="btn-inner">
                             <i class="far fa-copy" alt="<?= __('user.copy') ?>"></i>
                           </span>
                         </a>
-                        <a href="javascript:void(0)" class="bt-all btn-danger dashboard-model-slug" data-type="store"
-                          data-related-id="0" data-input-class="input-store-url-0">
+                        <a href="javascript:void(0)" class="bt-all btn-danger dashboard-model-slug" data-type="store" data-related-id="0" data-input-class="input-store-url-0">
                           <span class="btn-inner">
                             <i class="fas fa-cog" alt="<?= __('user.setting') ?>"></i>
                           </span>
                         </a>
-                        <a class="bt-all btn-success" href="javascript:void(0)" data-social-share
-                          data-share-url="<?= $share_url; ?>?id=<?= $userdetails['id'] ?>" data-share-title=""
-                          data-share-desc="">
+                        <a class="bt-all btn-success" href="javascript:void(0)" data-social-share data-share-url="<?= $share_url; ?>?id=<?= $userdetails['id'] ?>" data-share-title="" data-share-desc="">
                           <span class="ms-1">
                             <i class="fa-solid fa-share-from-square" alt="<?= __('user.share') ?>"></i>
                           </span>
                         </a>
                       </div>
                     </div>
-                  <?php }
+                <?php }
                 } ?>
                 <?php if ($refer_status && allowMarketVendorPanelSections($marketvendorpanelmode, $userdetails['is_vendor'])) {
                   if ($register_slug)
@@ -1672,29 +1539,24 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                           <?= __('user.your_unique_reseller_link') ?>
                         </label>
 
-                        <input type="text" name="text" readonly="readonly" value="<?= $share_url ?>"
-                          class="input-register-url-0 form-control">
+                        <input type="text" name="text" readonly="readonly" value="<?= $share_url ?>" class="input-register-url-0 form-control">
                       </div>
                       <div class="flex align-items-center justify-content-end list-user-action">
                         <a href="javascript:void(0)" class="bt-all btn-success qrcode" data-id="<?= $share_url ?>">
                           <i class="fas fa-walkie-talkie"></i>
                         </a>
 
-                        <a class="bt-all btn-warning" href="javascript:void(0)" copyToClipboard="<?= $share_url ?>"
-                          title="<?= __('user.copied'); ?>">
+                        <a class="bt-all btn-warning" href="javascript:void(0)" copyToClipboard="<?= $share_url ?>" title="<?= __('user.copied'); ?>">
                           <span class="btn-inner">
                             <i class="far fa-copy" alt="<?= __('user.copy') ?>"></i>
                           </span>
                         </a>
-                        <a href="javascript:void(0)" class="dashboard-model-slug bt-all btn-danger" data-type="register"
-                          data-related-id="0" data-input-class="input-register-url-0">
+                        <a href="javascript:void(0)" class="dashboard-model-slug bt-all btn-danger" data-type="register" data-related-id="0" data-input-class="input-register-url-0">
                           <span class="btn-inner">
                             <i class="fas fa-cog" alt="<?= __('user.setting') ?>"></i>
                           </span>
                         </a>
-                        <a class="bt-all btn-success" href="javascript:void(0)" data-social-share
-                          data-share-url="<?= $share_url; ?>?id=<?= $userdetails['id'] ?>" data-share-title=""
-                          data-share-desc="">
+                        <a class="bt-all btn-success" href="javascript:void(0)" data-social-share data-share-url="<?= $share_url; ?>?id=<?= $userdetails['id'] ?>" data-share-title="" data-share-desc="">
                           <span class="ms-1">
                             <i class="fa-solid fa-share-from-square" alt="<?= __('user.share') ?>"></i>
                           </span>
@@ -1702,39 +1564,31 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                       </div>
                     </div>
                     <div class=" border-custom show-mega-link <?php if ($invitationlinkid == 0) {
-                      echo 'd-none';
-                    } ?>">
+                                                                echo 'd-none';
+                                                              } ?>">
                       <div class="form-group">
 
                         <label class="form-label">
                           <?= __('user.your_unique_reseller_link') ?>
                         </label>
-                        <input type="text" name="text" readonly="readonly"
-                          value="<?= $share_url . '/?id=' . $userdetails['id'] ?>" class="input-register-url-0 form-control"
-                          data-addition-url="/?id=<?= $userdetails['id'] ?>">
+                        <input type="text" name="text" readonly="readonly" value="<?= $share_url . '/?id=' . $userdetails['id'] ?>" class="input-register-url-0 form-control" data-addition-url="/?id=<?= $userdetails['id'] ?>">
                       </div>
                       <div class="flex align-items-center justify-content-end list-user-action">
-                        <a href="javascript:void(0)" class="bt-all btn-success qrcode"
-                          data-id="<?= $share_url . '/?id=' . $userdetails['id'] ?>">
+                        <a href="javascript:void(0)" class="bt-all btn-success qrcode" data-id="<?= $share_url . '/?id=' . $userdetails['id'] ?>">
                           <i class="fas fa-walkie-talkie"></i>
                         </a>
 
-                        <a class="bt-all btn-warning" href="javascript:void(0)"
-                          copyToClipboard="<?= $share_url . '/?id=' . $userdetails['id'] ?>"
-                          title="<?= __('user.copied'); ?>">
+                        <a class="bt-all btn-warning" href="javascript:void(0)" copyToClipboard="<?= $share_url . '/?id=' . $userdetails['id'] ?>" title="<?= __('user.copied'); ?>">
                           <span class="btn-inner">
                             <i class="far fa-copy" alt="<?= __('user.copy') ?>"></i>
                           </span>
                         </a>
-                        <a href="javascript:void(0)" class="dashboard-model-slug bt-all btn-danger" data-type="register"
-                          data-related-id="0" data-input-class="input-register-url-0">
+                        <a href="javascript:void(0)" class="dashboard-model-slug bt-all btn-danger" data-type="register" data-related-id="0" data-input-class="input-register-url-0">
                           <span class="btn-inner">
                             <i class="fas fa-cog" alt="<?= __('user.setting') ?>"></i>
                           </span>
                         </a>
-                        <a class="bt-all btn-success" href="javascript:void(0)" data-social-share
-                          data-share-url="<?= $share_url; ?>?id=<?= $userdetails['id'] ?>" data-share-title=""
-                          data-share-desc="">
+                        <a class="bt-all btn-success" href="javascript:void(0)" data-social-share data-share-url="<?= $share_url; ?>?id=<?= $userdetails['id'] ?>" data-share-title="" data-share-desc="">
                           <span class="ms-1">
                             <i class="fa-solid fa-share-from-square" alt="<?= __('user.share') ?>"></i>
                           </span>
@@ -1752,15 +1606,13 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
         <?php
         $googleAdsRightSide = $this->Setting_model->getGoogleAds(4, 1);
         if (!empty($googleAdsRightSide)) {
-          ?>
+        ?>
           <div class="col-xl-12 col-lg-12 col-md-12 mt-3">
             <div class="googleadd-bg text-center">
               Google Add Here
-              <ins class="adsbygoogle" style="display:block" data-ad-client="<?= @$googleAdsRightSide[0]['client_key'] ?>"
-                data-ad-slot="<?= @$googleAdsRightSide[0]['unit_key'] ?>" data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
+              <ins class="adsbygoogle" style="display:block" data-ad-client="<?= @$googleAdsRightSide[0]['client_key'] ?>" data-ad-slot="<?= @$googleAdsRightSide[0]['unit_key'] ?>" data-ad-format="auto" data-full-width-responsive="true"></ins>
               <script>
-                  (adsbygoogle = window.adsbygoogle || []).push({});
+                (adsbygoogle = window.adsbygoogle || []).push({});
               </script>
             </div>
           </div>
@@ -1793,8 +1645,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                       }
                       ?>
                       <p class="p-mw">
-                        <img src="<?= $products->getAvatar($users['avatar']) ?>" alt=""
-                          class="img-fluid rounded-pill avatar-30 me-2">
+                        <img src="<?= $products->getAvatar($users['avatar']) ?>" alt="" class="img-fluid rounded-pill avatar-30 me-2">
                         <?= $username; ?>
                         <?php if ($users['user_star'] == 3) { ?>
                           <small>
@@ -1803,20 +1654,20 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                             <i class="fa fa-star" aria-hidden="true"></i>
                           </small>
                         <?php } else if ($users['user_star'] == 4) { ?>
-                            <small>
-                              <i class="fa fa-star" aria-hidden="true"></i>
-                              <i class="fa fa-star" aria-hidden="true"></i>
-                              <i class="fa fa-star" aria-hidden="true"></i>
-                              <i class="fa fa-star" aria-hidden="true"></i>
-                            </small>
+                          <small>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                          </small>
                         <?php } else if ($users['user_star'] == 5) { ?>
-                              <small>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                              </small>
+                          <small>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                          </small>
                         <?php } ?>
                       </p>
                     </div>
@@ -1841,13 +1692,11 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
 <?php
 $googleAdsFooter = $this->Setting_model->getGoogleAds(3, 1);
 if (!empty($googleAdsFooter)) {
-  ?>
+?>
   <div class="col-xl-12 col-lg-12 col-md-12 mb-3">
     <div class="googleadd-bg text-center">
       Google Add Here
-      <ins class="adsbygoogle" style="display:block" data-ad-client="<?= @$googleAdsFooter[0]['client_key'] ?>"
-        data-ad-slot="<?= @$googleAdsFooter[0]['unit_key'] ?>" data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="<?= @$googleAdsFooter[0]['client_key'] ?>" data-ad-slot="<?= @$googleAdsFooter[0]['unit_key'] ?>" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
       </script>
@@ -1869,8 +1718,7 @@ if (!empty($googleAdsFooter)) {
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary text-center btn-green" data-bs-dismiss="modal"
-          aria-label="Close">
+        <button type="button" class="btn btn-secondary text-center btn-green" data-bs-dismiss="modal" aria-label="Close">
           <?= __('user.footer_close') ?>
         </button>
       </div>
@@ -1904,8 +1752,7 @@ if (!empty($googleAdsFooter)) {
             </div>
             <div class="link-area align-items-center slug-url">
               <input type="text" readonly="readonly" class="form-control">
-              <a class="bt-all btn-warning" href="javascript:void(0)" title="<?= __('user.copied'); ?>"
-                style="margin-left: 5px;">
+              <a class="bt-all btn-warning" href="javascript:void(0)" title="<?= __('user.copied'); ?>" style="margin-left: 5px;">
                 <span class="btn-inner">
                   <i class="far fa-copy" alt="<?= __('user.copy') ?>"></i>
                 </span>
@@ -1950,8 +1797,7 @@ if (!empty($googleAdsFooter)) {
               <?php echo nl2br($welcome['content']); ?>
             </div>
           </div>
-          <div id="video-placeholder" class="text-center"
-            style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+          <div id="video-placeholder" class="text-center" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
             <i class="fas fa-exchange-alt fa-5x text-muted"></i>
             <h3 class="text-muted">
               <?= __('admin.no_data_found') ?>
@@ -1992,12 +1838,12 @@ if (!empty($googleAdsFooter)) {
       }
       return true;
     }
-    $(document).ready(function () {
+    $(document).ready(function() {
 
 
     });
 
-    $(window).on('load', function () {
+    $(window).on('load', function() {
       var welcome_popup = localStorage.getItem("welcome_popup_" + <?= $userdetails['id']; ?>);
       if (welcome_popup != 1) {
         $("#welcome-model").modal('show');
@@ -2036,24 +1882,22 @@ if (!empty($googleAdsFooter)) {
     var months = Object.values(chartData['keys']);
     if (jQuery('#d-main').length) {
 
-      var serieslist = [
-        {
-          name: '<?= __('user.action_count') ?>',
-          data: Object.values(chartData['action_count'])
-        }, {
-          name: '<?= __('user.order_count') ?>',
-          data: Object.values(chartData['order_count'])
-        }, {
-          name: '<?= __('user.order_commission') ?>',
-          data: Object.values(chartData['order_commission'])
-        }, {
-          name: '<?= __('user.action_commission') ?>',
-          data: Object.values(chartData['action_commission'])
-        }, {
-          name: '<?= __('user.order_total') ?>',
-          data: Object.values(chartData['order_total'])
-        }
-      ];
+      var serieslist = [{
+        name: '<?= __('user.action_count') ?>',
+        data: Object.values(chartData['action_count'])
+      }, {
+        name: '<?= __('user.order_count') ?>',
+        data: Object.values(chartData['order_count'])
+      }, {
+        name: '<?= __('user.order_commission') ?>',
+        data: Object.values(chartData['order_commission'])
+      }, {
+        name: '<?= __('user.action_commission') ?>',
+        data: Object.values(chartData['action_commission'])
+      }, {
+        name: '<?= __('user.order_total') ?>',
+        data: Object.values(chartData['order_total'])
+      }];
       // console.log(serieslist);
 
       const options = {
@@ -2097,7 +1941,7 @@ if (!empty($googleAdsFooter)) {
             style: {
               colors: "#8A92A6",
             },
-            formatter: function (val) {
+            formatter: function(val) {
 
               return val.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
             },
@@ -2119,7 +1963,7 @@ if (!empty($googleAdsFooter)) {
             },
           },
           lines: {
-            show: false  //or just here to disable only x axis grids
+            show: false //or just here to disable only x axis grids
           },
           categories: months
         },
@@ -2143,7 +1987,10 @@ if (!empty($googleAdsFooter)) {
         tooltip: {
           enabled: true,
           y: {
-            formatter: function (val, { seriesIndex, dataPointIndex }) {
+            formatter: function(val, {
+              seriesIndex,
+              dataPointIndex
+            }) {
               if (seriesIndex == 2 || seriesIndex == 3 || seriesIndex == 4) {
                 if (symbol_left != "") {
                   return symbol_left + val;
@@ -2163,9 +2010,9 @@ if (!empty($googleAdsFooter)) {
       var count = 0;
       for (var i = 0; i < serieslist.length; i++) {
         var dataArr = serieslist[i].data;
-        if (dataArr.some(function (value) {
-          return value > 0;
-        })) {
+        if (dataArr.some(function(value) {
+            return value > 0;
+          })) {
           count++;
         }
       }
@@ -2183,19 +2030,21 @@ if (!empty($googleAdsFooter)) {
       });
     }
   }
+
   function isInt(value) {
     var er = /^-?[0-9]+$/;
     return er.test(value);
   }
+
   function loadDashboardChart() {
     $.ajax({
       url: '<?= base_url("usercontrol/dashboard?getChartData=1") ?>',
       type: 'POST',
       dataType: 'json',
       data: $(".chart-input"),
-      beforeSend: function () { },
-      complete: function () { },
-      success: function (json) {
+      beforeSend: function() {},
+      complete: function() {},
+      success: function(json) {
         if (json['chart']) {
           $("#dashboard-chart-empty").addClass('d-none');
           $("#dashboard-chart").removeClass('d-none');
@@ -2208,14 +2057,14 @@ if (!empty($googleAdsFooter)) {
       },
     })
   }
-  $(document).ready(function () {
+  $(document).ready(function() {
     loadDashboardChart();
 
   });
 </script>
 
 <script type="text/javascript">
-  $("#show_my_id").change(function () {
+  $("#show_my_id").change(function() {
     if ($(this).prop("checked")) {
       $(".show-mega-link").removeClass("d-none");
       $(".show-tiny-link").addClass("d-none");
@@ -2226,7 +2075,7 @@ if (!empty($googleAdsFooter)) {
   })
 
   function setColors() {
-    $(".set-color").each(function (i, ele) {
+    $(".set-color").each(function(i, ele) {
       var val = parseInt($(ele).html().toString().replace(/[^0-9-.]/g, '') || 0);
 
       $(ele).removeClass("text-primary")
@@ -2241,7 +2090,7 @@ if (!empty($googleAdsFooter)) {
 
   setColors();
 
-  $(".card-toggle .open-close-button").click(function () {
+  $(".card-toggle .open-close-button").click(function() {
     $(this).parents(".card-toggle").toggleClass("open")
   });
 
@@ -2251,7 +2100,7 @@ if (!empty($googleAdsFooter)) {
       url: '<?= base_url('usercontrol/generateproductcode/') ?>' + affiliate_id,
       type: 'POST',
       dataType: 'html',
-      success: function (json) {
+      success: function(json) {
         $('#model-codemodal .modal-body').html(json)
         $("#model-codemodal").modal("show")
       },
@@ -2264,21 +2113,23 @@ if (!empty($googleAdsFooter)) {
       url: '<?= base_url('usercontrol/generateformcode/') ?>' + form_id,
       type: 'POST',
       dataType: 'html',
-      success: function (json) {
+      success: function(json) {
         $('#model-codeformmodal .modal-body').html(json)
         $("#model-codeformmodal").modal("show")
       },
     })
   }
 
-  $(document).delegate(".get-code", 'click', function () {
+  $(document).delegate(".get-code", 'click', function() {
     $this = $(this);
     $.ajax({
       url: '<?= base_url('integration/tool_get_code/usercontrol') ?>',
       type: 'POST',
       dataType: 'json',
-      data: { id: $this.attr("data-id") },
-      success: function (json) {
+      data: {
+        id: $this.attr("data-id")
+      },
+      success: function(json) {
         if (json['html']) {
           $("#integration-code .modal-content").html(json['html']);
           $("#integration-code").modal("show");
@@ -2287,14 +2138,16 @@ if (!empty($googleAdsFooter)) {
     })
   })
 
-  $(document).delegate(".get-terms", 'click', function () {
+  $(document).delegate(".get-terms", 'click', function() {
     $this = $(this);
     $.ajax({
       url: '<?= base_url('integration/tool_get_terms/usercontrol') ?>',
       type: 'POST',
       dataType: 'json',
-      data: { id: $this.attr("data-id") },
-      success: function (json) {
+      data: {
+        id: $this.attr("data-id")
+      },
+      success: function(json) {
         if (json['html']) {
           $("#integration-code .modal-content").html(json['html']);
           $("#integration-code").modal("show");
@@ -2306,7 +2159,7 @@ if (!empty($googleAdsFooter)) {
 <script type="text/javascript" src="<?= base_url('assets/store/default/slick/') ?>slick.js"></script>
 
 <script type="text/javascript">
-  $(document).ready(function () {
+  $(document).ready(function() {
     $('.product-strategy').slick({
       infinite: true,
       slidesToShow: 3,
@@ -2325,10 +2178,10 @@ if (!empty($googleAdsFooter)) {
           arrows: true,
           autoplay: false,
         }
-      },]
+      }, ]
     });
   });
-  $(document).ready(function () {
+  $(document).ready(function() {
     $('#user_reward_table').DataTable({
       language: {
         "sProcessing": "Đang xử lý...",

@@ -1,5 +1,5 @@
 <?php
-$db =& get_instance();
+$db = &get_instance();
 $userdetails = get_object_vars($db->user_info());
 $products = $db->Product_model;
 $serverReq = checkReq();
@@ -11,7 +11,8 @@ $vendor_market_data = $this->Product_model->getSettings('market_vendor');
 $integration_data_per_page = 10;
 $page_count = ceil(count($integration_data['array']) / $integration_data_per_page);
 
-$enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $store_setting['status'] : 0,
+$enable_disable = array(
+    'store_is_enable' => isset($store_setting['status']) ? $store_setting['status'] : 0,
 );
 ?>
 
@@ -50,8 +51,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-light btn-sm" title="Export"><i class="bi bi-download"></i></button>
-                    <button type="button" class="btn btn-light btn-sm dropdown-toggle dropdown-toggle-split"
-                            data-bs-toggle="dropdown"></button>
+                    <button type="button" class="btn btn-light btn-sm dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"></button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="#" id="downloadPng"><?= __('admin.download_as_png') ?></a>
                         <a class="dropdown-item" href="#" id="downloadJpeg"><?= __('admin.download_as_jpg') ?></a>
@@ -65,16 +65,14 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                     <div class="col-lg-12">
                         <div class="dashboard-div mt-2">
                             <div class="graph-filter">
-                                <select id="timeGroup" onchange="loadDashboardChart()"
-                                        class="renderChart chart-input form-control" name="group">
+                                <select id="timeGroup" onchange="loadDashboardChart()" class="renderChart chart-input form-control" name="group">
                                     <option value="day"><?= __('admin.day') ?></option>
                                     <option value="week"><?= __('admin.week') ?></option>
                                     <option value="month" selected=""><?= __('admin.month') ?></option>
                                     <option value="year"><?= __('admin.year') ?></option>
                                 </select>
 
-                                <select onchange="loadDashboardChart()" class="yearSelection chart-input form-control"
-                                        name='year'>
+                                <select onchange="loadDashboardChart()" class="yearSelection chart-input form-control" name='year'>
                                     <?php for ($i = 2016; $i <= date("Y"); $i++) { ?>
                                         <option value="<?= $i ?>" <?php echo $i == date("Y") ? "selected='selected'" : '' ?>><?= $i ?></option>
                                     <?php } ?>
@@ -83,8 +81,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                             <div id="graph-chart">
                                 <script src="<?= base_url('assets/plugins/chart/chart.min.js') ?>">
                                 </script>
-                                <canvas id="dashboard-chart" style="height: 470px; width: 100%;"
-                                        class="ct-chart ct-golden-section">
+                                <canvas id="dashboard-chart" style="height: 470px; width: 100%;" class="ct-chart ct-golden-section">
                                 </canvas>
                                 <div id="dashboard-chart-empty" class="ct-chart d-none ct-golden-section">
                                     <div class="d-flex justify-content-center align-items-center flex-column">
@@ -94,7 +91,6 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                 </div>
 
                                 <script type="text/javascript">
-
                                     var ctx = document.getElementById('dashboard-chart').getContext('2d');
                                     var chartData = <?= json_encode($chart) ?>;
 
@@ -158,8 +154,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
 
                                         chart.data = {
                                             labels: Object.keys(chartData['order_total']),
-                                            datasets: [
-                                                {
+                                            datasets: [{
                                                     label: '<?= __("admin.action_count") ?>',
                                                     fill: false,
                                                     borderWidth: 3,
@@ -290,7 +285,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                                         usePointStyle: true
                                                     }
                                                 },
-                                                beforeDraw: function (chart) {
+                                                beforeDraw: function(chart) {
                                                     let width = chart.width,
                                                         size = Math.floor(width / 32);
                                                     chart.ctx.font = size + "px Arial";
@@ -308,11 +303,9 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                             type: 'POST',
                                             dataType: 'json',
                                             data: $(".chart-input"),
-                                            beforeSend: function () {
-                                            },
-                                            complete: function () {
-                                            },
-                                            success: function (json) {
+                                            beforeSend: function() {},
+                                            complete: function() {},
+                                            success: function(json) {
                                                 // console.log(json['chart']);
                                                 if (json['chart']) {
                                                     $("#dashboard-chart-empty").addClass('d-none');
@@ -371,46 +364,34 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
             <div class="card-header fs-5 bg-white text-white d-flex justify-content-between align-items-center">
                 <!-- Progress Bar -->
                 <div class="progress bg-primary">
-                    <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                         aria-valuemax="100">
+                    <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                     </div>
                 </div>
                 <!-- Icons -->
                 <div class="d-flex align-items-center">
-                    <?php if (is_countable($serverReq) && count($serverReq) > 0): ?>
-                        <a href="javascript:void(0);" id="errorTooltip" data-bs-toggle="tooltip"
-                           title="<?= __('admin.server_errors_click') ?>"
-                           onclick="window.location.href='<?php echo base_url('admincontrol/system_status'); ?>'"
-                           class="ms-1">
+                    <?php if (is_countable($serverReq) && count($serverReq) > 0) : ?>
+                        <a href="javascript:void(0);" id="errorTooltip" data-bs-toggle="tooltip" title="<?= __('admin.server_errors_click') ?>" onclick="window.location.href='<?php echo base_url('admincontrol/system_status'); ?>'" class="ms-1">
                             <!-- <i class="bi bi-exclamation-diamond-fill fs-5"></i> -->
                         </a>
-                    <?php else: ?>
-                        <a href="javascript:void(0);" id="successIcon" data-bs-toggle="tooltip"
-                           title="<?= __('admin.no_server_errors') ?>"
-                           onclick="window.location.href='<?php echo base_url('admincontrol/system_status'); ?>'"
-                           class="ms-1">
+                    <?php else : ?>
+                        <a href="javascript:void(0);" id="successIcon" data-bs-toggle="tooltip" title="<?= __('admin.no_server_errors') ?>" onclick="window.location.href='<?php echo base_url('admincontrol/system_status'); ?>'" class="ms-1">
                             <i class="bi bi-check-all fs-5"></i>
                         </a>
                     <?php endif; ?>
 
-                    <?php if ($showMissingDetailsModal): ?>
-                        <a href="javascript:void(0);"
-                           onclick="new bootstrap.Modal(document.getElementById('missingDetailsModal')).show();"
-                           data-bs-toggle="tooltip" title="AI-Powered Automated Tester" class="ms-1">
+                    <?php if ($showMissingDetailsModal) : ?>
+                        <a href="javascript:void(0);" onclick="new bootstrap.Modal(document.getElementById('missingDetailsModal')).show();" data-bs-toggle="tooltip" title="AI-Powered Automated Tester" class="ms-1">
                             <!-- <i class="bi bi-lightbulb-fill fs-5"></i> -->
                         </a>
                     <?php endif; ?>
 
-                    <a href="<?= base_url($front_url_slug) ?>" target="_blank" data-bs-toggle="tooltip"
-                       title="<?= __('admin.open_front_site') ?>" class="ms-1">
+                    <a href="<?= base_url($front_url_slug) ?>" target="_blank" data-bs-toggle="tooltip" title="<?= __('admin.open_front_site') ?>" class="ms-1">
                         <i class="bi bi-house-door-fill fs-5"></i>
                     </a>
-                    <a href="javascript:void(0);" data-bs-toggle="tooltip" title="<?= __('admin.dashboard_settings') ?>"
-                       class="ms-1">
+                    <a href="javascript:void(0);" data-bs-toggle="tooltip" title="<?= __('admin.dashboard_settings') ?>" class="ms-1">
                         <i class="bi bi-gear-fill fs-5 btn-setting" data-key='live_dashboard' data-type='admin'></i>
                     </a>
-                    <a href="<?= base_url($front_url_slug) ?>/info.php" target="_blank" data-bs-toggle="tooltip"
-                       title="PHP Info" class="ms-1">
+                    <a href="<?= base_url($front_url_slug) ?>/info.php" target="_blank" data-bs-toggle="tooltip" title="PHP Info" class="ms-1">
                         <!-- <i class="bi bi-file-code-fill fs-5"></i> -->
                     </a>
                 </div>
@@ -422,36 +403,34 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                         <!-- Tabs -->
                         <ul class="nav nav-pills flex-column flex-sm-row tab-container" role="tablist" id="AdminTabs">
                             <li class="nav-item flex-sm-fill text-sm-center me-1">
-                                <a class="nav-link active bg-secondary show" id="dashboard-tab" data-bs-toggle="tab"
-                                   href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="true">
+                                <a class="nav-link active bg-secondary show" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="true">
                                     <i class="bi bi-speedometer2"></i>
                                     <?= __('admin.admin_balance') ?>
                                 </a>
                             </li>
-<!--                            <li class="nav-item flex-sm-fill text-sm-center me-1">-->
-<!--                                <a class="nav-link" id="settings-tab" data-bs-toggle="tab" href="#settings" role="tab"-->
-<!--                                   aria-controls="settings" aria-selected="false">-->
-<!--                                    <i class="bi bi-gear"></i>-->
-<!--                                    --><?//= __('admin.system_mode') ?>
-<!--                                </a>-->
-<!--                            </li>-->
+                            <!--                            <li class="nav-item flex-sm-fill text-sm-center me-1">-->
+                            <!--                                <a class="nav-link" id="settings-tab" data-bs-toggle="tab" href="#settings" role="tab"-->
+                            <!--                                   aria-controls="settings" aria-selected="false">-->
+                            <!--                                    <i class="bi bi-gear"></i>-->
+                            <!--                                    --><? //= __('admin.system_mode') 
+                                                                        ?>
+                            <!--                                </a>-->
+                            <!--                            </li>-->
                             <li class="nav-item flex-sm-fill text-sm-center me-1">
-                                <a class="nav-link" id="users-tab" data-bs-toggle="tab" href="#users" role="tab"
-                                   aria-controls="users" aria-selected="false">
+                                <a class="nav-link" id="users-tab" data-bs-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="false">
                                     <i class="bi bi-people"></i>
                                     <?= __('admin.online_users') ?>
                                 </a>
                             </li>
                             <li class="nav-item flex-sm-fill text-sm-center me-1">
-                                <a class="nav-link" id="invitation-tab" data-bs-toggle="tab" href="#invitation"
-                                   role="tab" aria-controls="invitation" aria-selected="false">
+                                <a class="nav-link" id="invitation-tab" data-bs-toggle="tab" href="#invitation" role="tab" aria-controls="invitation" aria-selected="false">
                                     <i class="bi bi-share"></i>
                                     <?= __('admin.invitation_links') ?>
                                 </a>
                             </li>
                         </ul>
                         <script>
-                            $(document).ready(function () {
+                            $(document).ready(function() {
                                 function manageTabClasses(target) {
                                     $('#AdminTabs .nav-link').removeClass('bg-primary').addClass('bg-secondary text-white');
                                     $(target).addClass('bg-primary text-white').removeClass('bg-secondary');
@@ -461,7 +440,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                 manageTabClasses('#AdminTabs .nav-link.active');
 
                                 // Event handler for tab change
-                                $('#AdminTabs a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+                                $('#AdminTabs a[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
                                     manageTabClasses(e.target);
                                 });
                             });
@@ -470,8 +449,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                         <!-- Tab Contents -->
                         <div class="tab-content">
                             <!-- Balance Data -->
-                            <div class="tab-pane fade show active" id="dashboard" role="tabpanel"
-                                 aria-labelledby="dashboard-tab">
+                            <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
                                 <!-- Section Information 1-->
                                 <div id="dashboard" class="section-content active">
                                     <div class="row row-cols-sm-2 mt-3">
@@ -501,7 +479,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                                     <div class="row justify-content-center mb-2">
                                                         <div class="col text-center">
                                                             <span class="card-text h5">
-                                                                <span class="badge bg-success fs-6">
+                                                                <span class="badge bg-primary fs-6">
                                                                     <span class="ajax-admin_balance"><?= $admin_totals['admin_balance_growth']; ?>
                                                                     </span>% <i class="bi bi-arrow-up-short"></i>
                                                                 </span>
@@ -575,7 +553,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                                     <div class="row justify-content-center mb-2">
                                                         <div class="col text-center">
                                                             <span class="card-text h5">
-                                                                <span class="badge bg-success fs-6">
+                                                                <span class="badge bg-danger fs-6">
                                                                     <span class="ajax-admin_balance"><?= $admin_totals['admin_balance_growth']; ?>
                                                                     </span>% <i class="bi bi-arrow-up-short"></i>
                                                                 </span>
@@ -612,7 +590,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                                     <div class="row justify-content-center mb-2">
                                                         <div class="col text-center">
                                                             <span class="card-text h5">
-                                                                <span class="badge bg-success fs-6">
+                                                                <span class="badge bg-secondary fs-6">
                                                                     <span class="ajax-admin_balance"><?= $admin_totals['admin_balance_growth']; ?>
                                                                     </span>% <i class="bi bi-arrow-up-short"></i>
                                                                 </span>
@@ -658,7 +636,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>                                     
+                                        </div>
 
                                         <!-- Card 3: Actions -->
                                         <div class="col d-none">
@@ -688,8 +666,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                                         <div class="col text-center">
                                                             <span class="card-text h5">
                                                                 <span class="badge bg-success fs-6">
-                                                                    <span class="ajax-click_action_commission_growth"><?= $admin_totals['click_action_commission_growth']; ?></span>% <i
-                                                                            class="bi bi-arrow-up-short"></i>
+                                                                    <span class="ajax-click_action_commission_growth"><?= $admin_totals['click_action_commission_growth']; ?></span>% <i class="bi bi-arrow-up-short"></i>
                                                                 </span>
                                                             </span>
                                                         </div>
@@ -726,8 +703,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                                         <div class="col text-center">
                                                             <span class="card-text h5">
                                                                 <span class="badge bg-success fs-6">
-                                                                    <span class="ajax-all_clicks_comission_growth"><?= $admin_totals['all_clicks_comission_growth']; ?></span>% <i
-                                                                            class="bi bi-arrow-up-short"></i>
+                                                                    <span class="ajax-all_clicks_comission_growth"><?= $admin_totals['all_clicks_comission_growth']; ?></span>% <i class="bi bi-arrow-up-short"></i>
                                                                 </span>
                                                             </span>
                                                         </div>
@@ -773,13 +749,8 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                         <div class="card mb-3">
                                             <div class="card-body">
                                                 <label class="form-check form-switch fs-6">
-                                                    <input id="storeModeCheckbox" class="form-check-input activity"
-                                                           type="checkbox" data-setting_type="store"
-                                                           data-setting_key="status"
-                                                           data-sidebar="store" <?= ((int)$store_is_enable > 0) ? "checked" : ""; ?>>
-                                                    <i class="bi bi-shop fs-6" data-toggle="tooltip"
-                                                       title="<?= __('admin.store_module') ?>"
-                                                       style="margin-right: 5px;"></i>
+                                                    <input id="storeModeCheckbox" class="form-check-input activity" type="checkbox" data-setting_type="store" data-setting_key="status" data-sidebar="store" <?= ((int)$store_is_enable > 0) ? "checked" : ""; ?>>
+                                                    <i class="bi bi-shop fs-6" data-toggle="tooltip" title="<?= __('admin.store_module') ?>" style="margin-right: 5px;"></i>
                                                     <span><?= __('admin.store_mode') ?></span>
                                                 </label>
                                             </div>
@@ -788,13 +759,8 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                         <div class="card mb-3">
                                             <div class="card-body">
                                                 <label class="form-check form-switch fs-6">
-                                                    <input id="externalModeCheckbox" class="form-check-input activity"
-                                                           type="checkbox" data-setting_type="market_tools"
-                                                           data-setting_key="markettools_status"
-                                                           data-sidebar="market_tools" <?= ((int)$market_tools_is_enable > 0) ? "checked" : ""; ?>>
-                                                    <i class="bi bi-gear fs-6" data-toggle="tooltip"
-                                                       title="<?= __('admin.market_tools_module') ?>"
-                                                       style="margin-right: 5px;"></i>
+                                                    <input id="externalModeCheckbox" class="form-check-input activity" type="checkbox" data-setting_type="market_tools" data-setting_key="markettools_status" data-sidebar="market_tools" <?= ((int)$market_tools_is_enable > 0) ? "checked" : ""; ?>>
+                                                    <i class="bi bi-gear fs-6" data-toggle="tooltip" title="<?= __('admin.market_tools_module') ?>" style="margin-right: 5px;"></i>
                                                     <span><?= __('admin.external_mode') ?></span>
                                                 </label>
                                             </div>
@@ -807,21 +773,8 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                         <div class="card mb-3">
                                             <div class="card-body">
                                                 <label class="form-check form-switch fs-6">
-                                                    <input
-                                                            id="vendor_setting"
-                                                            class="form-check-input activity"
-                                                            type="checkbox"
-                                                        <?= ((int)$vendor_store_data['storestatus'] > 0) ? "checked" : ""; ?>
-                                                            data-toggle="toggle"
-                                                            data-size="normal"
-                                                            data-on="<?= __('admin.status_on'); ?>"
-                                                            data-off="<?= __('admin.status_off'); ?>"
-                                                            data-setting_key="storestatus"
-                                                            data-setting_type="vendor"
-                                                    >
-                                                    <i class="bi bi-person fs-6" data-toggle="tooltip"
-                                                       title="<?= __('vendor.setting_1') ?>"
-                                                       style="margin-right: 5px;"></i>
+                                                    <input id="vendor_setting" class="form-check-input activity" type="checkbox" <?= ((int)$vendor_store_data['storestatus'] > 0) ? "checked" : ""; ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="storestatus" data-setting_type="vendor">
+                                                    <i class="bi bi-person fs-6" data-toggle="tooltip" title="<?= __('vendor.setting_1') ?>" style="margin-right: 5px;"></i>
                                                     <span><?= __('admin.store_mode') ?></span>
                                                 </label>
                                             </div>
@@ -830,21 +783,8 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                         <div class="card mb-3">
                                             <div class="card-body">
                                                 <label class="form-check form-switch fs-6">
-                                                    <input
-                                                            id="market_vendor-setting"
-                                                            class="form-check-input activity"
-                                                            type="checkbox"
-                                                        <?= ((int)$vendor_market_data['marketvendorstatus'] > 0) ? "checked" : ""; ?>
-                                                            data-toggle="toggle"
-                                                            data-size="normal"
-                                                            data-on="<?= __('admin.status_on'); ?>"
-                                                            data-off="<?= __('admin.status_off'); ?>"
-                                                            data-setting_key="marketvendorstatus"
-                                                            data-setting_type="market_vendor"
-                                                    >
-                                                    <i class="bi bi-person fs-6" data-toggle="tooltip"
-                                                       title="<?= __('vendor.setting_2') ?>"
-                                                       style="margin-right: 5px;"></i>
+                                                    <input id="market_vendor-setting" class="form-check-input activity" type="checkbox" <?= ((int)$vendor_market_data['marketvendorstatus'] > 0) ? "checked" : ""; ?> data-toggle="toggle" data-size="normal" data-on="<?= __('admin.status_on'); ?>" data-off="<?= __('admin.status_off'); ?>" data-setting_key="marketvendorstatus" data-setting_type="market_vendor">
+                                                    <i class="bi bi-person fs-6" data-toggle="tooltip" title="<?= __('vendor.setting_2') ?>" style="margin-right: 5px;"></i>
                                                     <span><?= __('admin.external_mode') ?></span>
                                                 </label>
                                             </div>
@@ -863,44 +803,40 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                                 //                                                $top_user = isset($populer_users[0]) ? $populer_users[0] : false;
                                                 $top_user = isset($populer_users) ? $populer_users : false;
                                                 if ($top_user) {
-                                                $users_pic = (!empty($products->getAvatar($top_user['avatar']))) ? ($products->getAvatar($top_user['avatar'])) : base_url('assets/vertical/assets/images/no-image.jpg');
+                                                    $users_pic = (!empty($products->getAvatar($top_user['avatar']))) ? ($products->getAvatar($top_user['avatar'])) : base_url('assets/vertical/assets/images/no-image.jpg');
                                                 ?>
-                                                <!-- User Info Container -->
-                                                <?php foreach ($top_user as $top_users) { ?>
-                                                    <div class="position-relative m-3">
-                                                        <!-- User Image -->
-                                                        <img src="<?= $users_pic ?>"
-                                                             alt="<?= $top_users['firstname'] . ' ' . $top_users->lastname ?>"
-                                                             class="rounded-circle" style="width: 68px;">
-                                                        <!-- Country Flag -->
-                                                        <div class="position-absolute bottom-0 start-0">
-                                                            <?php if ($top_users['sortname']) { ?>
-                                                                <img src="<?= base_url('assets/vertical/assets/images/flags/' . strtolower($top_users['sortname']) . '.png') ?>"
-                                                                     alt="<?= strtolower($top_users['sortname']) ?>"
-                                                                     style="width: 20px; margin-bottom: -7px;">
-                                                            <?php } ?>
+                                                    <!-- User Info Container -->
+                                                    <?php foreach ($top_user as $top_users) { ?>
+                                                        <div class="position-relative m-3">
+                                                            <!-- User Image -->
+                                                            <img src="<?= $users_pic ?>" alt="<?= $top_users['firstname'] . ' ' . $top_users->lastname ?>" class="rounded-circle" style="width: 68px;">
+                                                            <!-- Country Flag -->
+                                                            <div class="position-absolute bottom-0 start-0">
+                                                                <?php if ($top_users['sortname']) { ?>
+                                                                    <img src="<?= base_url('assets/vertical/assets/images/flags/' . strtolower($top_users['sortname']) . '.png') ?>" alt="<?= strtolower($top_users['sortname']) ?>" style="width: 20px; margin-bottom: -7px;">
+                                                                <?php } ?>
+                                                            </div>
+                                                            <span class="badge bg-success py-2 px-3 me-2 fs-6 mb-1"><?= __('admin.top_user') ?>: <strong><?= $top_users['firstname'] . ' ' . $top_users['lastname'] ?></strong></span>
                                                         </div>
-                                                        <span class="badge bg-success py-2 px-3 me-2 fs-6 mb-1"><?= __('admin.top_user') ?>: <strong><?= $top_users['firstname'] . ' ' . $top_users['lastname'] ?></strong></span>
-                                                    </div>
 
-                                                    <!-- User Info -->
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            <span class="badge bg-success py-2 px-3 me-2 fs-6 mb-1"><?= __('admin.balance') ?>: <strong><?= $fun_c_format($top_users['amount']) ?></strong></span>
+                                                        <!-- User Info -->
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <span class="badge bg-success py-2 px-3 me-2 fs-6 mb-1"><?= __('admin.balance') ?>: <strong><?= $fun_c_format($top_users['amount']) ?></strong></span>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <span class="badge bg-success py-2 px-3 fs-6 mb-1"><?= __('admin.commission') ?>: <strong><?= $fun_c_format($top_users['all_commition']) ?></strong></span>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-6">
-                                                            <span class="badge bg-success py-2 px-3 fs-6 mb-1"><?= __('admin.commission') ?>: <strong><?= $fun_c_format($top_users['all_commition']) ?></strong></span>
-                                                        </div>
-                                                    </div>
-                                                <?php } ?>
+                                                    <?php } ?>
                                             </div>
-                                            <?php } else { ?>
-                                                <!-- No Data Found -->
-                                                <div class="d-flex flex-column align-items-center">
-                                                    <i class="fas fa-exchange-alt fa-3x text-muted"></i>
-                                                    <h3 class="text-muted"><?= __('admin.no_data_found') ?></h3>
-                                                </div>
-                                            <?php } ?>
+                                        <?php } else { ?>
+                                            <!-- No Data Found -->
+                                            <div class="d-flex flex-column align-items-center">
+                                                <i class="fas fa-exchange-alt fa-3x text-muted"></i>
+                                                <h3 class="text-muted"><?= __('admin.no_data_found') ?></h3>
+                                            </div>
+                                        <?php } ?>
                                         </div>
                                     </div>
                                 </div>
@@ -910,14 +846,10 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                     <div class="card mb-3">
                                         <div class="card-body d-flex align-items-center justify-content-center flex-wrap">
                                             <h5 class="me-3 mb-0"><?= __('admin.admin_total_online') ?>:</h5>
-                                            <span class="badge bg-success py-2 px-3 me-2 fs-6 mb-1"><?= __('admin.admin_admin') ?>: <span
-                                                        class="ajax-online-admin"><?= (int)$online_count['admin']['online'] ?></span></span>
-                                            <span class="badge bg-success py-2 px-3 me-2 fs-6 mb-1"><?= __('admin.admin_vendor') ?>: <span
-                                                        class="ajax-online-vendor"><?= (int)$online_count['vendor']['online'] ?></span></span>
-                                            <span class="badge bg-success py-2 px-3 me-2 fs-6 mb-1"><?= __('admin.admin_affiliate') ?>: <span
-                                                        class="ajax-online-affiliate"><?= (int)$online_count['user']['online'] ?></span></span>
-                                            <span class="badge bg-success py-2 px-3 fs-6 mb-1"><?= __('admin.admin_client') ?>: <span
-                                                        class="ajax-online-client"><?= (int)$online_count['client']['online'] ?></span></span>
+                                            <span class="badge bg-success py-2 px-3 me-2 fs-6 mb-1"><?= __('admin.admin_admin') ?>: <span class="ajax-online-admin"><?= (int)$online_count['admin']['online'] ?></span></span>
+                                            <span class="badge bg-success py-2 px-3 me-2 fs-6 mb-1"><?= __('admin.admin_vendor') ?>: <span class="ajax-online-vendor"><?= (int)$online_count['vendor']['online'] ?></span></span>
+                                            <span class="badge bg-success py-2 px-3 me-2 fs-6 mb-1"><?= __('admin.admin_affiliate') ?>: <span class="ajax-online-affiliate"><?= (int)$online_count['user']['online'] ?></span></span>
+                                            <span class="badge bg-success py-2 px-3 fs-6 mb-1"><?= __('admin.admin_client') ?>: <span class="ajax-online-client"><?= (int)$online_count['client']['online'] ?></span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -933,20 +865,13 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                             <h4 class="card-title mb-0"><?= __('admin.register_new_affiliate_account_link') ?></h4>
                                             <div class="input-group">
                                                 <?php $affiliate_share_url = base_url('register/' . base64_encode($userdetails['id'])); ?>
-                                                <input id="unique_re_link_affiliate" type="text"
-                                                       class="form-control" readonly="readonly"
-                                                       value="<?= $affiliate_share_url ?>">
+                                                <input id="unique_re_link_affiliate" type="text" class="form-control" readonly="readonly" value="<?= $affiliate_share_url ?>">
                                                 <div class="input-group-append">
-                                                    <a href="javascript:void(0);"
-                                                       copyToClipboard="<?= $affiliate_share_url ?>"
-                                                       class="btn btn-outline-secondary">
+                                                    <a href="javascript:void(0);" copyToClipboard="<?= $affiliate_share_url ?>" class="btn btn-outline-secondary">
                                                         <i class="bi bi-clipboard"></i>
                                                         <span class="copy-status"></span>
                                                     </a>
-                                                    <a href="javascript:void(0)" data-social-share
-                                                       data-share-url="<?= $affiliate_share_url; ?>"
-                                                       data-share-title="" data-share-desc=""
-                                                       class="btn btn-outline-secondary">
+                                                    <a href="javascript:void(0)" data-social-share data-share-url="<?= $affiliate_share_url; ?>" data-share-title="" data-share-desc="" class="btn btn-outline-secondary">
                                                         <i class="bi bi-share"></i>
                                                     </a>
                                                 </div>
@@ -962,19 +887,13 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                             <h4 class="card-title mb-0"><?= __('admin.register_new_vendor_account_link') ?></h4>
                                             <div class="input-group">
                                                 <?php $vendor_share_url = base_url('register/vendor'); ?>
-                                                <input id="unique_re_link_vendor" type="text" class="form-control"
-                                                       readonly="readonly" value="<?= $vendor_share_url ?>">
+                                                <input id="unique_re_link_vendor" type="text" class="form-control" readonly="readonly" value="<?= $vendor_share_url ?>">
                                                 <div class="input-group-append">
-                                                    <a href="javascript:void(0);"
-                                                       copyToClipboard="<?= $vendor_share_url ?>"
-                                                       class="btn btn-outline-secondary">
+                                                    <a href="javascript:void(0);" copyToClipboard="<?= $vendor_share_url ?>" class="btn btn-outline-secondary">
                                                         <i class="bi bi-clipboard"></i>
                                                         <span class="copy-status"></span>
                                                     </a>
-                                                    <a href="javascript:void(0)" data-social-share
-                                                       data-share-url="<?= $vendor_share_url; ?>"
-                                                       data-share-title="" data-share-desc=""
-                                                       class="btn btn-outline-secondary">
+                                                    <a href="javascript:void(0)" data-social-share data-share-url="<?= $vendor_share_url; ?>" data-share-title="" data-share-desc="" class="btn btn-outline-secondary">
                                                         <i class="bi bi-share"></i>
                                                     </a>
                                                 </div>
@@ -1009,11 +928,11 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                         <span class="session-timer text-danger">
                             <em>
                                 <?php
-            $hours = floor($timeout / 3600);
-            $minutes = floor(($timeout % 3600) / 60);
-            $seconds = ($timeout % 3600) % 60;
-            echo sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
-            ?>
+                                $hours = floor($timeout / 3600);
+                                $minutes = floor(($timeout % 3600) / 60);
+                                $seconds = ($timeout % 3600) % 60;
+                                echo sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
+                                ?>
                             </em>
                         </span>
                     </small>
@@ -1033,49 +952,64 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
 <!--row 2-->
 <!--<div class="row mb-2">-->
 <!--    --><?php
-//    $categories = ['clicks', 'action_clicks', 'sale', 'affiliate_user', 'client_user'];
-//    foreach ($categories as $category) {
-//        ?>
+            //    $categories = ['clicks', 'action_clicks', 'sale', 'affiliate_user', 'client_user'];
+            //    foreach ($categories as $category) {
+            //        
+            ?>
 <!--        <div class="col">-->
 <!--            <div class="card" style="height: 350px";>-->
 <!--                <div class="card-header bg-primary text-white">-->
 <!--                    <h5 class="text-center mb-0">-->
-<!--                        <span class="badge bg-secondary float-start fs-6">--><?//= (int)$statistics[$category . '_count'] ?><!--</span>-->
-<!--                        --><?//= __('admin.' . $category . '_by_country') ?>
+<!--                        <span class="badge bg-secondary float-start fs-6">--><? //= (int)$statistics[$category . '_count'] 
+                                                                                    ?><!--</span>-->
+<!--                        --><? //= __('admin.' . $category . '_by_country') 
+                                ?>
 <!--                    </h5>-->
 <!--                </div>-->
 <!--                <div class="card-body">-->
-<!--                    --><?php //if (isset($statistics[$category]) && !empty($statistics[$category])): ?>
-<!--                        <div id="--><?//= $category ?><!---chart" class="morris-chart w-100" style="height: 200px;"></div>-->
+<!--                    --><?php //if (isset($statistics[$category]) && !empty($statistics[$category])): 
+                            ?>
+<!--                        <div id="--><? //= $category 
+                                        ?><!---chart" class="morris-chart w-100" style="height: 200px;"></div>-->
 <!--                        <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal"-->
-<!--                                data-bs-target="#--><?//= $category ?><!---large-modal">-->
-<!--                            --><?//= __('admin.view_larger') ?>
+<!--                                data-bs-target="#--><? //= $category 
+                                                        ?><!---large-modal">-->
+<!--                            --><? //= __('admin.view_larger') 
+                                    ?>
 <!--                        </button>-->
-<!--                    --><?php //else: ?>
+<!--                    --><?php //else: 
+                            ?>
 <!--                        <div class="text-center">-->
 <!--                            <i class="fas fa-exchange-alt fa-5x text-muted"></i>-->
-<!--                            <h3 class="text-muted">--><?//= __('admin.no_data_found') ?><!--</h3>-->
+<!--                            <h3 class="text-muted">--><? //= __('admin.no_data_found') 
+                                                            ?><!--</h3>-->
 <!--                        </div>-->
-<!--                    --><?php //endif; ?>
+<!--                    --><?php //endif; 
+                            ?>
 <!--                </div>-->
 <!--            </div>-->
 <!--        </div>-->
 <!---->
-        <!-- Large Modal -->
-<!--        --><?php //if (isset($statistics[$category]) && !empty($statistics[$category])): ?>
-<!--            <div class="modal fade" id="--><?//= $category ?><!---large-modal" tabindex="-1">-->
+<!-- Large Modal -->
+<!--        --><?php //if (isset($statistics[$category]) && !empty($statistics[$category])): 
+                ?>
+<!--            <div class="modal fade" id="--><? //= $category 
+                                                ?><!---large-modal" tabindex="-1">-->
 <!--                <div class="modal-dialog modal-md">-->
 <!--                    <div class="modal-content">-->
 <!--                        <div class="modal-body">-->
-<!--                            <div id="--><?//= $category ?><!---chart-large" class="morris-chart w-100"-->
+<!--                            <div id="--><? //= $category 
+                                            ?><!---chart-large" class="morris-chart w-100"-->
 <!--                                 style="height:300px;"></div>-->
 <!--                        </div>-->
 <!--                    </div>-->
 <!--                </div>-->
 <!--            </div>-->
-<!--        --><?php //endif; ?>
+<!--        --><?php //endif; 
+                ?>
 <!---->
-<!--    --><?php //} ?>
+<!--    --><?php //} 
+            ?>
 <!--</div>-->
 <!--row 2-->
 
@@ -1088,7 +1022,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
 
     function debounce(func, wait) {
         let timeout;
-        return function () {
+        return function() {
             clearTimeout(timeout);
             timeout = setTimeout(func, wait);
         };
@@ -1101,24 +1035,27 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
             resize: true,
             colors: colors,
             labelColor: '#333333',
-            formatter: function (y, data) {
+            formatter: function(y, data) {
                 return y + ' (' + data.label + ')'
             }
         });
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         categories.forEach(category => {
             if (statistics[category]) {
-                var data = Object.keys(statistics[category]).map(function (country) {
-                    return {label: country, value: statistics[category][country]};
+                var data = Object.keys(statistics[category]).map(function(country) {
+                    return {
+                        label: country,
+                        value: statistics[category][country]
+                    };
                 });
 
                 if ($("#" + category + "-chart").length) {
                     createMorrisDonut(category + "-chart", data);
                 }
 
-                $('#' + category + '-large-modal').on('shown.bs.modal', function () {
+                $('#' + category + '-large-modal').on('shown.bs.modal', function() {
                     createMorrisDonut(category + "-chart-large", data);
                 });
             } else {
@@ -1132,8 +1069,11 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
             categories.forEach(category => {
                 if (statistics[category]) {
                     if ($("#" + category + "-chart").length > 0) {
-                        var data = Object.keys(statistics[category]).map(function (country) {
-                            return {label: country, value: statistics[category][country]};
+                        var data = Object.keys(statistics[category]).map(function(country) {
+                            return {
+                                label: country,
+                                value: statistics[category][country]
+                            };
                         });
                         $("#" + category + "-chart").empty();
                         createMorrisDonut(category + "-chart", data);
@@ -1145,10 +1085,9 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
         }
     }
 
-    $(window).resize(debounce(function () {
+    $(window).resize(debounce(function() {
         resizeCharts();
     }, 250));
-
 </script>
 <!--morrise chart scripts-->
 
@@ -1166,25 +1105,25 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
             <div class="table-responsive flex-grow-1">
                 <table class="table table-striped table-hover orders-table-new">
                     <thead class="table-light">
-                    <tr>
-                        <th><?= __('admin.order_id') ?></th>
-                        <th><?= __('admin.total') ?></th>
-                        <th><?= __('admin.country') ?></th>
-                        <th><?= __('admin.store') ?></th>
-                        <th><?= __('admin.status') ?></th>
-                        <th><?= __('admin.commission') ?></th>
-                        <th><?= __('admin.date') ?></th>
-                    </tr>
+                        <tr>
+                            <th><?= __('admin.order_id') ?></th>
+                            <th><?= __('admin.total') ?></th>
+                            <th><?= __('admin.country') ?></th>
+                            <th><?= __('admin.store') ?></th>
+                            <th><?= __('admin.status') ?></th>
+                            <th><?= __('admin.commission') ?></th>
+                            <th><?= __('admin.date') ?></th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td colspan="100%" class="text-center">
-                            <div class="py-4">
-                                <h3 class="text-muted"><?= __("admin.loading_orders_data_text") ?></h3>
-                                <h5 class="text-muted"><?= __("admin.not_taking_longer") ?></h5>
-                            </div>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td colspan="100%" class="text-center">
+                                <div class="py-4">
+                                    <h3 class="text-muted"><?= __("admin.loading_orders_data_text") ?></h3>
+                                    <h5 class="text-muted"><?= __("admin.not_taking_longer") ?></h5>
+                                </div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1213,7 +1152,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
         <script src="<?= base_url('assets/js') ?>/moment.js" type="text/javascript"></script>
         <script src="<?= base_url('assets/js') ?>/main.min.js"></script>
         <script src="<?= base_url('assets/js') ?>/fullcalendar.min.js"></script>
-        <link rel="stylesheet" href="<?= base_url('assets/css') ?>/fullcalendar.min.css"/>
+        <link rel="stylesheet" href="<?= base_url('assets/css') ?>/fullcalendar.min.css" />
         <div class="col-md-6 d-flex flex-column">
             <div class="card border-secondary flex-grow-1">
                 <div class="card-header fs-5 bg-primary text-white d-flex justify-content-between align-items-center">
@@ -1242,8 +1181,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                             <input type="text" class="form-control" id="tododateCal" placeholder="To-do date">
                         </div>
                         <div class="mb-3">
-                            <button type="button" class="btn btn-primary w-100"
-                                    id="btnAddCalnote"><?= __('admin.add') ?></button>
+                            <button type="button" class="btn btn-primary w-100" id="btnAddCalnote"><?= __('admin.add') ?></button>
                         </div>
                     </div>
                 </div>
@@ -1262,11 +1200,9 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                 <div class="card-body">
                     <!--Admin users map-->
                     <div class="d-flex flex-column flex-grow-1 world-map pl-4 pr-4 pt-5 pb-4">
-                        <script type="text/javascript"
-                                src="<?= base_url('assets/plugins/jmap/jquery-jvectormap-2.0.3.min.js') ?>">
+                        <script type="text/javascript" src="<?= base_url('assets/plugins/jmap/jquery-jvectormap-2.0.3.min.js') ?>">
                         </script>
-                        <script type="text/javascript"
-                                src="<?= base_url('assets/plugins/jmap/jquery-jvectormap-world-mill.js') ?>">
+                        <script type="text/javascript" src="<?= base_url('assets/plugins/jmap/jquery-jvectormap-world-mill.js') ?>">
                         </script>
                         <link rel="stylesheet" type="text/css" href="<?= base_url('assets/plugins/jmap/css.css') ?>">
                         <div class="world-map-users"></div>
@@ -1274,7 +1210,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                             function load_userworldmap(_data) {
                                 $('.world-map-users').html('<div class="map"><div id="world-map-users" class="map-content"></div></div>');
                                 var data = {};
-                                $.each(_data, function (i, j) {
+                                $.each(_data, function(i, j) {
                                     data[j['code']] = j['total'];
                                 })
 
@@ -1292,7 +1228,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                             r: 5
                                         },
                                     },
-                                    onRegionTipShow: function (e, el, code, f) {
+                                    onRegionTipShow: function(e, el, code, f) {
                                         el.html(el.html() + (data[code] ? ': <small>' + data[code] + '</small>' : ''));
                                     },
                                     series: {
@@ -1339,48 +1275,44 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                 </div>
                 <div>
                     <select class="form-select" id="popular_affiliates_sorting" name="popular_affiliates_sorting">
-                        <option value="All" <?= ($popular_affiliates == "All") ? 'selected' : ''; ?> >All</option>
-                        <option value="Week" <?= ($popular_affiliates == "Week") ? 'selected' : ''; ?> >Week</option>
-                        <option value="Month" <?= ($popular_affiliates == "Month") ? 'selected' : ''; ?> >Month</option>
-                        <option value="Year" <?= ($popular_affiliates == "Year") ? 'selected' : ''; ?> >Year</option>
+                        <option value="All" <?= ($popular_affiliates == "All") ? 'selected' : ''; ?>>All</option>
+                        <option value="Week" <?= ($popular_affiliates == "Week") ? 'selected' : ''; ?>>Week</option>
+                        <option value="Month" <?= ($popular_affiliates == "Month") ? 'selected' : ''; ?>>Month</option>
+                        <option value="Year" <?= ($popular_affiliates == "Year") ? 'selected' : ''; ?>>Year</option>
                     </select>
                 </div>
             </div>
             <!-- Content -->
             <div class="affiliate-table scroll-bar">
-                <?php if (empty($populer_users)): ?>
+                <?php if (empty($populer_users)) : ?>
                     <div class="d-flex justify-content-center align-items-center flex-column mt-5">
                         <i class="fas fa-exchange-alt fa-5x text-muted"></i>
                         <h3 class="text-muted"><?= __('admin.no_data_found') ?></h3>
                     </div>
-                <?php else: ?>
+                <?php else : ?>
                     <table class="table table-striped table-hover">
                         <thead class="table-light">
-                        <tr>
-                            <th>#</th>
-                            <th><?= __('admin.name') ?></th>
-                            <th><?= __('admin.country') ?></th>
-                            <th><?= __('admin.balance') ?></th>
-                            <th><?= __('admin.commission') ?></th>
-                        </tr>
+                            <tr>
+                                <th>#</th>
+                                <th><?= __('admin.name') ?></th>
+                                <th><?= __('admin.country') ?></th>
+                                <th><?= __('admin.balance') ?></th>
+                                <th><?= __('admin.commission') ?></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <?php $rank = 1; ?>
-                        <?php foreach ($populer_users as $key => $users): ?>
-                            <tr class="<?= ($rank <= 3) ? 'table-primary' : ''; ?>">
-                                <td><span class="badge bg-primary"><?= $rank ?></span></td>
-                                <td><img class="top-affiliate-image"
-                                         src="<?= $products->getAvatar($users['avatar']); ?>"
-                                         alt="<?= $users['firstname'] . ' ' . $users['lastname']; ?>"/><?= $users['firstname'] . ' ' . $users['lastname']; ?>
-                                </td>
-                                <td><img class="top-affiliate-country-flag"
-                                         src="<?= $users['sortname'] != '' ? base_url('assets/vertical/assets/images/flags/' . strtolower($users['sortname']) . '.png') : ''; ?>"
-                                         alt="<?= strtoupper($users['sortname']) ?>"/></td>
-                                <td><?= $fun_c_format($users['amount']); ?></td>
-                                <td><?= $fun_c_format($users['all_commition']); ?></td>
-                            </tr>
-                            <?php $rank++; ?>
-                        <?php endforeach; ?>
+                            <?php $rank = 1; ?>
+                            <?php foreach ($populer_users as $key => $users) : ?>
+                                <tr class="<?= ($rank <= 3) ? 'table-primary' : ''; ?>">
+                                    <td><span class="badge bg-primary"><?= $rank ?></span></td>
+                                    <td><img class="top-affiliate-image" src="<?= $products->getAvatar($users['avatar']); ?>" alt="<?= $users['firstname'] . ' ' . $users['lastname']; ?>" /><?= $users['firstname'] . ' ' . $users['lastname']; ?>
+                                    </td>
+                                    <td><img class="top-affiliate-country-flag" src="<?= $users['sortname'] != '' ? base_url('assets/vertical/assets/images/flags/' . strtolower($users['sortname']) . '.png') : ''; ?>" alt="<?= strtoupper($users['sortname']) ?>" /></td>
+                                    <td><?= $fun_c_format($users['amount']); ?></td>
+                                    <td><?= $fun_c_format($users['all_commition']); ?></td>
+                                </tr>
+                                <?php $rank++; ?>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 <?php endif; ?>
@@ -1388,8 +1320,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
             <!-- Footer -->
             <div class="card-footer bg-light d-flex justify-content-between align-items-center">
                 <small class="text-muted"><?= __('admin.popular_affiliates') ?></small>
-                <a href="<?= base_url('admincontrol/userslist') ?>"
-                   class="btn btn-primary btn-sm"><?= __('admin.view_all_users') ?></a>
+                <a href="<?= base_url('admincontrol/userslist') ?>" class="btn btn-primary btn-sm"><?= __('admin.view_all_users') ?></a>
             </div>
         </div>
     </div>
@@ -1415,12 +1346,12 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
             </div>
             <!-- Content -->
             <div class="live-wrap scroll-bar">
-                <?php if (empty($live_window)): ?>
+                <?php if (empty($live_window)) : ?>
                     <div class="live-wrap-empty-data d-flex justify-content-center align-items-center flex-column">
                         <i class="fas fa-exchange-alt fa-5x text-muted"></i>
                         <h3 class="text-muted"><?= __('admin.no_data_found') ?></h3>
                     </div>
-                <?php else: ?>
+                <?php else : ?>
                     <ul class="ajax-live_window list-unstyled">
                         <?php foreach ($live_window as $key => $value) { ?>
                             <?= $value['title'] ?>
@@ -1431,8 +1362,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
             <!-- Footer -->
             <div class="card-footer bg-light d-flex justify-content-between align-items-center">
                 <small class="text-muted"><?= __('admin.live_logs') ?></small>
-                <a href="<?= base_url('admincontrol/notification') ?>"
-                   class="btn btn-primary btn-sm"><?= __('admin.view_all') ?></a>
+                <a href="<?= base_url('admincontrol/notification') ?>" class="btn btn-primary btn-sm"><?= __('admin.view_all') ?></a>
             </div>
         </div>
     </div>
@@ -1465,8 +1395,8 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                                 <span class="click_all_commission">
                                     <?= $fun_c_format(
                                         $admin_totals['click_localstore_commission'] +
-                                        $admin_totals['click_integration_commission'] +
-                                        $admin_totals['click_form_commission']
+                                            $admin_totals['click_integration_commission'] +
+                                            $admin_totals['click_form_commission']
                                     ) ?>
                                 </span>
                             </p>
@@ -1516,20 +1446,20 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
                             <h2 class="card-title"><?= __('admin.admin_order_commission') ?></h2>
                             <p class="card-text"><?= __('admin.total') ?>
                                 <span class="ajax-all_sale_count">
-                                <?= (int)(
-                                    $admin_totals['sale_localstore_count'] +
-                                    $admin_totals['order_external_count'] +
-                                    $admin_totals['sale_localstore_vendor_count']
-                                ) ?>
-                            </span>
+                                    <?= (int)(
+                                        $admin_totals['sale_localstore_count'] +
+                                        $admin_totals['order_external_count'] +
+                                        $admin_totals['sale_localstore_vendor_count']
+                                    ) ?>
+                                </span>
                                 /
                                 <span class="ajax-all_sale_commission">
-                                <?= $fun_c_format(
-                                    $admin_totals['sale_localstore_commission'] +
-                                    $admin_totals['order_external_commission'] +
-                                    $admin_totals['sale_localstore_vendor_commission']
-                                ) ?>
-                            </span>
+                                    <?= $fun_c_format(
+                                        $admin_totals['sale_localstore_commission'] +
+                                            $admin_totals['order_external_commission'] +
+                                            $admin_totals['sale_localstore_vendor_commission']
+                                    ) ?>
+                                </span>
                             </p>
                         </div>
                     </div>
@@ -1685,8 +1615,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
 </div>
 <!--row 8-->
 
-<div id="wallet-details-model" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="walletDetailsModalLabel"
-     aria-hidden="true">
+<div id="wallet-details-model" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="walletDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -1696,8 +1625,7 @@ $enable_disable = array('store_is_enable' => isset($store_setting['status']) ? $
             <div class="modal-body">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                        data-bs-dismiss="modal"><?= __('admin.close') ?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= __('admin.close') ?></button>
             </div>
         </div>
     </div>
@@ -1743,7 +1671,6 @@ foreach ($notifications as $key => $notification) {
 <script type="text/javascript" src="<?= base_url("assets/plugins/table/dataTables.responsive.min.js") ?>"></script>
 
 <script type="text/javascript">
-
     var DTexternal_site_order = $("#external-site-order").dataTable({
         lengthMenu: [
             [5, 10, 25, 50, -1],
@@ -1751,8 +1678,8 @@ foreach ($notifications as $key => $notification) {
         ],
     })
     var ajax_interval = 2000;
-    <?php  if((float)$live_dashboard['admin_data_load_interval'] >= 2){ ?>
-    ajax_interval = <?= (float)$live_dashboard['admin_data_load_interval'] * 1000 ?>;
+    <?php if ((float)$live_dashboard['admin_data_load_interval'] >= 2) { ?>
+        ajax_interval = <?= (float)$live_dashboard['admin_data_load_interval'] * 1000 ?>;
     <?php } ?>
 
     var dashboard_xhr;
@@ -1770,8 +1697,8 @@ foreach ($notifications as $key => $notification) {
     function playSound(notification_sound) {
         var audio = '<?= base_url('/assets/notify/') ?>' + notification_sound;
         $("body").append('<iframe id="noti-sound-iframe" src="' + audio + '"></iframe>')
-        $("#noti-sound-iframe").on('load', function () {
-            setTimeout(function () {
+        $("#noti-sound-iframe").on('load', function() {
+            setTimeout(function() {
                 $("#noti-sound-iframe").remove();
             }, 1000)
         });
@@ -1779,12 +1706,14 @@ foreach ($notifications as $key => $notification) {
 
 
     function setTimeout2(callnexttime, show_popup) {
-        $("<div />").css("height", "0px").animate({height: '90px'}, {
+        $("<div />").css("height", "0px").animate({
+            height: '90px'
+        }, {
             duration: ajax_interval,
-            step: function (now) {
+            step: function(now) {
                 $(".progress").css('width', now + "%");
             },
-            complete: function () {
+            complete: function() {
                 getDashboard(callnexttime, show_popup);
                 getLatestOrders(1);
                 $(".progress .progress-bar").css('width', '0%'); // Reset to 0%
@@ -1844,7 +1773,7 @@ foreach ($notifications as $key => $notification) {
     }
 
     function setColors() {
-        $.each(checkdata, function (ele, Key) {
+        $.each(checkdata, function(ele, Key) {
             if ($(ele).length) {
                 var val = parseInt($(ele).html().toString().replace(/[^0-9-.]/g, '') || 0);
 
@@ -1890,15 +1819,14 @@ foreach ($notifications as $key => $notification) {
                 integration_data_month: $('select[name="filter_integration[month]"]').val(),
                 integration_data_selected: $("#integration-chart-type").val(),
             },
-            beforeSend: function () {
-            },
-            complete: function () {
+            beforeSend: function() {},
+            complete: function() {
                 if (callnexttime) {
                     setTimeout2(true, true);
                 }
             },
-            success: function (json) {
-                setTimeout(function () {
+            success: function(json) {
+                setTimeout(function() {
                     $('.ajax-live_window .fa-bell').removeClass('blink-icon');
                     $(".mini-stat-icon i").removeClass("blink-icon");
                 }, 5000);
@@ -1906,7 +1834,7 @@ foreach ($notifications as $key => $notification) {
                 var play_sound = false;
                 var sound_on = false;
 
-                $.each(checkdata, function (ele, Key) {
+                $.each(checkdata, function(ele, Key) {
                     if ($.trim($(ele).html()) != json['admin_totals'][Key]) {
                         play_sound = true;
                         $(ele).html(json['admin_totals'][Key]);
@@ -1978,7 +1906,7 @@ foreach ($notifications as $key => $notification) {
                 }
 
                 if (json['ajax_newuser']) {
-                    $.each(json['ajax_newuser'], function (i, j) {
+                    $.each(json['ajax_newuser'], function(i, j) {
                         last_id_newuser = last_id_newuser <= parseInt(j['id']) ? parseInt(j['id']) : last_id_newuser;
                         if (show_popup && json['live_dashboard']['admin_affiliate_register_status']) {
                             sound_on = true;
@@ -1994,7 +1922,7 @@ foreach ($notifications as $key => $notification) {
 
                     count = 0;
 
-                    $.each(json['live_window'], function (i, j) {
+                    $.each(json['live_window'], function(i, j) {
                         play_sound = true;
                         count++;
                         notifications += j['title'];
@@ -2013,7 +1941,7 @@ foreach ($notifications as $key => $notification) {
                 }
 
                 if (json['ajax_integration_logs']) {
-                    $.each(json['ajax_integration_logs'], function (i, j) {
+                    $.each(json['ajax_integration_logs'], function(i, j) {
                         last_id_integration_logs = last_id_integration_logs <= parseInt(j['id']) ? parseInt(j['id']) : last_id_integration_logs;
                         if (j['click_type'] == 'Action') {
                             if (show_popup && json['live_dashboard']['admin_action_status']) {
@@ -2025,7 +1953,7 @@ foreach ($notifications as $key => $notification) {
                 }
 
                 if (json['ajax_integration_orders']) {
-                    $.each(json['ajax_integration_orders'], function (i, j) {
+                    $.each(json['ajax_integration_orders'], function(i, j) {
                         last_id_integration_orders = last_id_integration_orders <= parseInt(j['id']) ? parseInt(j['id']) : last_id_integration_orders;
                         if (show_popup && json['live_dashboard']['admin_integration_order_status']) {
                             sound_on = true;
@@ -2036,7 +1964,7 @@ foreach ($notifications as $key => $notification) {
 
                 var top_notifications = '';
                 if (json['notifications']) {
-                    $.each(json['notifications'], function (i, j) {
+                    $.each(json['notifications'], function(i, j) {
                         top_notifications += '<a href="javascript:void(0)" onclick="shownofication(' + j['notification_id'] + ',\'<?= base_url('admincontrol') ?>' + j['notification_url'] + '\')" class="dropdown-item notify-item">\
                         <div class="notify-icon bg-primary"><i class="mdi mdi-cart-outline"></i></div>\
                         <p class="notify-details"><b>' + j['notification_title'] + '</b><small class="text-muted">' + j['notification_description'] + '</small></p>\
@@ -2045,7 +1973,7 @@ foreach ($notifications as $key => $notification) {
                 }
 
                 if (json['last_id_notifications']) {
-                    $.each(json['last_id_notifications'], function (i, j) {
+                    $.each(json['last_id_notifications'], function(i, j) {
                         if (j['notification_type'] == 'order') {
                             if (show_popup && json['live_dashboard']['admin_local_store_order_status']) {
                                 sound_on = true;
@@ -2069,8 +1997,8 @@ foreach ($notifications as $key => $notification) {
         })
     }
 
-    $(function () {
-        $(".progress").on('each', function () {
+    $(function() {
+        $(".progress").on('each', function() {
             var value = $(this).attr('data-value');
             var left = $(this).find('.progress-left .progress-bar');
             var right = $(this).find('.progress-right .progress-bar');
@@ -2091,7 +2019,7 @@ foreach ($notifications as $key => $notification) {
 
     setTimeout2(true, true);
 
-    $(document).on('click', '.dashboard-div .pagination-div ul li a', function (e) {
+    $(document).on('click', '.dashboard-div .pagination-div ul li a', function(e) {
         e.preventDefault();
 
         let page = $(this).data('page');
@@ -2174,7 +2102,7 @@ foreach ($notifications as $key => $notification) {
         }
     }
 
-    $(".btn_setting").on('click', function () {
+    $(".btn_setting").on('click', function() {
         $this = $(this);
 
         $.ajax({
@@ -2185,7 +2113,7 @@ foreach ($notifications as $key => $notification) {
                 'key': $this.attr('data-key'),
                 'type': $this.attr('data-type'),
             },
-            success: function (json) {
+            success: function(json) {
                 if (json['html']) {
                     $("#setting-widzard").html(json['html']);
                     $("#setting-widzard").modal('show');
@@ -2203,13 +2131,13 @@ foreach ($notifications as $key => $notification) {
             type: 'POST',
             dataType: 'json',
             data: data,
-            beforeSend: function () {
+            beforeSend: function() {
                 $this.btn("loading");
             },
-            complete: function () {
+            complete: function() {
                 $this.btn("reset");
             },
-            success: function (json) {
+            success: function(json) {
                 $(".todolist-table-new tbody").html(json['html']);
                 $(".card-footer").hide();
 
@@ -2230,13 +2158,13 @@ foreach ($notifications as $key => $notification) {
             type: 'POST',
             dataType: 'json',
             data: data,
-            beforeSend: function () {
+            beforeSend: function() {
                 $this.btn("loading");
             },
-            complete: function () {
+            complete: function() {
                 $this.btn("reset");
             },
-            success: function (json) {
+            success: function(json) {
                 $(".orders-table-new tbody").html(json['html']);
                 $(".card-footer").hide();
 
@@ -2284,12 +2212,12 @@ foreach ($notifications as $key => $notification) {
     }
 
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         getLatestOrders(1, null);
         getodolistonly();
     });
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         var calendar;
 
         function initCalender() {
@@ -2309,8 +2237,8 @@ foreach ($notifications as $key => $notification) {
                     month: 'Month',
                     today: 'Today',
                 },
-                events: '<?=base_url()?>' + "todo/getodolist?isCalView=1",
-                eventRender: function (event, element) {
+                events: '<?= base_url() ?>' + "todo/getodolist?isCalView=1",
+                eventRender: function(event, element) {
                     if (event.is_done == "1") {
                         element.find('.fc-title').addClass('isTodaCompleted').attr('title', 'Click to view/update');
                     }
@@ -2318,7 +2246,7 @@ foreach ($notifications as $key => $notification) {
                     element.find(".fc-title").prepend("<input type='checkbox' data-id='" + event.id + "' class='completedTodoCalView mr-3' " + isTodoDone + ">");
                     element.find(".fc-title").append("<div class='float-right'><a class='removetodolisCalView' data-id='" + event.id + "' ><i class=' fa fa-trash'></i></a></div>")
                 },
-                dayClick: function (events) {
+                dayClick: function(events) {
 
                     var check = moment(events._d).format('YYYY-MM-DD');
                     var today = moment(new Date()).format('YYYY-MM-DD');
@@ -2331,7 +2259,7 @@ foreach ($notifications as $key => $notification) {
                     $('#btnAddCalnote').text('Add');
                     $('#modal-add-todo').modal('show');
                 },
-                eventClick: function (event, jsEvent, view) {
+                eventClick: function(event, jsEvent, view) {
 
                     var markascomplete = $(jsEvent.target).hasClass('completedTodoCalView');
                     var deletetask = $(jsEvent.target).hasClass('fa-trash');
@@ -2366,8 +2294,8 @@ foreach ($notifications as $key => $notification) {
                 month: 'Month',
                 today: 'Today',
             },
-            events: '<?=base_url()?>' + "todo/getodolist?isCalView=1",
-            eventRender: function (event, element) {
+            events: '<?= base_url() ?>' + "todo/getodolist?isCalView=1",
+            eventRender: function(event, element) {
                 if (event.is_done == "1") {
                     element.find('.fc-title').addClass('isTodaCompleted').attr('title', 'Click to view/update');
                 }
@@ -2375,7 +2303,7 @@ foreach ($notifications as $key => $notification) {
                 element.find(".fc-title").prepend("<input type='checkbox' data-id='" + event.id + "' class='completedTodoCalView mr-3' " + isTodoDone + ">");
                 element.find(".fc-title").append("<div class='float-right'><a class='removetodolisCalView' data-id='" + event.id + "' ><i class=' fa fa-trash'></i></a></div>")
             },
-            dayClick: function (events) {
+            dayClick: function(events) {
 
                 var check = moment(events._d).format('YYYY-MM-DD');
                 var today = moment(new Date()).format('YYYY-MM-DD');
@@ -2389,7 +2317,7 @@ foreach ($notifications as $key => $notification) {
                 $('#btnAddCalnote').text('Add');
                 $('#modal-add-todo').modal('show');
             },
-            eventClick: function (event, jsEvent, view) {
+            eventClick: function(event, jsEvent, view) {
                 var markascomplete = $(jsEvent.target).hasClass('completedTodoCalView');
                 var deletetask = $(jsEvent.target).hasClass('fa-trash');
 
@@ -2404,7 +2332,7 @@ foreach ($notifications as $key => $notification) {
 
             },
         });
-        $(document).on('change', '#popular_affiliates_sorting', function () {
+        $(document).on('change', '#popular_affiliates_sorting', function() {
 
             var value = $(this).val();
             var type = "popular_affiliates_sorting";
@@ -2412,14 +2340,17 @@ foreach ($notifications as $key => $notification) {
                 url: '<?= base_url('admincontrol/popular_affiliates_sorting') ?>',
                 type: 'POST',
                 dataType: 'json',
-                data: {value: value, type: type},
+                data: {
+                    value: value,
+                    type: type
+                },
                 async: false,
-                success: function (json) {
+                success: function(json) {
                     $(".popular_affiliates_table tbody").html(json['view']);
                 },
             });
         });
-        $(document).on('click', '.completedTodoCalView', function () {
+        $(document).on('click', '.completedTodoCalView', function() {
             var id = $(this).data('id');
             var is_completed = 0;
             if ($(this).attr('checked')) {
@@ -2436,9 +2367,13 @@ foreach ($notifications as $key => $notification) {
                 url: '<?= base_url('todo/actiontodolist') ?>',
                 type: 'POST',
                 dataType: 'json',
-                data: {id: id, action: 2, is_completed: is_completed},
+                data: {
+                    id: id,
+                    action: 2,
+                    is_completed: is_completed
+                },
                 async: false,
-                success: function (data) {
+                success: function(data) {
                     if (data.status) {
                         gettodoList();
                         calendar.fullCalendar('destroy');
@@ -2450,17 +2385,20 @@ foreach ($notifications as $key => $notification) {
                 },
             });
         });
-        $(document).on('click', '.removetodolisCalView', function () {
-            if (confirm('<?= __('admin.are_you_sure')?>')) {
+        $(document).on('click', '.removetodolisCalView', function() {
+            if (confirm('<?= __('admin.are_you_sure') ?>')) {
                 var id = $(this).data('id');
                 var $that = $(this);
                 $.ajax({
                     url: '<?= base_url('todo/actiontodolist') ?>',
                     type: 'POST',
                     dataType: 'json',
-                    data: {id: id, action: 1},
+                    data: {
+                        id: id,
+                        action: 1
+                    },
                     async: false,
-                    success: function (data) {
+                    success: function(data) {
                         if (data.status) {
                             gettodoList();
                             calendar.fullCalendar('destroy');
@@ -2473,7 +2411,7 @@ foreach ($notifications as $key => $notification) {
                 });
             }
         });
-        $("#btnAddCalnote").click(function () {
+        $("#btnAddCalnote").click(function() {
             var todo_date = $("#tododateCal").val();
             var todonotesCal = $("#todonotesCal").val();
             var id = $("#todoListItemid").val();
@@ -2484,8 +2422,12 @@ foreach ($notifications as $key => $notification) {
                     type: 'POST',
                     dataType: 'json',
                     async: false,
-                    data: {note: todonotesCal, id: id, todo_date: todo_date},
-                    success: function (data) {
+                    data: {
+                        note: todonotesCal,
+                        id: id,
+                        todo_date: todo_date
+                    },
+                    success: function(data) {
                         if (data.status) {
                             $('#btnAddCalnote').text('Add');
                             $('#modal-add-todo').modal('hide');
@@ -2505,8 +2447,7 @@ foreach ($notifications as $key => $notification) {
 
 
 <!--system settings popup-->
-<div class="modal fade" id="missingDetailsModal" tabindex="-1" aria-labelledby="missingDetailsModalLabel"
-     aria-hidden="true">
+<div class="modal fade" id="missingDetailsModal" tabindex="-1" aria-labelledby="missingDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -2522,8 +2463,7 @@ foreach ($notifications as $key => $notification) {
                             <div class="list-group mb-4">
                                 <div class="list-group-item bg-primary text-white fs-6"> <?= __('admin.general_important_settings') ?> </div>
                                 <ul id="generalSettingsList1" class="list-group mb-0"></ul>
-                                <a href="<?= base_url('/firstsetting') ?>"
-                                   class="list-group-item list-group-item-action text-center bg-secondary text-white"> <?= __('admin.go_to_settings') ?> </a>
+                                <a href="<?= base_url('/firstsetting') ?>" class="list-group-item list-group-item-action text-center bg-secondary text-white"> <?= __('admin.go_to_settings') ?> </a>
                             </div>
                         </div>
                         <!-- Section 2: Mail Settings -->
@@ -2531,8 +2471,7 @@ foreach ($notifications as $key => $notification) {
                             <div class="list-group mb-4">
                                 <div class="list-group-item bg-primary text-white fs-6"><?= __('admin.store_important_settings') ?></div>
                                 <ul id="generalSettingsList2" class="list-group mb-0"></ul>
-                                <a href="<?= base_url('/admincontrol/store_setting') ?>"
-                                   class="list-group-item list-group-item-action text-center bg-secondary text-white"><?= __('admin.go_to_settings') ?></a>
+                                <a href="<?= base_url('/admincontrol/store_setting') ?>" class="list-group-item list-group-item-action text-center bg-secondary text-white"><?= __('admin.go_to_settings') ?></a>
                             </div>
                         </div>
                         <!-- Section 3: Wallet Settings -->
@@ -2540,8 +2479,7 @@ foreach ($notifications as $key => $notification) {
                             <div class="list-group mb-4">
                                 <div class="list-group-item bg-primary text-white fs-6"><?= __('admin.wallet_important_settings') ?></div>
                                 <ul id="generalSettingsList3" class="list-group mb-0"></ul>
-                                <a href="<?= base_url('/admincontrol/wallet_setting') ?>"
-                                   class="list-group-item list-group-item-action text-center bg-secondary text-white"><?= __('admin.go_to_settings') ?></a>
+                                <a href="<?= base_url('/admincontrol/wallet_setting') ?>" class="list-group-item list-group-item-action text-center bg-secondary text-white"><?= __('admin.go_to_settings') ?></a>
                             </div>
                         </div>
                     </div>
@@ -2580,7 +2518,6 @@ foreach ($notifications as $key => $notification) {
 
 <!--system settings script-->
 <script>
-
     var showModal = false;
 
     function populateSettings(settingsArray, elementId) {
@@ -2588,7 +2525,7 @@ foreach ($notifications as $key => $notification) {
         listElement.innerHTML = ''; // Clear previous items
         var settingsValues = <?php echo json_encode($missing); ?>;
 
-        settingsArray.forEach(function (settingObj) {
+        settingsArray.forEach(function(settingObj) {
             var value = settingsValues[settingObj.group]?.[settingObj.key] ?? 'Not Set';
 
             // Hide statement code
@@ -2621,7 +2558,7 @@ foreach ($notifications as $key => $notification) {
 
             notificationDiv.innerHTML = notificationHtml;
 
-            document.getElementById('reopenModalLink').addEventListener('click', function (event) {
+            document.getElementById('reopenModalLink').addEventListener('click', function(event) {
                 event.preventDefault();
                 new bootstrap.Modal(document.getElementById('missingDetailsModal')).show();
             });
@@ -2632,44 +2569,136 @@ foreach ($notifications as $key => $notification) {
 
 
     // General settings
-    var section1Settings = [
-        {group: "site", key: "time_zone", label: "Time Zone"},
-        {group: "login", key: "front_template", label: "front_template"},
-        {group: "email", key: "mail_type", label: "<?= __('admin.mail_mode') ?>"},
-        {group: "site", key: "notify_email", label: "<?= __('admin.notify_email') ?>"},
-        {group: "email", key: "from_email", label: "<?= __('admin.from_email') ?>"},
-        {group: "email", key: "smtp_hostname", label: "<?= __('admin.smtp_hostname') ?>"},
-        {group: "email", key: "smtp_username", label: "<?= __('admin.smtp_username') ?>"},
-        {group: "email", key: "smtp_password", label: "<?= __('admin.smtp_password') ?>"},
-        {group: "email", key: "smtp_port", label: "<?= __('admin.smtp_port') ?>"},
-        {group: "email", key: "smtp_crypto", label: "<?= __('admin.smtp_crypto') ?>"},
+    var section1Settings = [{
+            group: "site",
+            key: "time_zone",
+            label: "Time Zone"
+        },
+        {
+            group: "login",
+            key: "front_template",
+            label: "front_template"
+        },
+        {
+            group: "email",
+            key: "mail_type",
+            label: "<?= __('admin.mail_mode') ?>"
+        },
+        {
+            group: "site",
+            key: "notify_email",
+            label: "<?= __('admin.notify_email') ?>"
+        },
+        {
+            group: "email",
+            key: "from_email",
+            label: "<?= __('admin.from_email') ?>"
+        },
+        {
+            group: "email",
+            key: "smtp_hostname",
+            label: "<?= __('admin.smtp_hostname') ?>"
+        },
+        {
+            group: "email",
+            key: "smtp_username",
+            label: "<?= __('admin.smtp_username') ?>"
+        },
+        {
+            group: "email",
+            key: "smtp_password",
+            label: "<?= __('admin.smtp_password') ?>"
+        },
+        {
+            group: "email",
+            key: "smtp_port",
+            label: "<?= __('admin.smtp_port') ?>"
+        },
+        {
+            group: "email",
+            key: "smtp_crypto",
+            label: "<?= __('admin.smtp_crypto') ?>"
+        },
     ];
 
     // Store settings
-    var section2Settings = [
-        {group: "store", key: "status", label: "<?= __('admin.store_status') ?>"},
-        {group: "store", key: "theme", label: "<?= __('admin.store_mode') ?>"},
-        {group: "productsetting", key: "product_commission_type", label: "<?= __('admin.store_commission_type') ?>"},
-        {group: "productsetting", key: "product_commission", label: "<?= __('admin.store_product_cps') ?>"},
-        {group: "productsetting", key: "product_ppc", label: "<?= __('admin.store_product_cpc') ?>"},
-        {group: "productsetting", key: "product_noofpercommission", label: "<?= __('admin.store_product_clicks') ?>"},
+    var section2Settings = [{
+            group: "store",
+            key: "status",
+            label: "<?= __('admin.store_status') ?>"
+        },
+        {
+            group: "store",
+            key: "theme",
+            label: "<?= __('admin.store_mode') ?>"
+        },
+        {
+            group: "productsetting",
+            key: "product_commission_type",
+            label: "<?= __('admin.store_commission_type') ?>"
+        },
+        {
+            group: "productsetting",
+            key: "product_commission",
+            label: "<?= __('admin.store_product_cps') ?>"
+        },
+        {
+            group: "productsetting",
+            key: "product_ppc",
+            label: "<?= __('admin.store_product_cpc') ?>"
+        },
+        {
+            group: "productsetting",
+            key: "product_noofpercommission",
+            label: "<?= __('admin.store_product_clicks') ?>"
+        },
     ];
 
     // Wallet settings
-    var section3Settings = [
-        {group: "site", key: "wallet_min_amount", label: "<?= __('admin.wallet_min_amount') ?>"},
-        {group: "site", key: "wallet_max_amount", label: "<?= __('admin.wallet_max_amount') ?>"},
+    var section3Settings = [{
+            group: "site",
+            key: "wallet_min_amount",
+            label: "<?= __('admin.wallet_min_amount') ?>"
+        },
+        {
+            group: "site",
+            key: "wallet_max_amount",
+            label: "<?= __('admin.wallet_max_amount') ?>"
+        },
         // {group: "site", key: "wallet_min_message", label: "<?= __('admin.wallet_min_message') ?>"},
-        {group: "site", key: "wallet_min_message_new", label: "<?= __('admin.wallet_min_message_new') ?>"},
-        {group: "site", key: "wallet_auto_withdrawal", label: "<?= __('admin.wallet_auto_withdrawal') ?>"},
-        {group: "site", key: "wallet_auto_withdrawal_days", label: "<?= __('admin.wallet_auto_withdrawal_days') ?>"},
-        {group: "site", key: "wallet_auto_withdrawal_limit", label: "<?= __('admin.wallet_auto_withdrawal_limit') ?>"},
+        {
+            group: "site",
+            key: "wallet_min_message_new",
+            label: "<?= __('admin.wallet_min_message_new') ?>"
+        },
+        {
+            group: "site",
+            key: "wallet_auto_withdrawal",
+            label: "<?= __('admin.wallet_auto_withdrawal') ?>"
+        },
+        {
+            group: "site",
+            key: "wallet_auto_withdrawal_days",
+            label: "<?= __('admin.wallet_auto_withdrawal_days') ?>"
+        },
+        {
+            group: "site",
+            key: "wallet_auto_withdrawal_limit",
+            label: "<?= __('admin.wallet_auto_withdrawal_limit') ?>"
+        },
     ];
 
     // Store settings
-    var section4Settings = [
-        {group: "store", key: "status", label: "<?= __('admin.store_status') ?>"},
-        {group: "store", key: "theme", label: "<?= __('admin.store_mode') ?>"},
+    var section4Settings = [{
+            group: "store",
+            key: "status",
+            label: "<?= __('admin.store_status') ?>"
+        },
+        {
+            group: "store",
+            key: "theme",
+            label: "<?= __('admin.store_mode') ?>"
+        },
     ];
 
     populateSettings(section1Settings, 'generalSettingsList1');
@@ -2682,7 +2711,7 @@ foreach ($notifications as $key => $notification) {
 
 <!--switch buttons code-->
 <script>
-    $(document).on('change', '.activity', function () {
+    $(document).on('change', '.activity', function() {
         let setting_type = $(this).data('setting_type');
         let setting_key = $(this).data('setting_key');
         let val = $(this).prop('checked') ? 1 : 0;
@@ -2705,7 +2734,7 @@ foreach ($notifications as $key => $notification) {
                 setting_key: setting_key,
                 val: val
             },
-            success: function (res) {
+            success: function(res) {
                 showPrintMessage("<?= __('admin.system_mode_changed_successfully') ?>", 'success');
             },
         });
@@ -2714,7 +2743,7 @@ foreach ($notifications as $key => $notification) {
 <!--switch buttons code-->
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
 
         // Function to open chart as PNG or JPEG in a new tab
         function openImage(type) {
@@ -2725,7 +2754,9 @@ foreach ($notifications as $key => $notification) {
 
         // Function to open PDF in a new tab
         function openPDF() {
-            const {jsPDF} = window.jspdf;
+            const {
+                jsPDF
+            } = window.jspdf;
             const doc = new jsPDF();
             doc.text('Sales Report', 10, 10);
 
@@ -2734,7 +2765,9 @@ foreach ($notifications as $key => $notification) {
 
             const tableData = getTableData();
             doc.autoTable({
-                head: [['Month', 'Action Count', 'Order Count', 'Order Commission', 'Action Commission', 'Order Total']],
+                head: [
+                    ['Month', 'Action Count', 'Order Count', 'Order Commission', 'Action Commission', 'Order Total']
+                ],
                 body: tableData,
                 startY: 130
             });
@@ -2779,10 +2812,10 @@ foreach ($notifications as $key => $notification) {
             return tableData;
         }
 
-        document.getElementById('downloadPng').addEventListener('click', function () {
+        document.getElementById('downloadPng').addEventListener('click', function() {
             openImage('image/png');
         });
-        document.getElementById('downloadJpeg').addEventListener('click', function () {
+        document.getElementById('downloadJpeg').addEventListener('click', function() {
             openImage('image/jpeg');
         });
         document.getElementById('downloadPdf').addEventListener('click', openPDF);

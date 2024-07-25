@@ -2182,7 +2182,6 @@ class Admincontrol extends MY_Controller
 	}
 
 
-
 	public function index($slug)
 	{
 

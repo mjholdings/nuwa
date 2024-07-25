@@ -8270,7 +8270,6 @@ class Admincontrol extends MY_Controller
 
 
 		if ($this->form_validation->run() == FALSE) {
-
 			$json['errors'] = $this->form_validation->error_array();
 		} else {
 

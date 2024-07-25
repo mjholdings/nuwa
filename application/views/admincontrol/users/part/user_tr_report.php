@@ -209,19 +209,19 @@ foreach ($userslist as $users) {  ?>
 
 		<!-- <td class="text-center"> -->
 
-			<?php
+		<?php
 
-			// if ($users['Country'] != '') {
+		// if ($users['Country'] != '') {
 
-			// 	$flag = 'flags/' . strtolower($users['sortname']) . '.png';
-			// } else {
+		// 	$flag = 'flags/' . strtolower($users['sortname']) . '.png';
+		// } else {
 
-			// 	$flag = 'users/avatar-1.png';
-			// }
+		// 	$flag = 'users/avatar-1.png';
+		// }
 
-			?>
+		?>
 
-			<!-- <img class="rounded-circle" src="<?php echo base_url(); ?>assets/vertical/assets/images/<?php echo $flag; ?>" style="width:30px;height: 30px"> -->
+		<!-- <img class="rounded-circle" src="<?php echo base_url(); ?>assets/vertical/assets/images/<?php echo $flag; ?>" style="width:30px;height: 30px"> -->
 
 		<!-- </td> -->
 
@@ -291,10 +291,6 @@ foreach ($userslist as $users) {  ?>
 			<div class="card m-2 p-2">
 
 				<div class="row">
-
-					<div class='col-sm-4 col-md-3'><b><?= __('admin.clicks') ?>:</b> <?php echo (int)$users['click'] + (int)$users['external_click'] + (int)$users['form_click'] + (int)$users['aff_click']; ?> / <?php echo c_format($users['click_commission']) ?></div>
-
-					<div class='col-sm-4 col-md-3'><b><?= __('admin.action_click') ?>:</b> <?= (int)$users['external_action_click'] ?> / <?= c_format($users['action_click_commission']) ?></div>
 
 					<div class='col-sm-4 col-md-3'><b><?= __('admin.sales_commissions') ?>:</b> <?php echo c_format($users['amount'] + $users['external_sale_amount']); ?> / <?php echo c_format($users['sale_commission']); ?></div>
 

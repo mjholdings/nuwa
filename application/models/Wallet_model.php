@@ -1,6 +1,7 @@
 <?php
 
-class Wallet_model extends MY_Model {
+class Wallet_model extends MY_Model
+{
 	public $request_status = array(
 		'0' => 'Pending',
 		'1' => 'Complete',
@@ -18,7 +19,8 @@ class Wallet_model extends MY_Model {
 
 	public $status_icon = array();
 
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 
 		$this->status_icon = array(
@@ -30,7 +32,8 @@ class Wallet_model extends MY_Model {
 		);
 	}
 
-	public function request_status($find = null) {
+	public function request_status($find = null)
+	{
 		$status = [
 			'0' => __('admin.pending_integration'),
 			'1' => __('admin.complete'),
@@ -45,7 +48,8 @@ class Wallet_model extends MY_Model {
 		}
 	}
 
-	public function status($find = null) {
+	public function status($find = null)
+	{
 		$status = [
 			'0' => __('admin.onhold'),
 			'1' => __('admin.inwallet'),
@@ -59,7 +63,8 @@ class Wallet_model extends MY_Model {
 			return $status;
 		}
 	}
-	public function getDeleteData($transaction_id, $only_parent = false) {
+	public function getDeleteData($transaction_id, $only_parent = false)
+	{
 		$allTrans = [];
 
 		$allTrans[] = $tranMain = $this->getbyId($transaction_id);
@@ -106,7 +111,8 @@ class Wallet_model extends MY_Model {
 		return $dataCollection;
 	}
 
-	public function getRelatedTrans($trans_id, $group_id, $only_parent) {
+	public function getRelatedTrans($trans_id, $group_id, $only_parent)
+	{
 
 		if ($only_parent) {
 			$tran =  $this->db->query('
@@ -129,7 +135,8 @@ class Wallet_model extends MY_Model {
 	}
 
 	// Thêm một giao dịch - Cập nhật ví tài khoản
-	public function addTransaction($data, $is_recurrsive = false, $recursion_data = []) {
+	public function addTransaction($data, $is_recurrsive = false, $recursion_data = [])
+	{
 		$loginUser = $this->session->userdata('user');
 
 		$loginClient = $this->session->userdata('client');
@@ -173,7 +180,8 @@ class Wallet_model extends MY_Model {
 	}
 
 	// Thêm giao dịch hàng loạt
-	public function addTransactionBatch($dataBatch) {
+	public function addTransactionBatch($dataBatch)
+	{
 
 		$dataInsertBatch = [];
 
@@ -215,13 +223,15 @@ class Wallet_model extends MY_Model {
 		}
 	}
 
-	public function addRequest($data) {
+	public function addRequest($data)
+	{
 		$data['created_at']  = date("Y-m-d H:i:s");
 		$this->db->insert('wallet_request', $data);
 		return $this->db->insert_id();
 	}
 
-	public function getRequest($filter) {
+	public function getRequest($filter)
+	{
 		if (isset($filter['user_id'])) {
 			$this->db->where('wallet_request.user_id', (int)$filter['user_id']);
 		}
@@ -243,7 +253,8 @@ class Wallet_model extends MY_Model {
 		}
 	}
 
-	public function balance($filter = array()) {
+	public function balance($filter = array())
+	{
 		$where = ' 1 ';
 		if (isset($filter['user_id'])) {
 			$where .= '  AND wallet.user_id = ' . (int)$filter['user_id'];
@@ -251,7 +262,8 @@ class Wallet_model extends MY_Model {
 		return (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE ' . $where)->row_array()['total'];
 	}
 
-	public function getbyId($id) {
+	public function getbyId($id)
+	{
 		$this->db->select(array(
 			'wallet.*',
 			'CONCAT(users.firstname," ",users.lastname) as name',
@@ -265,7 +277,8 @@ class Wallet_model extends MY_Model {
 		//$tran->ip_details = json_decode(@$tran->ip_details,1);
 		return $tran;
 	}
-	public function getallUnpaid($id) {
+	public function getallUnpaid($id)
+	{
 		$this->db->select(array(
 			'wallet.*',
 			'CONCAT(users.firstname," ",users.lastname) as name',
@@ -279,12 +292,14 @@ class Wallet_model extends MY_Model {
 
 		return $tran;
 	}
-	public function changeStatus($id, $status) {
+	public function changeStatus($id, $status)
+	{
 		return $this->db->update('wallet', array('status' => $status), array('id' => (int)$id));
 	}
 
 	// Lấy giao dịch - Từ những nguồn đã tính sẵn wallet, users, wallet_recursion, order
-	public function getTransaction($filter = array(), $olnyNumRows = false, $additional = null) {
+	public function getTransaction($filter = array(), $olnyNumRows = false, $additional = null)
+	{
 		if ($olnyNumRows === true) {
 			$select = array(
 				'wallet.id',
@@ -456,7 +471,8 @@ class Wallet_model extends MY_Model {
 		return $data;
 	}
 
-	public function getIntegrationTransaction($filter = array()) {
+	public function getIntegrationTransaction($filter = array())
+	{
 		$select = array(
 			'wallet.*',
 			'users.username',
@@ -540,7 +556,8 @@ class Wallet_model extends MY_Model {
 		return $data;
 	}
 
-	public function get_totals_for_admin_users_stat($filter = array(), $extraTotals = false, $calling_for = 'admin') {
+	public function get_totals_for_admin_users_stat($filter = array(), $extraTotals = false, $calling_for = 'admin')
+	{
 		$where = ' 1 ';
 		$where1 = ' 1 ';
 		$where_vendor = ' 1 ';
@@ -700,7 +717,8 @@ class Wallet_model extends MY_Model {
 		return $data;
 	}
 
-	public function getTotals($filter = array(), $extraTotals = false, $calling_for = 'admin') {
+	public function getTotals($filter = array(), $extraTotals = false, $calling_for = 'admin')
+	{
 		$where = ' 1 ';
 		$where1 = ' 1 ';
 		$where_vendor = ' 1 ';
@@ -1041,7 +1059,8 @@ class Wallet_model extends MY_Model {
 	}
 
 	// Thêm giao dịch đệ quy
-	public function addTransactionRecursion($data) {
+	public function addTransactionRecursion($data)
+	{
 
 		$transaction_id = $data['transaction_id'];
 
@@ -1091,7 +1110,8 @@ class Wallet_model extends MY_Model {
 	}
 
 	// Thêm giao dịch đệ quy hàng loạt
-	public function addTransactionRecursionBatch($transactions) {
+	public function addTransactionRecursionBatch($transactions)
+	{
 		$recData = [];
 		foreach ($transactions as $tran) {
 			$data = $tran;
@@ -1124,7 +1144,8 @@ class Wallet_model extends MY_Model {
 	}
 
 	// Lấy giao dịch đệ quy
-	public function GetTransactionRecursion($transaction_id) {
+	public function GetTransactionRecursion($transaction_id)
+	{
 		$row = $this->db->query("SELECT * FROM wallet_recursion WHERE transaction_id='$transaction_id'")->row_array();
 
 
@@ -1132,7 +1153,8 @@ class Wallet_model extends MY_Model {
 	}
 
 	// Cập nhật giao dịch đệ quy
-	public function UpdateTransactionRecursion($data) {
+	public function UpdateTransactionRecursion($data)
+	{
 		$transaction_id = $data['transaction_id'];
 		$custom_time = $data['custom_time'];
 		$next_transaction = $data['next_transaction'];
@@ -1154,7 +1176,8 @@ class Wallet_model extends MY_Model {
 		return false;
 	}
 
-	public function CronTransaction() {
+	public function CronTransaction()
+	{
 		$today = date('Y-m-d H:i:s');
 
 		$results = $this->db->query("SELECT * FROM wallet_recursion WHERE status=1 AND (next_transaction <= endtime OR endtime IS NULL OR endtime = '0000-00-00 00:00:00.000000') AND next_transaction <= '$today' LIMIT 100");
@@ -1194,7 +1217,8 @@ class Wallet_model extends MY_Model {
 	}
 
 
-	public function next_transaction_date($type, $minutes = null) {
+	public function next_transaction_date($type, $minutes = null)
+	{
 
 		$today = strtotime(date('Y-m-d H:i:s'));
 
@@ -1215,7 +1239,8 @@ class Wallet_model extends MY_Model {
 	}
 
 
-	public function getAllTransactionFilter($userdetails) {
+	public function getAllTransactionFilter($userdetails)
+	{
 		$sql = "SELECT 	`all_transaction`.`module`,
 		`all_transaction`.`id`,
 		`all_transaction`.`user_id`,
@@ -1301,7 +1326,8 @@ class Wallet_model extends MY_Model {
 		return $result;
 	}
 
-	public function getAllTransaction($userdetails, $filter, $limit = false, $justCount = false) {
+	public function getAllTransaction($userdetails, $filter, $limit = false, $justCount = false)
+	{
 		$array = [];
 
 		$sql = "SELECT 	`all_transaction`.`module`,
@@ -1409,7 +1435,8 @@ class Wallet_model extends MY_Model {
 
 
 
-	public function getUncompletedPayment($filter, $justCount = false) {
+	public function getUncompletedPayment($filter, $justCount = false)
+	{
 		$array = [];
 
 		$sql = "SELECT 
@@ -1449,7 +1476,8 @@ class Wallet_model extends MY_Model {
 		return $result;
 	}
 
-	public function getVendorClick($vendor_id) {
+	public function getVendorClick($vendor_id)
+	{
 		$sql = "SELECT `wallet`.`created_at`,
 		`wallet`.`comment`,
 		`wallet`.`status`,
@@ -1472,7 +1500,8 @@ class Wallet_model extends MY_Model {
 		return $result;
 	}
 
-	public function getUserPlan($user_id) {
+	public function getUserPlan($user_id)
+	{
 		$sql = "SELECT * FROM `membership_user` WHERE `user_id` = '" . $user_id . "' ORDER BY `created_at` DESC";
 
 		$query = $this->db->query($sql);
@@ -1482,7 +1511,8 @@ class Wallet_model extends MY_Model {
 	}
 
 
-	public function prepareUncompletedPaymentData($uncompleted_payments, $depositStatusList) {
+	public function prepareUncompletedPaymentData($uncompleted_payments, $depositStatusList)
+	{
 		foreach ($uncompleted_payments as &$value) {
 			$contents = explode(" || ", $value['content']);
 
@@ -1540,7 +1570,8 @@ class Wallet_model extends MY_Model {
 		return $uncompleted_payments;
 	}
 
-	function getHoldTransactionsByUserId($dayfrom = 10, $limit = 100, $user_id) {
+	function getHoldTransactionsByUserId($dayfrom = 10, $limit = 100, $user_id)
+	{
 		$sql = "SELECT  SUM(ifnull(wallet.amount,0)) as total  FROM wallet   
 		INNER JOIN users ON users.id = wallet.user_id   
 		WHERE users.id=$user_id and DATEDIFF(NOW(),wallet.created_at)>=" . $dayfrom . "  AND wallet.parent_id = 0 AND wallet.status = 1 AND wallet.amount >= 0    ORDER BY wallet.user_id,wallet.created_at ASC LIMIT " . $limit . " OFFSET 0";
@@ -1553,7 +1584,8 @@ class Wallet_model extends MY_Model {
 		return $data;
 	}
 
-	function getHoldTransactions($dayfrom = 10, $limit = 100) {
+	function getHoldTransactions($dayfrom = 10, $limit = 100)
+	{
 		$sql = "SELECT 
 		wallet.id,wallet.user_id,wallet.group_id,wallet.from_user_id,wallet.amount,wallet.type,wallet.comm_from,wallet.comment,wallet.created_at,DATEDIFF(NOW(),wallet.created_at) AS DaysFrom ,wallet.status,wallet.commission_status,wallet.reference_id,wallet.reference_id_2 ,users.username,users.firstname,users.lastname,users.type as usertype,users.primary_payment_method,payment_detail.payment_bank_name,payment_account_number,payment_account_name,payment_ifsc_code,payment_created_by, paypal_accounts.paypal_email,(SELECT payment_method FROM `order` WHERE wallet.reference_id = `order`.id AND wallet.type IN('sale_commission','vendor_sale_commission', 'admin_sale_commission') AND wallet.dis_type is NULL ) AND wallet.comm_from != 'ex' as payment_method ,(SELECT total FROM `integration_orders` WHERE comm_from='ex' AND wallet.reference_id_2 = `integration_orders`.id AND wallet.type IN ('sale_commission','admin_sale_commission')) as integration_orders_total ,(SELECT total FROM `order` WHERE comm_from != 'ex' AND id = wallet.reference_id AND wallet.type IN('sale_commission','vendor_sale_commission', 'admin_sale_commission') ) as local_orders_total  FROM wallet 
 		LEFT JOIN users ON users.id = wallet.user_id 
@@ -1567,7 +1599,8 @@ class Wallet_model extends MY_Model {
 		return $data;
 	}
 
-	function getPrimaryPaymentmethodData($tran) {
+	function getPrimaryPaymentmethodData($tran)
+	{
 
 		if ($tran['primary_payment_method'] == 'paypal') {
 			$setting['paypal_email'] = $tran['paypal_email'];
@@ -1580,7 +1613,8 @@ class Wallet_model extends MY_Model {
 
 		return $setting;
 	}
-	public function getProductDetail($userid, $pID) {
+	public function getProductDetail($userid, $pID)
+	{
 
 		$this->db->where('product_id', $pID);
 		$this->db->where('product_created_by', $userid);

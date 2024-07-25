@@ -209,19 +209,19 @@ foreach ($userslist as $users) {  ?>
 
 		<!-- <td class="text-center"> -->
 
-			<?php
+		<?php
 
-			// if ($users['Country'] != '') {
+		// if ($users['Country'] != '') {
 
-			// 	$flag = 'flags/' . strtolower($users['sortname']) . '.png';
-			// } else {
+		// 	$flag = 'flags/' . strtolower($users['sortname']) . '.png';
+		// } else {
 
-			// 	$flag = 'users/avatar-1.png';
-			// }
+		// 	$flag = 'users/avatar-1.png';
+		// }
 
-			?>
+		?>
 
-			<!-- <img class="rounded-circle" src="<?php echo base_url(); ?>assets/vertical/assets/images/<?php echo $flag; ?>" style="width:30px;height: 30px"> -->
+		<!-- <img class="rounded-circle" src="<?php echo base_url(); ?>assets/vertical/assets/images/<?php echo $flag; ?>" style="width:30px;height: 30px"> -->
 
 		<!-- </td> -->
 
@@ -292,17 +292,20 @@ foreach ($userslist as $users) {  ?>
 
 				<div class="row">
 
-					<div class='col-sm-4 col-md-3'><b><?= __('admin.clicks') ?>:</b> <?php echo (int)$users['click'] + (int)$users['external_click'] + (int)$users['form_click'] + (int)$users['aff_click']; ?> / <?php echo c_format($users['click_commission']) ?></div>
+					<div class='col-sm-4 col-md-3'><b><?= __('Ví Tiêu dùng (Nạp)') ?>:</b> <?php echo c_format($users['paid_commition']); ?></div>
 
-					<div class='col-sm-4 col-md-3'><b><?= __('admin.action_click') ?>:</b> <?= (int)$users['external_action_click'] ?> / <?= c_format($users['action_click_commission']) ?></div>
+					<div class='col-sm-4 col-md-3'><b><?= __('Ví Tài khoản (Rút)') ?>:</b> <?php echo c_format($users['paid_commition']); ?></div>
 
-					<div class='col-sm-4 col-md-3'><b><?= __('admin.sales_commissions') ?>:</b> <?php echo c_format($users['amount'] + $users['external_sale_amount']); ?> / <?php echo c_format($users['sale_commission']); ?></div>
+					<div class='col-sm-4 col-md-3'><b><?= __('Ví Điểm (Nuwa)') ?>:</b> <?php echo c_format($users['paid_commition']); ?></div>
 
-					<div class='col-sm-4 col-md-3'><b><?= __('admin.paid_comm') ?>:</b> <?php echo c_format($users['paid_commition']); ?></div>
+					<div class='col-sm-4 col-md-3'><b><?= __('Ví ') ?> <?= __('admin.commissions') ?>:</b> <?php echo c_format($users['all_commition']); ?></div>
 
-					<div class='col-sm-4 col-md-3'><b><?= __('admin.in_request') ?>:</b> <?php echo c_format($users['in_request_commiton']); ?></div>
+					<div class='col-sm-4 col-md-3'><b><?= __('Yêu cầu rút/chuyển') ?>:</b> <?php echo c_format($users['in_request_commiton']); ?></div>
 
-					<div class='col-sm-4 col-md-3'><b><?= __('admin.total') ?> <?= __('admin.commissions') ?>:</b> <?php echo c_format($users['all_commition']); ?></div>
+					<div class='col-sm-4 col-md-3'><b><?= __('Thưởng Doanh thu') ?>:</b> <?php echo c_format($users['amount'] + $users['external_sale_amount']); ?> / <?php echo c_format($users['sale_commission']); ?></div>
+
+					<div class='col-sm-4 col-md-3'><b><?= __('Hoa hồng Đã trả') ?>:</b> <?php echo c_format($users['paid_commition']); ?></div>
+
 
 					<?php $fieldsShown = [];  ?>
 

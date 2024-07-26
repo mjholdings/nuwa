@@ -5,8 +5,10 @@ use App\MembershipUser;
 use App\Slug;
 use App\User;
 
-class Usercontrol extends MY_Controller {
-	function __construct() {
+class Usercontrol extends MY_Controller
+{
+	function __construct()
+	{
 		parent::__construct();
 
 		$this->load->model('user_model', 'user');
@@ -43,7 +45,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function my_vendor_panel() {
+	public function my_vendor_panel()
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
@@ -73,7 +76,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'vendor/index', 'usercontrol');
 	}
 
-	public function approval_status() {
+	public function approval_status()
+	{
 		$data['userdetails'] = $this->Product_model->userdetails('user', true);
 		if ($userdetails['reg_approved'] == 1) {
 			redirect('usercontrol/dashboard');
@@ -85,7 +89,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function duplicateProduct($product_id) {
+	public function duplicateProduct($product_id)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
 
@@ -111,7 +116,8 @@ class Usercontrol extends MY_Controller {
 		redirect(base_url('usercontrol/store_products'));
 	}
 
-	public function integration() {
+	public function integration()
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
@@ -125,7 +131,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'integration/index', 'usercontrol');
 	}
 
-	private function modules_list($requestingFor = null) {
+	private function modules_list($requestingFor = null)
+	{
 
 		if ($requestingFor == null) {
 
@@ -239,7 +246,8 @@ class Usercontrol extends MY_Controller {
 		return $integration_modules;
 	}
 
-	public function instructions($module_key) {
+	public function instructions($module_key)
+	{
 		if (!$this->userdetails()) {
 			redirect('admincontrol/dashboard', 'refresh');
 		}
@@ -267,7 +275,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'integration/instructions', 'usercontrol');
 	}
 
-	public function change_language($language_id = null) {
+	public function change_language($language_id = null)
+	{
 		if (empty($language_id)) {
 			show_404();
 			return;
@@ -291,7 +300,8 @@ class Usercontrol extends MY_Controller {
 	}
 
 
-	public function change_currency($currency_code = null) {
+	public function change_currency($currency_code = null)
+	{
 		if (empty($currency_code)) {
 			show_404();
 			return;
@@ -311,13 +321,15 @@ class Usercontrol extends MY_Controller {
 	}
 
 
-	public function getSiteSetting() {
+	public function getSiteSetting()
+	{
 		return $this->Product_model->getSettings('site');
 	}
 
 	public $loginUser = [];
 
-	public function userdetails() {
+	public function userdetails()
+	{
 
 		if (isset($this->session) && $this->session->userdata('client') !== FALSE && $this->session->userdata('client')['type'] == 'user') {
 			$this->session->unset_userdata('administrator');
@@ -349,7 +361,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function myreferal_ajax() {
+	public function myreferal_ajax()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -361,7 +374,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function resetpassword($token) {
+	public function resetpassword($token)
+	{
 		$tok  =  $this->db->query("SELECT * FROM password_resets WHERE token like '{$token}' ")->row();
 		$post = $this->input->post(null, true);
 
@@ -396,11 +410,13 @@ class Usercontrol extends MY_Controller {
 			die("Token Expire..!");
 		}
 	}
-	public function index() {
+	public function index()
+	{
 		redirect('/', 'refresh');
 	}
 
-	public function notification() {
+	public function notification()
+	{
 		if (!$this->userdetails()) {
 			redirect('/login', 'refresh');
 		}
@@ -429,7 +445,8 @@ class Usercontrol extends MY_Controller {
 		$this->load->view('usercontrol/dashboard/notification', $data);
 		$this->load->view('usercontrol/includes/footer', $data);
 	}
-	public function ip_info($ip = NULL, $purpose = "location", $deep_detect = TRUE) {
+	public function ip_info($ip = NULL, $purpose = "location", $deep_detect = TRUE)
+	{
 		$output = NULL;
 		if (filter_var($ip, FILTER_VALIDATE_IP) === FALSE) {
 			$ip = $_SERVER["REMOTE_ADDR"];
@@ -515,14 +532,16 @@ class Usercontrol extends MY_Controller {
 
 		return $output;
 	}
-	public function getState() {
+	public function getState()
+	{
 		$this->load->model('User_model');
 		$country_id = $this->input->post('country_id', true);
 		$states = $this->User_model->getState($country_id);
 		echo json_encode($states);
 		die;
 	}
-	public function check_ven_product_limit($vendor_id = 0) {
+	public function check_ven_product_limit($vendor_id = 0)
+	{
 		$userPlan = App\MembershipUser::with("plan")->where('is_active', 1)->where('user_id', $vendor_id)->first();
 		$plan_product_count = $userPlan->plan->product;
 		if (!empty($plan_product_count)) {
@@ -550,7 +569,8 @@ class Usercontrol extends MY_Controller {
 	}
 
 
-	public function check_ven_campaign_limit($vendor_id = 0) {
+	public function check_ven_campaign_limit($vendor_id = 0)
+	{
 		$this->load->model('IntegrationModel');
 		$userPlan = App\MembershipUser::with("plan")->where('is_active', 1)->where('user_id', $vendor_id)->first();
 		$plan_campaign_count = $userPlan->plan->campaign;
@@ -577,7 +597,8 @@ class Usercontrol extends MY_Controller {
 			}
 		}
 	}
-	public function auth($action) {
+	public function auth($action)
+	{
 		$json = array();
 		$post = $this->input->post(null, true);
 		if ($action == 'login') {
@@ -854,12 +875,14 @@ class Usercontrol extends MY_Controller {
 
 		echo json_encode($json);
 	}
-	public function insertnotification($postData = null) {
+	public function insertnotification($postData = null)
+	{
 		if (!empty($postData)) {
 			$data['custom'] = $this->Product_model->create_data('notification', $postData);
 		}
 	}
-	public function changePassword() {
+	public function changePassword()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -895,7 +918,8 @@ class Usercontrol extends MY_Controller {
 	}
 
 
-	public function dashboardlist() {
+	public function dashboardlist()
+	{
 		$data['title'] = __('user.user_dashboard');
 		$this->load->view('usercontrol/includes/header', $data);
 		$this->load->view('usercontrol/dashboard/dashboardlist', $data);
@@ -903,7 +927,8 @@ class Usercontrol extends MY_Controller {
 	}
 
 
-	public function dashboard() {
+	public function dashboard()
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) {
@@ -1200,9 +1225,9 @@ class Usercontrol extends MY_Controller {
 
 		$data['user_totals'] = $this->Total_model->getUserTotals((int)$userdetails['id']);
 
-		$data['user_totals_wallet'] = $this->Wallet_model->getTotals((int)$userdetails['id']);
+		$data['user_totals_wallet'] = $this->Wallet_model->getTotals(array("user_id" => $userdetails['id']), true);
 
-	
+
 		//        khen thưởng
 		$data['reward'] = $this->db->query("SELECT * FROM reward")->result_array();
 		foreach ($data['reward'] as $reward) {
@@ -1268,7 +1293,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'dashboard/dashboard', 'usercontrol');
 	}
 
-	public function get_integartion_data($return  = false) {
+	public function get_integartion_data($return  = false)
+	{
 		$post = $this->input->post();
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
@@ -1450,7 +1476,8 @@ class Usercontrol extends MY_Controller {
 		echo json_encode($json);
 		die;
 	}
-	public function logs() {
+	public function logs()
+	{
 		$data = array();
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
@@ -1571,17 +1598,20 @@ class Usercontrol extends MY_Controller {
 		echo json_encode($data);
 		die;
 	}
-	public function logout() {
+	public function logout()
+	{
 		$this->session->unset_userdata('user');
 		$this->session->unset_userdata('client');
 		redirect('/login');
 	}
-	public function deleteUser($id) {
+	public function deleteUser($id)
+	{
 		$data['users'] = $this->admin_model->deleteUser($id);
 		$this->session->set_flashdata('success', __('user.user_deleted_successfullly'));
 		redirect('usercontrol/manageUsers');
 	}
-	public function addComission() {
+	public function addComission()
+	{
 		$post = $this->input->post(null, true);
 		if (isset($post) && !empty($post)) {
 			$this->form_validation->set_rules('buyid', 'BuyId', 'required|trim', array('required' => '%s is required'));
@@ -1617,7 +1647,8 @@ class Usercontrol extends MY_Controller {
 		$this->load->view('usercontrol/dashboard/addComission', $data);
 		$this->load->view('usercontrol/includes/footer', $data);
 	}
-	public function addUser() {
+	public function addUser()
+	{
 		$post = $this->input->post(null, true);
 		if (isset($post) && !empty($post)) {
 			$this->form_validation->set_rules('firstname', __('user.first_name'), 'required|trim', array('required' => '%s is required'));
@@ -1646,7 +1677,8 @@ class Usercontrol extends MY_Controller {
 		$this->load->view('usercontrol/dashboard/addUser', $data);
 		$this->load->view('usercontrol/includes/footer', $data);
 	}
-	public function editUser($id) {
+	public function editUser($id)
+	{
 		$post = $this->input->post(null, true);
 		if (isset($post['id']) && !empty($post['id'])) {
 			$res = array('firstname' => $post['firstname'], 'lastname' => $post['lastname'], 'updated_at' => date('Y-m-d H:i:s'));
@@ -1665,14 +1697,16 @@ class Usercontrol extends MY_Controller {
 		$this->load->view('usercontrol/dashboard/edit-user', $data);
 		$this->load->view('usercontrol/includes/footer', $data);
 	}
-	public function messages() {
+	public function messages()
+	{
 		$data['title'] = 'Message';
 		$data['users'] = $this->admin_model->getUsers($id = null);
 		$this->load->view('usercontrol/includes/header', $data);
 		$this->load->view('usercontrol/dashboard/message', $data);
 		$this->load->view('usercontrol/includes/footer', $data);
 	}
-	public function chatmessage() {
+	public function chatmessage()
+	{
 		$this->load->helper('smiley');
 		$data['title'] = 'Message';
 		$data['users'] = $this->admin_model->getUsers($id = null);
@@ -1680,7 +1714,8 @@ class Usercontrol extends MY_Controller {
 		$this->load->view('chat', $data);
 		$this->load->view('usercontrol/includes/footer', $data);
 	}
-	public function google_login() {
+	public function google_login()
+	{
 		$get = $this->input->get(null, true);
 		$clientId = '163214076002-9o582d2urnpc10nebsd032sgadhcgvmf.apps.googleusercontent.com'; //Google client ID
 		$clientSecret = 'Ent8s37alsTYf6Ai8Z7y0Z6l'; //Google client secret
@@ -1719,7 +1754,8 @@ class Usercontrol extends MY_Controller {
 			exit;
 		}
 	}
-	public function store_orders($page = 1) {
+	public function store_orders($page = 1)
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) {
@@ -1769,7 +1805,8 @@ class Usercontrol extends MY_Controller {
 		$this->load->view('usercontrol/includes/footer', $data);
 	}
 
-	public function store_venodr_orders($page = 1) {
+	public function store_venodr_orders($page = 1)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -1826,7 +1863,8 @@ class Usercontrol extends MY_Controller {
 		$this->load->view('usercontrol/includes/footer', $data);
 	}
 
-	public function external_vendor_orders($page = 1) {
+	public function external_vendor_orders($page = 1)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -1881,7 +1919,8 @@ class Usercontrol extends MY_Controller {
 	}
 
 
-	public function store_logs($page = 0) {
+	public function store_logs($page = 0)
+	{
 
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
@@ -1923,7 +1962,8 @@ class Usercontrol extends MY_Controller {
 		$this->load->view('usercontrol/includes/footer', $data);
 	}
 
-	public function store_markettools() {
+	public function store_markettools()
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) redirect('login');
@@ -2232,7 +2272,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'store/markettools', 'usercontrol');
 	}
 
-	public function listproduct_ajax($page = 1) {
+	public function listproduct_ajax($page = 1)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/');
@@ -2273,7 +2314,8 @@ class Usercontrol extends MY_Controller {
 
 		echo json_encode($json);
 	}
-	public function listproduct() {
+	public function listproduct()
+	{
 		$userdetails = $this->userdetails();
 
 
@@ -2296,11 +2338,13 @@ class Usercontrol extends MY_Controller {
 		$this->load->view('usercontrol/product/index', $data);
 		$this->load->view('usercontrol/includes/footer', $data);
 	}
-	public function managereferenceusers() {
+	public function managereferenceusers()
+	{
 		redirect('usercontrol/my_network');
 	}
 
-	public function my_network() {
+	public function my_network()
+	{
 
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
@@ -2367,7 +2411,8 @@ class Usercontrol extends MY_Controller {
 		$this->load->view('usercontrol/users/my_network', $data);
 		$this->load->view('usercontrol/includes/footer', $data);
 	}
-	public function addpayment($id = null) {
+	public function addpayment($id = null)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -2451,7 +2496,8 @@ class Usercontrol extends MY_Controller {
 			redirect('usercontrol/mywallet/#tab-paymentdetails');
 		}
 	}
-	public function generateproductcode($affiliateads_id = null) {
+	public function generateproductcode($affiliateads_id = null)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -2466,7 +2512,8 @@ class Usercontrol extends MY_Controller {
 			}
 		}
 	}
-	public function listbuyproduct() {
+	public function listbuyproduct()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -2481,7 +2528,8 @@ class Usercontrol extends MY_Controller {
 		$this->load->view('usercontrol/includes/footer', $data);
 	}
 
-	public function listbuyaffiproduct() {
+	public function listbuyaffiproduct()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -2508,7 +2556,8 @@ class Usercontrol extends MY_Controller {
 		$this->load->view('usercontrol/product/listbuyaffiproduct', $data);
 		$this->load->view('usercontrol/includes/footer', $data);
 	}
-	public function editProfile() {
+	public function editProfile()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -2752,7 +2801,8 @@ class Usercontrol extends MY_Controller {
 		}
 
 
-		function getstate($country_id = null) {
+		function getstate($country_id = null)
+		{
 			$userdetails = $this->userdetails();
 			if (empty($userdetails)) {
 				redirect('usercontrol');
@@ -2768,7 +2818,8 @@ class Usercontrol extends MY_Controller {
 			}
 		}
 	}
-	public function friendly_seo_string($vp_string) {
+	public function friendly_seo_string($vp_string)
+	{
 		$vp_string = trim($vp_string);
 		$vp_string = html_entity_decode($vp_string);
 
@@ -2781,7 +2832,8 @@ class Usercontrol extends MY_Controller {
 		$vp_string = preg_replace('~-+~', '-', $vp_string);
 		return $vp_string;
 	}
-	public function upload_photo($fieldname, $path) {
+	public function upload_photo($fieldname, $path)
+	{
 
 
 		$config['upload_path'] = $path;
@@ -2815,7 +2867,8 @@ class Usercontrol extends MY_Controller {
 		}
 		return $data;
 	}
-	public function updatenotify($country_id = null) {
+	public function updatenotify($country_id = null)
+	{
 		$userdetails = $this->userdetails();
 		$post = $this->input->post(null, true);
 
@@ -2841,7 +2894,8 @@ class Usercontrol extends MY_Controller {
 
 		echo json_encode($json);
 	}
-	public function getnotificationnew() {
+	public function getnotificationnew()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -2850,7 +2904,8 @@ class Usercontrol extends MY_Controller {
 			echo trim(count($notifications));
 		}
 	}
-	public function getnotificationall() {
+	public function getnotificationall()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -2859,7 +2914,8 @@ class Usercontrol extends MY_Controller {
 			echo trim(count($notifications));
 		}
 	}
-	public function delete_image($image_id = null) {
+	public function delete_image($image_id = null)
+	{
 		$userdetails = $this->userdetails();
 		$post = $this->input->post(null, true);
 
@@ -2871,7 +2927,8 @@ class Usercontrol extends MY_Controller {
 			}
 		}
 	}
-	public function getnotification() {
+	public function getnotification()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -2940,7 +2997,8 @@ class Usercontrol extends MY_Controller {
 			die;
 		}
 	}
-	public function vieworder($order_id) {
+	public function vieworder($order_id)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -2967,7 +3025,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function all_transaction() {
+	public function all_transaction()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) redirect('/login');
 
@@ -3002,7 +3061,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'users/all_transaction', 'usercontrol');
 	}
 
-	public function all_transaction_export_to_excel() {
+	public function all_transaction_export_to_excel()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) redirect('/login');
 
@@ -3013,7 +3073,8 @@ class Usercontrol extends MY_Controller {
 		exportToExcel($all_transaction);
 	}
 
-	public function all_transaction_export_to_pdf() {
+	public function all_transaction_export_to_pdf()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) redirect('/login');
 
@@ -3024,7 +3085,8 @@ class Usercontrol extends MY_Controller {
 		exportToPdf($userdetails['admin'], $all_transaction);
 	}
 
-	public function wallet_requests_details($id) {
+	public function wallet_requests_details($id)
+	{
 		$userdetails = $this->userdetails();
 		$get = $this->input->get(null, true);
 		$id = (int)$id;
@@ -3050,7 +3112,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'users/wallet_requests_details', 'usercontrol');
 	}
 
-	public function wallet_requests_list() {
+	public function wallet_requests_list()
+	{
 		$userdetails = $this->userdetails();
 		$get = $this->input->get(null, true);
 		$post = $this->input->post(null, true);
@@ -3101,7 +3164,8 @@ class Usercontrol extends MY_Controller {
 	}
 
 
-	public function my_deposits() {
+	public function my_deposits()
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
@@ -3171,7 +3235,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'users/deposit_requests_list', 'usercontrol');
 	}
 
-	public function deposit_details($id) {
+	public function deposit_details($id)
+	{
 		$userdetails = $this->userdetails();
 
 		$id = (int)$id;
@@ -3194,7 +3259,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'users/deposit_details', 'usercontrol');
 	}
 
-	public function mywallet() {
+	public function mywallet()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -3233,6 +3299,10 @@ class Usercontrol extends MY_Controller {
 		$this->load->model('Total_model');
 
 		$data['user_totals'] = $this->Total_model->getUserTotals((int)$userdetails['id']);
+
+		// Lấy tổng ví
+		$data['user_totals_wallet'] = $this->Wallet_model->getTotals(array("user_id" => $userdetails['id']), true);
+
 
 		$post = $this->input->post(null, true);
 		$get = $this->input->get(null, true);
@@ -3479,7 +3549,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'users/newmywallet', 'usercontrol');
 	}
 
-	public function info_remove_tran_by_commission() {
+	public function info_remove_tran_by_commission()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails) || empty($userdetails['is_vendor'])) redirect('usercontrol/dashboard');
 
@@ -3533,7 +3604,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function change_commission_status() {
+	public function change_commission_status()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails) || empty($userdetails['is_vendor'])) redirect('usercontrol/dashboard');
 
@@ -3582,7 +3654,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function wallet_change_status() {
+	public function wallet_change_status()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails) || empty($userdetails['is_vendor'])) redirect('usercontrol/dashboard');
 
@@ -3734,7 +3807,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function info_remove_tran() {
+	public function info_remove_tran()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails) || empty($userdetails['is_vendor'])) redirect('usercontrol/dashboard');
 
@@ -3786,7 +3860,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function confirm_remove_tran() {
+	public function confirm_remove_tran()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails) || empty($userdetails['is_vendor'])) redirect('usercontrol/dashboard');
 
@@ -3828,7 +3903,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function info_recursion_tran() {
+	public function info_recursion_tran()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails) || empty($userdetails['is_vendor'])) redirect('usercontrol/dashboard');
 
@@ -3918,7 +3994,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function getRecurringTransaction() {
+	public function getRecurringTransaction()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -3951,7 +4028,8 @@ class Usercontrol extends MY_Controller {
 
 		echo json_encode($json);
 	}
-	public function form() {
+	public function form()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -3976,7 +4054,8 @@ class Usercontrol extends MY_Controller {
 		$this->load->view('usercontrol/form/index', $data);
 		$this->load->view('usercontrol/includes/footer', $data);
 	}
-	public function generateformcode($form = 0) {
+	public function generateformcode($form = 0)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -3991,7 +4070,8 @@ class Usercontrol extends MY_Controller {
 			}
 		}
 	}
-	public function category_auto() {
+	public function category_auto()
+	{
 		$userdetails = $this->userdetails();
 		if (!$this->userdetails()) {
 			redirect('/', 'refresh');
@@ -4006,7 +4086,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function store_products() {
+	public function store_products()
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
@@ -4049,7 +4130,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'store/store_products', 'usercontrol');
 	}
 
-	public function sales_products() {
+	public function sales_products()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -4091,7 +4173,8 @@ class Usercontrol extends MY_Controller {
 	}
 
 	// Cập nhật doanh thu sản phẩm
-	public function update_sale_products($id = null) {
+	public function update_sale_products($id = null)
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -4131,7 +4214,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'store/create_sale_products', 'usercontrol');
 	}
 
-	public function bulkProductImportFromUrl() {
+	public function bulkProductImportFromUrl()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
 
@@ -4189,7 +4273,8 @@ class Usercontrol extends MY_Controller {
 		echo $this->load->view('admincontrol/product/bulk_upload_modal', $data, true);
 	}
 
-	public function bulkProductImport() {
+	public function bulkProductImport()
+	{
 
 		require_once APPPATH . '/core/phpspreadsheet/autoload.php';
 		$extension = "";
@@ -4297,7 +4382,8 @@ class Usercontrol extends MY_Controller {
 		echo $this->load->view('admincontrol/product/bulk_upload_modal', $data, true);
 	}
 
-	public function initialProductImportCheck($post) {
+	public function initialProductImportCheck($post)
+	{
 
 		try {
 
@@ -4520,7 +4606,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function bulkProductImportConfirm() {
+	public function bulkProductImportConfirm()
+	{
 		$data = json_decode(base64_decode($_POST['products']), true);
 
 		$result = [
@@ -4556,7 +4643,8 @@ class Usercontrol extends MY_Controller {
 		echo $this->load->view('admincontrol/product/bulk_upload_modal', $result, true);
 	}
 
-	public function createUpdateImportedProduct($post) {
+	public function createUpdateImportedProduct($post)
+	{
 
 		try {
 
@@ -4680,7 +4768,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	private function getProductXlsIndex($xlsHeaders) {
+	private function getProductXlsIndex($xlsHeaders)
+	{
 		$headers = $this->productXLSheaders();
 		$newHeaders = [];
 		foreach ($headers as $key => $value) {
@@ -4690,7 +4779,8 @@ class Usercontrol extends MY_Controller {
 		return $newHeaders;
 	}
 
-	private function productXLSheaders() {
+	private function productXLSheaders()
+	{
 		return array(
 			'product_id' => 'Product ID',
 
@@ -4713,7 +4803,8 @@ class Usercontrol extends MY_Controller {
 		);
 	}
 
-	public function exportproduct() {
+	public function exportproduct()
+	{
 
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
@@ -4794,7 +4885,8 @@ class Usercontrol extends MY_Controller {
 		exit;
 	}
 
-	public function exportproductXML() {
+	public function exportproductXML()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
 		$store_setting = $this->Product_model->getSettings('store');
@@ -4882,7 +4974,8 @@ class Usercontrol extends MY_Controller {
 		exit;
 	}
 
-	public function downloadprodcutxmlstructurefile($filename = NULL) {
+	public function downloadprodcutxmlstructurefile($filename = NULL)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
 		$this->load->helper('download');
@@ -4890,7 +4983,8 @@ class Usercontrol extends MY_Controller {
 		force_download("export_vendor_products_structure.xml", $data);
 	}
 
-	public function downloadprodcutxmlfile($filename = NULL) {
+	public function downloadprodcutxmlfile($filename = NULL)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
 		$this->load->helper('download');
@@ -4898,7 +4992,8 @@ class Usercontrol extends MY_Controller {
 		force_download("export_vendor_products.xml", $data);
 	}
 
-	public function check_duplicate_store() {
+	public function check_duplicate_store()
+	{
 		$userdetails = $this->userdetails();
 		$data = $this->input->post(null, true);
 		$data['store_name'] = urldecode($data['store_name']);
@@ -4917,7 +5012,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function store_setting() {
+	public function store_setting()
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
@@ -5041,7 +5137,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'store/store_setting', 'usercontrol');
 	}
 
-	public function contact_us() {
+	public function contact_us()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -5134,7 +5231,8 @@ class Usercontrol extends MY_Controller {
 	}
 
 
-	public function create() {
+	public function create()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -5166,7 +5264,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'store/create_sale_products', 'usercontrol');
 	}
 
-	public function save_sale_product() {
+	public function save_sale_product()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -5577,7 +5676,8 @@ class Usercontrol extends MY_Controller {
 	}
 
 
-	public function integration_code_modal_sale() {
+	public function integration_code_modal_sale()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -5587,7 +5687,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function store_edit_product($product_id = 0) {
+	public function store_edit_product($product_id = 0)
+	{
 
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
@@ -5621,7 +5722,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'store/product_form', 'usercontrol');
 	}
 
-	public function store_save_product() {
+	public function store_save_product()
+	{
 
 		$userdetails = $this->userdetails();
 		$post = $this->input->post(null, true);
@@ -6232,7 +6334,8 @@ class Usercontrol extends MY_Controller {
 			die;
 		}
 	}
-	public function productupload($id = null) {
+	public function productupload($id = null)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('login');
@@ -6329,7 +6432,8 @@ class Usercontrol extends MY_Controller {
 		$data['imageslist'] = $this->Product_model->getAllImages($id);
 		$this->view($data, 'store/productupload', 'usercontrol');
 	}
-	public function videoupload($id = null) {
+	public function videoupload($id = null)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect($this->admin_domain_url);
@@ -6395,7 +6499,8 @@ class Usercontrol extends MY_Controller {
 			$this->view($data, 'store/videoupload', 'usercontrol');
 		}
 	}
-	public function deleteAllproducts() {
+	public function deleteAllproducts()
+	{
 		$post = $this->input->post(null, true);
 
 		$vendor_setting = $this->Product_model->getSettings('vendor');
@@ -6435,7 +6540,8 @@ class Usercontrol extends MY_Controller {
 		redirect(base_url() . 'usercontrol/store_products');
 	}
 
-	public function deleteALLSaleproducts() {
+	public function deleteALLSaleproducts()
+	{
 		$post = $this->input->post(null, true);
 
 		$vendor_setting = $this->Product_model->getSettings('vendor');
@@ -6475,7 +6581,8 @@ class Usercontrol extends MY_Controller {
 
 
 	// Tính toán hoa hồng
-	public function calc_commission() {
+	public function calc_commission()
+	{
 		$data = $this->input->post(null, true);
 		$userdetails = $this->userdetails();
 
@@ -6522,7 +6629,8 @@ class Usercontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function store_coupon_manage($coupon_id = 0) {
+	public function store_coupon_manage($coupon_id = 0)
+	{
 		if (!$this->userdetails()) {
 			redirect('/', 'refresh');
 		}
@@ -6536,7 +6644,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'store/coupon_form', 'usercontrol');
 	}
 
-	public function store_coupon_delete($coupon_id) {
+	public function store_coupon_delete($coupon_id)
+	{
 		if (!$this->userdetails()) {
 			redirect('/', 'refresh');
 		}
@@ -6549,7 +6658,8 @@ class Usercontrol extends MY_Controller {
 
 		redirect(base_url("usercontrol/store_coupon"));
 	}
-	public function store_coupon() {
+	public function store_coupon()
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
@@ -6577,7 +6687,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'store/coupon_index', 'usercontrol');
 	}
 
-	public function store_dashboard() {
+	public function store_dashboard()
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
@@ -6592,7 +6703,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'store/dashboard', 'usercontrol');
 	}
 
-	public function store_dashboard_order_list() {
+	public function store_dashboard_order_list()
+	{
 
 		$userdetails = $this->userdetails();
 
@@ -6651,7 +6763,8 @@ class Usercontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function save_coupon() {
+	public function save_coupon()
+	{
 		if (!$this->userdetails()) {
 			redirect('/', 'refresh');
 		}
@@ -6731,7 +6844,8 @@ class Usercontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function programs() {
+	public function programs()
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
@@ -6749,7 +6863,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'integration/programs', 'usercontrol');
 	}
 
-	public function programs_form($program_id = 0) {
+	public function programs_form($program_id = 0)
+	{
 		$userdetails = $this->userdetails();
 		if (!$this->userdetails()) {
 			redirect('usercontrol/dashboard', 'refresh');
@@ -6769,7 +6884,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'integration/programs_form', 'usercontrol');
 	}
 
-	public function delete_programs_form() {
+	public function delete_programs_form()
+	{
 		$userdetails = $this->userdetails();
 		if (!$this->userdetails()) {
 			redirect('usercontrol/dashboard', 'refresh');
@@ -6792,7 +6908,8 @@ class Usercontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function editProgram() {
+	public function editProgram()
+	{
 		$userdetails = $this->userdetails();
 		if (!$userdetails) {
 			redirect('usercontrol/dashboard', 'refresh');
@@ -6852,7 +6969,8 @@ class Usercontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function integration_tools($page = 1) {
+	public function integration_tools($page = 1)
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
@@ -6932,7 +7050,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'integration_tools/integration_tools', 'usercontrol');
 	}
 
-	public function getIntegrationMlmInfo() {
+	public function getIntegrationMlmInfo()
+	{
 		if (!$this->userdetails()) {
 			redirect('admincontrol/dashboard', 'refresh');
 		}
@@ -6967,7 +7086,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function integration_terms_modal() {
+	public function integration_terms_modal()
+	{
 		if (!$this->userdetails()) {
 			redirect('usercontrol/dashboard', 'refresh');
 		}
@@ -6980,7 +7100,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function get_plugin_instructions_for_modal($module_key, $toolsname) {
+	public function get_plugin_instructions_for_modal($module_key, $toolsname)
+	{
 		if (!$this->userdetails()) {
 			redirect('admincontrol/dashboard', 'refresh');
 		}
@@ -7018,7 +7139,8 @@ class Usercontrol extends MY_Controller {
 	}
 
 
-	public function integration_code_modal() {
+	public function integration_code_modal()
+	{
 		if (!$this->userdetails()) {
 			redirect('usercontrol/dashboard', 'refresh');
 		}
@@ -7062,7 +7184,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function integration_tools_form($type = "banner", $tools_id = 0) {
+	public function integration_tools_form($type = "banner", $tools_id = 0)
+	{
 		$userdetails = $this->userdetails();
 		if (!$userdetails) {
 			redirect('usercontrol/dashboard', 'refresh');
@@ -7105,7 +7228,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'integration_tools/integration_tools_form', 'usercontrol');
 	}
 
-	function valid_url_custom($url) {
+	function valid_url_custom($url)
+	{
 		if (filter_var($url, FILTER_VALIDATE_URL)) {
 			return TRUE;
 		} else {
@@ -7113,7 +7237,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function integration_tools_form_post() {
+	public function integration_tools_form_post()
+	{
 
 		$userdetails = $this->userdetails();
 		if (!$userdetails) {
@@ -7259,7 +7384,8 @@ class Usercontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function integration_tools_delete($tools_id) {
+	public function integration_tools_delete($tools_id)
+	{
 		$userdetails = $this->userdetails();
 		if (!$this->userdetails()) {
 			redirect('usercontrol/dashboard', 'refresh');
@@ -7271,7 +7397,8 @@ class Usercontrol extends MY_Controller {
 		redirect(base_url("usercontrol/integration_tools"));
 	}
 
-	public function tool_get_code($control = 'usercontrol') {
+	public function tool_get_code($control = 'usercontrol')
+	{
 		$tools_id = (int)$this->input->post("id", true);
 		if ($control == 'usercontrol') {
 			if (!$this->userdetails()) {
@@ -7296,7 +7423,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function integration_category_auto() {
+	public function integration_category_auto()
+	{
 		$userdetails = $this->userdetails();
 		if (!$this->userdetails()) {
 			redirect('/', 'refresh');
@@ -7310,7 +7438,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function integration_tools_duplicate($tools_id) {
+	public function integration_tools_duplicate($tools_id)
+	{
 		$userdetails = $this->userdetails();
 
 		$userPlan = App\MembershipUser::with("plan")->where('is_active', 1)->where('user_id', $userdetails['id'])->first();
@@ -7328,7 +7457,8 @@ class Usercontrol extends MY_Controller {
 		redirect(base_url('usercontrol/integration_tools'));
 	}
 
-	public function integration_code_modal_new() {
+	public function integration_code_modal_new()
+	{
 		$userdetails = $this->userdetails();
 		if (!$userdetails) {
 			redirect('/', 'refresh');
@@ -7373,7 +7503,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function get_withdrawal_modal() {
+	public function get_withdrawal_modal()
+	{
 		$userdetails = $this->userdetails();
 		if (!$userdetails) {
 			redirect('/', 'refresh');
@@ -7447,7 +7578,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function get_withdrawal_modal_request() {
+	public function get_withdrawal_modal_request()
+	{
 		$userdetails = $this->userdetails();
 		if (!$userdetails) {
 			redirect('/', 'refresh');
@@ -7521,7 +7653,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function get_withdrwal_history($id) {
+	public function get_withdrwal_history($id)
+	{
 		$status_history = $this->db->query("SELECT * FROM wallet_requests_history WHERE req_id={$id} ORDER BY id DESC ")->result_array();
 		$json['html'] = '';
 
@@ -7537,7 +7670,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function purchase_plan() {
+	public function purchase_plan()
+	{
 		$userdetails = $this->Product_model->userdetails('user', 1);
 		$membership = $this->Product_model->getSettings('membership');
 
@@ -7598,7 +7732,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function purchase_plan_expire() {
+	public function purchase_plan_expire()
+	{
 		$data = ['notcheckmember' => 1];
 		$membership = $this->Product_model->getSettings('membership');
 		if ((int)$membership['status'] == 0) {
@@ -7625,7 +7760,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, "membership/purchase_plan_expire", 'usercontrol');
 	}
 
-	public function purchase_history($page = 1) {
+	public function purchase_history($page = 1)
+	{
 		$userdetails = $this->Product_model->userdetails('user', 1);
 		$membership = $this->Product_model->getSettings('membership');
 		if (($membership['status'] == 1) || (($membership['status'] == 2) && ($userdetails['is_vendor'] == 1)) || (($membership['status'] == 3) && ($userdetails['is_vendor'] == 0))) {
@@ -7652,7 +7788,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function membership_purchase_details($plan_id = 1) {
+	public function membership_purchase_details($plan_id = 1)
+	{
 		if ($this->Product_model->isMembershipAccess()) {
 			$data = ['notcheckmember' => 1];
 			$membership = $this->Product_model->getSettings('membership');
@@ -7674,7 +7811,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function create_slug() {
+	public function create_slug()
+	{
 		$json = array();
 
 		$userdetails = $this->userdetails();
@@ -7736,7 +7874,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function delete_slug() {
+	public function delete_slug()
+	{
 		$json = array();
 
 		$userdetails = $this->userdetails();
@@ -7779,7 +7918,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function get_slug() {
+	public function get_slug()
+	{
 		$json = array();
 
 		$userdetails = $this->userdetails();
@@ -7802,7 +7942,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	function _alpha_dash_space($str_in) {
+	function _alpha_dash_space($str_in)
+	{
 		$post = $this->input->post(null, true);
 
 		$userdetails = $this->userdetails();
@@ -7826,7 +7967,8 @@ class Usercontrol extends MY_Controller {
 	}
 
 
-	public function downloadToolCode($id, $category) {
+	public function downloadToolCode($id, $category)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			die();
@@ -7962,7 +8104,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	private function prepareParamLink($url, $key, $value) {
+	private function prepareParamLink($url, $key, $value)
+	{
 		$url = preg_replace('/(.*)(?|&)' . $key . '=[^&]+?(&)(.*)/i', '$1$2$4', $url . '&');
 		$url = substr($url, 0, -1);
 
@@ -7973,7 +8116,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function get_payment_methods() {
+	public function get_payment_methods()
+	{
 		$vendorDepositStatus = $this->Product_model->getSettings('vendor', 'depositstatus');
 
 		if ($vendorDepositStatus['depositstatus']) {
@@ -8022,7 +8166,8 @@ class Usercontrol extends MY_Controller {
 		echo json_encode($json);
 	}
 
-	public function confirm_deposit() {
+	public function confirm_deposit()
+	{
 		$vendorDepositStatus = $this->Product_model->getSettings('vendor', 'depositstatus');
 		if ($vendorDepositStatus['depositstatus']) {
 			$data = $this->input->post(null, true);
@@ -8108,7 +8253,8 @@ class Usercontrol extends MY_Controller {
 		die();
 	}
 
-	public function payment_confirmation() {
+	public function payment_confirmation()
+	{
 		$json = array();
 
 		$meta = array();
@@ -8151,7 +8297,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function confirm_payment() {
+	public function confirm_payment()
+	{
 		$comment = $this->input->post('comment', true);
 
 		$paymentGateways = $this->session->userdata('payment_gateways');
@@ -8212,7 +8359,8 @@ class Usercontrol extends MY_Controller {
 		die;
 	}
 
-	public function paymentGateway($paymentGateway, $method, $uncompleted_id = '', $action = '') {
+	public function paymentGateway($paymentGateway, $method, $uncompleted_id = '', $action = '')
+	{
 		if (is_file(APPPATH . '/payment_gateway/controllers/' . $paymentGateway . '.php')) {
 			require APPPATH . '/payment_gateway/controllers/' . $paymentGateway . '.php';
 
@@ -8227,7 +8375,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function confirmPaymentGateway($uncompleted_id, $status, $transaction_id = '', $comment = '') {
+	public function confirmPaymentGateway($uncompleted_id, $status, $transaction_id = '', $comment = '')
+	{
 		$ex = new Exception();
 		$trace = $ex->getTrace();
 		if (!isset($trace[1]['class'])) {
@@ -8268,7 +8417,8 @@ class Usercontrol extends MY_Controller {
 		return false;
 	}
 
-	public function mlm_levels() {
+	public function mlm_levels()
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
@@ -8317,7 +8467,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function mlm_settings() {
+	public function mlm_settings()
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
@@ -8362,7 +8513,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function wallet_setting() {
+	public function wallet_setting()
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
@@ -8397,7 +8549,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'setting/wallet_setting', 'usercontrol');
 	}
 
-	public function share_sales_setting() {
+	public function share_sales_setting()
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
@@ -8441,7 +8594,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'setting/share_sales_setting', 'usercontrol');
 	}
 
-	public function setCookie() {
+	public function setCookie()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
 
@@ -8459,11 +8613,13 @@ class Usercontrol extends MY_Controller {
 		die();
 	}
 
-	public function getSettings($key) {
+	public function getSettings($key)
+	{
 		return $this->Product_model->getSettings($key);
 	}
 
-	public function check_campaign_security_with_id($id) {
+	public function check_campaign_security_with_id($id)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
 
@@ -8501,7 +8657,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function check_campaign_security() {
+	public function check_campaign_security()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
 
@@ -8557,7 +8714,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function updateComment() {
+	public function updateComment()
+	{
 
 		if ($this->input->server('REQUEST_METHOD') === 'POST') {
 			$comment = $this->input->post('comment');
@@ -8573,7 +8731,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function tickets() {
+	public function tickets()
+	{
 
 		$userdashboard_settings = $this->Common_model->getUserDashboardSettings();
 
@@ -8598,7 +8757,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'tickets/tickets', 'usercontrol');
 	}
 
-	public function createticket() {
+	public function createticket()
+	{
 		$userdetails = $this->userdetails();
 
 		if (empty($userdetails)) {
@@ -8715,7 +8875,8 @@ class Usercontrol extends MY_Controller {
 
 		$this->view($data, 'tickets/create', 'usercontrol');
 	}
-	public function ticketdetails($id) {
+	public function ticketdetails($id)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -8736,7 +8897,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function getTickestReply() {
+	public function getTickestReply()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -8754,7 +8916,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function sendMessage() {
+	public function sendMessage()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -8831,7 +8994,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function closetickets() {
+	public function closetickets()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -8862,7 +9026,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function getStaticData() {
+	public function getStaticData()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -8876,7 +9041,8 @@ class Usercontrol extends MY_Controller {
 		echo json_encode($data);
 	}
 
-	public function uncompleted_payments() {
+	public function uncompleted_payments()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) redirect($this->admin_domain_url);
 
@@ -8928,7 +9094,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'users/uncompleted_payments', 'usercontrol');
 	}
 
-	public function listclients($page = 1) {
+	public function listclients($page = 1)
+	{
 
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) redirect('usercontrol/dashboard');
@@ -8970,7 +9137,8 @@ class Usercontrol extends MY_Controller {
 		$this->view($data, 'clients/index', 'usercontrol');
 	}
 
-	public function getShippingDetails() {
+	public function getShippingDetails()
+	{
 		if ($this->input->server('REQUEST_METHOD') === 'POST') {
 			$user_id = $this->input->post('id');
 			$data = $this->db->query("SELECT shipping_address.*,countries.name as country_name,states.name as state_name FROM shipping_address INNER JOIN countries ON countries.id=shipping_address.country_id INNER JOIN states ON states.id=shipping_address.state_id WHERE user_id = $user_id")->row_array();
@@ -8979,7 +9147,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function payment_details($id = null) {
+	public function payment_details($id = null)
+	{
 
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
@@ -9125,7 +9294,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function listreviews_ajax($page = 1) {
+	public function listreviews_ajax($page = 1)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -9183,7 +9353,8 @@ class Usercontrol extends MY_Controller {
 	}
 
 
-	public function manage_review($id = null) {
+	public function manage_review($id = null)
+	{
 
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
@@ -9324,7 +9495,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function deleteReview($id = null) {
+	public function deleteReview($id = null)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			if (empty($userdetails)) {
@@ -9342,7 +9514,8 @@ class Usercontrol extends MY_Controller {
 		redirect('usercontrol/store_products');
 	}
 
-	public function exportReviewXML() {
+	public function exportReviewXML()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -9442,7 +9615,8 @@ class Usercontrol extends MY_Controller {
 		exit;
 	}
 
-	public function bulkReviewsImport() {
+	public function bulkReviewsImport()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -9519,7 +9693,8 @@ class Usercontrol extends MY_Controller {
 		echo $this->load->view('usercontrol/store/bulk_review_upload_modal', $data, true);
 	}
 
-	public function bulkReviewImportFromUrl() {
+	public function bulkReviewImportFromUrl()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -9582,7 +9757,8 @@ class Usercontrol extends MY_Controller {
 		echo $this->load->view('usercontrol/store/bulk_review_upload_modal', $data, true);
 	}
 
-	public function downloadproductreviewxmlstructurefile($filename = NULL) {
+	public function downloadproductreviewxmlstructurefile($filename = NULL)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -9592,7 +9768,8 @@ class Usercontrol extends MY_Controller {
 		force_download("export_vendor_product_reviews_structure.xml", $data);
 	}
 
-	public function downloadproductreviewxmlfile($filename = NULL) {
+	public function downloadproductreviewxmlfile($filename = NULL)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -9602,7 +9779,8 @@ class Usercontrol extends MY_Controller {
 		force_download("export_vendor_product_reviews.xml", $data);
 	}
 
-	function checkDateTime($date) {
+	function checkDateTime($date)
+	{
 		$format = 'Y-m-d H:i:s';
 		$d = DateTime::createFromFormat($format, $date);
 		if ($d && $d->format($format) == $date)
@@ -9613,7 +9791,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function initialReviewImportCheck($post) {
+	public function initialReviewImportCheck($post)
+	{
 
 		try {
 			$userdetails = $this->userdetails();
@@ -9741,7 +9920,8 @@ class Usercontrol extends MY_Controller {
 		}
 	}
 
-	public function bulkReviewImportConfirm() {
+	public function bulkReviewImportConfirm()
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -9783,7 +9963,8 @@ class Usercontrol extends MY_Controller {
 		echo $this->load->view('usercontrol/store/bulk_review_upload_modal', $result, true);
 	}
 
-	public function createUpdateImportedReview($post) {
+	public function createUpdateImportedReview($post)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -9849,7 +10030,8 @@ class Usercontrol extends MY_Controller {
 	}
 
 
-	public function tutorial($id) {
+	public function tutorial($id)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -9862,7 +10044,8 @@ class Usercontrol extends MY_Controller {
 		$this->load->view('usercontrol/includes/footer', $data);
 	}
 
-	public function contactus($id) {
+	public function contactus($id)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -9879,7 +10062,8 @@ class Usercontrol extends MY_Controller {
 	}
 
 
-	public function orders_notifications($id = null) {
+	public function orders_notifications($id = null)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -9906,7 +10090,8 @@ class Usercontrol extends MY_Controller {
 	}
 
 
-	public function click_notification($id = null) {
+	public function click_notification($id = null)
+	{
 		$userdetails = $this->userdetails();
 		if (empty($userdetails)) {
 			redirect('/login');
@@ -9936,7 +10121,8 @@ class Usercontrol extends MY_Controller {
 			redirect('/usercontrol/notification');
 	}
 
-	public function set_star_for_user() {
+	public function set_star_for_user()
+	{
 		$this->load->model('User_model');
 		$this->User_model->setStarForUser();
 		echo "success";

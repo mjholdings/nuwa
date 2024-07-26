@@ -10649,7 +10649,6 @@ class Admincontrol extends MY_Controller
 				$data['userslist'] = $userslist['data'];
 
 
-
 				$this->load->library('pagination');
 
 

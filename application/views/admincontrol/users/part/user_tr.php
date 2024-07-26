@@ -1,10 +1,19 @@
-<?php $k = 1;
+<?php
+
+$this->load->model('Wallet_model');
+
+$k = 1;
 foreach ($userslist as $users) {  ?>
 
 	<?php
 	$hasFiles = false;
 	$valueStored = json_decode($users['value']);
 	$fieldsShown = [];
+
+
+	// Lấy tổng ví
+	$user_totals_wallet = $this->Wallet_model->getTotals(array("user_id" => $users['id']), true);
+
 	?>
 
 	<?php foreach ($data as $key => $value) {
@@ -291,14 +300,13 @@ foreach ($userslist as $users) {  ?>
 			<div class="card m-2 p-2">
 
 				<div class="row">
+					<div class='col-sm-4 col-md-3'><b><?= __('Ví Tiêu dùng (Nạp)') ?>:</b> <?php echo c_format($user_totals_wallet['balance_wallet_purchase']); ?></div>
 
-					<div class='col-sm-4 col-md-3'><b><?= __('Ví Tiêu dùng (Nạp)') ?>:</b> <?php echo c_format($users['paid_commition']); ?></div>
+					<div class='col-sm-4 col-md-3'><b><?= __('Ví Tài khoản (Rút)') ?>:</b> <?php echo c_format($user_totals_wallet['balance_wallet_withdraw']); ?></div>
 
-					<div class='col-sm-4 col-md-3'><b><?= __('Ví Tài khoản (Rút)') ?>:</b> <?php echo c_format($users['paid_commition']); ?></div>
+					<div class='col-sm-4 col-md-3'><b><?= __('Ví Điểm (Nuwa)') ?>:</b> <?php echo c_format($user_totals_wallet['balance_wallet_credit']); ?></div>
 
-					<div class='col-sm-4 col-md-3'><b><?= __('Ví Điểm (Nuwa)') ?>:</b> <?php echo c_format($users['paid_commition']); ?></div>
-
-					<div class='col-sm-4 col-md-3'><b><?= __('Ví ') ?> <?= __('admin.commissions') ?>:</b> <?php echo c_format($users['all_commition']); ?></div>
+					<div class='col-sm-4 col-md-3'><b><?= __('Ví ') ?> <?= __('admin.commissions') ?>:</b> <?php echo c_format($user_totals_wallet['balance_wallet_reward']); ?></div>
 
 					<div class='col-sm-4 col-md-3'><b><?= __('Yêu cầu rút/chuyển') ?>:</b> <?php echo c_format($users['in_request_commiton']); ?></div>
 

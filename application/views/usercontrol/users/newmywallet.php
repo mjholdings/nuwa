@@ -11,15 +11,9 @@
 			<div class="card-body">
 				<div class="text-center">
 					<ul class="list-inline row mb-0 clearfix">
-						<li class="col-6">
-							<p class="m-b-5 font-18 font-500 counter text-primary set-color"><strong><?= c_format($user_totals['user_balance']) ?></strong></p>
+						<li class="col-12">
+							<p class="m-b-5 font-18 font-500 counter text-primary set-color"><strong><?= c_format($user_totals_wallet['balance_wallet_purchase']) ?></strong></p>
 							<p class="mb-0 text-muted"><?= __('user.balance') ?></p>
-						</li>
-						<li class="col-6 border-left">
-							<p class="m-b-5 font-18 font-500 counter text-primary set-color"><?= c_format($user_totals['wallet_accept_amount']);
-																								?></p>
-							<p class="mb-0 text-muted"><?= __('user.paid_balance')
-														?></p>
 						</li>
 					</ul>
 				</div>
@@ -34,15 +28,9 @@
 			<div class="card-body">
 				<div class="text-center">
 					<ul class="list-inline row mb-0 clearfix">
-						<li class="col-6">
-							<p class="m-b-5 font-18 font-500 counter text-primary set-color"><strong><?= c_format($user_totals['user_balance']) ?></strong></p>
+						<li class="col-12">
+							<p class="m-b-5 font-18 font-500 counter text-primary set-color"><strong><?= c_format($user_totals_wallet['balance_wallet_reward']) ?></strong></p>
 							<p class="mb-0 text-muted"><?= __('Ví Thưởng') ?></p>
-						</li>
-						<li class="col-6 border-left">
-							<p class="m-b-5 font-18 font-500 counter text-primary set-color"><?= c_format($user_totals['wallet_accept_amount']);
-																								?></p>
-							<p class="mb-0 text-muted"><?= __('user.paid_balance')
-														?></p>
 						</li>
 					</ul>
 				</div>
@@ -57,15 +45,9 @@
 			<div class="card-body">
 				<div class="text-center">
 					<ul class="list-inline row mb-0 clearfix">
-						<li class="col-6">
-							<p class="m-b-5 font-18 font-500 counter text-primary set-color"><strong><?= c_format($user_totals['user_balance']) ?></strong></p>
+						<li class="col-12">
+							<p class="m-b-5 font-18 font-500 counter text-primary set-color"><strong><?= c_format($user_totals_wallet['balance_wallet_credit']) ?></strong></p>
 							<p class="mb-0 text-muted"><?= __('Ví Điểm') ?></p>
-						</li>
-						<li class="col-6 border-left">
-							<p class="m-b-5 font-18 font-500 counter text-primary set-color"><?= c_format($user_totals['wallet_accept_amount']);
-																								?></p>
-							<p class="mb-0 text-muted"><?= __('user.paid_balance')
-														?></p>
 						</li>
 					</ul>
 				</div>
@@ -80,16 +62,11 @@
 			<div class="card-body">
 				<div class="text-center">
 					<ul class="list-inline row mb-0 clearfix">
-						<li class="col-6">
-							<p class="m-b-5 font-18 font-500 counter text-primary set-color"><strong><?= c_format($user_totals['user_balance']) ?></strong></p>
+						<li class="col-12">
+							<p class="m-b-5 font-18 font-500 counter text-primary set-color"><strong><?= c_format($user_totals_wallet['balance_wallet_withdraw']) ?></strong></p>
 							<p class="mb-0 text-muted"><?= __('Ví tài khoản (Rút ra)') ?></p>
 						</li>
-						<li class="col-6 border-left">
-							<p class="m-b-5 font-18 font-500 counter text-primary set-color"><?= c_format($user_totals['wallet_accept_amount']);
-																								?></p>
-							<p class="mb-0 text-muted"><?= __('user.paid_balance')
-														?></p>
-						</li>
+
 					</ul>
 				</div>
 			</div>

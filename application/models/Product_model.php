@@ -4107,12 +4107,6 @@ class Product_model extends MY_Model
     public function getMyUnder($user_id, $first_time = true)
     {
 
-        // Nếu $user_id = 1 thì 
-        $user_id_admin = $user_id;
-        if ($user_id == 1) {
-            $user_id_admin = 0;
-        }
-
         if ($first_time) {
             $this->level_count = 0;
         }

@@ -45,7 +45,7 @@
 									</span>
 								</div>
 
-								<input type="hidden" name="user_id" class="input-transaction" value="<?= isset($user) ? $user['id'] : '' ?>">
+								<input type="hidden" name="user_id" class="input-transaction" value="<?= isset($userdetails) ? $userdetails['id'] : '' ?>">
 
 								<!-- Amount Input -->
 								<div class="row">
@@ -109,7 +109,9 @@
 			}
 		});
 	});
+
 	$("#Country").trigger('change');
+
 	$(document).ready(function() {
 
 		$("#update-user").on('click', function() {
@@ -203,6 +205,8 @@
 			}
 		})
 	});
+
+	// Nạp tiền vào ví
 	$(".add-transaction").on('click', function() {
 		$this = $("#add-transaction");
 

@@ -8255,8 +8255,7 @@ class Admincontrol extends MY_Controller
 	}
 
 
-
-	public function add_transaction()
+	public function add_transaction($wallet_from = 'admin')
 	{
 
 		$this->load->library('form_validation');
@@ -8285,13 +8284,13 @@ class Admincontrol extends MY_Controller
 
 				'wallet_to'      => $this->input->post("deposit", true),
 
-				'wallet_from'    => 'admin',
+				'wallet_from'    => $wallet_from,
 
-				'type'           => 'admin_transaction',
+				'type'           => $wallet_from . '_transaction',
 
 				'is_sent'        => '0',
 
-				'withdraw_request'        => '0',
+				'withdraw_request' => '0',
 
 				'dis_type'       => '',
 
@@ -8314,7 +8313,11 @@ class Admincontrol extends MY_Controller
 			else
 				$this->session->set_flashdata('error', __('admin.transaction_not_add'));
 
-			$json['location'] = base_url("admincontrol/addusers/" . $this->input->post("user_id", true));
+			if ($wallet_from == 'admin') {
+				$json['location'] = base_url("admincontrol/addusers/" . $this->input->post("user_id", true));
+			} else {
+				$json['location'] = base_url("usercontrol/mywallet");
+			}
 		}
 
 		echo json_encode($json);

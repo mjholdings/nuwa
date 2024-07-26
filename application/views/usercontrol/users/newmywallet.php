@@ -207,6 +207,8 @@
 										<button type="button" class="btn btn-info withdrawal-all"><?= __('user.withdrawal_all_selected') ?></button>
 										<button type="button" class="btn btn-info deposit-request"><?= __('Nạp tiền') ?></button>
 										<button type="button" class="btn btn-info withdraw-request"><?= __('Rút tiền') ?></button>
+
+										<!-- Rút tiền -->
 										<div class="modal fade" id="0-withdraw-request">
 											<div class="modal-dialog">
 												<!-- Modal content-->
@@ -242,6 +244,43 @@
 													</div>
 													<div class="modal-footer">
 														<button type="button" class="btn btn-primary withdrawal-unpaid"><?= __('Xác nhận') ?></button>
+														<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= __('user.close') ?></button>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<!-- Nạp tiền -->
+										<div class="modal fade" id="0-deposit-request">
+											<div class="modal-dialog">
+												<!-- Modal content-->
+												<div class="modal-content">
+													<div class="modal-header">
+														<h4 class="modal-title"><?= __('Yêu cầu nạp tiền') ?></h4>
+														<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													</div>
+													<div class="modal-body">
+														<div class="mt-2 mb-3">
+															<h6>Nạp tiền vào</h6>
+															<select class="form-control input-transaction" id="deposit" name="deposit-wallet">
+																<option value="withdraw">Ví Tài khoản (VND)</option>
+																<option value="consum" selected>Ví Tiêu dùng</option>
+																<option value="reward">Ví Thưởng</option>
+																<option value="credit">Ví Điểm (Nuwa)</option>
+															</select>
+														</div>
+														<input type="hidden" name="user_id" class="input-transaction" value="<?= isset($userdetails) ? $userdetails['id'] : '' ?>">
+
+														<div><?= __('Nhập số tiền cần nạp') ?></div>
+														<input class="form-control input-transaction mb-3" type="number" name="amount" value="" min="1" step="any" oninput="validity.valid||(value='');">
+
+														<div><?= __('Nội dung') ?></div>
+														<input class="form-control input-transaction" type="text" name="comment" value="">
+
+
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-primary add-transaction"><?= __('Xác nhận') ?></button>
 														<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= __('user.close') ?></button>
 													</div>
 												</div>
@@ -533,9 +572,20 @@
 	$('.selectall').on('change', function() {
 		$('.wallet-checkbox').prop("checked", $(this).prop("checked"));
 	});
+
+	// Mở rút tiền
 	$('.withdraw-request').on('click', function() {
+		$("#0-deposit-request").modal("hide");
 		$("#0-withdraw-request").modal("show");
 	});
+
+	// Mở nạp tiền
+	$('.deposit-request').on('click', function() {
+		$("#0-withdraw-request").modal("hide");
+		$("#0-deposit-request").modal("show");
+	});
+
+	// Click xác nhận rút tiền
 	$('.withdrawal-unpaid').on('click', function() {
 		var amount = $("input[name='amount-request']").val();
 		var dataVal = $("input[name='amount-request']").data('val');
@@ -546,6 +596,48 @@
 		}
 
 	});
+
+	// Click xác nhận nạp tiền
+	$('.add-transaction').on('click', function() {
+		var amount = $("input[name='amount']").val();
+		var dataVal = $("input[name='amount']").data('val');
+
+		$this = $("#add-transaction");
+
+		$.ajax({
+			url: '<?= base_url("admincontrol/add_transaction") ?>',
+			type: 'post',
+			dataType: 'json',
+			data: $(".input-transaction"),
+			beforeSend: function() {
+				$(".add-transaction").btn("loading")
+			},
+			complete: function() {
+				$(".add-transaction").btn("reset")
+			},
+			success: function(json) {
+				if (json['location']) {
+					window.location = json['location'];
+				}
+
+				$this.find(".has-error").removeClass("has-error");
+				$this.find("span.text-danger").remove();
+
+				if (json['errors']) {
+					$.each(json['errors'], function(i, j) {
+						$ele = $this.find('#' + i);
+						if ($ele.hasClass('form-group')) {
+							$ele.addClass("has-error");
+							$ele.append("<br><span class='text-danger'>" + j + "</span>");
+						} else {
+							$ele.parents(".form-group").addClass("has-error");
+							$ele.after("<span class='text-danger'>" + j + "</span>");
+						}
+					})
+				}
+			}
+		})
+	})
 
 	$('.withdrawal-all').on('click', function() {
 		var ids = $(".wallet-checkbox:checked").map(function() {

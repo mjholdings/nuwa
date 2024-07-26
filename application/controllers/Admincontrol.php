@@ -8396,7 +8396,7 @@ class Admincontrol extends MY_Controller
 	}
 
 
-
+	// Xem danh sách thành viên tuyến dưới
 	public function downline($user_id)
 	{
 

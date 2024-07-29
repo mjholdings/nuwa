@@ -6645,6 +6645,8 @@ class Admincontrol extends MY_Controller
 		}
 	}
 
+
+
 	public function listproduct_ajax($page = 1)
 	{
 
@@ -20467,6 +20469,8 @@ class Admincontrol extends MY_Controller
 		$data['ordercount'] = $this->db->query('SELECT COUNT(op.id) as total FROM `order_products` op LEFT JOIN `order` as o ON o.id = op.order_id WHERE o.status > 0 ')->row()->total;
 
 		$data['categories'] = $this->db->query("SELECT id,name FROM categories")->result_array();
+
+		$data['branchs'] = $this->db->query("SELECT id,name FROM branch")->result_array();
 
 		$data['vendors'] = $this->db->query("SELECT users.id,CONCAT(users.firstname,' ',users.lastname) as name FROM `product_affiliate` INNER JOIN users ON users.id= user_id GROUP by user_id")->result_array();
 

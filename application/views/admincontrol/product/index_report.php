@@ -32,7 +32,7 @@ $Product_model = $db->Product_model;
     <div class="col-12">
         <div class="card">
             <div class="card-header bg-secondary text-white">
-                <div class="card-title-white pull-left m-0"><?= __('admin.cart_mode_products') ?>
+                <div class="card-title-white pull-left m-0"><?= __('Báo cáo sản phẩm') ?>
                 </div>
             </div>
             <div class="card-body">
@@ -52,6 +52,15 @@ $Product_model = $db->Product_model;
                             <form id="filter-form">
                                 <div class="row mt-4 g-3">
                                     <div class="col-3">
+                                        <select name="branch_id" class="form-select select-branch">
+                                            <?php $selected = isset($_GET['branch_id']) ? $_GET['branch_id'] : ''; ?>
+                                            <option value=""><?= __('Tất các kho') ?></option>
+                                            <?php foreach ($branchs as $key => $value) { ?>
+                                                <option <?= $selected == $value['id'] ? 'selected' : '' ?> value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-3">
                                         <select name="category_id" class="form-select select-category">
                                             <?php $selected = isset($_GET['category_id']) ? $_GET['category_id'] : ''; ?>
                                             <option value=""><?= __('admin.all_category') ?></option>
@@ -69,10 +78,10 @@ $Product_model = $db->Product_model;
                                             <?php } ?>
                                         </select>
                                     </div>
-                                    <div class="col-4">
-                                        <a id="toggle-uploader" class="btn btn-primary" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#manageBulkProducts"><?= __('Quản lý hàng loạt sản phẩm - Nhập xuất Excel') ?></a>
+                                    <div class="col-3">
+                                        <a id="toggle-uploader" class="btn btn-primary" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#manageBulkProducts"><?= __('Quản lý sản phẩm - Nhập xuất Excel') ?></a>
                                     </div>
-                                    <div class="col-2">
+                                    <div class="col-1">
                                         <a style="display:none;" class="btn btn-danger" name="deletebutton" id="deletebutton" value="<?= __('admin.save_exit') ?>" onclick="deleteuserlistfunc('deleteAllproducts');"><?= __('admin.delete_products') ?></a>
                                     </div>
                                 </div>
@@ -431,20 +440,12 @@ $Product_model = $db->Product_model;
                                                            onclick="checkAll(this)"></th>
                                                 <th width="130px"><?= __('admin.image') ?></th>
                                                 <th><?= __('admin.product_name') ?></th>
-                                                <!-- <th><?= __('admin.user') ?></th> -->
                                                 <th><?= __('admin.price') ?></th>
                                                 <th><?= __('admin.sku') ?></th>
                                                 <th><?= __('Danh mục') ?></th>
-                                                <th>
-                                                <?= __('admin.sales_/_commission')
-                                                ?></th>
-                                                <!--                                    <th>-->
-                                                <? //= __('admin.clicks_/_commission') 
-                                                ?><!--</th>-->
-                                                <!--                                    <th>-->
-                                                <? //= __('admin.total') 
-                                                ?><!--</th>-->
-                                                <th><?= __('admin.status') ?></th>
+                                                <th width="130px"><?= __('DT / Hoa hồng') ?></th>                                                
+                                                <th><?= __('Doanh số') ?></th>
+                                                <th><?= __('Tồn kho') ?></th>
                                                 <th><?= __('admin.action') ?></th>
                                             </tr>
                                             </thead>
@@ -1089,11 +1090,11 @@ $Product_model = $db->Product_model;
         }
 
         $("#filter-form").on("submit", function () {
-            getPage('<?= base_url("admincontrol/listproduct_ajax/") ?>/1');
+            getPage('<?= base_url("admincontrol/report_list_product_ajax/") ?>/1');
             return false;
         })
 
-        $(".select-category, .select-vendor").on("change", function () {
+        $(".select-category, .select-vendor, .select-branch").on("change", function () {
             $("#filter-form").submit();
         })
 
@@ -1188,7 +1189,7 @@ $Product_model = $db->Product_model;
         }
 
 
-        getPage('<?= base_url("admincontrol/listproduct_ajax/") ?>/1');
+        getPage('<?= base_url("admincontrol/report_list_product_ajax/") ?>/1');
         $("#tech-companies-1 .pagination-td").delegate("a", "click", function () {
             getPage($(this).attr("href"));
             return false;

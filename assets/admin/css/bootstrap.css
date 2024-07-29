@@ -4265,6 +4265,7 @@ input[type="button"].btn-block {
 
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
+  box-shadow: 0 0.125rem 0.25rem rgba(58, 87, 232, 0.3);
   color: #495057;
   background-color: #fff;
   border-color: #dee2e6 #dee2e6 #fff;

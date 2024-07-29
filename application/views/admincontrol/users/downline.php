@@ -3,15 +3,15 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div class="card card-tree">
-			<ul class="nav nav-tabs all-tree">
+			<div class="card-header">
+			<ul class="nav nav-tabs treelist">
 				<li class="nav-item">
-					<a class="px-3 py-1 rounded bg-info text-decoration-none bg-secondary text-white" href="<?= base_url('/admincontrol/userslisttree'); ?>">Cây giới thiệu</a>
+					<a class="nav-link active" href="<?= base_url('/admincontrol/userslisttree'); ?>">Cây giới thiệu</a>
 				</li>
 				<li class="nav-item">
-					<a class="px-3 py-1 rounded bg-success text-decoration-none bg-primary text-white" href="<?= base_url('/admincontrol/downline/1'); ?>">Cây thành viên giới thiệu</a>
+					<a class="nav-link active" href="<?= base_url('/admincontrol/downline/1'); ?>">Cây thành viên giới thiệu</a>
 				</li>
 			</ul>
-			<div class="card-header">
 				<h4><?= __('admin.downline_of') ?> <?= $user->firstname ?> <?= $user->lastname ?></h4>
 				<div class="action">
 					<button class="btn btn-primary btn-sm btn-tree-action" onclick='$("#tree").fancytree("getTree").expandAll();'><?= __('admin.open_all') ?></button>

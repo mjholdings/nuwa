@@ -3,28 +3,14 @@
     <div class="card m-b-30">
       <div class="card-body">
         <div class="table-responsive">
-          <div class="table-header-menus">
-            <p class="p-2 mb-0 lead user-approvals-filer">
-              <?php if ($approvals_count['total'] > 0) { ?>
-                <a class="px-3 py-1 rounded <?= (!isset($_GET['apr']) || $_GET['apr'] == 'all') ? 'bg-info text-white text-decoration-none' : 'bg-secondary text-white' ?>" data-apr="all" href="javascript:void(0);">show all users (<?= $approvals_count['total']; ?>)</a>
-              <?php } ?>
-              <?php if ($approvals_count['pending'] > 0 || $approvals_count['declined'] > 0) { ?>
-                <?php if ($approvals_count['approved'] > 0) { ?>
-                  <a class="px-3 py-1 rounded <?= (isset($_GET['apr']) && $_GET['apr'] == 'approved') ? 'bg-info text-white text-decoration-none' : 'bg-secondary text-white' ?>" data-apr="approved" href="javascript:void(0);">show approved users (<?= $approvals_count['approved']; ?>)</a>
-                <?php } ?>
-                <?php if ($approvals_count['pending'] > 0) { ?>
-                  <a class="px-3 py-1 rounded <?= (isset($_GET['apr']) && $_GET['apr'] == 'pending') ? 'bg-info text-white text-decoration-none' : 'bg-secondary text-white' ?>" data-apr="pending" href="javascript:void(0);">show pending approvals (<?= $approvals_count['pending'] ?>)</a>
-                <?php } ?>
-                <?php if ($approvals_count['declined'] > 0) { ?>
-                  <a class="px-3 py-1 rounded <?= (isset($_GET['apr']) && $_GET['apr'] == 'declined') ? 'bg-info text-white text-decoration-none' : 'bg-secondary text-white' ?>" data-apr="declined" href="javascript:void(0);">show declined approvals (<?= $approvals_count['declined'] ?>)</a>
-                <?php } ?>
-              <?php } ?>
-            <div class="multi-approve-decline">
-              <a href="javascript:void(0)" class="text-success approved-decline-action" data-action-value="1">Approved</a> / <a href="javascript:void(0)" class="text-danger approved-decline-action" data-action-value="2">Decline</a>
-            </div>
-            </p>
-            <p class="p-2 mb-0 lead user-approvals-filer"><a class="px-3 py-1 rounded bg-success text-decoration-none bg-primary text-white" href="<?= base_url('/admincontrol/downline/1'); ?>">Cây thành viên giới thiệu</a></p>
-          </div>
+          <ul class="nav nav-tabs all-tree">
+            <li class="nav-item">
+            <a class="px-3 py-1 rounded bg-success text-decoration-none bg-info text-white" href="<?= base_url('/admincontrol/userslisttree'); ?>">Cây giới thiệu</a>
+            </li>
+            <li class="nav-item">
+            <a class="px-3 py-1 rounded bg-success text-decoration-none bg-primary text-white" href="<?= base_url('/admincontrol/downline/1'); ?>">Cây thành viên giới thiệu</a>
+            </li>
+          </ul>
           <div style="overflow-x: scroll; overflow-y:hidden;" class="dummyscroll">
             <div>&nbsp;</div>
 

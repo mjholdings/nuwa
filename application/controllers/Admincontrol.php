@@ -19639,6 +19639,11 @@ class Admincontrol extends MY_Controller
 		$this->db->order_by('level_number', 'asc');
 		$query = $this->db->get('award_level');
 
+		// Cập nhật bảng rank và doanh thu			
+		$this->calculate_revenue();
+		$this->update_revenue();
+		$this->update_user_rank();
+
 		// Chạy qua mỗi cấp độ bắt đầu từ số 2
 		foreach ($query->result() as $award_level) {
 
@@ -19677,11 +19682,6 @@ class Admincontrol extends MY_Controller
 					$this->upgrade_plan($user_id, $new_plan_id);
 				}
 			}
-
-			// Cập nhật bảng rank và doanh thu			
-			$this->calculate_revenue();
-			$this->update_revenue();
-			$this->update_user_rank();
 
 			// Cập nhật thưởng
 		}

@@ -104,6 +104,7 @@
 										<a href="javascript:void(0)" class="text-success approved-decline-action" data-action-value="1">Approved</a> / <a href="javascript:void(0)" class="text-danger approved-decline-action" data-action-value="2">Decline</a>
 									</div>
 									</p>
+									<p class="p-2 mb-0 lead user-approvals-filer"><a class="px-3 py-1 rounded bg-success text-decoration-none bg-primary text-white" href="<?= base_url('/admincontrol/downline/1'); ?>">Cây thành viên giới thiệu</a></p>
 								</div>
 								<table id="tech-companies-1" class="table table-hover user-table">
 									<thead class="thead-light">

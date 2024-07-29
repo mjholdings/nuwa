@@ -3,14 +3,22 @@
     <div class="card m-b-30">
       <div class="card-body">
         <div class="table-responsive">
-          <ul class="nav nav-tabs all-tree">
-            <li class="nav-item">
-            <a class="nav-link active"  href="<?= base_url('/admincontrol/userslisttree'); ?>">Cây giới thiệu</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link active"  href="<?= base_url('/admincontrol/downline/1'); ?>">Cây thành viên giới thiệu</a>
-            </li>
-          </ul>
+          <div class="card-header">
+            <ul class="nav nav-tabs all-tree">
+              <li class="nav-item">
+                <a class="nav-link active" href="<?= base_url('/admincontrol/userslisttree'); ?>">Cây giới thiệu</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="<?= base_url('/admincontrol/downline/1'); ?>">Cây thành viên giới thiệu</a>
+              </li>
+            </ul>
+          </div>
+          <!-- Tab content element -->
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="userslisttree">
+              <!-- Content of the tab -->
+            </div>
+          </div>
           <div style="overflow-x: scroll; overflow-y:hidden;" class="dummyscroll">
             <div>&nbsp;</div>
 

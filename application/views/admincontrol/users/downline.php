@@ -4,7 +4,7 @@
 	<div class="col-sm-12">
 		<div class="card card-tree">
 			<div class="card-header">
-			<ul class="nav nav-tabs treelist">
+			<ul class="nav nav-tabs ">
 				<li class="nav-item">
 					<a class="nav-link active" href="<?= base_url('/admincontrol/userslisttree'); ?>">Cây giới thiệu</a>
 				</li>

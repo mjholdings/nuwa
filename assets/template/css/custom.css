@@ -2054,7 +2054,9 @@ h3.payment-heading {
     -webkit-border-radius: 0.25rem;
     border-radius: 0.25rem;
 }
-
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  box-shadow: 0 0.125rem 0.25rem rgba(58, 87, 232, 0.3)}
 .nav-tabs .nav-link.active {
     -webkit-box-shadow: 0 0.125rem 0.25rem rgba(58, 87, 232, 0.3);
     box-shadow: 0 0.125rem 0.25rem rgba(58, 87, 232, 0.3);

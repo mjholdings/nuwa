@@ -5,10 +5,10 @@
         <div class="table-responsive">
           <ul class="nav nav-tabs all-tree">
             <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="tab" href="<?= base_url('/admincontrol/userslisttree'); ?>">Cây giới thiệu</a>
+            <a class="nav-link active"  href="<?= base_url('/admincontrol/userslisttree'); ?>">Cây giới thiệu</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="tab" href="<?= base_url('/admincontrol/downline/1'); ?>">Cây thành viên giới thiệu</a>
+            <a class="nav-link active"  href="<?= base_url('/admincontrol/downline/1'); ?>">Cây thành viên giới thiệu</a>
             </li>
           </ul>
           <div style="overflow-x: scroll; overflow-y:hidden;" class="dummyscroll">

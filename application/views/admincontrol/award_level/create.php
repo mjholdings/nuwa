@@ -50,6 +50,9 @@
 
                         <!-- Doanh số yêu cầu -->
                         <div class="row">
+                            <div class="col-12">
+                                <h5>Điều kiện doanh số lên cấp:</h5>
+                            </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">
                                     <?= __('Doanh số cá nhân yêu cầu') ?>
@@ -124,6 +127,9 @@
 
                         <!-- Tiêu dùng yêu cầu -->
                         <div class="row">
+                            <div class="col-12">
+                                <h5>Điều kiện tiêu dùng lên cấp:</h5>
+                            </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">
                                     <?= __('Tiêu dùng cá nhân yêu cầu') ?>
@@ -199,7 +205,10 @@
 
                         <!-- Tuyển dụng yêu cầu -->
                         <div class="row">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-12">
+                                <h5>Điều kiện tuyển dụng lên cấp:</h5>
+                            </div>
+                            <div class="col-md-3 mb-3">
                                 <label class="form-label">
                                     <?= __('Tuyển trực tiếp yêu cầu') ?>
                                     <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tuyển trực tiếp yêu cầu') ?>"></span>
@@ -210,7 +219,7 @@
                                 </div>
                                 <p class="error-message"></p>
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <label class="form-label">
                                     <?= __('Tuyển gián tiếp yêu cầu') ?>
                                     <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tuyển gián tiếp yêu cầu') ?>"></span>
@@ -226,7 +235,7 @@
                             $plans = $this->Product_model->getAllPlan();
                             ?>
 
-                            <div class="col-md-4 mb-3"> <label class="form-label">
+                            <div class="col-md-3 mb-3"> <label class="form-label">
                                     <?= __('Chọn Chức danh') ?>
                                     <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Bất kỳ vị trí') ?>"></span>
                                 </label>
@@ -238,12 +247,8 @@
                                 </select>
                                 <p class="error-message"></p>
                             </div>
-
-
-                        </div>
-                        <div class="row">
                             <?php $current_logic = $award_level['con_and']; ?>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <label class="form-label">
                                     <?= __('Điều kiện kết hợp') ?>
                                     <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Chọn điều kiện kết hợp') ?>"></span>
@@ -252,6 +257,38 @@
                                     <option value="1" <?= $current_logic == 1 ? 'selected="selected"' : ''; ?>><?= __('Và') ?></option>
                                     <option value="0" <?= $current_logic == 0 ? 'selected="selected"' : ''; ?>><?= __('Hoặc') ?></option>
                                 </select>
+                                <p class="error-message"></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <h5>Hoa hồng khi đạt cấp:</h5>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">
+                                    <?= __('Nguồn thưởng khi lên cấp') ?>
+                                    <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Nguồn thưởng khi lên cấp') ?>"></span>
+                                </label>
+                                <div class="input-group">
+                                    <select name="comission_source" class="form-control">
+                                        <option value=""><?= __('Chọn nguồn trả thưởng') ?></option>
+                                        <option value="sales_personal" selected="selected"><?= __('Doanh thu Cá nhân') ?></option>
+                                        <option value="sales_direct"><?= __('Doanh thu Trực tiếp') ?></option>
+                                        <option value="sales_indirect"><?= __('Doanh thu Gián tiếp') ?></option>
+                                        <option value="sales_members"><?= __('Doanh thu Tuyến dưới') ?></option>
+                                        <option value="sales_shop"><?= __('Doanh thu Chi nhánh') ?></option>
+                                        <option value="sales_branch"><?= __('Doanh thu Nhánh') ?></option>
+                                        <option value="sales_team"><?= __('Doanh thu Nhóm') ?></option>
+                                        <option value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?></option>
+                                        <option value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?></option>
+                                        <option value="consum_indirect"><?= __('Tiêu dùng Gián tiếp') ?></option>
+                                        <option value="consum_members"><?= __('Tiêu dùng Tuyến dưới') ?></option>
+                                        <option value="consum_shop"><?= __('Tiêu dùng Chi nhánh') ?></option>
+                                        <option value="consum_branch"><?= __('Tiêu dùng Nhánh') ?></option>
+                                        <option value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
+                                    </select>
+                                </div>
                                 <p class="error-message"></p>
                             </div>
                             <div class="col-md-4 mb-3">

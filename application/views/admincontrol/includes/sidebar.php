@@ -327,7 +327,7 @@ $sidebar_data = array(
               <?= __('Cập nhật Hoa hồng') ?></a>
           <?php endif; ?>
 
-          <a class="dropdown-item" href="<?= base_url('admincontrol/commission') ?>">
+          <!-- <a class="dropdown-item" href="<?= base_url('admincontrol/commission') ?>">
 
             <i class="bi bi-sliders"></i>
 
@@ -337,7 +337,7 @@ $sidebar_data = array(
 
             <i class="bi bi-gear-fill"></i>
 
-            <?= __('Chính sách') ?></a>
+            <?= __('Chính sách') ?></a> -->
 
           <a class="dropdown-item" <?= $sidebar_data['award_level_is_enable'] == 0 ? 'style="display:none;"' : ''; ?> href="<?= base_url('admincontrol/award_level') ?>">
 

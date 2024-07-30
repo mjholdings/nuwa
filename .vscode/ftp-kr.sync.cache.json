@@ -1,14 +1,5 @@
 {
   "ftp://45.119.213.190@ovandemo@nhasach365.com": {
-    ".htpasswd": {},
-    "logs": {},
-    "private_html": {
-      "type": "l",
-      "size": 13,
-      "lmtime": 0,
-      "modified": false
-    },
-    "public_ftp": {},
     "public_html": {
       "nuwa": {
         ".gitignore": {
@@ -225,9 +216,9 @@
             },
             "Admincontrol.php": {
               "type": "-",
-              "size": 701204,
-              "lmtime": 1721203636593,
-              "modified": true
+              "size": 712482,
+              "lmtime": 1722273882483,
+              "modified": false
             },
             "Api.php": {
               "type": "-",
@@ -285,9 +276,9 @@
             },
             "CronJob.php": {
               "type": "-",
-              "size": 15190,
+              "size": 14260,
               "lmtime": 1718329893795,
-              "modified": false
+              "modified": true
             },
             "DocmentController.php": {
               "type": "-",
@@ -447,9 +438,9 @@
             },
             "Store.php": {
               "type": "-",
-              "size": 186056,
+              "size": 182291,
               "lmtime": 1720080955524,
-              "modified": false
+              "modified": true
             },
             "Store_Category.php": {
               "type": "-",
@@ -495,7 +486,7 @@
             },
             "Usercontrol.php": {
               "type": "-",
-              "size": 370217,
+              "size": 370646,
               "lmtime": 1718329893811,
               "modified": true
             },
@@ -33226,6 +33217,15 @@
         }
       }
     },
+    ".htpasswd": {},
+    "logs": {},
+    "private_html": {
+      "type": "l",
+      "size": 13,
+      "lmtime": 0,
+      "modified": false
+    },
+    "public_ftp": {},
     "stats": {},
     "domains": {
       "nhasach365.com": {

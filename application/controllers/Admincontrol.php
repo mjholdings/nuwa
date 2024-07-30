@@ -3825,11 +3825,11 @@ class Admincontrol extends MY_Controller
 						$insert['bonus'] = $this->input->post('bonus', true);
 						$insert['default_registration_level'] = ($this->input->post('default_registration_level')) ? $this->input->post('default_registration_level', true) : 0;
 						$insert['split_branch'] = ($this->input->post('split_branch')) ? $this->input->post('split_branch', true) : 0;
+						$insert['comission_source'] = $this->input->post('comission_source', true);
 						$insert['con_and'] = ($this->input->post('con_and')) ? $this->input->post('con_and', true) : 0;
 						$insert['con_refer_number'] = $this->input->post('con_refer_number', true);
 						$insert['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 						$insert['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
-						// $insert['con_award_level_id'] = $this->input->post('con_award_level_id', true);
 						$insert['con_revenue_team'] = $this->input->post('con_revenue_team', true);
 						$insert['con_revenue_personal'] = $this->input->post('con_revenue_personal', true);
 						$insert['con_revenue_direct_members'] = $this->input->post('con_revenue_direct_members', true);
@@ -3919,6 +3919,7 @@ class Admincontrol extends MY_Controller
 									$update['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 									$update['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
 									$update['sale_comission_rate'] = $this->input->post('sale_comission_rate', true);
+									$update['comission_source'] = $this->input->post('comission_source', true);
 									$update['bonus'] = $this->input->post('bonus', true);
 									$update['default_registration_level'] = ($this->input->post('default_registration_level')) ? $this->input->post('default_registration_level', true) : 0;
 									$update['split_branch'] = ($this->input->post('split_branch')) ? $this->input->post('split_branch', true) : 0;

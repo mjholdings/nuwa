@@ -2193,14 +2193,19 @@ class Product_model extends MY_Model
     `child`.`minimum_earning`,
     `child`.`con_revenue_team`,
     `child`.`con_revenue_personal`,
+    `child`.`con_revenue_personal_orders`,
     `child`.`con_revenue_direct_members`,
     `child`.`con_revenue_indirect_members`,
     `child`.`con_revenue_members`,
     `child`.`con_revenue_team`,
     `child`.`con_revenue_total`,
+    `child`.`con_revenue_total_days`,
     `child`.`con_refer_number`,
+    `child`.`con_refer_number_1_branch`,
     `child`.`con_consum_personal`,
+    `child`.`con_consum_personal_orders`,
     `child`.`con_consum_total`,
+    `child`.`con_consum_total_days`,
     `child`.`con_consum_team`,
     `child`.`con_consum_direct_members`,
     `child`.`con_consum_indirect_members`,
@@ -2212,6 +2217,9 @@ class Product_model extends MY_Model
     `child`.`bonus`,
     `child`.`split_branch`,
     `child`.`default_registration_level`    
+    `child`.`con_shared_number_of_members`    
+    `child`.`con_shared_level_of_members`    
+    `child`.`shared_commission_rate`    
     FROM `award_level` as `child` 
     LEFT JOIN `award_level` as `parent` 
     ON `parent`.`id` = `child`.`jump_level`";

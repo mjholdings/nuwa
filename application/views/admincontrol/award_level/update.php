@@ -58,8 +58,8 @@
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label">
-                                        <?= __('Của (để 0 toàn bộ)') ?>
-                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Của (để 0 toàn bộ)') ?>"></span>
+                                        <?= __('Trong (để 0 toàn bộ đơn)') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Trong (để 0 toàn bộ đơn)') ?>"></span>
                                     </label>
                                     <div class="input-group">
                                         <span class="input-group-text refer-reg-symball">đơn hàng</span>
@@ -312,7 +312,7 @@
                                     </label>
                                     <div class="input-group">
                                         <span class="input-group-text refer-reg-symball">người</span>
-                                        <input type="number" class="form-control" name="con_shared_number_of_members" min="0" step="0.01" value="<?= $award_level['con_shared_number_of_members'] ?>" placeholder="<?= __('admin.minimum_earning') ?>">
+                                        <input type="number" class="form-control" name="con_shared_number_of_members" min="0" step="1" value="<?= $award_level['con_shared_number_of_members'] ?>" placeholder="<?= __('admin.minimum_earning') ?>">
                                     </div>
                                     <p class="error-message"></p>
                                 </div>

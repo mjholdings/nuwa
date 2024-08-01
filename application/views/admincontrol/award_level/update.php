@@ -38,17 +38,6 @@
                                     </select>
                                     <p class="error-message"></p>
                                 </div>
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label">
-                                        <?= __('admin.minimum_earning') ?>
-                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('admin.award_level_minimum_earning_desc') ?>"></span>
-                                    </label>
-                                    <div class="input-group">
-                                        <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
-                                        <input type="number" class="form-control" name="minimum_earning" min="0" step="0.01" value="<?= $award_level['minimum_earning'] ?>" placeholder="<?= __('admin.minimum_earning') ?>">
-                                    </div>
-                                    <p class="error-message"></p>
-                                </div>
                             </div>
 
                             <!-- Điều kiện doanh thu -->
@@ -69,12 +58,34 @@
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label">
-                                        <?= __('Doanh thu cá tổng cá nhân') ?>
-                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu tổng cá nhân') ?>"></span>
+                                        <?= __('Của (để 0 toàn bộ)') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Của (để 0 toàn bộ)') ?>"></span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text refer-reg-symball">đơn hàng</span>
+                                        <input type="number" class="form-control" name="con_revenue_personal_orders" min="0" step="1" value="<?= $award_level['con_revenue_personal_orders'] ?>" placeholder="<?= __('Nhập số đơn hàng cho doanh thu') ?>">
+                                    </div>
+                                    <p class="error-message"></p>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">
+                                        <?= __('Doanh thu cộng dồn') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Doanh thu cộng dồn') ?>"></span>
                                     </label>
                                     <div class="input-group">
                                         <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
                                         <input type="number" class="form-control" name="con_revenue_total" min="0" step="0.01" value="<?= $award_level['con_revenue_total'] ?>" placeholder="<?= __('Nhập doanh thu tổng cá nhân') ?>">
+                                    </div>
+                                    <p class="error-message"></p>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">
+                                        <?= __('Cộng dồn trong (0 toàn bộ)') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Cộng dồn trong (0 toàn bộ)') ?>"></span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text refer-reg-symball">ngày</span>
+                                        <input type="number" class="form-control" name="con_revenue_total_days" min="0" step="1" value="<?= $award_level['con_revenue_total_days'] ?>" placeholder="<?= __('Nhập số ngày cộng dồn doanh thu cá nhân') ?>">
                                     </div>
                                     <p class="error-message"></p>
                                 </div>
@@ -136,18 +147,52 @@
                                     </label>
                                     <div class="input-group">
                                         <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
-                                        <input type="number" class="form-control" name="con_consum_personal" min="0" step="0.01" value="<?= $award_level['con_consum_personal'] ?>" placeholder="<?= __('Nhập doanh thu cá nhân') ?>">
+                                        <input type="number" class="form-control" name="con_consum_personal" min="0" step="0.01" value="<?= $award_level['con_consum_personal'] ?>" placeholder="<?= __('Nhập tiêu dùng cá nhân') ?>">
                                     </div>
                                     <p class="error-message"></p>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label">
-                                        <?= __('Tiêu dùng cá tổng cá nhân') ?>
-                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng tổng cá nhân') ?>"></span>
+                                        <?= __('Của (để 0 toàn bộ)') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Của (để 0 toàn bộ)') ?>"></span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text refer-reg-symball">đơn hàng</span>
+                                        <input type="number" class="form-control" name="con_consum_personal_orders" min="0" step="1" value="<?= $award_level['con_consum_personal_orders'] ?>" placeholder="<?= __('Nhập số đơn hàng tiêu dùng') ?>">
+                                    </div>
+                                    <p class="error-message"></p>
+                                </div>
+                                <?php $current_logic = $award_level['con_and']; ?>
+                                <div class="col-md-2 mb-3">
+                                    <label class="form-label">
+                                        <?= __('Điều kiện kết hợp') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Chọn điều kiện kết hợp') ?>"></span>
+                                    </label>
+                                    <select class="form-control" name="con_and">
+                                        <option value="1" <?= $current_logic == 1 ? 'selected="selected"' : ''; ?>><?= __('Và') ?></option>
+                                        <option value="0" <?= $current_logic == 0 ? 'selected="selected"' : ''; ?>><?= __('Hoặc') ?></option>
+                                    </select>
+                                    <p class="error-message"></p>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <label class="form-label">
+                                        <?= __('Tiêu dùng cộng dồn') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tiêu dùng cộng dồn') ?>"></span>
                                     </label>
                                     <div class="input-group">
                                         <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
-                                        <input type="number" class="form-control" name="con_consum_total" min="0" step="0.01" value="<?= $award_level['con_consum_total'] ?>" placeholder="<?= __('Nhập doanh thu tổng cá nhân') ?>">
+                                        <input type="number" class="form-control" name="con_consum_total" min="0" step="0.01" value="<?= $award_level['con_consum_total'] ?>" placeholder="<?= __('Nhập tiêu dùng cộng dồn') ?>">
+                                    </div>
+                                    <p class="error-message"></p>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <label class="form-label">
+                                        <?= __('Cộng dồn trong (0 toàn bộ)') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Cộng dồn trong (0 toàn bộ)') ?>"></span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text refer-reg-symball">ngày</span>
+                                        <input type="number" class="form-control" name="con_consum_total_days" min="0" step="1" value="<?= $award_level['con_consum_total_days'] ?>" placeholder="<?= __('Nhập số ngày cộng dồn doanh thu') ?>">
                                     </div>
                                     <p class="error-message"></p>
                                 </div>
@@ -204,12 +249,40 @@
                             <div class="row">
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label">
-                                        <?= __('Tuyển trực tiếp') ?>
-                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tuyển trực tiếp') ?>"></span>
+                                        <?= __('Số tuyển trực tiếp (không giới hạn thời gian)') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('SL tuyển trực tiếp (cộng dồn không giới hạn)') ?>"></span>
                                     </label>
                                     <div class="input-group">
                                         <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
                                         <input type="number" class="form-control" name="con_refer_direct_number" min="0" step="0.01" value="<?= $award_level['con_refer_direct_number'] ?>" placeholder="<?= __('Nhập Tuyển trực tiếp') ?>">
+                                    </div>
+                                    <p class="error-message"></p>
+                                </div>
+                                <?php
+                                // Truy vấn danh sách chức danh từ bảng membership_plans
+                                $plans = $this->Product_model->getAllPlan();
+                                ?>
+
+                                <div class="col-md-3 mb-3"> <label class="form-label">
+                                        <?= __('Vị trí tuyển') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Vị trí tuyển') ?>"></span>
+                                    </label>
+                                    <select class="form-control" name="con_refer_reward_id">
+                                        <option value=""><?= __('Bất kỳ vị trí') ?></option>
+                                        <?php foreach ($plans as $plan_item) : ?>
+                                            <option value="<?= $plan_item['id'] ?>" <?= $award_level['con_refer_reward_id'] == $plan_item['id'] ? 'selected="selected"' : ''; ?>><?= $plan_item['name'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <p class="error-message"></p>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">
+                                        <?= __('Số người 1 nhánh tối đa (0 là không giới hạn)') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Một nhánh tối đa') ?>"></span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text refer-reg-symball">người</span>
+                                        <input type="number" class="form-control" name="con_refer_number_1_branch" min="0" step="1" value="<?= $award_level['con_refer_number_1_branch'] ?>" placeholder="<?= __('Số người một nhánh tối đa cho phép') ?>">
                                     </div>
                                     <p class="error-message"></p>
                                 </div>
@@ -224,37 +297,65 @@
                                     </div>
                                     <p class="error-message"></p>
                                 </div>
-                                <?php
-                                // Truy vấn danh sách chức danh từ bảng membership_plans
-                                $plans = $this->Product_model->getAllPlan();
-                                ?>
-
-                                <div class="col-md-3 mb-3"> <label class="form-label">
-                                        <?= __('Chọn Chức danh') ?>
-                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Bất kỳ vị trí') ?>"></span>
-                                    </label>
-                                    <select class="form-control" name="con_refer_reward_id">
-                                        <option value=""><?= __('Bất kỳ vị trí') ?></option>
-                                        <?php foreach ($plans as $plan_item) : ?>
-                                            <option value="<?= $plan_item['id'] ?>" <?= $award_level['con_refer_reward_id'] == $plan_item['id'] ? 'selected="selected"' : ''; ?>><?= $plan_item['name'] ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <p class="error-message"></p>
-                                </div>
-                                <?php $current_logic = $award_level['con_and']; ?>
-                                <div class="col-md-3 mb-3">
-                                    <label class="form-label">
-                                        <?= __('Điều kiện kết hợp') ?>
-                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Chọn điều kiện kết hợp') ?>"></span>
-                                    </label>
-                                    <select class="form-control" name="con_and">
-                                        <option value="1" <?= $current_logic == 1 ? 'selected="selected"' : ''; ?>><?= __('Và') ?></option>
-                                        <option value="0" <?= $current_logic == 0 ? 'selected="selected"' : ''; ?>><?= __('Hoặc') ?></option>
-                                    </select>
-                                    <p class="error-message"></p>
-                                </div>
                                 <!--  -->
                             </div>
+
+                            <!-- Điều kiện đồng chia -->
+                            <div class="col-12">
+                                <h5>Điều kiện Đồng chia</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">
+                                        <?= __('Số lượng thành viên') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Số lượng thành viên') ?>"></span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text refer-reg-symball">người</span>
+                                        <input type="number" class="form-control" name="con_shared_number_of_members" min="0" step="0.01" value="<?= $award_level['con_shared_number_of_members'] ?>" placeholder="<?= __('admin.minimum_earning') ?>">
+                                    </div>
+                                    <p class="error-message"></p>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">
+                                        <?= __('Thành viên lên cấp') ?>
+                                        <span class="field-description <?= ($award_level['con_shared_level_of_members'] == '0') ? 'd-none' : '' ?>" data-bs-toggle="tooltip" title="<?= __('Thành viên lên cấp') ?>"></span>
+                                        <span class="field-description default-level-description <?= ($award_level['con_shared_level_of_members'] == '0') ? '' : 'd-none' ?>" data-bs-toggle="tooltip" title="<?= __('Thành viên lên cấp') ?>"></span>
+                                    </label>
+                                    <select class="form-select" name="con_shared_level_of_members">
+                                        <option value=''><?= __('Chọn cấp thành viên') ?></option>
+                                        <option <?= ($award_level['con_shared_level_of_members'] == '0') ? 'selected' : '' ?> value="0"><?= __('admin.default') ?></option>
+                                        <?php foreach ($award_levels as $key => $value) : ?>
+                                            <?php $class = ($value['id'] == $award_level['con_shared_level_of_members']) ? 'selected' : '' ?>
+                                            <option <?= $class ?> value="<?= $value['id'] ?>"><?= $value['level_number'] ?></option>
+                                        <?php endforeach ?>
+                                    </select>
+                                    <p class="error-message"></p>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">
+                                        <?= __('Tỷ lệ đồng chia hưởng (từ doanh thu)') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('Tỷ lệ đồng chia') ?>"></span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text refer-reg-symball">%</span>
+                                        <input type="number" class="form-control" name="shared_commission_rate" min="0" step="0.01" value="<?= $award_level['shared_commission_rate'] ?>" placeholder="<?= __('admin.minimum_earning') ?>">
+                                    </div>
+                                    <p class="error-message"></p>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">
+                                        <?= __('admin.minimum_earning') ?>
+                                        <span class="field-description" data-bs-toggle="tooltip" title="<?= __('admin.award_level_minimum_earning_desc') ?>"></span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text refer-reg-symball"><?= $CurrencySymbol ?></span>
+                                        <input type="number" class="form-control" name="minimum_earning" min="0" step="0.01" value="<?= $award_level['minimum_earning'] ?>" placeholder="<?= __('admin.minimum_earning') ?>">
+                                    </div>
+                                    <p class="error-message"></p>
+                                </div>
+                            </div>
+                            <!-- Hoa hồng hưởng -->
                             <div class="col-12">
                                 <h5>Hoa hồng khi đạt cấp:</h5>
                             </div>
@@ -373,7 +474,7 @@
             });
         })
 
-        $("select[name='jump_level']").on('change', function() {
+        $("select[name='con_level_of_members']").on('change', function() {
             let value = $(this).val();
             if (value == '0') {
                 $(this).siblings('label').find('.field-description').addClass('d-none');

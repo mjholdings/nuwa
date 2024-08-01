@@ -343,7 +343,7 @@ $sidebar_data = array(
 
             <i class="bi bi-bar-chart-line"></i>
 
-            <?= __('admin.award_level') ?>
+            <?= __('Thưởng cấp bậc') ?>
 
           </a>
 

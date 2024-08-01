@@ -3828,20 +3828,33 @@ class Admincontrol extends MY_Controller
 						$insert['comission_source'] = $this->input->post('comission_source', true);
 						$insert['con_and'] = ($this->input->post('con_and')) ? $this->input->post('con_and', true) : 0;
 						$insert['con_refer_number'] = $this->input->post('con_refer_number', true);
+						$insert['con_refer_number_1_branch'] = $this->input->post('con_refer_number_1_branch', true);
+
 						$insert['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 						$insert['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
 						$insert['con_revenue_team'] = $this->input->post('con_revenue_team', true);
 						$insert['con_revenue_personal'] = $this->input->post('con_revenue_personal', true);
+						$insert['con_revenue_personal_orders'] = $this->input->post('con_revenue_personal_orders', true);
+
 						$insert['con_revenue_direct_members'] = $this->input->post('con_revenue_direct_members', true);
 						$insert['con_revenue_indirect_members'] = $this->input->post('con_revenue_indirect_members', true);
 						$insert['con_revenue_members'] = $this->input->post('con_revenue_members', true);
 						$insert['con_revenue_total'] = $this->input->post('con_revenue_total', true);
+						$insert['con_revenue_total_days'] = $this->input->post('con_revenue_total_days', true);
 						$insert['con_consum_team'] = $this->input->post('con_consum_team', true);
 						$insert['con_consum_personal'] = $this->input->post('con_consum_personal', true);
+						$insert['con_consum_personal_orders'] = $this->input->post('con_consum_personal_orders', true);
+
 						$insert['con_consum_direct_members'] = $this->input->post('con_consum_direct_members', true);
 						$insert['con_consum_indirect_members'] = $this->input->post('con_consum_indirect_members', true);
 						$insert['con_consum_members'] = $this->input->post('con_consum_members', true);
 						$insert['con_consum_total'] = $this->input->post('con_consum_total', true);
+						$insert['con_consum_total_days'] = $this->input->post('con_consum_total_days', true);
+
+						$insert['con_shared_number_of_members'] = $this->input->post('con_shared_number_of_members', true);
+						$insert['con_shared_level_of_members'] = $this->input->post('con_shared_level_of_members', true);
+						$insert['shared_commission_rate'] = $this->input->post('shared_commission_rate', true);
+
 
 						$success = true;
 						if ($insert['default_registration_level']) {
@@ -3903,18 +3916,23 @@ class Admincontrol extends MY_Controller
 									$update['jump_level'] = ($jump_level != '') ? $jump_level : NULL;
 									$update['minimum_earning'] = $this->input->post('minimum_earning', true);
 									$update['con_revenue_personal'] = $this->input->post('con_revenue_personal', true);
+									$update['con_revenue_personal_orders'] = $this->input->post('con_revenue_personal_orders', true);
 									$update['con_revenue_direct_members'] = $this->input->post('con_revenue_direct_members', true);
 									$update['con_revenue_indirect_members'] = $this->input->post('con_revenue_indirect_members', true);
 									$update['con_revenue_members'] = $this->input->post('con_revenue_members', true);
 									$update['con_revenue_total'] = $this->input->post('con_revenue_total', true);
+									$update['con_revenue_total_days'] = $this->input->post('con_revenue_total_days', true);
 									$update['con_revenue_team'] = $this->input->post('con_revenue_team', true);
 									$update['con_consum_personal'] = $this->input->post('con_consum_personal', true);
+									$update['con_consum_personal_orders'] = $this->input->post('con_consum_personal_orders', true);
 									$update['con_consum_direct_members'] = $this->input->post('con_consum_direct_members', true);
 									$update['con_consum_indirect_members'] = $this->input->post('con_consum_indirect_members', true);
 									$update['con_consum_members'] = $this->input->post('con_consum_members', true);
 									$update['con_consum_total'] = $this->input->post('con_consum_total', true);
+									$update['con_consum_total_days'] = $this->input->post('con_consum_total_days', true);
 									$update['con_consum_team'] = $this->input->post('con_consum_team', true);
 									$update['con_refer_number'] = $this->input->post('con_refer_number', true);
+									$update['con_refer_number_1_branch'] = $this->input->post('con_refer_number_1_branch', true);
 									$update['minimum_earning'] = $this->input->post('minimum_earning', true);
 									$update['con_refer_direct_number'] = $this->input->post('con_refer_direct_number', true);
 									$update['con_refer_reward_id'] = $this->input->post('con_refer_reward_id', true);
@@ -3923,6 +3941,9 @@ class Admincontrol extends MY_Controller
 									$update['bonus'] = $this->input->post('bonus', true);
 									$update['default_registration_level'] = ($this->input->post('default_registration_level')) ? $this->input->post('default_registration_level', true) : 0;
 									$update['split_branch'] = ($this->input->post('split_branch')) ? $this->input->post('split_branch', true) : 0;
+									$update['con_shared_number_of_members'] = $this->input->post('con_shared_number_of_members', true);
+									$update['con_shared_level_of_members'] = $this->input->post('con_shared_level_of_members', true);
+									$update['shared_commission_rate'] = $this->input->post('shared_commission_rate', true);
 
 									$success = true;
 									if ($update['default_registration_level']) {

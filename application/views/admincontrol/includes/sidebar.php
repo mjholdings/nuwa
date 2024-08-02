@@ -604,6 +604,14 @@ $sidebar_data = array(
 
           </a>
 
+          <a class="dropdown-item" href="<?= base_url('admincontrol/stock_listorders') ?>">
+
+            <i class="fas fa-sliders-h"></i>
+
+            <?= __('Đơn nhập hàng') ?>
+
+          </a>
+
         </div>
       </li>
       <li id="sidebar_report" class="nav-item dropdown" <?= $sidebar_data['store_is_enable'] == 0 ? 'style="display:none;"' : ''; ?>>

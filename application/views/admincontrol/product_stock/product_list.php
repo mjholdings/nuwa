@@ -29,19 +29,19 @@ $vendor_setting = $this->Product_model->getSettings('vendor');
 					</small></div>
 			</div>
 		</td>
-		<?php 
-			$total_quantity = $this->Product_model->getTotalStockQuantity($product['product_id']);
+		<?php
+		$total_quantity = $this->Product_model->getTotalStockQuantity($product['product_id']);
 		?>
-		<td class="txt-cntr"><?php echo $total_quantity > 0 ? $total_quantity: __('Hết hàng'); ?></td>
+		<td class="txt-cntr"><?php echo $total_quantity > 0 ? $total_quantity : __('Hết hàng'); ?></td>
 		<td class="txt-cntr"><?php echo c_format($product['product_price']); ?></td>
 		<td class="txt-cntr"><?php echo $product['product_sku']; ?></td>
 
 		<td class="txt-cntr">
 			<span class="badge bg-success text-light fs-6"> <?= $product['cat_name'] ?? 'Không xác định' ?> </span>
-		</td>		
+		</td>
 		<td class="txt-cntr">
 			<a class="btn btn-primary" href="" onclick="return confirmpopup('<?= base_url(); ?>admincontrol/stock_updateproduct/<?php echo $product['product_id']; ?>','Có phải bạn muốn nhập [<?= $product['product_name'] ?>] vào Kho không?');" href="<?php echo base_url(); ?>admincontrol/updateproduct/<?php echo $product['product_id']; ?>">
-				<i class="fa fa-edit cursors" aria-hidden="true"></i>
+				<i class="fa fa-file-import cursors" aria-hidden="true"></i>
 			</a>
 			<a class="btn btn-danger delete-product" type="button" data-id="<?= $product['product_id'] ?>"> <i class="fa fa-trash"></i> </a>
 		</td>

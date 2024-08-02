@@ -1,5 +1,5 @@
 <?php
-$db =& get_instance();
+$db = &get_instance();
 $userdetails = $db->userdetails();
 $store_setting = $db->Product_model->getSettings('store');
 $Product_model = $db->Product_model;
@@ -32,7 +32,7 @@ $Product_model = $db->Product_model;
     <div class="col-12">
         <div class="card">
             <div class="card-header bg-secondary text-white">
-                <div class="card-title-white pull-left m-0"><?= __('admin.cart_mode_products') ?>
+                <div class="card-title-white pull-left m-0"><?= __('SẢN PHẨM GIAN HÀNG') ?>
                 </div>
             </div>
             <div class="card-body">
@@ -40,12 +40,10 @@ $Product_model = $db->Product_model;
                     <div role="tabpanel">
                         <ul class="nav nav-pills flex-column flex-sm-row" id="TabsNav">
                             <li class="nav-item flex-sm-fill text-sm-center">
-                                <a class="nav-link active show product_tab_option" href="#product_tab"
-                                   data-bs-toggle="tab"><?= __('admin.products') ?></a>
+                                <a class="nav-link active show product_tab_option" href="#product_tab" data-bs-toggle="tab"><?= __('admin.products') ?></a>
                             </li>
                             <li class="nav-item flex-sm-fill text-sm-center">
-                                <a class="nav-link product-part product_coupons_tab_option" href="#product_coupons_tab"
-                                   data-bs-toggle="tab"><?= __('admin.coupon') ?></a>
+                                <a class="nav-link product-part product_coupons_tab_option" href="#product_coupons_tab" data-bs-toggle="tab"><?= __('admin.coupon') ?></a>
                             </li>
                             <!-- <li class="nav-item flex-sm-fill text-sm-center">
                        <a class="nav-link" href="#form_tab" data-bs-toggle="tab"><?= __('admin.forms') ?></a>
@@ -54,8 +52,7 @@ $Product_model = $db->Product_model;
                        <a class="nav-link" href="#form_coupons_tab" data-bs-toggle="tab"><?= __('admin.forms_coupon') ?></a>
                    </li> -->
                             <li class="nav-item flex-sm-fill text-sm-center">
-                                <a class="nav-link" href="#review_tab"
-                                   data-bs-toggle="tab"><?= __('admin.review') ?></a>
+                                <a class="nav-link" href="#review_tab" data-bs-toggle="tab"><?= __('admin.review') ?></a>
                             </li>
                         </ul>
                     </div>
@@ -66,13 +63,21 @@ $Product_model = $db->Product_model;
                         <div class="filter">
                             <form id="filter-form">
                                 <div class="row mt-4 g-3">
+                                    <div class="col-2">
+                                        <select name="branch_id" class="form-select select-branch">
+                                            <?php $selected = isset($_GET['branch_id']) ? $_GET['branch_id'] : ''; ?>
+                                            <option value=""><?= __('Tất các kho') ?></option>
+                                            <?php foreach ($branchs as $key => $value) { ?>
+                                                <option <?= $selected == $value['id'] ? 'selected' : '' ?> value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
                                     <div class="col-3">
                                         <select name="category_id" class="form-select select-category">
                                             <?php $selected = isset($_GET['category_id']) ? $_GET['category_id'] : ''; ?>
                                             <option value=""><?= __('admin.all_category') ?></option>
                                             <?php foreach ($categories as $key => $value) { ?>
-                                                <option <?= $selected == $value['id'] ? 'selected' : '' ?>
-                                                        value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                                                <option <?= $selected == $value['id'] ? 'selected' : '' ?> value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -81,38 +86,30 @@ $Product_model = $db->Product_model;
                                             <?php $selected = isset($_GET['seller_id']) ? $_GET['seller_id'] : ''; ?>
                                             <option value=""><?= __('admin.all_vendor') ?></option>
                                             <?php foreach ($vendors as $key => $value) { ?>
-                                                <option <?= $selected == $value['id'] ? 'selected' : '' ?>
-                                                        value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                                                <option <?= $selected == $value['id'] ? 'selected' : '' ?> value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
                                     <div class="col-2">
-                                        <a id="toggle-uploader" class="btn btn-primary" href="javascript:void(0)"
-                                           data-bs-toggle="modal"
-                                           data-bs-target="#manageBulkProducts"><?= __('admin.manage_bulk_products') ?></a>
+                                        <a id="toggle-uploader" class="btn btn-primary w-100" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#manageBulkProducts"><?= __('admin.manage_bulk_products') ?></a>
                                     </div>
                                     <div class="col-2">
-                                        <a id="toggle-uploader" class="btn btn-light"
-                                           href="<?php echo base_url('admincontrol/addproduct'); ?>"><?= __('admin.add_product') ?></a>
+                                        <a id="toggle-uploader" class="btn btn-light w-100" href="<?php echo base_url('admincontrol/addproduct'); ?>"><?= __('admin.add_product') ?></a>
                                     </div>
                                     <div class="col-2">
-                                        <a style="display:none;" class="btn btn-danger" name="deletebutton"
-                                           id="deletebutton" value="<?= __('admin.save_exit') ?>"
-                                           onclick="deleteuserlistfunc('deleteAllproducts');"><?= __('admin.delete_products') ?></a>
+                                        <a style="display:none;" class="btn btn-danger" name="deletebutton" id="deletebutton" value="<?= __('admin.save_exit') ?>" onclick="deleteuserlistfunc('deleteAllproducts');"><?= __('admin.delete_products') ?></a>
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div class="table-rep-plugin">
                             <div class="row">
-                                <div id="manageBulkProducts" class="modal fade bd-example-modal-lg" tabindex="-1"
-                                     role="dialog" aria-hidden="true">
+                                <div id="manageBulkProducts" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title"><?= __('admin.manage_bulk_products') ?></h5>
-                                                <button type="button" class="btn-close" aria-label="Close"
-                                                        data-bs-dismiss="modal"></button>
+                                                <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <div class="row g-4">
@@ -137,195 +134,168 @@ $Product_model = $db->Product_model;
                                                 <div class="row">
                                                     <div class="col">
                                                         <!-- tab start -->
-                                                        <div class="tab-pane p-3" id="tab_bulkprodcut_option"
-                                                             role="tabpanel">
+                                                        <div class="tab-pane p-3" id="tab_bulkprodcut_option" role="tabpanel">
                                                             <div role="tabpanel">
-                                                                <ul class="nav nav-pills flex-column flex-sm-row"
-                                                                    id="TabsNav">
+                                                                <ul class="nav nav-pills flex-column flex-sm-row" id="TabsNav">
                                                                     <li class="nav-item flex-sm-fill text-sm-center">
-                                                                        <a class="nav-link active show"
-                                                                           href="#import_file_tab"
-                                                                           aria-controls="import_file_tab" role="tab"
-                                                                           data-bs-toggle="tab"><?= __('admin.import_from_file') ?></a>
+                                                                        <a class="nav-link active show" href="#import_file_tab" aria-controls="import_file_tab" role="tab" data-bs-toggle="tab"><?= __('admin.import_from_file') ?></a>
                                                                     </li>
                                                                     <li class="nav-item flex-sm-fill text-sm-center">
-                                                                        <a class="nav-link" href="#import_link_tab"
-                                                                           aria-controls="import_link_tab" role="tab"
-                                                                           data-bs-toggle="tab"><?= __('admin.import_from_url') ?></a>
+                                                                        <a class="nav-link" href="#import_link_tab" aria-controls="import_link_tab" role="tab" data-bs-toggle="tab"><?= __('admin.import_from_url') ?></a>
                                                                     </li>
                                                                 </ul>
                                                             </div>
                                                         </div>
                                                         <div class="tab-content">
-                                                            <div role="tabpanel" class="tab-pane active"
-                                                                 id="import_file_tab">
+                                                            <div role="tabpanel" class="tab-pane active" id="import_file_tab">
                                                                 <form id="bulk_products_form" class="text-center">
                                                                     <div class="my-3">
-                                                                        <label class="custom-file-label my-3 fw-bold"
-                                                                               for="customFile"><?= __('Danh mục nhập sản phẩm') ?></label>
-                                                                        <select name="categoryId"
-                                                                                class="form-select select-categoryId">
+                                                                        <label class="custom-file-label my-3 fw-bold" for="customFile"><?= __('Danh mục nhập sản phẩm') ?></label>
+                                                                        <select name="categoryId" class="form-select select-categoryId">
                                                                             <?php $selected = isset($_GET['category_id']) ? $_GET['category_id'] : ''; ?>
                                                                             <option value=""><?= __('admin.all_category') ?></option>
                                                                             <?php foreach ($categories as $key => $value) { ?>
-                                                                                <option <?= $selected == $value['id'] ? 'selected' : '' ?>
-                                                                                        value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                                                                                <option <?= $selected == $value['id'] ? 'selected' : '' ?> value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
                                                                             <?php } ?>
                                                                         </select>
                                                                         <div class="alert-select"></div>
                                                                     </div>
                                                                     <div class="custom-file my-3">
-                                                                        <input type="file" class="custom-file-input"
-                                                                               name="file">
-                                                                        <label class="custom-file-label"
-                                                                               for="customFile"><?= __('admin.upload_excel_file_for_bulk_product_manage') ?></label>
+                                                                        <input type="file" class="custom-file-input" name="file">
+                                                                        <label class="custom-file-label" for="customFile"><?= __('admin.upload_excel_file_for_bulk_product_manage') ?></label>
                                                                         <div class="alert-form"></div>
                                                                     </div>
-                                                                    <button id="bulk_products_form_btn" type="submit"
-                                                                            class="btn btn-lg btn-default btn-success text-center"><?= __('admin.import_products') ?></button>
-                                                                    <br/><br/>
+                                                                    <button id="bulk_products_form_btn" type="submit" class="btn btn-lg btn-default btn-success text-center"><?= __('admin.import_products') ?></button>
+                                                                    <br /><br />
                                                                 </form>
                                                             </div>
                                                             <div role="tabpanel" class="tab-pane" id="import_link_tab">
                                                                 <form id="bulk_products_form_url" class="text-center">
                                                                     <div class="custom-file my-3">
-                                                                        <input name="txt_xmlurl" id="txt_xmlurl"
-                                                                               class="textxmlurl" type="text"
-                                                                               tabindex="0" autocomplete="off"
-                                                                               autocorrect="off" autocapitalize="off"
-                                                                               spellcheck="false" role="textbox"
-                                                                               aria-autocomplete="list"
-                                                                               placeholder="<?= __('admin.enter_xml_url_for_bulk_product_manage') ?>"
-                                                                               style="width:100%;">
+                                                                        <input name="txt_xmlurl" id="txt_xmlurl" class="textxmlurl" type="text" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="<?= __('admin.enter_xml_url_for_bulk_product_manage') ?>" style="width:100%;">
 
                                                                     </div>
-                                                                    <button id="bulk_products_form_url_btn"
-                                                                            type="submit"
-                                                                            class="btn btn-lg btn-default btn-success text-center"><?= __('admin.import_products') ?></button>
-                                                                    <br/><br/>
+                                                                    <button id="bulk_products_form_url_btn" type="submit" class="btn btn-lg btn-default btn-success text-center"><?= __('admin.import_products') ?></button>
+                                                                    <br /><br />
                                                                 </form>
                                                             </div>
                                                         </div>
                                                         <!--tab end -->
 
 
-                                                        <a class="mb-4" href="javascript:void(0)"
-                                                           data-bs-toggle="collapse"
-                                                           data-bs-target="#collapseInstructions" aria-expanded="false"
-                                                           aria-controls="collapseInstructions"><?= __('admin.click_here_for_excel_file_upload') ?></a>
+                                                        <a class="mb-4" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#collapseInstructions" aria-expanded="false" aria-controls="collapseInstructions"><?= __('admin.click_here_for_excel_file_upload') ?></a>
                                                         <div class="collapse" id="collapseInstructions">
-                                                            <div class="card card-body text-left"
-                                                                 style="max-height: 300px; overflow-y: scroll">
+                                                            <div class="card card-body text-left" style="max-height: 300px; overflow-y: scroll">
                                                                 <table class="table table-stripped">
                                                                     <thead>
-                                                                    <tr>
-                                                                        <td><?= __('admin.column') ?></td>
-                                                                        <td><?= __('admin.description') ?></td>
-                                                                    </tr>
+                                                                        <tr>
+                                                                            <td><?= __('admin.column') ?></td>
+                                                                            <td><?= __('admin.description') ?></td>
+                                                                        </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                    <tr>
-                                                                        <td><?= __('admin.product_id') ?></td>
-                                                                        <td>
-                                                                            <ul>
-                                                                                <li><?= __('admin.optional') ?></li>
-                                                                                <li><?= __('admin.ip_product_id_desc_1') ?></li>
-                                                                                <li><?= __('admin.ip_product_id_desc_2') ?></li>
-                                                                                <li><?= __('admin.ip_product_id_desc_3') ?></li>
+                                                                        <tr>
+                                                                            <td><?= __('admin.product_id') ?></td>
+                                                                            <td>
                                                                                 <ul>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><?= __('admin.product_name') ?></td>
-                                                                        <td>
-                                                                            <ul>
-                                                                                <li><?= __('admin.required') ?></li>
-                                                                                <li><?= __('admin.ip_product_name_desc_1') ?></li>
+                                                                                    <li><?= __('admin.optional') ?></li>
+                                                                                    <li><?= __('admin.ip_product_id_desc_1') ?></li>
+                                                                                    <li><?= __('admin.ip_product_id_desc_2') ?></li>
+                                                                                    <li><?= __('admin.ip_product_id_desc_3') ?></li>
+                                                                                    <ul>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><?= __('admin.product_name') ?></td>
+                                                                            <td>
                                                                                 <ul>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><?= __('admin.product_sku') ?></td>
-                                                                        <td>
-                                                                            <ul>
-                                                                                <li><?= __('admin.required') ?></li>
-                                                                                <li><?= __('admin.ip_product_sku_desc_1') ?></li>
-                                                                                <li><?= __('admin.ip_product_sku_desc_2') ?></li>
+                                                                                    <li><?= __('admin.required') ?></li>
+                                                                                    <li><?= __('admin.ip_product_name_desc_1') ?></li>
+                                                                                    <ul>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><?= __('admin.product_sku') ?></td>
+                                                                            <td>
                                                                                 <ul>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><?= __('admin.product_msrp') ?></td>
-                                                                        <td>
-                                                                            <ul>
-                                                                                <li><?= __('admin.optional') ?></li>
-                                                                                <li><?= __('admin.ip_product_msrp_desc_1') ?></li>
-                                                                                <li><?= __('admin.ip_product_msrp_desc_2') ?></li>
+                                                                                    <li><?= __('admin.required') ?></li>
+                                                                                    <li><?= __('admin.ip_product_sku_desc_1') ?></li>
+                                                                                    <li><?= __('admin.ip_product_sku_desc_2') ?></li>
+                                                                                    <ul>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><?= __('admin.product_msrp') ?></td>
+                                                                            <td>
                                                                                 <ul>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><?= __('admin.product_price') ?></td>
-                                                                        <td>
-                                                                            <ul>
-                                                                                <li><?= __('admin.required') ?></li>
-                                                                                <li><?= __('admin.ip_product_price_desc_1') ?></li>
-                                                                                <li><?= __('admin.ip_product_price_desc_2') ?></li>
+                                                                                    <li><?= __('admin.optional') ?></li>
+                                                                                    <li><?= __('admin.ip_product_msrp_desc_1') ?></li>
+                                                                                    <li><?= __('admin.ip_product_msrp_desc_2') ?></li>
+                                                                                    <ul>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><?= __('admin.product_price') ?></td>
+                                                                            <td>
                                                                                 <ul>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><?= __('admin.product_short_desc') ?></td>
-                                                                        <td>
-                                                                            <ul>
-                                                                                <li><?= __('admin.required') ?></li>
-                                                                                <li><?= __('admin.ip_product_short_desc_desc_1') ?></li>
-                                                                                <li><?= __('admin.ip_product_short_desc_desc_2') ?></li>
+                                                                                    <li><?= __('admin.required') ?></li>
+                                                                                    <li><?= __('admin.ip_product_price_desc_1') ?></li>
+                                                                                    <li><?= __('admin.ip_product_price_desc_2') ?></li>
+                                                                                    <ul>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><?= __('admin.product_short_desc') ?></td>
+                                                                            <td>
                                                                                 <ul>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><?= __('admin.product_desc') ?></td>
-                                                                        <td>
-                                                                            <ul>
-                                                                                <li><?= __('admin.required') ?></li>
-                                                                                <li><?= __('admin.ip_product_desc_desc_1') ?></li>
-                                                                                <li><?= __('admin.ip_product_desc_desc_2') ?></li>
+                                                                                    <li><?= __('admin.required') ?></li>
+                                                                                    <li><?= __('admin.ip_product_short_desc_desc_1') ?></li>
+                                                                                    <li><?= __('admin.ip_product_short_desc_desc_2') ?></li>
+                                                                                    <ul>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><?= __('admin.product_desc') ?></td>
+                                                                            <td>
                                                                                 <ul>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><?= __('admin.product_tag') ?></td>
-                                                                        <td>
-                                                                            <ul>
-                                                                                <li><?= __('admin.optional') ?></li>
-                                                                                <li><?= __('admin.ip_product_tag_desc_1') ?></li>
-                                                                                <li><?= __('admin.ip_product_tag_desc_2') ?></li>
+                                                                                    <li><?= __('admin.required') ?></li>
+                                                                                    <li><?= __('admin.ip_product_desc_desc_1') ?></li>
+                                                                                    <li><?= __('admin.ip_product_desc_desc_2') ?></li>
+                                                                                    <ul>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><?= __('admin.product_tag') ?></td>
+                                                                            <td>
                                                                                 <ul>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><?= __('admin.product_type') ?></td>
-                                                                        <td>
-                                                                            <ul>
-                                                                                <li><?= __('admin.required') ?></li>
-                                                                                <li><?= __('admin.ip_product_type_disc_1') ?>
-                                                                                    "virtual", "downloadable"
-                                                                                </li>
-                                                                                <li><?= __('admin.ip_product_type_disc_2') ?>
-                                                                                    /
-                                                                                </li>
+                                                                                    <li><?= __('admin.optional') ?></li>
+                                                                                    <li><?= __('admin.ip_product_tag_desc_1') ?></li>
+                                                                                    <li><?= __('admin.ip_product_tag_desc_2') ?></li>
+                                                                                    <ul>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><?= __('admin.product_type') ?></td>
+                                                                            <td>
                                                                                 <ul>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><?= __('admin.product_variations') ?></td>
-                                                                        <td>
-                                                                            <ul>
-                                                                                <li><?= __('admin.optional') ?></li>
-                                                                                <li><?= __('admin.ip_product_variations_desc_1') ?></li>
+                                                                                    <li><?= __('admin.required') ?></li>
+                                                                                    <li><?= __('admin.ip_product_type_disc_1') ?>
+                                                                                        "virtual", "downloadable"
+                                                                                    </li>
+                                                                                    <li><?= __('admin.ip_product_type_disc_2') ?>
+                                                                                        /
+                                                                                    </li>
+                                                                                    <ul>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><?= __('admin.product_variations') ?></td>
+                                                                            <td>
                                                                                 <ul>
-                                    <pre style="overflow: visible;">
+                                                                                    <li><?= __('admin.optional') ?></li>
+                                                                                    <li><?= __('admin.ip_product_variations_desc_1') ?></li>
+                                                                                    <ul>
+                                                                                        <pre style="overflow: visible;">
                                     {
                                     "colors":[
                                     {"code":"#FF0000","name":"Red","price":"10"},
@@ -490,11 +460,14 @@ $Product_model = $db->Product_model;
                                                 <th><?= __('admin.sku') ?></th>
                                                 <th><?= __('Danh mục') ?></th>
                                                 <!--                                    <th>-->
-                                                <? //= __('admin.sales_/_commission') ?><!--</th>-->
+                                                <? //= __('admin.sales_/_commission') 
+                                                ?><!--</th>-->
                                                 <!--                                    <th>-->
-                                                <? //= __('admin.clicks_/_commission') ?><!--</th>-->
+                                                <? //= __('admin.clicks_/_commission') 
+                                                ?><!--</th>-->
                                                 <!--                                    <th>-->
-                                                <? //= __('admin.total') ?><!--</th>-->
+                                                <? //= __('admin.total') 
+                                                ?><!--</th>-->
                                                 <th><?= __('admin.status') ?></th>
                                                 <th><?= __('admin.action') ?></th>
                                             </tr>
@@ -1254,7 +1227,7 @@ $Product_model = $db->Product_model;
         function generateCode(affiliate_id) {
             $('.popupbox').show();
             $('#overlay').show();
-            $('.modalpopup-body').load('<?php echo base_url();?>admincontrol/generateproductcode/' + affiliate_id);
+            $('.modalpopup-body').load('<?php echo base_url(); ?>admincontrol/generateproductcode/' + affiliate_id);
             $('.popupbox').ready(function () {
                 $('.backdrop, .box').animate({
                     'opacity': '.50'
@@ -1272,7 +1245,7 @@ $Product_model = $db->Product_model;
         })
 
         $("#filter-form-review").on("submit", function () {
-            var urlreview = '<?= base_url("admincontrol/listreviews_ajax/")?>';
+            var urlreview = '<?= base_url("admincontrol/listreviews_ajax/") ?>';
             getReviews(urlreview);
             return false;
         });
@@ -1314,7 +1287,7 @@ $Product_model = $db->Product_model;
         }
 
         $(document).ready(function () {
-            getReviews('<?= base_url("admincontrol/listreviews_ajax/")?>');
+            getReviews('<?= base_url("admincontrol/listreviews_ajax/") ?>');
         });
 
         $('#bulk_reviews_form_url_btn').on('click', function (e) {

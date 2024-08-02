@@ -36,6 +36,9 @@ $vendor_setting = $this->Product_model->getSettings('vendor');
 			<span class="badge bg-success text-light fs-6"> <?= $product['cat_name'] ?? 'Không xác định' ?> </span>
 		</td>
 		<td class="txt-cntr">
+			<?php echo $product['order_count']; ?>
+		</td>
+		<td class="txt-cntr">
 		<td class="txt-cntr commission-tr">
 
 			<?php
@@ -138,24 +141,6 @@ $vendor_setting = $this->Product_model->getSettings('vendor');
 			?>
 
 		</td>
-		<td class="txt-cntr">
-			<?php echo $product['order_count'];
-			?>
-			<?php echo c_format($product['commission']);
-			?>
-		</td>
 
-		<td>
-			<a class="btn btn-primary" onclick="return confirmpopup('<?= base_url(); ?>admincontrol/updateproduct/<?php echo $product['product_id']; ?>');" href="<?php echo base_url(); ?>admincontrol/updateproduct/<?php echo $product['product_id']; ?>">
-				<i class="fa fa-edit cursors" aria-hidden="true"></i>
-			</a>
-			<?php if ((int)$product['seller_id'] == 0) { ?>
-				<a class="btn btn-primary" href="<?php echo base_url('admincontrol/duplicateProduct'); ?>/<?php echo $product['product_id']; ?>"><i class="fa fa-clone cursors" aria-hidden="true"></i></a>
-			<?php } ?>
-			<a class="btn btn-primary" href="<?php echo base_url('admincontrol/productupload/' . $product['product_id']); ?>"><i class="fa fa-image cursors"></i></a>
-			<a class="btn btn-primary" href="<?php echo base_url('admincontrol/videoupload/' . $product['product_id']); ?>"><i class="fa fa-video-camera cursors"></i></a>
-			<span class="btn btn-primary" data-social-share data-share-url="<?= $productLink ?>" data-share-title="<?= $product['product_name']; ?>" data-share-desc="<?= $product['product_short_description']; ?>"><i class="fa fa-share-alt" aria-hidden="true"></i></span>
-			<a class="btn btn-danger delete-product" type="button" data-id="<?= $product['product_id'] ?>"> <i class="fa fa-trash"></i> </a>
-		</td>
 	</tr>
 <?php } ?>

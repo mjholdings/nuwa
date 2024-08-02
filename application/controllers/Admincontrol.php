@@ -4935,6 +4935,8 @@ class Admincontrol extends MY_Controller
 
 		$data['categories'] = $this->db->query("SELECT id,name FROM categories")->result_array();
 
+		$data['branchs'] = $this->db->query("SELECT id,name FROM branch")->result_array();
+
 		$data['vendors'] = $this->db->query("SELECT users.id,CONCAT(users.firstname,' ',users.lastname) as name FROM `product_affiliate` INNER JOIN users ON users.id= user_id GROUP by user_id")->result_array();
 
 
@@ -4998,6 +5000,8 @@ class Admincontrol extends MY_Controller
 		}
 	}
 
+
+	// Nhập hàng một sản phẩm
 	public function stock_updateproduct($id = null)
 	{
 
@@ -5888,6 +5892,126 @@ class Admincontrol extends MY_Controller
 
 		echo json_encode($json);
 	}
+
+
+
+	// Stock Order Import
+	public function stock_addorder()
+	{
+
+		$userdetails = $this->userdetails();
+
+		if (empty($userdetails)) {
+
+			redirect($this->admin_domain_url);
+		}
+
+		$data['setting'] 	= $this->Product_model->getSettings('productsetting');
+
+		$data['country_list'] = $this->db->query("SELECT name,id FROM countries")->result();
+
+		$data['product'] = $this->Product_model->getProductById($id);
+
+		$this->view($data, 'product_stock/add_import_order');
+	}
+
+	// Danh sách đơn hàng nhập vào kho
+	public function stock_listorders()
+	{
+
+		$userdetails = $this->userdetails();
+
+		$store_setting = $this->Product_model->getSettings('store');
+
+		$this->load->model('Order_model');
+
+		$data['status'] = $this->Order_model->status();
+
+		$data['user'] = $userdetails;
+
+		$data['wallet_status'] = $this->Wallet_model->status();
+
+		if (isset($_POST['getOrdersRows'])) {
+
+			$data['getallorders'] = $this->Order_model->getImportOrders();
+
+			$json['view'] = $this->load->view("admincontrol/product_stock/orders_list_tr", $data, true);
+
+			echo json_encode($json);
+			exit;
+		}
+
+		$this->load->model('Wallet_model');
+
+		$totals = $this->Wallet_model->getTotals(array(), true);
+
+		$data['full_local_store_hold_orders'] = $totals['store']['hold_orders'];
+
+		$this->view($data, 'product_stock/orders');
+	}
+
+	// Thay đổi trạng thái đơn hàng nhập
+	public function stock_order_change_status()
+	{
+
+		$order_id = (int)$this->input->post("id", true);
+
+		$status = (int)$this->input->post("val", true);
+
+		$remarks = '';
+
+		$this->load->model('Order_model');
+
+		$this->Order_model->changeStatus($order_id, $status, $remarks);
+
+		$json['status'] = $this->Order_model->status($status);
+
+		echo json_encode($json);
+	}
+
+
+	// Xem chi tiết đơn hàng nhập
+	public function stock_vieworder($order_id = null)
+	{
+		$this->db->db_debug = FALSE;
+		try {
+			$userdetails = $this->userdetails();
+			$this->load->model('Order_model');
+			$this->load->model('Form_model');
+			$post = $this->input->post(null, true);
+
+			if ($post) {
+				$this->Order_model->changeStatus($order_id, $post['payment_item_status'], $post['remarks']);
+				$this->session->set_flashdata('success', __('admin.you_have_updated_order_status_successfully'));
+				redirect('admincontrol/stock_vieworder/' . $order_id);
+				die();
+			}
+
+			$data['status'] = $this->Order_model->status();
+			$data['order'] = $this->Order_model->getOrder($order_id);
+			if (!empty($data['order']['id'])) {
+				$data['products'] = $this->Order_model->getProducts($order_id);
+				$data['totals'] = $this->Order_model->getTotals($data['products'], $data['order']);
+				$data['payment_history'] = $this->Order_model->getHistory($order_id);
+				$data['order_history'] = $this->Order_model->getHistory($order_id, 'order');
+				$data['affiliate_user'] = $this->Order_model->getAffiliateUser($order_id);
+				$data['venders'] = $this->Order_model->getVender($data['order'], $data['products']);
+				$data['paymentsetting'] = $this->Product_model->getSettings('paymentsetting');
+				$data['user'] = $userdetails;
+				$data['orderProof'] = $this->Order_model->getPaymentProof($order_id);
+				$data['shipping'] = $this->Order_model->getShippingDetails($data['order']['user_id']);
+				unset($data['status']['0']);
+				$this->view($data, 'product_stock/vieworder');
+			} else {
+				$this->session->set_flashdata('error', sprintf(__("admin.order_id_no_longer_available"), $order_id));
+				redirect('admincontrol/stock_listorders/');
+			}
+		} catch (Exception $e) {
+			$this->session->set_flashdata('error', $e->getMessage());
+			redirect('admincontrol/stock_listorders/');
+		}
+	}
+
 
 	// Product
 	public function addproduct()
@@ -6786,6 +6910,8 @@ class Admincontrol extends MY_Controller
 
 		$data['categories'] = $this->db->query("SELECT id,name FROM categories")->result_array();
 
+		$data['branchs'] = $this->db->query("SELECT id,name FROM branch")->result_array();
+
 		$data['vendors'] = $this->db->query("SELECT users.id,CONCAT(users.firstname,' ',users.lastname) as name FROM `product_affiliate` INNER JOIN users ON users.id= user_id GROUP by user_id")->result_array();
 
 
@@ -7661,8 +7787,7 @@ class Admincontrol extends MY_Controller
 		if (!empty($postData)) $this->Product_model->create_data('notification', $postData);
 	}
 
-
-
+	// Danh sách đơn hàng
 	public function listorders()
 	{
 
@@ -11401,6 +11526,7 @@ class Admincontrol extends MY_Controller
 
 		$this->view($data, 'clients/index');
 	}
+
 
 
 	public function addstock($id = null)

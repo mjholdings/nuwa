@@ -159,7 +159,7 @@ $userdetails = $db->userdetails();
 													<td>
 														<input value="<?php echo isset($branch_item->product_price) ? $branch_item->product_price : 0; ?>" type="number" name="price[<?php echo $branch_item->id; ?>]" placeholder="Nhập giá sản phẩm" step="0.01">
 													</td>
-													
+
 												</tr>
 											<?php endforeach; ?>
 										</tbody>

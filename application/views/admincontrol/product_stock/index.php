@@ -32,7 +32,7 @@ $Product_model = $db->Product_model;
     <div class="col-12">
         <div class="card">
             <div class="card-header bg-secondary text-white">
-                <div class="card-title-white pull-left m-0"><?= __('admin.cart_mode_products') ?>
+                <div class="card-title-white pull-left m-0"><?= __('KHO HÀNG SẢN PHẨM') ?>
                 </div>
             </div>
             <div class="card-body">
@@ -42,18 +42,18 @@ $Product_model = $db->Product_model;
                             <li class="nav-item flex-sm-fill text-sm-center">
                                 <a class="nav-link active show product_tab_option" href="#product_tab" data-bs-toggle="tab"><?= __('Danh sách sản phẩm kho') ?></a>
                             </li>
-                            <li class="nav-item flex-sm-fill text-sm-center">
+                            <!-- <li class="nav-item flex-sm-fill text-sm-center">
                                 <a class="nav-link product-part product_coupons_tab_option" href="#product_coupons_tab" data-bs-toggle="tab"><?= __('admin.coupon') ?></a>
-                            </li>
+                            </li> -->
                             <!-- <li class="nav-item flex-sm-fill text-sm-center">
                        <a class="nav-link" href="#form_tab" data-bs-toggle="tab"><?= __('admin.forms') ?></a>
                    </li>
                    <li class="nav-item flex-sm-fill text-sm-center">
                        <a class="nav-link" href="#form_coupons_tab" data-bs-toggle="tab"><?= __('admin.forms_coupon') ?></a>
                    </li> -->
-                            <li class="nav-item flex-sm-fill text-sm-center">
+                            <!-- <li class="nav-item flex-sm-fill text-sm-center">
                                 <a class="nav-link" href="#review_tab" data-bs-toggle="tab"><?= __('admin.review') ?></a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -63,6 +63,15 @@ $Product_model = $db->Product_model;
                         <div class="filter">
                             <form id="filter-form">
                                 <div class="row mt-4 g-3">
+                                    <div class="col-2">
+                                        <select name="branch_id" class="form-select select-branch">
+                                            <?php $selected = isset($_GET['branch_id']) ? $_GET['branch_id'] : ''; ?>
+                                            <option value=""><?= __('Tất các kho') ?></option>
+                                            <?php foreach ($branchs as $key => $value) { ?>
+                                                <option <?= $selected == $value['id'] ? 'selected' : '' ?> value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
                                     <div class="col-3">
                                         <select name="category_id" class="form-select select-category">
                                             <?php $selected = isset($_GET['category_id']) ? $_GET['category_id'] : ''; ?>
@@ -82,10 +91,10 @@ $Product_model = $db->Product_model;
                                         </select>
                                     </div>
                                     <div class="col-2">
-                                        <a id="toggle-uploader" class="btn btn-primary" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#manageBulkProducts"><?= __('admin.manage_bulk_products') ?></a>
+                                        <a id="toggle-uploader" class="btn btn-primary w-100" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#manageBulkProducts"><?= __('admin.manage_bulk_products') ?></a>
                                     </div>
-                                    <div class="col-4">
-                                        <a id="toggle-uploader" class="btn btn-light" href="<?php echo base_url('admincontrol/addproduct'); ?>"><?= __('Nhập sản phẩm mới') ?></a>
+                                    <div class="col-2">
+                                        <a id="toggle-uploader" class="btn btn-light w-100" href="<?php echo base_url('admincontrol/addproduct'); ?>"><?= __('Nhập mới') ?></a>
                                     </div>
                                     <div class="col-2">
                                         <a style="display:none;" class="btn btn-danger" name="deletebutton" id="deletebutton" value="<?= __('admin.save_exit') ?>" onclick="deleteuserlistfunc('deleteAllproducts');"><?= __('admin.delete_products') ?></a>

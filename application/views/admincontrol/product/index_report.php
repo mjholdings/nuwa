@@ -32,7 +32,7 @@ $Product_model = $db->Product_model;
     <div class="col-12">
         <div class="card">
             <div class="card-header bg-secondary text-white">
-                <div class="card-title-white pull-left m-0"><?= __('Báo cáo sản phẩm') ?>
+                <div class="card-title-white pull-left m-0"><?= __('BÁO CÁO SẢN PHẨM') ?>
                 </div>
             </div>
             <div class="card-body">
@@ -443,10 +443,9 @@ $Product_model = $db->Product_model;
                                                 <th><?= __('admin.price') ?></th>
                                                 <th><?= __('admin.sku') ?></th>
                                                 <th><?= __('Danh mục') ?></th>
-                                                <th width="130px"><?= __('DT / Hoa hồng') ?></th>                                                
+                                                <th width="100px"><?= __('Tồn kho') ?></th>
+                                                <th width="130px"><?= __('DT/Hoa hồng') ?></th>                                                
                                                 <th><?= __('Doanh số') ?></th>
-                                                <th><?= __('Tồn kho') ?></th>
-                                                <th><?= __('admin.action') ?></th>
                                             </tr>
                                             </thead>
                                             <tbody></tbody>

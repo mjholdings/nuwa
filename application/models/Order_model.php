@@ -2062,7 +2062,7 @@ class Order_model extends MY_Model
 
 
     // Lấy tất cả đơn hàng nhập sản phẩm
-    public function getImportOrders2($filter = array(), $addShipping = true)
+    public function getImportOrders_old($filter = array(), $addShipping = true)
     {
         // Lọc theo user_id, branch_id, order_id và các điều kiện khác nếu có
         $where = '1=1';
@@ -2183,16 +2183,12 @@ class Order_model extends MY_Model
         if ($isSingleOrder && !empty($orders)) {
             $order = $orders[0];
 
-
-
             // Lấy chi tiết sản phẩm từ bảng product_branch
             $query_products = "
             SELECT pb.*
             FROM product_branch pb
             WHERE pb.order_branch_id = " . (int) $order['id'];
             $products = $this->db->query($query_products)->result_array();
-
-
 
             $order['products'] = $products;
             $order['total_quantity'] = array_sum(array_column($products, 'stock_quantity'));

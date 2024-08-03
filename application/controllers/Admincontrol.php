@@ -5990,19 +5990,21 @@ class Admincontrol extends MY_Controller
 			$data['status'] = $this->Order_model->status();
 			$data['order'] = $this->Order_model->getImportOrders($order_id);
 
+
+
 			if (!empty($data['order']['id'])) {
 
-				$data['products'] = $this->Order_model->getProducts($order_id);
-				$data['totals'] = $this->Order_model->getTotals($data['products'], $data['order']);
-				$data['payment_history'] = $this->Order_model->getHistory($order_id);
-				$data['order_history'] = $this->Order_model->getHistory($order_id, 'order');
-				$data['affiliate_user'] = $this->Order_model->getAffiliateUser($order_id);
-				$data['venders'] = $this->Order_model->getVender($data['order'], $data['products']);
-				$data['paymentsetting'] = $this->Product_model->getSettings('paymentsetting');
-				$data['user'] = $userdetails;
-				$data['orderProof'] = $this->Order_model->getPaymentProof($order_id);
-				$data['shipping'] = $this->Order_model->getShippingDetails($data['order']['user_id']);
-				unset($data['status']['0']);
+				// $data['products'] = $this->Order_model->getProducts($order_id);
+				// $data['totals'] = $this->Order_model->getTotals($data['products'], $data['order']);
+				// $data['payment_history'] = $this->Order_model->getHistory($order_id);
+				// $data['order_history'] = $this->Order_model->getHistory($order_id, 'order');
+				// $data['affiliate_user'] = $this->Order_model->getAffiliateUser($order_id);
+				// $data['venders'] = $this->Order_model->getVender($data['order'], $data['products']);
+				// $data['paymentsetting'] = $this->Product_model->getSettings('paymentsetting');
+				// $data['user'] = $userdetails;
+				// $data['orderProof'] = $this->Order_model->getPaymentProof($order_id);
+				// $data['shipping'] = $this->Order_model->getShippingDetails($data['order']['user_id']);
+				// unset($data['status']['0']);
 				$this->view($data, 'product_stock/vieworder');
 			} else {
 				$this->session->set_flashdata('error', sprintf(__("admin.order_id_no_longer_available"), $order_id));

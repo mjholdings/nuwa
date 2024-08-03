@@ -3,19 +3,19 @@
 		<div class="card">
 			<div class="card-header bg-secondary text-white">
 				<div class="d-flex justify-content-between">
-					<h5 class="m-0"><?= __('admin.order_details') ?></h5>
+					<h5 class="m-0"><?= __('CHI TIẾT ĐƠN NHẬP') ?></h5>
 					<div>
 						<a id="toggle-uploader" href="<?php echo base_url(); ?>admincontrol/orderaction/<?php echo $order['id']; ?>/sendemail" class="btn btn-light btn-sm "><i class="mdi mdi-email-outline"></i> &nbsp;<?= __('admin.send_email') ?></a>
-						<a id="toggle-uploader" href="<?php echo base_url(); ?>admincontrol/orderaction/<?php echo $order['id']; ?>/print" target='_blank' class="btn btn-light btn-sm "><i class="mdi mdi-printer"></i> &nbsp;<?= __('admin.print_order') ?></a>
+						<a id="toggle-uploader" href="<?php echo base_url(); ?>admincontrol/orderaction/<?php echo $order['id']; ?>/print" target='_blank' class="btn btn-light btn-sm "><i class="mdi mdi-printer"></i> &nbsp;<?= __('In đơn') ?></a>
 						<button data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-danger btn-sm">
-							<i class="mdi mdi-delete"></i> &nbsp;<?= __('admin.delete_order') ?>
+							<i class="mdi mdi-delete"></i> &nbsp;<?= __('Xóa đơn') ?>
 						</button>
 					</div>
 				</div>
 			</div>
 
 			<div class="card-body">
-				<h4 class="mb-4"><?= __('admin.order') ?> : (<?= orderId($order['id']) ?>)</h4>
+				<h4 class="mb-4"><?= __('Đơn nhập') ?> : (<?= orderId($order['id']) ?>)</h4>
 				<p><i class="mdi mdi-calendar-text"></i> <?= __('admin.date') ?> : <?php echo date("m-j-Y h:i A", strtotime($order['created_at'])); ?></p>
 
 				<h5 class="mt-3"><?= __('admin.product_info') ?></h5>
@@ -25,10 +25,7 @@
 							<tr>
 								<th colspan="2"><?= __('admin.name') ?></th>
 								<th><?= __('admin.unit_price') ?></th>
-								<th><?= __('admin.variation_price') ?></th>
 								<th><?= __('admin.quantity') ?></th>
-								<th><?= __('admin.commission_type') ?></th>
-								<th><?= __('admin.commission_amount') ?></th>
 								<th><?= __('admin.total_discount') ?></th>
 								<th><?= __('admin.total') ?></th>
 							</tr>
@@ -125,65 +122,11 @@
 	</div>
 </div>
 
-
-<div class="row">
-	<div class="col-12">
-		<div class="card mb-3">
-			<div class="card-header border-0">
-				<h5 class="mb-0 pb-0"><?= __('admin.client_detail') ?></h5>
-			</div>
-			<div class="card-body">
-				<div class="table-responsive">
-					<table class="table table-striped table-hover">
-						<tbody>
-							<tr>
-								<th scope="row"><?= __('admin.name') ?></th>
-								<td><?php echo $order['firstname']; ?> <?php echo $order['lastname']; ?></td>
-							</tr>
-							<tr>
-								<th scope="row"><?= __('admin.email') ?></th>
-								<td><?php echo $order['email']; ?></td>
-							</tr>
-							<?php if ($order['allow_shipping'] != 0) { ?>
-								<tr>
-									<th scope="row"><?= __('admin.address') ?></th>
-									<td><?php echo $order['address']; ?></td>
-								</tr>
-							<?php } ?>
-							<tr>
-								<th scope="row"><?= __('admin.phone') ?></th>
-								<td><?php echo $order['client_phone']; ?></td>
-							</tr>
-							<tr>
-								<th scope="row"><?= __('admin.country') ?></th>
-								<td><?php echo $order['client_country']; ?></td>
-							</tr>
-							<tr>
-								<th scope="row"><?= __('admin.state') ?></th>
-								<td><?php echo $order['client_state']; ?></td>
-							</tr>
-							<tr>
-								<th scope="row"><?= __('admin.city') ?></th>
-								<td><?php echo $order['client_city']; ?></td>
-							</tr>
-							<tr>
-								<th scope="row"><?= __('admin.postal_code') ?></th>
-								<td><?php echo $order['client_zipcode']; ?></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-
 <div class="row">
 	<div class="col-lg-8">
 		<div class="card mb-3">
 			<div class="card-header border-0">
-				<h5 class="mb-0 pb-0"><?= __('admin.order_payment_info') ?></h5>
+				<h5 class="mb-0 pb-0"><?= __('Thông tin kho hàng') ?></h5>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -284,95 +227,20 @@
 			</div>
 		</div>
 	</div>
-	<?php if ($order['allow_shipping']) { ?>
-		<div class="col-lg-4 pb-4">
-			<div class="card mb-3 h-100">
-				<div class="card-header border-0">
-					<h5 class="mb-0 pb-0"><?= __('store.shipping_details') ?></h5>
-				</div>
-				<div class="card-body">
-					<div class="table-responsive">
-						<table class="table table-hover">
-							<thead>
-								<tr>
-									<th><?= __('admin.phone') ?></th>
-									<td><?php echo $order['phone'] ?></td>
-								</tr>
-								<tr>
-									<th><?= __('admin.address') ?></th>
-									<td><?php echo $order['address'] ?></td>
-								</tr>
-								<tr>
-									<th><?= __('admin.country') ?></th>
-									<td><?php echo $order['country_name'] ?></td>
-								</tr>
-								<tr>
-									<th><?= __('admin.state') ?></th>
-									<td><?php echo $order['state_name'] ?></td>
-								</tr>
-								<tr>
-									<th><?= __('admin.city') ?></th>
-									<td><?php echo $order['city'] ?></td>
-								</tr>
-								<tr>
-									<th><?= __('admin.postal_code') ?></th>
-									<td><?php echo $order['zip_code'] ?></td>
-								</tr>
-							</thead>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	<?php }  ?>
+
 </div>
 
 
 <div class="row">
 	<div class="col-lg-12 col-sm-12 align-self-center">
 		<div class="card bg-white mb-3">
-			<div class="card-header border-0">
-				<h5 class="mb-0 pb-0"><?= __('admin.update_order_status') ?></h5>
-			</div>
+
 			<div class="card-body new-user">
 				<div class="row text-start">
-					<div class="col-sm-6">
+					<div class="col-sm-12">
 						<form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
-							<div class="form-group">
-								<label class="control-label"><?= __('admin.order_status') ?></label>
-								<select name="payment_item_status" id="payment_item_status" required="required" class="form-control">
-									<option value=""><?= __('admin.please_choose') ?></option>
-									<?php foreach ($status as $key => $value) { ?>
-										<option value="<?php echo $key ?>"><?php echo $value ?></option>
-									<?php } ?>
-								</select>
-							</div>
-							<div class="form-group">
-								<label class="control-label"><?= __('admin.comment') ?></label>
-								<textarea name="remarks" id="remarks" class="form-control" cols="60" rows="3" required="required"></textarea>
-							</div>
 							<button name="submit" class="btn btn-primary mt-3" type="submit"><?= __('admin.submit') ?></button>
 						</form>
-					</div>
-					<div class="col-sm-6">
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th width="50px">#</th>
-									<th width="150px"><?= __('admin.status') ?></th>
-									<th><?= __('admin.comment') ?></th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php foreach ($order_history as $key => $value) { ?>
-									<tr>
-										<td>#<?= $key + 1 ?></td>
-										<th><?= $status[$value['order_status_id']] ?></th>
-										<td><?= $value['comment'] ?></td>
-									</tr>
-								<?php } ?>
-							</tbody>
-						</table>
 					</div>
 				</div>
 			</div>

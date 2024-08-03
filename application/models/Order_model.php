@@ -1782,6 +1782,37 @@ class Order_model extends MY_Model
         return $order;
     }
 
+    // Lấy tổng số đơn nhập từ Kho hàng
+    public function getBranchTotals($product, $order_branch, $branch)
+    {
+    }
+
+    // Lấy tổng số đơn bán từ Kho hàng
+    public function getOrderTotals($product, $order, $branch)
+    {
+    }
+
+    // Lấy thống kê doanh thu từ đơn hàng
+    public function getOrderRevenues($user, $order, $branch)
+    {
+    }
+
+    // Lấy thống kê tiêu dùng từ đơn hàng
+    public function getOrderConsums($user, $order, $branch)
+    {
+    }
+
+    // Lấy thống kê tuyển dụng từ đăng ký
+    public function getUserRecruitment($user, $rank)
+    {
+    }
+
+    // Thêm giao dịch nhập hàng - Đơn nhập
+    public function addImportOrder($data)
+    {
+    }
+
+    // Lấy tổng số sản phẩm của đơn hàng
     public function getTotals($products, $order)
     {
         $totals = array();
@@ -2062,71 +2093,6 @@ class Order_model extends MY_Model
 
 
     // Lấy tất cả đơn hàng nhập sản phẩm
-    public function getImportOrders_old($filter = array(), $addShipping = true)
-    {
-        // Lọc theo user_id, branch_id, order_id và các điều kiện khác nếu có
-        $where = '1=1';
-        if (isset($filter['user_id'])) {
-            $where .= " AND ob.user_id = " . (int) $filter['user_id'];
-        }
-        if (isset($filter['branch_id'])) {
-            $where .= " AND ob.branch_id = " . (int) $filter['branch_id'];
-        }
-        if (isset($filter['order_id'])) {
-            $where .= " AND ob.id = " . (int) $filter['order_id'];
-        }
-
-        // Định nghĩa giới hạn và trang
-        $limit = '';
-        if (isset($filter['limit']) && (int) $filter['limit'] > 0) {
-            $limit = " LIMIT " . (int) $filter['limit'];
-        }
-        if (isset($filter['page'])) {
-            $offset = (int) $filter['limit'] * ((int) $filter['page'] - 1);
-            $limit = " LIMIT " . $offset . " ," . (int) $filter['limit'];
-        }
-
-        // Truy vấn chính
-        $query = "
-        SELECT 
-        ob.*,
-        b.name as branch_name,
-        u.firstname,
-        u.lastname,
-        GROUP_CONCAT(CONCAT(pb.product_id, ':', pb.stock_quantity) SEPARATOR ',') as products,
-        SUM(pb.stock_quantity) AS total_quantity
-        FROM `order_branch` ob
-        LEFT JOIN branch b ON b.id = ob.branch_id   
-        LEFT JOIN users u ON u.id = ob.user_id
-        LEFT JOIN product_branch pb ON pb.order_branch_id = ob.id
-        WHERE ob.status > 0 AND {$where} 
-        GROUP BY ob.id
-        ORDER BY ob.id DESC
-        " . $limit;
-
-        // Lấy danh sách đơn hàng nhập
-        $orders = $this->db->query($query)->result_array();
-
-        // Xử lý dữ liệu trả về
-        $data = array();
-        foreach ($orders as $key => $value) {
-            $data[] = array(
-                'id' => $value['id'],
-                'user_id' => $value['user_id'],
-                'branch_id' => $value['branch_id'],
-                'branch_name' => $value['branch_name'],
-                'total' => $value['total'],
-                'status' => $value['status'],
-                'created_at' => $value['created_at'],
-                'products' => $value['products'],
-                'total_quantity' => $value['total_quantity'],
-                'firstname' => $value['firstname'],
-                'lastname' => $value['lastname'],
-            );
-        }
-
-        return $data;
-    }
 
     public function getImportOrders($filter = array(), $addShipping = true)
     {

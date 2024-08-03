@@ -717,7 +717,7 @@ class Wallet_model extends MY_Model
 		return $data;
 	}
 
-	// Lấy giá trị tổng số trong Database
+	// Lấy giá trị tổng số Wallets trong Database
 	public function getTotals($filter = array(), $extraTotals = false, $calling_for = 'admin')
 	{
 		$where = ' 1 ';

@@ -2062,15 +2062,18 @@ class Order_model extends MY_Model
 
 
     // Lấy tất cả đơn hàng nhập sản phẩm
-    public function getImportOrders($filter = array(), $addShipping = true)
+    public function getImportOrders2($filter = array(), $addShipping = true)
     {
-        // Lọc theo user_id, branch_id, và các điều kiện khác nếu có
-        $where = '';
+        // Lọc theo user_id, branch_id, order_id và các điều kiện khác nếu có
+        $where = '1=1';
         if (isset($filter['user_id'])) {
             $where .= " AND ob.user_id = " . (int) $filter['user_id'];
         }
         if (isset($filter['branch_id'])) {
             $where .= " AND ob.branch_id = " . (int) $filter['branch_id'];
+        }
+        if (isset($filter['order_id'])) {
+            $where .= " AND ob.id = " . (int) $filter['order_id'];
         }
 
         // Định nghĩa giới hạn và trang
@@ -2085,21 +2088,21 @@ class Order_model extends MY_Model
 
         // Truy vấn chính
         $query = "
-    SELECT 
-    ob.*,
-    b.name as branch_name,
-    u.firstname,
-    u.lastname,
-    GROUP_CONCAT(CONCAT(pb.product_id, ':', pb.stock_quantity) SEPARATOR ',') as products,
-    SUM(pb.stock_quantity) AS total_quantity
-    FROM `order_branch` ob
-    LEFT JOIN branch b ON b.id = ob.branch_id   
-    LEFT JOIN users u ON u.id = ob.user_id
-    LEFT JOIN product_branch pb ON pb.order_branch_id = ob.id
-    WHERE ob.status > 0 {$where} 
-    GROUP BY ob.id
-    ORDER BY ob.id DESC
-    " . $limit;
+        SELECT 
+        ob.*,
+        b.name as branch_name,
+        u.firstname,
+        u.lastname,
+        GROUP_CONCAT(CONCAT(pb.product_id, ':', pb.stock_quantity) SEPARATOR ',') as products,
+        SUM(pb.stock_quantity) AS total_quantity
+        FROM `order_branch` ob
+        LEFT JOIN branch b ON b.id = ob.branch_id   
+        LEFT JOIN users u ON u.id = ob.user_id
+        LEFT JOIN product_branch pb ON pb.order_branch_id = ob.id
+        WHERE ob.status > 0 AND {$where} 
+        GROUP BY ob.id
+        ORDER BY ob.id DESC
+        " . $limit;
 
         // Lấy danh sách đơn hàng nhập
         $orders = $this->db->query($query)->result_array();
@@ -2124,6 +2127,99 @@ class Order_model extends MY_Model
 
         return $data;
     }
+
+    public function getImportOrders($filter = array(), $addShipping = true)
+    {
+        // Kiểm tra xem $filter có phải là một số hay không (trường hợp order_id được truyền trực tiếp)
+        $isSingleOrder = is_numeric($filter);
+        $order_id = $isSingleOrder ? (int) $filter : null;
+
+        // Xây dựng điều kiện WHERE dựa trên loại của $filter
+        $where = '1=1';
+        if ($isSingleOrder) {
+            $where .= " AND ob.id = " . $order_id;
+        } else {
+            if (isset($filter['user_id'])) {
+                $where .= " AND ob.user_id = " . (int) $filter['user_id'];
+            }
+            if (isset($filter['branch_id'])) {
+                $where .= " AND ob.branch_id = " . (int) $filter['branch_id'];
+            }
+            if (isset($filter['order_id'])) {
+                $where .= " AND ob.id = " . (int) $filter['order_id'];
+            }
+        }
+
+        // Định nghĩa giới hạn và trang nếu không lấy một đơn hàng cụ thể
+        $limit = '';
+        if (!$isSingleOrder && isset($filter['limit']) && (int) $filter['limit'] > 0) {
+            $limit = " LIMIT " . (int) $filter['limit'];
+        }
+        if (!$isSingleOrder && isset($filter['page'])) {
+            $offset = (int) $filter['limit'] * ((int) $filter['page'] - 1);
+            $limit = " LIMIT " . $offset . " ," . (int) $filter['limit'];
+        }
+
+        // Truy vấn chính
+        $query = "
+        SELECT 
+        ob.*,
+        b.name as branch_name,
+        u.firstname,
+        u.lastname
+        FROM `order_branch` ob
+        LEFT JOIN branch b ON b.id = ob.branch_id   
+        LEFT JOIN users u ON u.id = ob.user_id
+        WHERE ob.status > 0 AND {$where}
+        " . ($isSingleOrder ? '' : "GROUP BY ob.id") . " 
+        ORDER BY ob.id DESC
+        " . $limit;
+
+        // Lấy danh sách đơn hàng nhập
+        $orders = $this->db->query($query)->result_array();
+
+
+        // Nếu chỉ có một đơn hàng (dựa trên order_id), lấy chi tiết sản phẩm
+        if ($isSingleOrder && !empty($orders)) {
+            $order = $orders[0];
+
+
+
+            // Lấy chi tiết sản phẩm từ bảng product_branch
+            $query_products = "
+            SELECT pb.*
+            FROM product_branch pb
+            WHERE pb.order_branch_id = " . (int) $order['id'];
+            $products = $this->db->query($query_products)->result_array();
+
+
+
+            $order['products'] = $products;
+            $order['total_quantity'] = array_sum(array_column($products, 'stock_quantity'));
+
+            return $order;
+        }
+
+        // Xử lý dữ liệu trả về nếu không có order_id
+        $data = array();
+        foreach ($orders as $key => $value) {
+            $data[] = array(
+                'id' => $value['id'],
+                'user_id' => $value['user_id'],
+                'branch_id' => $value['branch_id'],
+                'branch_name' => $value['branch_name'],
+                'total' => $value['total'],
+                'status' => $value['status'],
+                'created_at' => $value['created_at'],
+                'firstname' => $value['firstname'],
+                'lastname' => $value['lastname'],
+            );
+        }
+
+        return $data;
+    }
+
+
 
     public function getUserdetail($product_created_by)
     {

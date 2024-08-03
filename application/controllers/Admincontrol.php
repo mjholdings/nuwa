@@ -5989,7 +5989,9 @@ class Admincontrol extends MY_Controller
 
 			$data['status'] = $this->Order_model->status();
 			$data['order'] = $this->Order_model->getImportOrders($order_id);
+
 			if (!empty($data['order']['id'])) {
+
 				$data['products'] = $this->Order_model->getProducts($order_id);
 				$data['totals'] = $this->Order_model->getTotals($data['products'], $data['order']);
 				$data['payment_history'] = $this->Order_model->getHistory($order_id);

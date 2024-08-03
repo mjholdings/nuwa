@@ -2165,8 +2165,10 @@ class Order_model extends MY_Model
         SELECT 
         ob.*,
         b.name as branch_name,
+        b.id as branchid,
+        b.address,
         u.firstname,
-        u.lastname
+        u.lastname                
         FROM `order_branch` ob
         LEFT JOIN branch b ON b.id = ob.branch_id   
         LEFT JOIN users u ON u.id = ob.user_id
@@ -2185,13 +2187,23 @@ class Order_model extends MY_Model
 
             // Lấy chi tiết sản phẩm từ bảng product_branch
             $query_products = "
-            SELECT pb.*
-            FROM product_branch pb
-            WHERE pb.order_branch_id = " . (int) $order['id'];
+                    SELECT 
+                    pb.*, 
+                    p.product_price,
+                    p.product_id,
+                    p.product_featured_image,
+                    p.product_name
+                    FROM product_branch pb
+                    LEFT JOIN product p ON p.product_id = pb.product_id
+                    WHERE pb.order_branch_id = " . (int) $order['id'];
+
             $products = $this->db->query($query_products)->result_array();
 
+
+            // List products of order
             $order['products'] = $products;
             $order['total_quantity'] = array_sum(array_column($products, 'stock_quantity'));
+
 
             return $order;
         }

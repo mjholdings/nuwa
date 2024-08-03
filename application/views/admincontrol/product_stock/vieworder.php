@@ -13,113 +13,52 @@
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<div class="card-body">
-				<h4 class="mb-4"><?= __('Đơn nhập') ?> : (<?= orderId($order['id']) ?>)</h4>
-				<p><i class="mdi mdi-calendar-text"></i> <?= __('admin.date') ?> : <?php echo date("m-j-Y h:i A", strtotime($order['created_at'])); ?></p>
+		<div class="card-body">
 
-				<h5 class="mt-3"><?= __('admin.product_info') ?></h5>
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th colspan="2"><?= __('admin.name') ?></th>
-								<th><?= __('admin.unit_price') ?></th>
-								<th><?= __('admin.quantity') ?></th>
-								<th><?= __('admin.total_discount') ?></th>
-								<th><?= __('admin.total') ?></th>
+			<h4 class="mb-4"><?= __('Đơn nhập') ?> : (<?= orderId($order['id']) ?>)</h4>
+			<p><i class="mdi mdi-calendar-text"></i> <?= __('admin.date') ?> : <?php echo date("m-j-Y h:i A", strtotime($order['created_at'])); ?></p>
+
+			<h5 class="mt-3"><?= __('admin.product_info') ?></h5>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th colspan="2"><?= __('admin.name') ?></th>
+							<th><?= __('admin.unit_price') ?></th>
+							<th><?= __('admin.quantity') ?></th>
+							<th><?= __('admin.total') ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php $total_order = 0;
+						foreach ($order['products'] as $product) { ?>
+							<?php $product_featured_image = base_url('assets/images/product/upload/thumb/' . $product['product_featured_image']); ?>
+							<tr colspan="2">
+								<td width="50px"><img src="<?= $product_featured_image ?>" class="img-fluid" onerror="this.onerror=null;this.src='<?= base_url('assets/images/no_image_available.png') ?>';"></td>
+								<td>
+									<h5>
+										<?= $product['product_name'] ? $product['product_name'] : '<i class="text-muted">' . __('admin.product_not_available') . '</i>' ?> <?= ($combinationString != "") ? "(" . $combinationString . ")" : "" ?>
+									</h5>
+								</td>
+								<td><?php echo c_format($product['product_price']); ?></td>
+								<td><?php echo $product['stock_quantity']; ?></td>
+								<td><?php echo c_format($product['product_price'] * $product['stock_quantity']);
+									$total_order += $product['product_price'] * $product['stock_quantity']; ?></td>
 							</tr>
-						</thead>
-						<tbody>
-							<?php foreach ($products as $key => $product) { ?>
-								<tr colspan="2">
-									<td width="50px"><img src="<?= $product['image'] ?>" class="img-fluid" onerror="this.onerror=null;this.src='<?= base_url('assets/images/no_image_available.png') ?>';"></td>
-									<td>
-										<h5><?php
-											$combinationString = "";
-											if (isset($product['variation']) && !empty($product['variation'])) {
-												$variation = json_decode($product['variation']);
-												foreach ($variation as $key => $value) {
-													if ($key == 'colors') {
-														$combinationString .= ($combinationString == "") ? explode("-", $value)[1] : "," . explode("-", $value)[1];
-													} else {
-														$combinationString .= ($combinationString == "") ? $value : "," . $value;
-													}
-												}
-											}
-											?>
-											<?= $product['product_name'] ? $product['product_name'] : '<i class="text-muted">' . __('admin.product_not_available') . '</i>' ?> <?= ($combinationString != "") ? "(" . $combinationString . ")" : "" ?>
-										</h5>
-										<?php if (isset($venders[$product['product_id']])) { ?>
-											<b><?= __('admin.vendor_name') ?></b> : <?php echo $venders[$product['product_id']]['firstname'] . " " . $venders[$product['product_id']]['lastname'] ?>
-											<br>
-											<b><?= __('admin.vendor_email') ?></b> : <?php echo $venders[$product['product_id']]['email']; ?>
-											<br>
-											<b><?= __('admin.vendor_commission') ?></b> : <?php echo c_format($venders[$product['product_id']]['vendor_commission']); ?>
-										<?php } ?>
-										<?php if ($product['commission']) { ?>
-											<br>
-											<hr>
-											<b><?= __('admin.name') ?></b> : <?php echo $product['refer_name']; ?>
-
-											<br>
-											<b><?= __('admin.email') ?></b> : <?php echo $product['refer_email']; ?>
-
-											<br>
-											<b><?= __('admin.affiliate_commission') ?></b> : <?php echo c_format($product['commission']); ?>
-										<?php } ?>
-
-										<?php
-
-										if ($product['admin_commission']) { ?>
-											<br>
-											<hr>
-											<b><?= __('admin.action_commission_settings') ?></b> : <?php echo c_format($product['admin_commission']); ?>
-										<?php } ?>
-
-										<?php if ($product['coupon_discount'] > 0) { ?>
-											<p class="couopn-code-text">
-												<?= __('admin.code') ?> : <span class="c-name"> <?= $product['coupon_code'] ?></span> <?= __('admin.Applied') ?>
-											</p>
-										<?php } ?>
-										<?php if ($order['status'] == 1 && $product['product_type'] == 'downloadable' && $product['downloadable_files']) { ?>
-											<div class="download">
-												<?php foreach ($product['downloadable_files'] as $downloadable_filess) { ?>
-													<a href="<?php echo base_url('store/downloadable_file/' . $downloadable_filess['name'] . '/' . $downloadable_filess['mask']) ?>" class="btn btn-link btn-sm" target="_blank"><?php echo $downloadable_filess['mask'] ?></a>
-												<?php } ?>
-											</div>
-										<?php } ?>
-									</td>
-									<td><?php echo c_format($product['price']); ?></td>
-									<td><?php echo c_format(json_decode($product['variation'])->price); ?></td>
-									<td><?php echo $product['quantity']; ?></td>
-									<td><?php
-										if ($product['commission_type'] == 'fixed') {
-											echo __('admin.fixed');
-										} else {
-											echo $product['commission_type'];
-										}
-										?></td>
-									<td><?php echo c_format($product['commission']);  ?></td>
-									<td>
-										<?php echo isset($totals['discount_total']) ? c_format($totals['discount_total']['value']) : ''; ?>
-									</td>
-									<td><?php echo c_format($product['total']); ?></td>
-								</tr>
-							<?php } ?>
-							<?php foreach ($totals as $key => $total) { ?>
-								<tr>
-									<td colspan="7"></td>
-									<td><?= $total['text'] ?></td>
-									<td><b><?php echo c_format($total['value']); ?></b></td>
-								</tr>
-							<?php } ?>
-						</tbody>
-					</table>
-				</div>
+						<?php } ?>
+						<tr>
+							<td colspan="3"></td>
+							<td><?= 'Tổng giá trị nhập hàng: ' ?></td>
+							<td><b><?php echo c_format($total_order); ?></b></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 
 <div class="row">
@@ -133,41 +72,17 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th><?= __('admin.mode') ?></th>
-								<th><?= __('admin.transaction_id') ?></th>
-								<th><?= __('admin.payment_status') ?></th>
+								<th><?= __('Mã kho') ?></th>
+								<th><?= __('Tên kho') ?></th>
+								<th><?= __('Địa chỉ') ?></th>
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ($payment_history as $key => $value) { ?>
-								<tr>
-									<td><?php
-										if ($value['payment_mode'] == 'Bank Transfer') {
-											echo __('admin.bank_transfer');
-										} elseif ($value['payment_mode'] == 'Cash On Delivery') {
-											echo __('admin.cash_on_delivery');
-										} elseif ($value['payment_mode'] == 'OPay') {
-											echo __('admin.opay');
-										} elseif ($value['payment_mode'] == 'Paypal') {
-											echo __('admin.paypal');
-										} elseif ($value['payment_mode'] == 'Razorpay') {
-											echo __('admin.razorpay');
-										} elseif ($value['payment_mode'] == 'Flutterwave') {
-											echo __('admin.flutterwave');
-										} else {
-											echo str_replace("_", " ", $value['payment_mode']);
-										}
-										?></td>
-									<td><?php echo $order['txn_id']; ?></td>
-									<td><?php
-										if ($value['paypal_status'] == 'Processed') {
-											echo __('admin.processed');
-										} else {
-											echo $value['paypal_status'];
-										}
-										?></td>
-								</tr>
-							<?php } ?>
+							<tr>
+								<td><?php echo $order['branchid'] ?></td>
+								<td><?php echo $order['branch_name']; ?></td>
+								<td><?php echo $order['address']; ?></td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -229,26 +144,6 @@
 	</div>
 
 </div>
-
-
-<div class="row">
-	<div class="col-lg-12 col-sm-12 align-self-center">
-		<div class="card bg-white mb-3">
-
-			<div class="card-body new-user">
-				<div class="row text-start">
-					<div class="col-sm-12">
-						<form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
-							<button name="submit" class="btn btn-primary mt-3" type="submit"><?= __('admin.submit') ?></button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-
 
 <div class="modal fade" id="myModal" role="dailog">
 	<div class="modal-dialog">

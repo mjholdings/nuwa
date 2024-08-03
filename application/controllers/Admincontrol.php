@@ -5981,14 +5981,14 @@ class Admincontrol extends MY_Controller
 			$post = $this->input->post(null, true);
 
 			if ($post) {
-				$this->Order_model->changeStatus($order_id, $post['payment_item_status'], $post['remarks']);
+				$this->Order_model->changeImportStatus($order_id, $post['payment_item_status'], $post['remarks']);
 				$this->session->set_flashdata('success', __('admin.you_have_updated_order_status_successfully'));
 				redirect('admincontrol/stock_vieworder/' . $order_id);
 				die();
 			}
 
 			$data['status'] = $this->Order_model->status();
-			$data['order'] = $this->Order_model->getOrder($order_id);
+			$data['order'] = $this->Order_model->getImportOrders($order_id);
 			if (!empty($data['order']['id'])) {
 				$data['products'] = $this->Order_model->getProducts($order_id);
 				$data['totals'] = $this->Order_model->getTotals($data['products'], $data['order']);

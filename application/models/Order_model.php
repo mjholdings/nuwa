@@ -268,6 +268,209 @@ class Order_model extends MY_Model
         $this->Mail_model->send_order_mail($order_id);
     }
 
+    // Thay đổi trạng thái đơn hàng nhập
+    public function changeImportStatus($order_id, $status, $comment = '')
+    {
+        $this->load->model('Mail_model');
+        $this->load->model('Product_model');
+        $this->load->model('User_model');
+
+        $historyData = array(
+            'order_id' => $order_id,
+            'paypal_status' => $status,
+            'comment' => $comment,
+            'payment_mode' => '',
+            'history_type' => 'order',
+            'created_at' => date("Y-m-d H:i:s"),
+            'order_status_id' => $status,
+        );
+
+        $this->db->insert('orders_history', $historyData);
+        $this->db->set('status', $status);
+        $this->db->where('id', $order_id);
+        $this->db->update('order');
+
+        if ($status == 1) {         // Nếu là trạng thái hoàn thành đơn hàng
+            $this->User_model->setStarForUser();
+
+            // Cập nhật Order History
+            $sql = "UPDATE `orders_history` SET `paypal_status` = 'Complete' WHERE `orders_history`.`order_id` = ? AND `orders_history`.`history_type` = 'payment'";
+            $this->db->query($sql, (int) $order_id);
+
+            // MJ UPDATE DOANH THU - TIÊU DÙNG TỪ ĐƠN HÀNG
+
+
+            // Chỉ cấp nhật nếu loại hoa hồng là sale, refer, vendor, admin_sale...
+            // Cập nhật ví là Hoàn tiền nếu người dùng không phải Admin
+            $this->db->query("UPDATE `wallet` SET status = 1 WHERE status = 0 AND user_id != 1 AND type IN('sale_commission','refer_sale_commission','vendor_sale_commission', 'admin_sale_commission') AND reference_id_2 = {$order_id} ");
+
+            // Cập nhật trạng thái 3 nếu là Admin
+            $this->db->query("UPDATE `wallet` SET status = 3 WHERE status = 0 AND user_id = 1 AND type IN('sale_commission','refer_sale_commission','vendor_sale_commission','admin_sale_commission') AND reference_id_2 = {$order_id} ");
+
+            // Gửi email thông báo cam kết
+            $this->Mail_model->send_commition_mail($order_id, true);
+
+
+
+            $order_info = $this->getOrder($order_id, 'store');
+            $wallet_group_id = time() . rand(10, 100);
+            $products = $this->getProducts($order_id);
+            $arrProductInfo = array();
+            foreach ($products as $key => $product) {
+                $check = $this->db->query("SELECT * FROM  `wallet` WHERE user_id = " . $product['vendor_id'] . " AND type IN('vendor_sale_commission') AND reference_id_2 = {$order_id} ")->num_rows();
+
+                if (!$check > 0) {
+                    if ($product['refer_id'] > 0) {
+                        $is_recurrsive = false;
+                        if ($product['form_id'] == 0) {
+                            $orignal_pro = $this->Product_model->getProductById($product['product_id']);
+                            $product_recursion_type = $orignal_pro->product_recursion_type;
+                            if ($product_recursion_type) {
+                                $is_recurrsive = true;
+
+                                if ($product_recursion_type == 'default') {
+                                    $pro_setting = $this->Product_model->getSettings('productsetting');
+                                    $recursion = $pro_setting['product_recursion'];
+                                    $recursion_endtime = $pro_setting['recursion_endtime'];
+                                    $recursion_custom_time = ($recursion == 'custom_time') ? $pro_setting['recursion_custom_time'] : 0;
+                                } else {
+                                    $recursion = $orignal_pro->product_recursion;
+                                    $recursion_endtime = $orignal_pro->recursion_endtime;
+                                    $recursion_custom_time = ($recursion == 'custom_time') ? $orignal_pro->recursion_custom_time : 0;
+                                }
+                            }
+                        } else {
+                            $this->load->model('Form_model');
+                            $orignal_form = $this->Form_model->getForm($product['form_id']);
+                            $form_recursion_type = $orignal_form['form_recursion_type'];
+                            if ($form_recursion_type) {
+                                $is_recurrsive = true;
+                                if ($form_recursion_type == 'default') {
+                                    $form_setting = $this->Product_model->getSettings('formsetting');
+                                    $recursion = $form_setting['form_recursion'];
+                                    $recursion_custom_time = ($recursion == 'custom_time') ? $form_setting['recursion_custom_time'] : 0;
+                                    $recursion_endtime = $form_setting['recursion_endtime'];
+                                } else {
+                                    $recursion = $orignal_form['form_recursion'];
+                                    $recursion_custom_time = ($recursion == 'custom_time') ? $orignal_form['recursion_custom_time'] : 0;
+                                    $recursion_endtime = $orignal_form['recursion_endtime'];
+                                }
+                            }
+                        }
+                        if (!in_array($product['refer_id'], $arrProductInfo)) {
+                            $arrProductInfo[$product['refer_id']] = array($product['total']);
+                        } else {
+                            array_push($arrProductInfo[$product['refer_id']], $arrProductInfo);
+                        }
+                    }
+
+                    if ($product['vendor_commission'] > 0) {
+
+                        $total_deduct = $this->db->query("SELECT SUM(amount) as total_deduct FROM `wallet` WHERE status > 0 AND type IN('sale_commission','refer_sale_commission', 'admin_sale_commission') AND reference_id_2 = {$order_id} GROUP BY reference_id_2")->row()->total_deduct;
+
+                        $recursion_id3 = $this->Wallet_model->addTransaction(
+                            array(
+                                'status' => 1,
+                                'user_id' => $product['vendor_id'],
+                                'group_id' => $wallet_group_id,
+                                'amount' => $product['vendor_commission'],
+                                'comment' => 'Người bán Nhận Hoa hồng cho Đơn hàng Id order_id=' . $order_id . ' | Xếp Theo : ' . $order_info['firstname'] . " " . $order_info['lastname'] . " | " . c_format($total_deduct) . " deducted from order as admin and affiliate commission | sale commission  <br> Sale done from ip_message",
+                                'type' => 'vendor_sale_commission',
+                                'reference_id_2' => $order_id,
+                                'reference_id' => $product['product_id'],
+                                'is_vendor' => 1,
+                            )
+                        );
+
+                        if ($is_recurrsive) {
+                            $this->Wallet_model->addTransactionRecursion(
+                                array(
+                                    'transaction_id' => $recursion_id3,
+                                    'type' => $recursion,
+                                    'custom_time' => $recursion_custom_time,
+                                    'force_recursion_endtime' => $recursion_endtime,
+                                )
+                            );
+                        }
+                    }
+                }
+            }
+
+            $currentMonth = date('m');
+            if (count($arrProductInfo) > 0) {
+                foreach ($arrProductInfo as $productReferId => $arrProductTotal) {
+                    $allProductTotal = 0;
+                    if (count($arrProductTotal) > 0) {
+                        foreach ($arrProductTotal as $productTotal) {
+                            $allProductTotal += $productTotal;
+                        }
+                    }
+                    // user total
+                    $total_user_revenue = $this->db->query("SELECT SUM(order_products.total) as total FROM order_products INNER JOIN `order` ON order_products.order_id = `order`.`id` WHERE `order`.`status` = 1 AND order_products.refer_id = {$productReferId} AND MONTH(`order`.created_at) = {$currentMonth} GROUP BY order_products.order_id ")->row()->total;
+
+                    $new_total_user_revenue = $total_user_revenue + $allProductTotal;
+
+                    $user_star_query = $this->db->query("SELECT users.user_star, users.user_reward, users.branch_reward FROM users WHERE users.id = {$productReferId}")->row();
+                    $user_star = $user_star_query->user_star;
+                    $user_user_reward = $user_star_query->user_reward;
+                    $user_reward = json_decode($user_user_reward, true);
+                    $user_branch_reward = $user_star_query->branch_reward;
+                    $branch_reward = json_decode($user_branch_reward, true);
+
+                    if ($user_star == 3) {
+                        $user_reward_value = $new_total_user_revenue * 2 / 100;
+                        $user_reward[date('m-Y')] = $user_reward_value;
+                        $user_reward = json_encode($user_reward);
+                        $this->db->query("UPDATE users SET user_reward = '{$user_reward}' WHERE id = {$productReferId}");
+                    } else if ($user_star == 4) {
+                        $user_reward_value = $new_total_user_revenue * 3 / 100;
+                        $user_reward[date('m-Y')] = $user_reward_value;
+                        $user_reward = json_encode($user_reward);
+                        $this->db->query("UPDATE users SET user_reward = '{$user_reward}' WHERE id = {$productReferId}");
+                    } else if ($user_star == 5) {
+                        $user_reward_value = $new_total_user_revenue * 5 / 100;
+                        $user_reward[date('m-Y')] = $user_reward_value;
+                        $user_reward = json_encode($user_reward);
+                        $this->db->query("UPDATE users SET user_reward = '{$user_reward}' WHERE id = {$productReferId}");
+                    }
+
+                    // branch total
+                    $resultArrAllUserIdInBranch = $this->Product_model->getAllUserIdInBranch($productReferId);
+
+                    if (count($resultArrAllUserIdInBranch) > 0) {
+                        $arrAllUserIdInBranch = implode(",", $resultArrAllUserIdInBranch);
+                        $total_branch_revenue_result = $this->db->query("SELECT SUM(order_products.total) as total FROM order_products INNER JOIN `order` ON order_products.order_id = `order`.`id` WHERE `order`.`status` = 1 AND order_products.refer_id IN ({$arrAllUserIdInBranch}) AND MONTH(`order`.created_at) = {$currentMonth} GROUP BY order_products.order_id ")->result();
+
+                        $total_branch_revenue = 0;
+                        foreach ($total_branch_revenue_result as $total_branch_revenue_record) {
+                            $total_branch_revenue += $total_branch_revenue_record->total;
+                        }
+
+                        $new_total_branch_revenue = $total_branch_revenue + $allProductTotal;
+
+                        if ($user_star >= 3) {
+                            if ($total_branch_revenue < 500000000 && $new_total_branch_revenue >= 500000000 && $new_total_branch_revenue < 2000000000) {
+                                $branch_reward_value = $new_total_branch_revenue * 3 / 100;
+                                $branch_reward[date('m-Y')] = $branch_reward_value;
+                                $branch_reward = json_encode($branch_reward);
+                                $this->db->query("UPDATE users SET branch_reward = '{$branch_reward}' WHERE id = {$productReferId}");
+                            }
+                            if ($total_branch_revenue < 4000000000 && $new_total_branch_revenue >= 4000000000) {
+                                $branch_reward_value = $new_total_branch_revenue * 2 / 100;
+                                $new_total_branch_revenue -= 500000000;
+                                $branch_reward_value += $new_total_branch_revenue * 5 / 100;
+                                $branch_reward[date('m-Y')] = $branch_reward_value;
+                                $branch_reward = json_encode($branch_reward);
+                                $this->db->query("UPDATE users SET branch_reward = '{$branch_reward}' WHERE id = {$productReferId}");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        $this->Mail_model->send_order_mail($order_id);
+    }
     public function getAllClickLogs($filter = array())
     {
         $where1 = $where2 = $where3 = '';

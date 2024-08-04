@@ -1376,7 +1376,8 @@ class Product_model extends MY_Model
         return array_unique($colors);
     }
 
-    function getAllProduct($user_id, $user_type, $filter = array())
+    // Lấy toàn bộ sản phẩm
+    function getAllProduct_old($user_id, $user_type, $filter = array())
     {
 
         if ($user_type == 'admin')
@@ -1526,6 +1527,157 @@ class Product_model extends MY_Model
         return $data;
     }
 
+    function getAllProduct($user_id, $user_type, $filter = array())
+    {
+        if ($user_type == 'admin') {
+            $clause = ' ';
+        } else {
+            $clause = " user_id = $user_id AND ";
+            $clause_orders = " op.refer_id = {$user_id} AND ";
+        }
+
+        $left_join = $where = '';
+        $vendor = $this->getSettings('vendor');
+
+        if ((int) $vendor['storestatus'] == 0) {
+            $where .= " AND( seller.id=0 OR seller.id IS NULL)";
+        }
+
+        if (isset($filter['seller_id'])) {
+            $where .= " AND pa.user_id=" . (int) $filter['seller_id'];
+        }
+
+        if (isset($filter['restrict_vendors']) && !empty($filter['restrict_vendors'])) {
+            $tempvq = "";
+            foreach ($filter['restrict_vendors'] as $vid) {
+                if ($tempvq != "") {
+                    $tempvq .= " AND (seller.id IS NULL OR seller.id != " . (int) $vid . ") ";
+                } else {
+                    $tempvq .= " (seller.id IS NULL OR seller.id != " . (int) $vid . ") ";
+                }
+            }
+            if ($tempvq != "") {
+                $where .= " AND ( " . $tempvq . " ) ";
+            }
+        }
+
+        if (isset($filter['on_store'])) {
+            $where .= " AND on_store=" . (int) $filter['on_store'];
+        }
+
+        if (isset($filter['seller_allow_only_status']) && $filter['seller_allow_only_status']) {
+            $where .= " AND (vs.user_id = " . $filter['seller_allow_only_status'] . " OR  vs.vendor_status = 1 OR vs.user_id IS NULL) ";
+            $left_join .= " LEFT JOIN vendor_setting AS vs ON (seller.id = vs.user_id)";
+        }
+
+        if (isset($filter['only_admin_product'])) {
+            $where .= " AND( seller.id=0 OR  seller.id IS NULL) AND on_store=1 ";
+        }
+
+        if (isset($filter['not_show_my'])) {
+            $where .= " AND( seller.id != " . (int) $filter['not_show_my'] . " OR  seller.id IS NULL )";
+        }
+
+        if (isset($filter['product_status'])) {
+            $where .= " AND product.product_status=" . (int) $filter['product_status'];
+        }
+
+        if (isset($filter['product_status_in'])) {
+            $where .= " AND product.product_status IN (" . $filter['product_status_in'] . ")";
+        }
+
+        if (isset($filter['category_id']) && $filter['category_id']) {
+            $where .= " AND product.product_id IN ( SELECT product_id FROM product_categories WHERE category_id = " . $filter['category_id'] . " GROUP BY product_id)";
+        }
+
+        if (isset($filter['ads_name']) && $filter['ads_name']) {
+            $where .= " AND product.product_name like '%" . $filter['ads_name'] . "%' ";
+        }
+
+        if (isset($filter['vendor_id']) && !empty($filter['vendor_id'])) {
+            $where .= " AND product.product_created_by =" . $filter['vendor_id'] . " ";
+        }
+
+        if (isset($filter['is_campaign_and_cart_product']) && !empty($filter['is_campaign_and_cart_product'])) {
+            $where .= " AND product.is_campaign_product >=0 ";
+        } else if (isset($filter['is_campaign_product']) && !empty($filter['is_campaign_product'])) {
+            $where .= " AND product.is_campaign_product = 1 ";
+        } else {
+            $where .= " AND product.is_campaign_product != 1 ";
+        }
+
+        if (isset($filter['show_to_affiliates']) && !empty($filter['show_to_affiliates'])) {
+            $where .= " AND (pm.meta_value = 1 OR pm.meta_value IS NULL) ";
+        }
+
+        // Thêm điều kiện lọc theo branch_id
+        if (isset($filter['branch_id']) && !empty($filter['branch_id'])) {
+            $left_join .= " LEFT JOIN product_branch pb ON pb.product_id = product.product_id";
+            $where .= " AND pb.branch_id = " . (int)$filter['branch_id'];
+        }
+
+        $limit = '';
+        if (isset($filter['limit']) && (int) $filter['limit'] > 0) {
+            $limit = " LIMIT " . (int) $filter['limit'];
+        }
+        if (isset($filter['start']) && (int) $filter['start'] && $limit) {
+            $limit = " LIMIT {$filter['start']} , {$filter['limit']} ";
+        }
+        if (isset($filter['page']) && $limit) {
+            $offset = (int) $filter['limit'] * ((int) $filter['page'] - 1);
+            $limit = " LIMIT " . $offset . " ," . (int) $filter['limit'];
+        }
+
+        //added for all click count that match with admin ratio
+        $all_count_sql = "  (SELECT count(action_id) FROM product_action WHERE   product_id = product.product_id) as all_commition_click_count,
+    (SELECT count(op.commission) FROM order_products op LEFT JOIN `order` o ON (o.id = op.order_id) WHERE  op.product_id = product.product_id AND o.status > 0 ) as all_order_count 
+    ";
+
+        $query = "SELECT SQL_CALC_FOUND_ROWS
+    product.*,
+    c.name AS cat_name,
+    seller.firstname as seller_firstname,
+    seller.lastname as seller_lastname,
+    seller.username as seller_username,
+    seller.id as seller_id,
+    pm.meta_value as show_to_affiliates,
+    (
+        SELECT sum(op.commission)
+        FROM order_products op
+        LEFT JOIN `order` o ON (o.id = op.order_id)
+        WHERE
+        {$clause_orders}
+        op.product_id = product.product_id AND o.status > 0 AND op.refer_id > 0) as commission,
+    (SELECT count(op.commission) FROM order_products op LEFT JOIN `order` o ON (o.id = op.order_id) WHERE {$clause_orders} op.product_id = product.product_id AND o.status > 0 ) as order_count,
+    (SELECT SUM(IF(amount=-1,0,amount)) FROM wallet WHERE {$clause} type = 'click_commission' AND reference_id = product.product_id) as commition_click,
+    (SELECT count(action_id) FROM product_action WHERE {$clause} product_id = product.product_id) as commition_click_count,
+    (SELECT COUNT(rating_id) FROM `rating` INNER join users on users.id=rating.rating_user_id WHERE rating.products_id=product.product_id) as totalreviews,
+    (SELECT  SUM(rating.rating_number)  FROM `rating` INNER join users on users.id=rating.rating_user_id WHERE rating.products_id=product.product_id) as totalrating," . $all_count_sql . "
+
+    FROM product
+    LEFT JOIN product_affiliate pa ON pa.product_id = product.product_id
+    LEFT JOIN users as seller ON pa.user_id = seller.id
+    LEFT JOIN product_categories pc ON pc.product_id = product.product_id
+    LEFT JOIN categories c ON c.id = pc.category_id
+    LEFT JOIN product_meta as pm ON pm.related_product_id = product.product_id and pm.meta_key = 'show_to_affiliates'
+    {$left_join}
+    WHERE 1 {$where} AND (seller.id IS NOT NULL OR pa.id IS NULL) ORDER BY product_created_date DESC {$limit}";
+
+        $data = $this->db->query($query)->result_array();
+
+        if (isset($filter['page'])) {
+            $total = $this->db->query("SELECT FOUND_ROWS() AS total")->row()->total;
+
+            return [
+                'data' => $data,
+                'total' => $total,
+            ];
+        }
+        return $data;
+    }
+
+
+    // Lấy toàn bộ sản phẩm của nhà cung cấp
     public function getAllVendorProducts($user_id, $user_type)
     {
         if ($user_type == 'admin')

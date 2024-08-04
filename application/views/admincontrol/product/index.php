@@ -32,11 +32,10 @@ $Product_model = $db->Product_model;
     <div class="col-12">
         <div class="card">
             <div class="card-header bg-secondary text-white">
-                <div class="card-title-white pull-left m-0"><?= __('SẢN PHẨM GIAN HÀNG') ?>
-                </div>
+                <div class="card-title-white pull-left m-0"><?= __('SẢN PHẨM GIAN HÀNG') ?></div>
             </div>
             <div class="card-body">
-                <div class="tab-pane p-3" id="store-setting" role="tabpanel">
+                <div class="tab-pane py-3" id="store-setting" role="tabpanel">
                     <div role="tabpanel">
                         <ul class="nav nav-pills flex-column flex-sm-row" id="TabsNav">
                             <li class="nav-item flex-sm-fill text-sm-center">
@@ -52,12 +51,11 @@ $Product_model = $db->Product_model;
                        <a class="nav-link" href="#form_coupons_tab" data-bs-toggle="tab"><?= __('admin.forms_coupon') ?></a>
                    </li> -->
                             <li class="nav-item flex-sm-fill text-sm-center">
-                                <a class="nav-link" href="#review_tab" data-bs-toggle="tab"><?= __('admin.review') ?></a>
+                                <a class="nav-link" href="#review_tab" data-bs-toggle="tab" style="margin-right:0"><?= __('admin.review') ?></a>
                             </li>
                         </ul>
                     </div>
                 </div>
-
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="product_tab">
                         <div class="filter">
@@ -102,6 +100,7 @@ $Product_model = $db->Product_model;
                                 </div>
                             </form>
                         </div>
+                        <h6>Tổng sản phẩm: </h6>
                         <div class="table-rep-plugin">
                             <div class="row">
                                 <div id="manageBulkProducts" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
@@ -146,6 +145,7 @@ $Product_model = $db->Product_model;
                                                                 </ul>
                                                             </div>
                                                         </div>
+
                                                         <div class="tab-content">
                                                             <div role="tabpanel" class="tab-pane active" id="import_file_tab">
                                                                 <form id="bulk_products_form" class="text-center">
@@ -455,7 +455,7 @@ $Product_model = $db->Product_model;
                                                            onclick="checkAll(this)"></th>
                                                 <th width="130px"><?= __('admin.image') ?></th>
                                                 <th><?= __('admin.product_name') ?></th>
-                                                <th><?= __('admin.user') ?></th>
+                                                <th><?= __('Nhân viên') ?></th>
                                                 <th><?= __('admin.price') ?></th>
                                                 <th><?= __('admin.sku') ?></th>
                                                 <th><?= __('Danh mục') ?></th>

@@ -45,7 +45,7 @@ $Product_model = $db->Product_model;
                         </ul>
                     </div>
                 </div>
-
+                <h6>Tổng sản phẩm: </h6>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="product_tab">
                         <div class="filter">

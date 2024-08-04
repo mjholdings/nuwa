@@ -29,9 +29,7 @@ $vendor_setting = $this->Product_model->getSettings('vendor');
 					</small></div>
 			</div>
 		</td>
-		<?php
-		$total_quantity = $this->Product_model->getTotalStockQuantity($product['product_id']);
-		?>
+		<?php $total_quantity = $this->Product_model->getTotalStockQuantity($product['product_id']); ?>
 		<td class="txt-cntr"><?php echo $total_quantity > 0 ? $total_quantity : __('Hết hàng'); ?></td>
 		<td class="txt-cntr"><?php echo c_format($product['product_price']); ?></td>
 		<td class="txt-cntr"><?php echo $product['product_sku']; ?></td>

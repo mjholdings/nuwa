@@ -921,6 +921,7 @@ $Product_model = $db->Product_model;
     $('#bulk_products_form_btn').on('click', function (e) {
         e.preventDefault();
         $("#bulk_products_form .alert-danger").remove();
+        var branch_id = $('.select-branchId').find(":selected").val();
         var category_id = $('.select-categoryId').find(":selected").val();
         if (category_id) {
             if ($('#bulk_products_form input[name="file"]').val()) {
@@ -1118,11 +1119,12 @@ $Product_model = $db->Product_model;
             return false;
         })
 
-        $(".select-category, .select-vendor").on("change", function () {
+        $(".select-category, .select-vendor, .select-branch").on("change", function () {
             $("#filter-form").submit();
         })
 
         function getPage(url) {
+            var branch_id = $('.select-branch').find(":selected").val();
             var category_id = $('.select-category').find(":selected").val();
             var seller_id = $('.select-vendor').find(":selected").val();
             $this = $(this);

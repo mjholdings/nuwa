@@ -36,11 +36,11 @@ $Product_model = $db->Product_model;
                 </div>
             </div>
             <div class="card-body">
-                <div class="tab-pane p-3" id="store-setting" role="tabpanel">
+                <div class="tab-pane py-3" id="store-setting" role="tabpanel">
                     <div role="tabpanel">
                         <ul class="nav nav-pills flex-column flex-sm-row" id="TabsNav">
                             <li class="nav-item flex-sm-fill text-sm-center">
-                                <a class="nav-link active show product_tab_option" href="#product_tab" data-bs-toggle="tab"><?= __('Danh sách sản phẩm') ?></a>
+                                <a class="nav-link active show product_tab_option" style="margin-right:0" href="#product_tab" data-bs-toggle="tab"><?= __('Danh sách sản phẩm') ?></a>
                             </li>
                         </ul>
                     </div>
@@ -1098,6 +1098,7 @@ $Product_model = $db->Product_model;
         })
 
         function getPage(url) {
+            var branch_id = $('.select-branch').find(":selected").val();
             var category_id = $('.select-category').find(":selected").val();
             var seller_id = $('.select-vendor').find(":selected").val();
             $this = $(this);
@@ -1220,7 +1221,7 @@ $Product_model = $db->Product_model;
         })
 
         $("#filter-form-review").on("submit", function () {
-            var urlreview = '<?= base_url("admincontrol/listreviews_ajax/") ?>';
+            var urlreview = '<?= base_url("admincontrol/stock_listproduct_ajax/") ?>';
             getReviews(urlreview);
             return false;
         });

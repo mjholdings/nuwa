@@ -36,24 +36,12 @@ $Product_model = $db->Product_model;
                 </div>
             </div>
             <div class="card-body">
-                <div class="tab-pane p-3" id="store-setting" role="tabpanel">
+                <div class="tab-pane py-3" id="store-setting" role="tabpanel">
                     <div role="tabpanel">
                         <ul class="nav nav-pills flex-column flex-sm-row" id="TabsNav">
                             <li class="nav-item flex-sm-fill text-sm-center">
-                                <a class="nav-link active show product_tab_option" href="#product_tab" data-bs-toggle="tab"><?= __('Danh sách sản phẩm kho') ?></a>
+                                <a class="nav-link active show product_tab_option" style="margin-right: 0;" href="#product_tab" data-bs-toggle="tab"><?= __('Danh sách sản phẩm kho') ?></a>
                             </li>
-                            <!-- <li class="nav-item flex-sm-fill text-sm-center">
-                                <a class="nav-link product-part product_coupons_tab_option" href="#product_coupons_tab" data-bs-toggle="tab"><?= __('admin.coupon') ?></a>
-                            </li> -->
-                            <!-- <li class="nav-item flex-sm-fill text-sm-center">
-                       <a class="nav-link" href="#form_tab" data-bs-toggle="tab"><?= __('admin.forms') ?></a>
-                   </li>
-                   <li class="nav-item flex-sm-fill text-sm-center">
-                       <a class="nav-link" href="#form_coupons_tab" data-bs-toggle="tab"><?= __('admin.forms_coupon') ?></a>
-                   </li> -->
-                            <!-- <li class="nav-item flex-sm-fill text-sm-center">
-                                <a class="nav-link" href="#review_tab" data-bs-toggle="tab"><?= __('admin.review') ?></a>
-                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -454,12 +442,12 @@ $Product_model = $db->Product_model;
                                                 <th><input name="product[]" type="checkbox" value=""
                                                            onclick="checkAll(this)"></th>
                                                 <th width="130px"><?= __('admin.image') ?></th>
-                                                <th><?= __('admin.product_name') ?></th>
-                                                <th width="100px"><?= __('Tổng tồn') ?></th>
+                                                <th><?= __('Sản phẩm') ?></th>
+                                                <th width="100px"><?= __('Tồn kho') ?></th>
                                                 <th width="100px"><?= __('Giá chung') ?></th>
                                                 <th><?= __('admin.sku') ?></th>
                                                 <th><?= __('Danh mục') ?></th>                                                
-                                                <th><?= __('admin.action') ?></th>
+                                                <th width="130px"><?= __('admin.action') ?></th>
                                             </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -911,6 +899,7 @@ $Product_model = $db->Product_model;
     $('#bulk_products_form_btn').on('click', function (e) {
         e.preventDefault();
         $("#bulk_products_form .alert-danger").remove();
+        var branch_id = $('.select-branchId').find(":selected").val();
         var category_id = $('.select-categoryId').find(":selected").val();
         if (category_id) {
             if ($('#bulk_products_form input[name="file"]').val()) {
@@ -1108,11 +1097,12 @@ $Product_model = $db->Product_model;
             return false;
         })
 
-        $(".select-category, .select-vendor").on("change", function () {
+        $(".select-category, .select-vendor, .select-branch").on("change", function () {
             $("#filter-form").submit();
         })
 
         function getPage(url) {
+            var branch_id = $('.select-branch').find(":selected").val();
             var category_id = $('.select-category').find(":selected").val();
             var seller_id = $('.select-vendor').find(":selected").val();
             $this = $(this);

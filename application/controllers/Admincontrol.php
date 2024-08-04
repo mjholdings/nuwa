@@ -5837,6 +5837,11 @@ class Admincontrol extends MY_Controller
 		);
 
 
+		if (isset($post['branch_id']) && $post['branch_id']) {
+
+			$filter['branch_id'] = (int)$this->input->post('branch_id');
+		}
+
 		if (isset($post['category_id']) && $post['category_id']) {
 
 			$filter['category_id'] = (int)$this->input->post('category_id');
@@ -6801,12 +6806,15 @@ class Admincontrol extends MY_Controller
 		);
 
 
+		if (isset($post['branch_id']) && $post['branch_id']) {
+
+			$filter['branch_id'] = (int)$this->input->post('branch_id');
+		}
+		
 		if (isset($post['category_id']) && $post['category_id']) {
 
 			$filter['category_id'] = (int)$this->input->post('category_id');
 		}
-
-
 
 		if (isset($post['seller_id']) && $post['seller_id']) {
 
@@ -20692,6 +20700,11 @@ class Admincontrol extends MY_Controller
 			'limit' => 20,
 		);
 
+
+		if (isset($post['branch_id']) && $post['branch_id']) {
+
+			$filter['branch_id'] = (int)$this->input->post('branch_id');
+		}
 
 		if (isset($post['category_id']) && $post['category_id']) {
 

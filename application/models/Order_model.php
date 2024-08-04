@@ -1785,6 +1785,7 @@ class Order_model extends MY_Model
     // Lấy tổng số đơn nhập từ Kho hàng
     public function getBranchTotals($product, $order_branch, $branch)
     {
+        // 
     }
 
     // Lấy tổng số đơn bán từ Kho hàng

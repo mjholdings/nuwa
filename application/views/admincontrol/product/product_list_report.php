@@ -35,9 +35,9 @@ $vendor_setting = $this->Product_model->getSettings('vendor');
 		<td class="txt-cntr">
 			<span class="badge bg-success text-light fs-6"> <?= $product['cat_name'] ?? 'Không xác định' ?> </span>
 		</td>
-		<td class="txt-cntr">
-			<?php echo $product['order_count']; ?>
-		</td>
+		<?php $total_quantity = $this->Product_model->getTotalStockQuantity($product['product_id']); ?>
+		<td class="txt-cntr"><?php echo $total_quantity > 0 ? $total_quantity : __('Hết hàng'); ?></td>
+
 		<td class="txt-cntr">
 		<td class="txt-cntr commission-tr">
 

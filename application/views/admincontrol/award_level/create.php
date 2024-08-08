@@ -388,6 +388,9 @@
                                         <option value="consum_shop"><?= __('Tiêu dùng Chi nhánh') ?></option>
                                         <option value="consum_branch"><?= __('Tiêu dùng Nhánh') ?></option>
                                         <option value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
+                                        <option value="commission_personal"><?= __('Thu nhập Cá nhân') ?></option>
+                                        <option value="commission_direct"><?= __('Thu nhập Trực tiếp') ?></option>
+                                        <option value="commission_members"><?= __('Thu nhập Tuyến dưới') ?></option>
                                     </select>
                                 </div>
                                 <p class="error-message"></p>

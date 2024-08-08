@@ -382,6 +382,9 @@
                                             <option <?= ($award_level['comission_source'] == 'consum_shop') ? 'selected' : '' ?> value="consum_shop"><?= __('Tiêu dùng Chi nhánh') ?></option>
                                             <option <?= ($award_level['comission_source'] == 'consum_branch') ? 'selected' : '' ?> value="consum_branch"><?= __('Tiêu dùng Nhánh') ?></option>
                                             <option <?= ($award_level['comission_source'] == 'consum_team') ? 'selected' : '' ?> value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
+                                            <option <?= ($award_level['comission_source'] == 'commission_personal') ? 'selected' : '' ?> value="commission_personal"><?= __('Thu nhập Cá nhân') ?></option>
+                                            <option <?= ($award_level['comission_source'] == 'commission_direct') ? 'selected' : '' ?> value="commission_direct"><?= __('Thu nhập Trực tiếp') ?></option>
+                                            <option <?= ($award_level['comission_source'] == 'commission_members') ? 'selected' : '' ?> value="commission_members"><?= __('Thu nhập Tuyến dưới') ?></option>
                                         </select>
                                     </div>
                                 </div>

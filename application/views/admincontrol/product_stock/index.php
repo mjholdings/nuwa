@@ -45,7 +45,6 @@ $Product_model = $db->Product_model;
                         </ul>
                     </div>
                 </div>
-                <h6>Tổng sản phẩm: </h6>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="product_tab">
                         <div class="filter">
@@ -90,6 +89,7 @@ $Product_model = $db->Product_model;
                                 </div>
                             </form>
                         </div>
+                        <h6 class="mt-3">Số mã sản phẩm: <span class="total_product"></span></h6>
                         <div class="table-rep-plugin">
                             <div class="row">
                                 <div id="manageBulkProducts" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
@@ -1119,6 +1119,7 @@ $Product_model = $db->Product_model;
                 },
                 success: function (json) {
                     if (json['view']) {
+                        $(".total_product").html(json["total"]);
                         $("#tech-companies-1 tbody").html(json['view']);
                         $("#tech-companies-1").show();
                     } else {

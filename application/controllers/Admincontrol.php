@@ -5895,6 +5895,8 @@ class Admincontrol extends MY_Controller
 
 		$json['pagination'] = $this->pagination->create_links();
 
+		$json['total'] = $record['total'];
+
 		echo json_encode($json);
 	}
 
@@ -5996,7 +5998,7 @@ class Admincontrol extends MY_Controller
 			$data['order'] = $this->Order_model->getImportOrders($order_id);
 
 			if (!empty($data['order']['id'])) {
-				
+
 				$this->view($data, 'product_stock/vieworder');
 			} else {
 				$this->session->set_flashdata('error', sprintf(__("admin.order_id_no_longer_available"), $order_id));
@@ -6810,7 +6812,7 @@ class Admincontrol extends MY_Controller
 
 			$filter['branch_id'] = (int)$this->input->post('branch_id');
 		}
-		
+
 		if (isset($post['category_id']) && $post['category_id']) {
 
 			$filter['category_id'] = (int)$this->input->post('category_id');
@@ -6862,6 +6864,8 @@ class Admincontrol extends MY_Controller
 
 		$json['pagination'] = $this->pagination->create_links();
 
+		$json['total'] = $record['total'];
+
 		echo json_encode($json);
 	}
 
@@ -6901,7 +6905,6 @@ class Admincontrol extends MY_Controller
 		set_default_language();
 
 		$data['productlist'] = $this->Product_model->getAllProduct($userdetails['id'], $userdetails['type'], $filter);
-
 
 		$data['client_count'] = $this->db->query('SELECT count(*) as total FROM users WHERE  type like "client"')->row()->total;
 
@@ -20758,6 +20761,8 @@ class Admincontrol extends MY_Controller
 		$this->pagination->initialize($config);
 
 		$json['pagination'] = $this->pagination->create_links();
+
+		$json['total'] = $record['total'];
 
 		echo json_encode($json);
 	}

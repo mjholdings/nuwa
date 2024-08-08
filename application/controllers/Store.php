@@ -3,9 +3,11 @@
 
 require APPPATH . 'hooks/Affiliate_Hook.php';
 
-class Store extends MY_Controller {
+class Store extends MY_Controller
+{
 
-    function __construct($params = array()) {
+    function __construct($params = array())
+    {
 
         parent::__construct();
         $this->load->helper('cookie');
@@ -63,7 +65,8 @@ class Store extends MY_Controller {
         }
     }
 
-    public function guestCheckout() {
+    public function guestCheckout()
+    {
         $is_logged = $this->cart->is_logged();
         if ($this->input->server('REQUEST_METHOD') === 'POST' && !$is_logged) {
             $_SESSION['guestFlow'] = true;
@@ -74,11 +77,13 @@ class Store extends MY_Controller {
         exit;
     }
 
-    private function getUser($user_id) {
+    private function getUser($user_id)
+    {
         return $this->db->query("SELECT * FROM users WHERE id=" . (int) $user_id)->row_array();
     }
 
-    public function change_language($language_id) {
+    public function change_language($language_id)
+    {
 
         $language = $this->db->query("SELECT * FROM language WHERE id=" . $language_id)->row_array();
         if ($language) {
@@ -90,7 +95,8 @@ class Store extends MY_Controller {
         }
     }
 
-    public function change_currency($currency_code) {
+    public function change_currency($currency_code)
+    {
         $currency = $this->db->query("SELECT * FROM currency WHERE code = '{$currency_code}' ")->row_array();
         if ($currency) {
             $_SESSION['userCurrency'] = $currency_code;
@@ -102,14 +108,16 @@ class Store extends MY_Controller {
         }
     }
 
-    public function by_id($product_id) {
+    public function by_id($product_id)
+    {
         $this->load->model('Product_model');
         $product = $this->Product_model->getProductById($product_id);
         $link = base_url("store/" . base64_encode((int) $product->refer_id) . "/product/" . $product->product_slug);
         redirect($link);
     }
 
-    public function index($user_id = 0, $store_slug = null) {
+    public function index($user_id = 0, $store_slug = null)
+    {
 
         $this->load->library('user_agent');
 
@@ -215,7 +223,8 @@ class Store extends MY_Controller {
         }
     }
 
-    public function page($slug) {
+    public function page($slug)
+    {
         $data['storesettings'] = $data['settings'] = $this->Product_model->getSettings('store');
         $custom_pages = json_decode($data['storesettings']['custom_page']);
         foreach ($custom_pages as &$page) {
@@ -232,7 +241,8 @@ class Store extends MY_Controller {
         $this->storeapp->view("custom_page", $data);
     }
 
-    public function load_Product() {
+    public function load_Product()
+    {
 
         try {
 
@@ -503,7 +513,8 @@ class Store extends MY_Controller {
             echo json_decode(['status' => false, 'details' => $th]);
         }
     }
-    public function load_ProductHome() {
+    public function load_ProductHome()
+    {
 
         try {
 
@@ -777,7 +788,8 @@ class Store extends MY_Controller {
         }
     }
 
-    public function generateMustacheProductListData($products, $user_id) {
+    public function generateMustacheProductListData($products, $user_id)
+    {
         $newProducts = [];
         foreach ($products as &$product) {
 
@@ -810,7 +822,8 @@ class Store extends MY_Controller {
         return $newProducts;
     }
 
-    public function category($category_slug = '') {
+    public function category($category_slug = '')
+    {
         $this->load->library('user_agent');
         $this->load->model('Product_model');
 
@@ -842,7 +855,8 @@ class Store extends MY_Controller {
         $this->storeapp->view("category", $data);
     }
 
-    public function make_complete() {
+    public function make_complete()
+    {
         // user_lms_product
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userdetails = $this->cart->is_logged();
@@ -879,7 +893,8 @@ class Store extends MY_Controller {
         exit;
     }
 
-    public function continue_last_watch() {
+    public function continue_last_watch()
+    {
         $userdetails = $this->cart->is_logged();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $userdetails['id']) {
@@ -907,7 +922,8 @@ class Store extends MY_Controller {
         }
     }
 
-    public function product_ratting() {
+    public function product_ratting()
+    {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -950,7 +966,8 @@ class Store extends MY_Controller {
         exit();
     }
 
-    public function toggle_wishlist() {
+    public function toggle_wishlist()
+    {
         $userdetails = $this->cart->is_logged();
         if (empty($userdetails)) {
             header("Location: " . base_url('store/login'));
@@ -980,7 +997,8 @@ class Store extends MY_Controller {
         echo true;
     }
 
-    public function product($affiliate_id = 0, $product_slug) {
+    public function product($affiliate_id = 0, $product_slug)
+    {
 
         $data = [];
         $this->load->helper('share');
@@ -1252,13 +1270,15 @@ class Store extends MY_Controller {
         }
     }
 
-    public function insertproductlogs($postData = null) {
+    public function insertproductlogs($postData = null)
+    {
         if (!empty($postData)) {
             $data['custom'] = $this->Product_model->create_data('payment_log', $postData);
         }
     }
 
-    public function about() {
+    public function about()
+    {
         $language_id = $this->Common_model->getDefaultLanaguage();
         if (isset($this->session) && $this->session->userdata('userLang') !== FALSE)
             $language_id = $this->session->userdata('userLang');
@@ -1271,7 +1291,8 @@ class Store extends MY_Controller {
         $this->storeapp->view("about", $data);
     }
 
-    public function cart() {
+    public function cart()
+    {
         $post = $this->input->post(null, true);
         $get = $this->input->get(null, true);
 
@@ -1308,7 +1329,9 @@ class Store extends MY_Controller {
         }
     }
 
-    public function checkout() {
+    public function checkout()
+    {
+
 
         $data['products'] = $this->cart->getProducts();
 
@@ -1316,6 +1339,7 @@ class Store extends MY_Controller {
         $data['category'] = $category;
 
         $user = $this->cart->is_logged();
+
         if ($data['products']) {
             $downloadable = 0;
             foreach ($data['products'] as $key => $value) {
@@ -1371,7 +1395,8 @@ class Store extends MY_Controller {
         }
     }
 
-    public function getState() {
+    public function getState()
+    {
         $data['states'] = array();
         $post = $this->input->post(null, true);
         if ($post['id']) {
@@ -1384,7 +1409,8 @@ class Store extends MY_Controller {
         echo json_encode($data);
     }
 
-    public function contact() {
+    public function contact()
+    {
 
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
             $post = $this->input->post(null, true);
@@ -1416,7 +1442,8 @@ class Store extends MY_Controller {
         $this->storeapp->view("contact", $data);
     }
 
-    public function vendor_contact() {
+    public function vendor_contact()
+    {
         $result['status'] = 0;
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
             $post = $this->input->post(null, true);
@@ -1455,7 +1482,8 @@ class Store extends MY_Controller {
         die;
     }
 
-    public function policy() {
+    public function policy()
+    {
         $language_id = $this->Common_model->getDefaultLanaguage();
         if (isset($this->session) && $this->session->userdata('userLang') !== FALSE)
             $language_id = $this->session->userdata('userLang');
@@ -1466,7 +1494,8 @@ class Store extends MY_Controller {
         $this->storeapp->view("policy", $data);
     }
 
-    public function add_to_cart() {
+    public function add_to_cart()
+    {
         $product = $this->db->get_where('product', array('product_id' => $this->input->post("product_id", true)))->row_array();
 
         if ($product) {
@@ -1478,7 +1507,8 @@ class Store extends MY_Controller {
         echo json_encode($json);
     }
 
-    public function checkoutCart() {
+    public function checkoutCart()
+    {
         $data['products'] = $this->cart->getProducts();
         $data['is_logged'] = $this->cart->is_logged();
         if ($data['products']) {
@@ -1490,7 +1520,8 @@ class Store extends MY_Controller {
         $this->storeapp->view("checkout_cart", $data, true);
     }
 
-    public function checkout_shipping($country_id = null) {
+    public function checkout_shipping($country_id = null)
+    {
         $is_logged = $this->cart->is_logged();
 
         $this->cart->reloadCart();
@@ -1520,7 +1551,8 @@ class Store extends MY_Controller {
         $this->storeapp->view("checkout_shipping", $data, true);
     }
 
-    public function checkout_confirm() {
+    public function checkout_confirm()
+    {
         $is_logged = $this->cart->is_logged();
         $this->cart->reloadCart();
 
@@ -1530,7 +1562,8 @@ class Store extends MY_Controller {
         $this->storeapp->view("checkout_confirm", $data, true);
     }
 
-    public function add_coupon() {
+    public function add_coupon()
+    {
         $coupon_code = $this->input->post("coupon_code", true);
         $product_id = $this->input->post("product_id", true);
         $this->load->model("Coupon_model");
@@ -1614,7 +1647,8 @@ class Store extends MY_Controller {
         echo json_encode($json);
     }
 
-    public function ajax_login() {
+    public function ajax_login()
+    {
         $this->load->model('user_model', 'user');
         $this->load->model("Product_model");
 
@@ -1697,7 +1731,8 @@ class Store extends MY_Controller {
     }
 
     // Hành động xác nhận đơn hàng
-    public function confirm_order() {
+    public function confirm_order()
+    {
 
 
         $data = $this->input->post(null, true);
@@ -2215,7 +2250,8 @@ class Store extends MY_Controller {
         die();
     }
 
-    public function payment_confirmation() {
+    public function payment_confirmation()
+    {
         $json = array();
         $post = $this->input->post(null, true);
 
@@ -2268,7 +2304,8 @@ class Store extends MY_Controller {
     }
 
     public
-    function get_payment_mothods() {
+    function get_payment_mothods()
+    {
         $files = array();
         foreach (glob(APPPATH . "/payment_gateway/controllers/*.php") as $file)
             $files[] = $file;
@@ -2308,7 +2345,8 @@ class Store extends MY_Controller {
         echo json_encode($json);
     }
 
-    public function confirm_payment() {
+    public function confirm_payment()
+    {
 
 
         $comment = $this->input->post('comment', true);
@@ -2919,7 +2957,8 @@ class Store extends MY_Controller {
     }
 
     public
-    function ajax_register() {
+    function ajax_register()
+    {
         $post = $this->input->post(null, true);
 
         $googlerecaptcha = $this->Product_model->getSettings('googlerecaptcha');
@@ -3228,7 +3267,8 @@ class Store extends MY_Controller {
     }
 
     public
-    function profile() {
+    function profile()
+    {
         $user = $this->cart->is_logged();
 
         if (!$user)
@@ -3363,7 +3403,8 @@ class Store extends MY_Controller {
     }
 
     public
-    function order() {
+    function order()
+    {
         $userdetails = $this->cart->is_logged();
         if (empty($userdetails)) {
             header("Location: " . base_url('store/login'));
@@ -3385,7 +3426,8 @@ class Store extends MY_Controller {
     }
 
     public
-    function wishlist() {
+    function wishlist()
+    {
         $userdetails = $this->cart->is_logged();
         if (empty($userdetails)) {
 
@@ -3575,7 +3617,8 @@ class Store extends MY_Controller {
     }
 
     public
-    function shipping() {
+    function shipping()
+    {
         $data = array();
         $this->load->model('Product_model');
         $user = $this->cart->is_logged();
@@ -3640,7 +3683,8 @@ class Store extends MY_Controller {
     }
 
     public
-    function login() {
+    function login()
+    {
         if (isset($_SESSION['guestFlow']))
             unset($_SESSION['guestFlow']);
         $data['redirect_url'] = $this->cart->getStoreUrl(base64_encode($this->session->userdata("refer_id")));
@@ -3654,7 +3698,8 @@ class Store extends MY_Controller {
     }
 
     public
-    function forgot() {
+    function forgot()
+    {
         $email = $this->input->post('forgot_email', true);
 
         if (empty($email)) {
@@ -3682,7 +3727,8 @@ class Store extends MY_Controller {
     }
 
     public
-    function logout() {
+    function logout()
+    {
         $this->session->unset_userdata('client');
         $this->session->unset_userdata('user');
         redirect('/');
@@ -3690,7 +3736,8 @@ class Store extends MY_Controller {
     }
 
     public
-    function mini_cart() {
+    function mini_cart()
+    {
         $data['products'] = $this->cart->getProducts();
         $data['is_logged'] = $this->cart->is_logged();
         $data['base_url'] = $this->cart->getStoreUrl();
@@ -3735,7 +3782,8 @@ class Store extends MY_Controller {
     }
 
     public
-    function play() {
+    function play()
+    {
         $videoId = $this->input->get('track');
         $orderId = $this->input->get('orderId');
         if ($videoId) {

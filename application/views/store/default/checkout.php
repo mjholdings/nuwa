@@ -148,6 +148,9 @@
 			</div>
 		</div>
 
+		<?php 
+			// print_r($is_logged);
+		?>
 		<div class="non-confirm mt-4">
 			<?php if(isset($_SESSION['guestFlow']) || $allow_shipping){ ?> 
 				<div class="checkout-form" <?= (!$is_logged) ? (!isset($_SESSION['guestFlow']) ? 'style="display:none;"' : "") : ""; ?> >	

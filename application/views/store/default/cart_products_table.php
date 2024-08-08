@@ -13,7 +13,6 @@
             <li>
                 <div class="cart-item">
                     <div class="img-cart">
-                        <h6>BranchID: <?php echo $product['branch_id']?></h6>
                         <a href="<?= $product['link'] ?>"><img src="<?= (!empty($product['product_featured_image'])) ? $product['product_featured_image'] : base_url('assets/store/default/img/1.png'); ?>" alt="<?= __('store.product_image') ?>"></a>
                     </div>
                     <div class="cart-item-content">

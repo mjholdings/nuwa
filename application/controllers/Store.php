@@ -1501,7 +1501,8 @@ class Store extends MY_Controller
         if ($product) {
             $quantity = max($this->input->post("quantity", true), 1);
             $variation = json_encode($this->input->post("variation", true), 1);
-            $json['data'] = $this->cart->add($product['product_id'], $quantity, $variation, $this->cart->getReferId(), $product);
+            $branch_id = max($this->input->post("branch_id", true), 1);
+            $json['data'] = $this->cart->add($product['product_id'], $quantity, $variation, $this->cart->getReferId(), $product, $branch_id);
         }
         $json['location'] = $this->cart->getStoreUrl('cart');
         echo json_encode($json);

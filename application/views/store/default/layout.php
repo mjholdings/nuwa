@@ -710,6 +710,7 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
                         data: {
                             quantity: quantity,
                             product_id: product_id,
+                            branch_id: branch_id,
                             variation: variationSelected,
                         },
                         beforeSend: function() {

@@ -201,6 +201,7 @@
                                         $show_product_price = $this->Product_model->getProductPriceByLocation($product_id, $current_location);
 
                                         echo c_format($show_product_price);
+                                        echo '<input id="branch_id" class="branch_id" name="branch_id" class="branch_id" type="hidden" data-branch="' . $location . '" value="' . $location . '">';
                                     }
 
 
@@ -229,7 +230,7 @@
                                     <?php $urls = base_url('store/vieworderdetails/' . $order_id . "?referance=" . $product['product_id']); ?>
                                     <button class="btn btn-cart-detail bg-main2 " onclick="location.href ='<?= $urls ?>'"><?= __('store.start_course') ?></button>
                                 <?php else : ?>
-                                    <button data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= (!empty($product['product_name'])) ? $product['product_name'] : 'Nuwa' ?>" class="button-cart btn btn-cart-detail btn-cart">
+                                    <button data-branch_id="<?= $branch_id ?>" data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= (!empty($product['product_name'])) ? $product['product_name'] : 'Nuwa' ?>" class="button-cart btn btn-cart-detail btn-cart">
                                         <span><?php echo __('store.add_to_cart') ?></span></button>
                                 <?php endif ?>
                                 <div class="apply-coupon input-coupon-mj">
@@ -425,6 +426,7 @@
                         <div id="createRatting" class="create_Rating">
                             <input name="user_id" id="user_id" type="hidden" value="<?php echo !empty($session) ? $session['id'] : ''; ?>" />
                             <input name="product_id" value="<?php echo $product['product_id']; ?>" id="product_id" type="hidden" />
+                            <input name="branch_id" value="<?php echo $product['branch_id']; ?>" id="branch_id" type="hidden" />
                             <div class="form-group">
                                 <label class="control-label"><?= __('store.your_review') ?></label>
                                 <textarea name="comment" id="comment" placeholder="<?= __('store.enter_your_review') ?>" cols="80" class="form-control"></textarea>
@@ -795,16 +797,18 @@
             let currency = $('a[data-currency-symbol]').data('currency-symbol');
             let product_regular_price = $('.regular-price').attr('data-price');
             let product_sale_price = $('.sale-price').attr('data-price');
+            let product_location = $('.branch_id').attr('data-branch');
             $.ajax({
                 type: 'POST',
                 url: '<?php echo base_url(); ?>product/displayprice',
-                data: 'currencyRatio=' + currencyRatio + '&currency=' + currency + '&variationSelectedPrice=' + variationSelectedPrice + '&product_regular_price=' + product_regular_price + '&product_sale_price=' + product_sale_price,
+                data: 'currencyRatio=' + currencyRatio + '&currency=' + currency + '&variationSelectedPrice=' + variationSelectedPrice + '&product_regular_price=' + product_regular_price + '&product_sale_price=' + product_sale_price + '&product_location=' + product_location,
                 success: function(response) {
                     console.log(response);
                     var obj = jQuery.parseJSON(response);
                     // response from PHP back-end PHP server
                     $('.sale-price').text(obj.value1);
                     $('.regular-price').text(obj.value2);
+                    $('.branch_id').text(obj.value3);
                 }
             });
 

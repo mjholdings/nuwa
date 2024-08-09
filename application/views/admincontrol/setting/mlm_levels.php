@@ -1,7 +1,7 @@
 <?php if($mlm_status){ ?>	
 	<div class="card">
 		<div class="card-header bg-secondary text-white">
-			<h5><?= __('admin.mlm_levels') ?></h5>
+			<h5><?= __('CÁC CẤP ĐỘ AFF') ?></h5>
 		</div>
 		<div class="card-body">
 			<form class="form-horizontal" autocomplete="off" method="post" action=""  enctype="multipart/form-data" id="setting-form">
@@ -65,10 +65,10 @@
             <thead>
                 <tr>
                     <th class="text-center border p-3"><?= __('admin.level_mlm') ?></th>
-                    <th class="text-center border-end p-3">
+                    <th class="text-left border-end p-3">
                         <div class="row">
                             <div class="col-12">
-                                <?= __('admin.cpr_cost') ?>
+                                <?= __('Thưởng mỗi lần đăng ký') ?>
                             </div>
                             <div class="col-12">
                                 <select class="form-control refer-reg-symball-select d-block w-100 mt-2" name="referlevel[reg_comission_type]">
@@ -81,10 +81,10 @@
                             </div>
                         </div>
                     </th>
-                    <th class="text-center border-end p-3">
+                    <th class="text-left border-end p-3">
                         <div class="row">
                             <div class="col-12">
-                                <?= __('admin.cps_cost') ?>
+                                <?= __('Thưởng mỗi lần bán hàng') ?>
                             </div>
                             <div class="col-12">
                                 <select class="form-control refer-symball-select w-100 mt-2" name="referlevel[sale_type]">
@@ -94,14 +94,14 @@
                             </div>
                         </div>
                     </th>
-                    <th class="text-center border-end p-3" colspan="2">
+                    <th class="text-left border-end p-3" colspan="2">
                         <div class="row">
                             <div class="col-12">
                                 <?= __('admin.clicks_count') ?> &amp; <?= __('admin.cpc_cost') ?>
                             </div>
                         </div>
                     </th>
-                    <th class="text-center border p-3">
+                    <th class="text-left border p-3">
                         <div class="row">
                             <div class="col-12">
                                 <?= __('admin.cpa_cost') ?>

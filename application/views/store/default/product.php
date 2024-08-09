@@ -196,7 +196,10 @@
                                         $location = htmlspecialchars($queryParameters['location']); // Sử dụng htmlspecialchars để tránh XSS attack
 
                                         $product_id = $product['product_id']; // Assuming $product['product_id'] is the current product id
-                                        $current_location = $location; // Example: Replace with logic to get current location (branch_id)
+                                        $current_location = 2; // Mặc định là Branch TPHCM 2
+                                        if ($current_location) {
+                                            $current_location = $location; // Example: Replace with logic to get current location (branch_id)    
+                                        }
 
                                         $show_product_price = $this->Product_model->getProductPriceByLocation($product_id, $current_location);
 

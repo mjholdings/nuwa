@@ -306,7 +306,8 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
 
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" id="show_mj">
                                 <?php
-                                function display_with_children_maincategory($parentRow, $level = 0) {
+                                function display_with_children_maincategory($parentRow, $level = 0)
+                                {
                                     $space = $level > 0 ? str_repeat("", $level) . ' ' : '';
                                     foreach ($parentRow as $key => $row) {
 
@@ -673,6 +674,7 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
                 let quantity = ($('input#product-quantity').length) ? $('input#product-quantity').val() : 1;
                 let product_name = $(this).data('product_name');
                 let product_id = $(this).data('product_id');
+                let branch_id = ($('input#branch_id').length) ? $('input#branch_id').val() : 2;
                 $this = $(this);
 
                 let variationNotSelected = [];

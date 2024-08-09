@@ -6,7 +6,7 @@ class Cart extends CI_Model
     public $allow_comment = false;
     public $allow_upload_file = false;
 
-    public function add($product_id, $quantity, $variation = null, $refer_id = 0, $product = false, $branch_id = 0)
+    public function add($product_id, $quantity, $variation = null, $refer_id = 0, $product = false, $branch_id = 0, $branch_price = 0)
     {
         $this->session->unset_userdata('last_order_id');
 
@@ -17,10 +17,11 @@ class Cart extends CI_Model
         // Nếu trong giỏ hàng chưa có sản phẩm này thì thêm mới
         if ($cart_product == 0) {
             $date = date("Y-m-d H:i:s");
-            $this->db->query("INSERT INTO cart SET date_added='{$date}', product_id  = {$product_id}, branch_id  = {$branch_id}, product_variation = '{$variation}', quantity ={$quantity}, refer_id={$refer_id}, session_id = " . $this->db->escape($session_id) . " ");
+            $branch_total = $branch_price * $quantity;
+            $this->db->query("INSERT INTO cart SET date_added='{$date}', product_id  = {$product_id}, branch_id  = {$branch_id}, branch_price = {$branch_price}, product_variation = '{$variation}', quantity ={$quantity}, refer_id={$refer_id}, session_id = " . $this->db->escape($session_id) . " ");
 
-        // Nếu đã có thì cập nhật số lượng
-        } else {    
+            // Nếu đã có thì cập nhật số lượng
+        } else {
 
             // Là sản phẩm KTS thì số lượng là 1
             if ($product && (in_array($product['product_type'], ['downloadable', 'video', 'videolink']))) {
@@ -90,6 +91,8 @@ class Cart extends CI_Model
             $variation_total_price = $this->getSelectedVariationPrice($product);
             $quantity = $product['quantity'];
             $price = ($product['product_price'] + $variation_total_price) * $quantity;
+            $branch_price = ($product['branch_price'] + $variation_total_price) * $quantity;
+
 
             $myCopon = isset($allCoupon[$product['product_id']]) ? $allCoupon[$product['product_id']] : false;
             $coupon_name = '';
@@ -121,8 +124,12 @@ class Cart extends CI_Model
             $final_total = ($price - $coupon_discount);
             $final_total = max($final_total, 0);
 
+            $final_branch_total = ($branch_price - $coupon_discount);
+            $final_branch_total = max($final_branch_total, 0);
+
             $this->db->query("UPDATE cart SET 
 				total = " . $this->db->escape($final_total) . ", 
+				branch_total = " . $this->db->escape($final_branch_total) . ", 
 				coupon_code = " . $this->db->escape($coupon_code) . ", 
 				coupon_name = " . $this->db->escape($coupon_name) . ", 
 				coupon_discount = " . $this->db->escape($coupon_discount) . " 
@@ -196,7 +203,7 @@ class Cart extends CI_Model
             }
         }
         $cart_products = $this->db->query("
-			SELECT product.*,cart.cart_id,cart.quantity,cart.refer_id,cart.coupon_code,cart.coupon_name,cart.coupon_discount,cart.total,cart.product_variation as cart_variation, product_affiliate.user_id as vendor_id,product_categories.category_id, categories.mlm_categories
+			SELECT product.*,cart.cart_id,cart.quantity,cart.branch_id,cart.branch_price,cart.refer_id,cart.coupon_code,cart.coupon_name,cart.coupon_discount,cart.total,cart.branch_total,cart.product_variation as cart_variation, product_affiliate.user_id as vendor_id,product_categories.category_id, categories.mlm_categories
 			FROM cart 
 			LEFT JOIN product ON product.product_id = cart.product_id
 			LEFT JOIN product_affiliate ON product_affiliate.product_id = cart.product_id
@@ -253,7 +260,7 @@ class Cart extends CI_Model
                 'product_description'           => $product['product_description'],
                 'product_short_description'    => $product['product_short_description'],
                 'product_price'                => $product['product_price'],
-                'product_msrp'                   => $product['product_msrp'],
+                'product_msrp'                 => $product['product_msrp'],
                 'product_sku'                  => $product['product_sku'],
                 'product_slug'                 => $product['product_slug'],
                 'product_share_count'          => $product['product_share_count'],
@@ -281,6 +288,9 @@ class Cart extends CI_Model
                 'on_store'                     => $product['on_store'],
                 'cart_id'                      => $product['cart_id'],
                 'quantity'                     => $product['quantity'],
+                'branch_id'                    => $product['branch_id'],
+                'branch_price'                 => $product['branch_price'],
+                'branch_total'                 => $product['branch_total'],
                 'refer_id'                     => $product['refer_id'],
                 'coupon_code'                  => $product['coupon_code'],
                 'coupon_name'                  => $product['coupon_name'],
@@ -369,17 +379,21 @@ class Cart extends CI_Model
         $this->session->set_userdata('coupon', $finalCoupon);
         $this->reloadCart();
     }
-    public function subTotal()
+    public function subTotal($branch_total = false)
     {
         $products = $this->getProducts();
         $total = 0;
         foreach ($products as $key => $value) {
-            $total += ($value['total']);
+            if (!$branch_total) {
+                $total += ($value['total']);
+            } else {
+                $total += ($value['branch_total']);
+            }
         }
         return $total;
     }
 
-    public function getTotals($countryId = null)
+    public function getTotals($countryId = null, $branch_total = false)
     {
         $_total = [];
 
@@ -390,7 +404,11 @@ class Cart extends CI_Model
         foreach ($products as $key => $value) {
             if ($value['product_type'] != 'downloadable') $allow_shipping = true;
 
-            $sub_total += ($value['total']);
+            if (!$branch_total) {
+                $sub_total += ($value['total']);
+            } else {
+                $sub_total += ($value['branch_total']);
+            }
         }
 
         $_total['sub_total'] = array('title' => __('store.subtotal'), 'amount' => $sub_total);

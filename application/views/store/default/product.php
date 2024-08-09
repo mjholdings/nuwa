@@ -205,11 +205,17 @@
 
                                         echo c_format($show_product_price);
                                         echo '<input id="branch_id" class="branch_id" name="branch_id" class="branch_id" type="hidden" data-branch="' . $location . '" value="' . $location . '">';
+                                        echo '<input id="branch_price" class="branch_price" name="branch_price" class="branch_price" type="hidden" data-branch="' . $show_product_price . '" value="' . $show_product_price . '">';
                                     }
 
 
                                     ?>
-                                    <div class="regular-price" data-price="<?= $product['product_price']; ?>"><?= (!empty($product['product_price'])) ? c_format($product['product_price']) : '' ?></div>
+
+                                    <?php if ($show_product_price): ?>
+                                        <div class="regular-price" data-price="<?= $show_product_price; ?>"><?= (!empty($show_product_price)) ? c_format($show_product_price) : '0' ?></div>
+                                    <?php else: ?>
+                                        <div class="regular-price" data-price="<?= $product['product_price']; ?>"><?= (!empty($product['product_price'])) ? c_format($product['product_price']) : '' ?></div>
+                                    <?php endif; ?>
 
                                     <?php echo (!empty($product['product_msrp'])) ? '<div class="sale-price" data-price="' . $product['product_msrp'] . '">' . c_format($product['product_msrp']) . '</div>' : '' ?>
                                 </div>

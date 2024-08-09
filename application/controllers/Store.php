@@ -1502,8 +1502,10 @@ class Store extends MY_Controller
             $quantity = max($this->input->post("quantity", true), 1);
             $variation = json_encode($this->input->post("variation", true), 1);
             $branch_id = max($this->input->post("branch_id", true), 1);
+            $branch_price = max($this->input->post("branch_price", true), 1);
             $json['branch_id'] = $branch_id;
-            $json['data'] = $this->cart->add($product['product_id'], $quantity, $variation, $this->cart->getReferId(), $product, $branch_id);
+            $json['branch_price'] = $branch_price;
+            $json['data'] = $this->cart->add($product['product_id'], $quantity, $variation, $this->cart->getReferId(), $product, $branch_id, $branch_price);
         }
         $json['location'] = $this->cart->getStoreUrl('cart');
 
@@ -1518,6 +1520,7 @@ class Store extends MY_Controller
             $data['base_url'] = $this->cart->getStoreUrl();
             $data['cart_url'] = $this->cart->getStoreUrl('cart');
             $data['totals'] = $this->cart->getTotals();
+            $data['branch_totals'] = $this->cart->getTotals(null, true);
             $data['allow_shipping'] = $this->cart->allow_shipping;
         }
         $this->storeapp->view("checkout_cart", $data, true);
@@ -2015,7 +2018,6 @@ class Store extends MY_Controller
 
                     $_product = $this->Product_model->getProductDetails((int) $product['product_id']);
 
-
                     $_user = $this->Product_model->getUserDetails((int) $product['refer_id']);
 
                     $is_vendor = $_user['is_vendor'] == 1;
@@ -2104,9 +2106,12 @@ class Store extends MY_Controller
                         'product_id' => $product['product_id'],
                         'msrp' => 0,
                         'variation' => $product['variation'],
+                        'branch_id' => (int) $product['branch_id'],
+                        'branch_price' => (float) $product['branch_price'],
                         'refer_id' => $_refer_id,
                         'price' => (float) $product['product_price'],
                         'total' => (float) $product['total'],
+                        'branch_total' => (float) $product['branch_total'],
                         'quantity' => (int) $product['quantity'],
                         'commission' => ($commission) ? $commission['commission'] : 0,
                         'commission_type' => ($commission) ? $commission['type'] : '',
@@ -3745,8 +3750,10 @@ class Store extends MY_Controller
         $data['is_logged'] = $this->cart->is_logged();
         $data['base_url'] = $this->cart->getStoreUrl();
         $data['sub_total'] = $data['total'] = $this->cart->subTotal();
+        $data['branch_sub_total'] = $data['branch_total'] = $this->cart->subTotal(true);
         $json['cart'] = $this->storeapp->view("mini_cart", $data, true, true);
         $json['sub_total'] = c_format($data['sub_total']);
+        $json['branch_sub_total'] = c_format($data['branch_sub_total']);
         $json['total'] = count($data['products']);
         $json['products'] = $data['products'];
         echo json_encode($json);

@@ -675,6 +675,7 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
                 let product_name = $(this).data('product_name');
                 let product_id = $(this).data('product_id');
                 let branch_id = ($('input#branch_id').length) ? $('input#branch_id').val() : 2;
+                let branch_price = ($('input#branch_price').length) ? $('input#branch_price').val() : 2;
                 $this = $(this);
 
                 let variationNotSelected = [];
@@ -713,6 +714,7 @@ $cookies_consent_mesag = $products->getSettings('site', 'cookies_consent_mesag')
                             quantity: quantity,
                             product_id: product_id,
                             branch_id: branch_id,
+                            branch_price: branch_price,
                             variation: variationSelected,
                         },
                         beforeSend: function() {

@@ -59,6 +59,10 @@ $userdetails = $db->userdetails();
 					<!--Active buttons style-->
 					<input type="hidden" id="product_id" name="product_id" value="<?php echo $product->product_id ?>">
 
+					<input type="hidden" id="user_id" name="user_id" value="<?php echo isset($userdetails['id']) ? $userdetails['id'] : 1; ?>">
+
+
+
 					<div class="row mb-2">
 						<div class="col-md-3 py-2">
 							<h6>Nhập hàng chi nhánh: </h6>
@@ -296,15 +300,15 @@ $productlist_json = json_encode($productlist);
 				if (productName !== '' && productPrice !== '') {
 					var newRow = `
                 <tr data-variation-type="branch_product">
-                    <td><strong>${productName}:</strong><input type="hidden" class="product_id" name="variations[${productId}]" value="${productId}"></td>
+                    <td><strong>${productName}:</strong><input type="hidden" class="product_id" name="variations[${productId}][id][]" value="${productId}"></td>
                     <td>${productPrice} 
-                        <input type="hidden" name="variations[${productId}][${productPrice}]" value="${productPrice}">                        
+                        <input type="hidden" name="variations[${productId}][price][]" value="${productPrice}">                        
                     </td>
                     <td>${productQty} 
-                        <input type="hidden" name="variations[${productId}][${productQty}]" value="${productQty}">
+                        <input type="hidden" name="variations[${productId}][qty][]" value="${productQty}">
                     </td>
                     <td>${productTotal} 
-                        <input type="hidden" name="variations[${productId}][${productTotal}]" value="${productTotal}">
+                        <input type="hidden" name="variations[${productId}][total][]" value="${productTotal}">
                     </td>
 					
                 </tr>`;
@@ -398,7 +402,7 @@ $productlist_json = json_encode($productlist);
 				matches.forEach(function(product) {
 					$('#product-select').append(
 						$('<option>', {
-							value: product.product_name,							
+							value: product.product_name,
 							text: product.product_name,
 							'data-price': product.product_price,
 							'data-id': product.product_id,

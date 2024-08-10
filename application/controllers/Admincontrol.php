@@ -5148,14 +5148,88 @@ class Admincontrol extends MY_Controller
 	// Thêm Order Import Stock
 	public function stock_addImportOrder()
 	{
-
+		// Lấy thông tin người dùng
 		$userdetails = $this->userdetails();
 
+		// Lấy dữ liệu từ POST
 		$post = $this->input->post(null, true);
 
+		// Kiểm tra nếu có dữ liệu POST
 		if (!empty($post)) {
+			// Bắt đầu giao dịch
+			$this->db->trans_begin();
+
+			try {
+				// Thực hiện thêm record mới vào bảng order_branch
+				$order_data = array(
+					'user_id' => $post['user_id'],
+					'branch_id' => $post['branch_id'],
+					'created_at' => date('Y-m-d H:i:s'),
+					'status' => 1 // Trạng thái đơn hàng
+				);
+				$this->db->insert('order_branch', $order_data);
+				$order_branch_id = $this->db->insert_id(); // Lấy ID của đơn hàng mới
+
+				// Duyệt qua tất cả các mục variations và thêm vào bảng product_branch
+				if (isset($post['variations'])) {
+					foreach ($post['variations'] as $variation) {
+						if (isset($variation['id'])) {
+							foreach ($variation['id'] as $index => $product_id) {
+								$product_branch_data = array(
+									'order_branch_id' => $order_branch_id,
+									'branch_id' => $post['branch_id'],
+									'product_id' => $product_id,
+									'user_id' => $post['user_id'],
+									'stock_quantity' => $variation['qty'][$index],
+									'product_price' => $variation['price'][$index]
+								);
+								$this->db->insert('product_branch', $product_branch_data);
+							}
+						}
+					}
+				}
+
+				// Cập nhật bảng order
+				$order_update_data = array(
+					'user_id' => $post['user_id'],
+					'branch_id' => $post['branch_id'],
+					'total' => array_sum($post['variations']['total']),
+					'created_at' => date('Y-m-d H:i:s'),
+					'status' => 1
+				);
+				$this->db->where('id', $order_branch_id);
+				$this->db->update('order', $order_update_data);
+
+				// Commit giao dịch nếu mọi thứ thành công
+				if ($this->db->trans_status() === TRUE) {
+					$this->db->trans_commit();
+					$json['success'] = true;
+					$json['message'] = 'Đơn hàng đã được lưu thành công.';
+
+					if ($post['action'] == 'save_close') {
+						$json['location'] = base_url('admincontrol/stock_listorders/');
+					} else {
+						$json['location'] = base_url('admincontrol/stock_addorder/');
+					}
+				} else {
+					// Rollback giao dịch nếu có lỗi
+					$this->db->trans_rollback();
+					$json['success'] = false;
+					$json['message'] = 'Có lỗi xảy ra trong quá trình lưu đơn hàng.';
+				}
+			} catch (Exception $e) {
+				// Rollback giao dịch nếu có lỗi
+				$this->db->trans_rollback();
+				$json['success'] = false;
+				$json['message'] = 'Có lỗi xảy ra: ' . $e->getMessage();
+			}
+
+			// Trả về kết quả dưới dạng JSON
+			echo json_encode($json);
+			die;
 		}
 	}
+
 
 	// Sửa sản phẩm Stock
 	public function stock_editProduct()

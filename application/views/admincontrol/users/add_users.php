@@ -29,23 +29,26 @@
 						<?php if ($user['id'] > 0) { ?>
 							<!-- Add Transaction Tab -->
 							<div id="add-transaction" class="tab-pane fade bg-light p-4 rounded">
-								<div class="d-flex justify-content-between align-items-center mb-4">
-									<h3><?= __('admin.add_transaction') ?></h3>
-									<span class="badge bg-primary text-white px-3 py-2 fs-6">
+
+
+								<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+									<h4 style="margin-right: 5px;">Nạp tiền</h4>
+									<span class="col d-flex badge bg-primary text-white px-2 py-2 fs-7 me-2">
 										<?= __('Số dư Ví Tiêu dùng') ?>: <?= c_format($totals['balance_wallet_purchase']) ?>
 									</span>
-									<span class="badge bg-danger text-white px-3 py-2 fs-6">
+									<span class="col badge d-flex bg-danger text-white px-2 py-2 fs-7 me-2">
 										<?= __('Ví Thưởng') ?>: <?= c_format($totals['balance_wallet_reward']) ?>
 									</span>
-									<span class="badge bg-secondary text-white px-3 py-2 fs-6">
+									<span class="col badge bg-secondary text-white px-2 py-2 fs-7 me-2">
 										<?= __('Ví Điểm (Nuwa)') ?>: <?= c_format($totals['balance_wallet_credit']) ?>
 									</span>
-									<span class="badge bg-success text-white px-3 py-2 fs-6">
+									<span class="badge bg-success text-white px-2 py-2 fs-7">
 										<?= __('Ví Tài khoản (VND)') ?>: <?= c_format($totals['balance_wallet_withdraw']) ?>
 									</span>
 								</div>
 
-								<input type="hidden" name="user_id" class="input-transaction" value="<?= isset($userdetails) ? $userdetails['id'] : '' ?>">
+								<input type="hidden" name="admin_id" class="input-transaction" value="<?= isset($userdetails) ? $userdetails['id'] : '1' ?>">
+								<input type="hidden" name="user_id" class="input-transaction" value="<?= isset($user) ? $user['id'] : '1' ?>">
 
 								<!-- Amount Input -->
 								<div class="row">

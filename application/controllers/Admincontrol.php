@@ -8491,7 +8491,100 @@ class Admincontrol extends MY_Controller
 	}
 
 
+	// Thêm giao dịch nạp tiền vào Ví
 	public function add_transaction($wallet_from = 'admin')
+	{
+
+		$this->load->library('form_validation');
+
+		// Fields dành cho nạp tiền chung		
+		$this->form_validation->set_rules('amount', 'Amount', 'required|trim');
+
+		$this->form_validation->set_rules('comment', 'Comment', 'required|trim');
+
+		$this->form_validation->set_rules('user_id', 'user_id', 'required|trim');
+
+		$admin_id = $this->input->post("admin_id", true); // Thông tin user thực hiện nạp
+		$user_id = $this->input->post("user_id", true); // Thông tin user sẽ được nạp tiền
+
+		// Kiểm tra xem đang là Admin rút tiền hay User
+		if ($admin_id != $user_id) {
+
+			// Dành cho User rút tiền
+			$this->form_validation->set_rules('withdraw_from', 'withdraw_from', 'required|trim');
+
+			$this->form_validation->set_rules('withdraw_to', 'withdraw_to', 'required|trim');
+
+			$target_wallet = $this->input->post("withdraw_from", true);
+			$from_wallet = 'user_deposit';
+		} else {
+
+			// Dành cho Admin nạp  tiền cho User
+			$this->form_validation->set_rules('deposit', 'Deposit', 'required|trim');
+
+			$target_wallet = $this->input->post("deposit", true);
+			$from_wallet = 'admin_deposit';
+		}
+
+		// Thực hiện
+		if ($this->form_validation->run() == FALSE) {
+
+			$json['errors'] = $this->form_validation->error_array();
+		} else {
+
+			$result = $this->Wallet_model->addTransaction(array(
+
+				'status'         => 1,
+
+				'user_id'        => $user_id,
+
+				'amount'         => $this->input->post("amount", true),
+
+				'comment'        => $this->input->post("comment", true),
+
+				'wallet_to'      => $target_wallet,
+
+				'wallet_from'    => $wallet_from,
+
+				'type'           => $from_wallet . '_transaction',
+
+				'is_sent'        => '0',
+
+				'withdraw_request' => '0',
+
+				'dis_type'       => '',
+
+				'comm_from'      => '',
+
+				'reference_id'   => 0,
+
+				'reference_id_2' => 0,
+
+				'ip_details'     => '',
+
+				'domain_name'    => '',
+
+				'group_id'	=> time() . rand(10, 100)
+
+			));
+
+			if ($result)
+				$this->session->set_flashdata('success', __('admin.transaction_added'));
+			else
+				$this->session->set_flashdata('error', __('admin.transaction_not_add'));
+
+			// Nếu là Admin nạp tiền cho User	
+			if ($user_id == $admin_id) {
+				$json['location'] = base_url("usercontrol/mywallet");
+			} else {
+				$json['location'] = base_url("admincontrol/addusers/" . $this->input->post("user_id", true));
+			}
+		}
+
+		echo json_encode($json);
+	}
+
+	public function add_transaction_old($wallet_from = 'admin')
 	{
 
 		$this->load->library('form_validation');

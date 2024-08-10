@@ -220,9 +220,9 @@
 													<div class="modal-body">
 														<div class="mt-2 mb-3">
 															<h6>Rút tiền từ</h6>
-															<select class="form-control input-transaction" id="withdraw_from">
+															<select class="form-control input-transaction" id="withdraw_from" name="withdraw_from">
 																<option value="withdraw">Ví Tài khoản (VND)</option>
-																<option value="consum" selected>Ví Tiêu dùng</option>
+																<option value="purchase" selected>Ví Tiêu dùng</option>
 																<option value="reward">Ví Thưởng</option>
 																<option value="credit">Ví Điểm (Nuwa)</option>
 															</select>
@@ -233,9 +233,9 @@
 														<input type="number" name="amount-request" class="form-control" data-val="<?= ($wallet_unpaid_amount * 70) / 100 ?>" />
 														<div class="mt-3 mb-2">
 															<h6>Tới ví hoặc ngân hàng</h6>
-															<select class="form-control input-transaction" id="withdraw_to">
+															<select class="form-control input-transaction" id="withdraw_to" name="withdraw_to">
 																<option value="withdraw" selected>Ví tài khoản (VND)</option>
-																<option value="consum">Ví Tiêu dùng</option>
+																<option value="purchase">Ví Tiêu dùng</option>
 																<option value="reward">Ví Thưởng</option>
 																<option value="credit">Ví Điểm (Nuwa)</option>
 																<option value="bank">Tài khoản Ngân hàng</option>
@@ -262,14 +262,16 @@
 													<div class="modal-body">
 														<div class="mt-2 mb-3">
 															<h6>Nạp tiền vào</h6>
-															<select class="form-control input-transaction" id="deposit" name="deposit-wallet">
+															<select class="form-control input-transaction" id="deposit" name="deposit">
 																<option value="withdraw">Ví Tài khoản (VND)</option>
-																<option value="consum" selected>Ví Tiêu dùng</option>
+																<option value="purchase" selected>Ví Tiêu dùng</option>
 																<option value="reward">Ví Thưởng</option>
 																<option value="credit">Ví Điểm (Nuwa)</option>
 															</select>
 														</div>
-														<input type="hidden" name="user_id" class="input-transaction" value="<?= isset($userdetails) ? $userdetails['id'] : '' ?>">
+
+														<input type="hidden" name="user_id" class="input-transaction" value="<?= isset($userdetails) ? $userdetails['id'] : '1' ?>">
+														<input type="hidden" name="admin_id" class="input-transaction" value="<?= isset($userdetails) ? $userdetails['id'] : '1' ?>">
 
 														<div><?= __('Nhập số tiền cần nạp') ?></div>
 														<input class="form-control input-transaction mb-3" type="number" name="amount" value="" min="1" step="any" oninput="validity.valid||(value='');">

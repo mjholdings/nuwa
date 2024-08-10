@@ -1783,35 +1783,46 @@ class Order_model extends MY_Model
     }
 
     // Lấy tổng số đơn nhập từ Kho hàng
-    public function getBranchTotals($product, $order_branch, $branch)
-    {
-        // 
+    public function getBranchTotals($filter = array()) {
+        // Bắt đầu xây dựng truy vấn
+        $this->db->select('COUNT(*) as total_orders');
+        $this->db->from('order_branch');
+    
+        // Áp dụng các bộ lọc nếu có
+        if (!empty($filter)) {
+            if (isset($filter['branch_id'])) {
+                $this->db->where('branch_id', $filter['branch_id']);
+            }
+            if (isset($filter['date_from']) && isset($filter['date_to'])) {
+                $this->db->where('order_date >=', $filter['date_from']);
+                $this->db->where('order_date <=', $filter['date_to']);
+            }
+            // Thêm các điều kiện lọc khác nếu cần
+        }
+    
+        // Thực hiện truy vấn và lấy kết quả
+        $query = $this->db->get();
+        $result = $query->row();
+    
+        // Trả về tổng số đơn hàng
+        return isset($result->total_orders) ? $result->total_orders : 0;
     }
+    
 
     // Lấy tổng số đơn bán từ Kho hàng
-    public function getOrderTotals($product, $order, $branch)
-    {
-    }
+    public function getOrderTotals($product, $order, $branch) {}
 
     // Lấy thống kê doanh thu từ đơn hàng
-    public function getOrderRevenues($user, $order, $branch)
-    {
-    }
+    public function getOrderRevenues($user, $order, $branch) {}
 
     // Lấy thống kê tiêu dùng từ đơn hàng
-    public function getOrderConsums($user, $order, $branch)
-    {
-    }
+    public function getOrderConsums($user, $order, $branch) {}
 
     // Lấy thống kê tuyển dụng từ đăng ký
-    public function getUserRecruitment($user, $rank)
-    {
-    }
+    public function getUserRecruitment($user, $rank) {}
 
     // Thêm giao dịch nhập hàng - Đơn nhập
-    public function addImportOrder($data)
-    {
-    }
+    public function addImportOrder($data) {}
 
     // Lấy tổng số sản phẩm của đơn hàng
     public function getTotals($products, $order)

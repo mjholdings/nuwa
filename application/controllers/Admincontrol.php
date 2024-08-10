@@ -5013,7 +5013,6 @@ class Admincontrol extends MY_Controller
 
 		$data['productlist'] = $this->Product_model->getAllProduct($userdetails['id'], $userdetails['type'], $filter);
 
-
 		$data['client_count'] = $this->db->query('SELECT count(*) as total FROM users WHERE  type like "client"')->row()->total;
 
 		$data['ordercount'] = $this->db->query('SELECT COUNT(op.id) as total FROM `order_products` op LEFT JOIN `order` as o ON o.id = op.order_id WHERE o.status > 0 ')->row()->total;
@@ -5023,7 +5022,6 @@ class Admincontrol extends MY_Controller
 		$data['branchs'] = $this->db->query("SELECT id,name FROM branch")->result_array();
 
 		$data['vendors'] = $this->db->query("SELECT users.id,CONCAT(users.firstname,' ',users.lastname) as name FROM `product_affiliate` INNER JOIN users ON users.id= user_id GROUP by user_id")->result_array();
-
 
 		$data['user'] = $userdetails;
 
@@ -6004,6 +6002,12 @@ class Admincontrol extends MY_Controller
 
 		$data['product'] = $this->Product_model->getProductById($id);
 
+		$data['productlist'] = $this->Product_model->getAllProductrecord();
+
+		$data['tags'] = $this->Product_model->getAllProductrecord();
+
+		$data['branchs'] = $this->db->query("SELECT id,name FROM branch")->result_array();
+
 		$this->view($data, 'product_stock/add_import_order');
 	}
 
@@ -6037,7 +6041,9 @@ class Admincontrol extends MY_Controller
 
 		$totals = $this->Wallet_model->getTotals(array(), true);
 
-		$data['full_local_store_hold_orders'] = $totals['store']['hold_orders'];
+		$stock_order_totals = $this->Order_model->getBranchTotals();
+
+		$data['full_branch_import_orders'] = $stock_order_totals;
 
 		$this->view($data, 'product_stock/orders');
 	}

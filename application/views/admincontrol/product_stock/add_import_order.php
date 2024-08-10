@@ -9,7 +9,28 @@ $userdetails = $db->userdetails();
 <style>
 	.jscolor-picker-wrap {
 		z-index: 999999 !important;
-		s
+
+	}
+
+	#product-variations td {
+		padding: 10px;
+		/* Thêm khoảng cách padding 10px cho mỗi ô td */
+	}
+
+	/* Định vị select để hiển thị dạng overlay */
+	#product-select {
+		display: none;
+		/* Ẩn select mặc định */
+		position: absolute;
+		/* Định vị tuyệt đối */
+		z-index: 1000;
+		/* Đảm bảo nó nằm trên các phần tử khác */
+		width: 100%;
+		/* Đảm bảo cùng kích thước với input */
+		background: white;
+		/* Đảm bảo nền trắng */
+		border: 1px solid #ccc;
+		/* Tạo viền cho select */
 	}
 </style>
 
@@ -39,7 +60,17 @@ $userdetails = $db->userdetails();
 					<input type="hidden" id="product_id" name="product_id" value="<?php echo $product->product_id ?>">
 
 					<div class="row mb-2">
-						<div class="col-md-12">
+						<div class="col-md-3 py-2">
+							<h6>Nhập hàng chi nhánh: </h6>
+						</div>
+						<div class="col-md-3">
+							<select name="branch_id" class="form-select select-branch">
+								<?php foreach ($branchs as $key => $value) { ?>
+									<option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+								<?php } ?>
+							</select>
+						</div>
+						<div class="col-md-6">
 							<span class="btn btn-primary btn-add-variants"><?= __('Chọn sản phẩm Nhập') ?></span>
 						</div>
 					</div>
@@ -85,6 +116,14 @@ $userdetails = $db->userdetails();
 						}
 						?>
 					</table>
+					<div id="action">
+						<span data-variation-type="branch_product" class="btn btn-md btn-warning btn-edit-variants">
+							<i class="fa fa-edit"></i>
+						</span>
+						<span class="btn btn-md btn-danger btn-delete-variants">
+							<i class="fa fa-trash"></i>
+						</span>
+					</div>
 
 				</div>
 			</div>
@@ -130,43 +169,240 @@ $userdetails = $db->userdetails();
 <div id="modal-variants" class="modal fade" tabindex="-1" aria-labelledby="modal-variantsLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<div class="modal-header">
+			<div class="modal-header px-0">
 				<h5 class="modal-title" id="modal-variantsLabel"><?= __('Thêm sản phẩm') ?></h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body" style="max-height:70vh; overflow-y:auto;">
 				<div class="row">
-					<div class="col-5">
-						<div class="form-group">
-							<label for="variation_type"><?= __('admin.variation_type') ?></label>
-							<select class="form-select" id="variation_type">
-								<option value="colors"><?= __('admin.color') ?></option>
-								<option value="other"><?= __('admin.other_variation') ?></option>
-							</select>
+					<div class="col-12">
+						<div class="form-group other_variation_title_input">
+
+							<!-- Danh sách nội dung -->
+							<div class="container">
+								<div style="position: relative; width: 100%;"> <!-- Đảm bảo container có position: relative -->
+									<label for="product-search">Chọn sản phẩm:</label>
+									<input type="text" id="product-search" class="form-control w-100 mb-3">
+									<!-- Select hiển thị danh sách gợi ý -->
+									<select id="product-select" size="5"></select>
+								</div>
+								<div id="variation-container">
+									<div class="row mb-3">
+										<div class="col-md-8">
+											<div class="form-group">
+												<input value="" class="form-control variation-option" type="text">
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="form-group">
+												<input value="" class="form-control variation-price" type="number">
+											</div>
+										</div>
+										<div class="col-md-1">
+											<span class="btn btn-primary btn-add-feature">
+												<i class="fa fa-plus"></i>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<?php
+
+							// Chuyển danh sách sản phẩm sang JSON để sử dụng trong JS
+							$productlist_json = json_encode($productlist);
+
+							?>
+
+
 						</div>
 					</div>
-					<div class="col-7">
-						<div class="form-group other_variation_title_input" style="display:none">
-							<label for="other_variation_title"><?= __('admin.variation_title') ?></label>
-							<input type="text" class="form-control" id="other_variation_title" maxlength="25" placeholder="<?= __('admin.variation_title') ?>">
-						</div>
-					</div>
-				</div>
-				<div class="colors-list">
 
 				</div>
-				<div class="features-list" style="display:none">
 
-				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary add-variation-to-form"><?= __('admin.add_variants') ?></button>
+				<button type="button" class="btn btn-primary add-variation-to-form"><?= __('Vào đơn') ?></button>
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= __('admin.close') ?></button>
 			</div>
 		</div>
 	</div>
 </div>
 
+<!-- Đoạn mã Javascript -->
+<script>
+	$(document).ready(function() {
+		var products = <?php echo $productlist_json; ?>;
+
+		// Thêm sản phẩm vào bảng khi nhấn nút "Vào đơn"
+		$('.add-variation-to-form').on('click', function() {
+			$('#product-variations').empty(); // Xóa toàn bộ nội dung cũ trong bảng
+
+			$('#variation-container .row').each(function() {
+				var productName = $(this).find('.variation-option').val();
+				var productPrice = $(this).find('.variation-price').val();
+				var productId = $(this).find('.variation-option').data('product-id'); // ID của sản phẩm
+
+				if (productName !== '' && productPrice !== '') {
+					var newRow = `
+                <tr data-variation-type="branch_product">
+                    <td><strong>${productName}:</strong></td>
+                    <td>${productPrice} 
+                        <input type="hidden" name="variations[${productName}][${productPrice}][]" value="${productId}">
+                    </td>
+                </tr>`;
+					$('#product-variations').append(newRow);
+				}
+			});
+			$('#modal-variants').modal('hide'); // Đóng modal sau khi thêm
+		});
+
+		// Xóa toàn bộ nội dung trong bảng khi nhấn nút ".btn-delete-variants"
+		$('#action').on('click', '.btn-delete-variants', function() {
+			$('#product-variations').empty();
+		});
+
+		// Chỉnh sửa nội dung trong bảng
+		$('#action').on('click', '.btn-edit-variants', function() {
+			var tableRows = $('#product-variations tr');
+			var container = $('#variation-container');
+			container.empty(); // Xóa nội dung cũ trong dialog
+
+			tableRows.each(function() {
+				var productName = $(this).find('td strong').text().replace(':', '');
+				var productPrice = $(this).find('td').eq(1).text().trim();
+				var productId = $(this).find('input').val();
+
+				// Tạo lại hàng trong dialog
+				var newRow = `
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <input value="${productName}" class="form-control variation-option" type="text" data-product-id="${productId}">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input value="${productPrice}" class="form-control variation-price" type="number">
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <span class="btn btn-danger btn-remove-variation" style="margin-top:6px;">
+                        <i class="fa fa-trash"></i>
+                    </span>
+                </div>
+            </div>`;
+				container.append(newRow);
+			});
+
+			$('#modal-variants').modal('show'); // Hiển thị modal chỉnh sửa
+		});
+
+		// Thêm hàng mới khi nhấn nút "btn-add-feature"
+		$('#variation-container').on('click', '.btn-add-feature', function() {
+			addNewRow();
+		});
+
+		// Xóa hàng hiện tại khi nhấn nút "btn-remove-variation"
+		$('#variation-container').on('click', '.btn-remove-variation', function() {
+			$(this).closest('.row').remove();
+		});
+
+		// Hàm để thêm hàng mới
+		function addNewRow() {
+			var lastRow = $('#variation-container .row').last();
+			var newRow = lastRow.clone();
+
+			newRow.find('input').val(''); // Xóa dữ liệu trong input của hàng mới
+			lastRow.find('.btn-add-feature').removeClass('btn-primary btn-add-feature').addClass('btn-danger btn-remove-variation')
+				.html('<i class="fa fa-trash"></i>');
+
+			$('#variation-container').append(newRow);
+		}
+
+		// Hiển thị danh sách gợi ý sản phẩm
+		$('#product-search').on('input', function() {
+			var query = $(this).val().toLowerCase();
+			var matches = products.filter(function(product) {
+				return product.product_name.toLowerCase().includes(query);
+			});
+
+			if (matches.length > 0) {
+				$('#product-select').empty().show();
+				matches.forEach(function(product) {
+					$('#product-select').append(
+						$('<option>', {
+							value: product.product_name,
+							text: product.product_name,
+							'data-price': product.price
+						})
+					);
+				});
+			} else {
+				$('#product-select').hide();
+			}
+		});
+
+		// Khi chọn sản phẩm từ danh sách
+		$('#product-select').on('change', function() {
+			var selectedProduct = $(this).find('option:selected');
+			var productName = selectedProduct.val();
+			var productPrice = selectedProduct.data('price');
+
+			// Kiểm tra hàng cuối cùng
+			var lastRow = $('#variation-container .row').last();
+			var optionInput = lastRow.find('.variation-option');
+			var priceInput = lastRow.find('.variation-price');
+
+			if (optionInput.val() !== '' || priceInput.val() !== '') {
+				// Nếu hàng cuối đã có nội dung, tạo hàng mới
+				addNewRow();
+				lastRow = $('#variation-container .row').last();
+				optionInput = lastRow.find('.variation-option');
+				priceInput = lastRow.find('.variation-price');
+			}
+
+			// Điền giá trị vào dòng cuối cùng (mới nếu đã tạo)
+			optionInput.val(productName);
+			priceInput.val(productPrice);
+
+			$('#product-select').hide(); // Ẩn select sau khi chọn
+		});
+
+		// Thêm hàng mới khi nhấn nút btn-add-feature
+		$('#variation-container').on('click', '.btn-add-feature', function() {
+			addNewRow();
+		});
+
+		// Xóa hàng khi nhấn nút btn-remove-variation
+		$('#variation-container').on('click', '.btn-remove-variation', function() {
+			$(this).closest('.row').remove();
+		});
+
+		// Hàm để thêm hàng mới
+		function addNewRow() {
+			var lastRow = $('#variation-container .row').last();
+			var newRow = lastRow.clone();
+
+			// Xóa dữ liệu trong các ô input của hàng mới
+			newRow.find('input').val('');
+
+			// Đổi nút btn-add-feature hàng trước thành btn-remove-variation
+			lastRow.find('.btn-add-feature').removeClass('btn-primary btn-add-feature').addClass('btn-danger btn-remove-variation')
+				.html('<i class="fa fa-trash"></i>');
+
+			$('#variation-container').append(newRow);
+		}
+
+		// Ẩn select nếu người dùng click ra ngoài
+		$(document).on('click', function(event) {
+			if (!$(event.target).closest('#product-select, #product-search').length) {
+				$('#product-select').hide();
+			}
+		});
+
+	});
+</script>
 
 <script type="text/javascript">
 	$("#product_tags").select2({
@@ -289,78 +525,78 @@ $userdetails = $db->userdetails();
 		$('#modal-variants').modal('show');
 	}
 
-	$(document).on('click', '.add-variation-to-form', function() {
-		let variation = {
-			name: null,
-			options: []
-		}
-		if ($('#modal-variants #variation_type').val() == 'colors') {
-			variation.name = 'colors';
-			variation.options = getOptions("#modal-variants .color-code", "#modal-variants .color-name", "#modal-variants .color-price");
-		} else {
-			variation.name = $('#modal-variants #other_variation_title').val();
-			variation.name = variation.name.replace(/\s+/g, '-').toLowerCase();
-			variation.options = getOptions("#modal-variants .variation-option", "#modal-variants .variation-price");
-		}
+	// $(document).on('click', '.add-variation-to-form', function() {
+	// 	let variation = {
+	// 		name: null,
+	// 		options: []
+	// 	}
+	// 	if ($('#modal-variants #variation_type').val() == 'colors') {
+	// 		variation.name = 'colors';
+	// 		variation.options = getOptions("#modal-variants .color-code", "#modal-variants .color-name", "#modal-variants .color-price");
+	// 	} else {
+	// 		variation.name = $('#modal-variants #other_variation_title').val();
+	// 		variation.name = variation.name.replace(/\s+/g, '-').toLowerCase();
+	// 		variation.options = getOptions("#modal-variants .variation-option", "#modal-variants .variation-price");
+	// 	}
 
-		if (variation.name != null && variation.name != "" && variation.options.length > 0) {
-			let row = `<td><strong>` + toTitleCase(variation.name) + ` :</strong></td><td>`;
-			for (let index = 0; index < variation.options.length; index++) {
-				if (variation.name == 'colors') {
-					row += (index == 0) ? toTitleCase(variation.options[index]['name']) : ", " + toTitleCase(variation.options[index]['name']);
-					row += `<input type='hidden' name='variations[` + variation.name + `][name][]' value='` + variation.options[index]['name'] + `'>`;
-					row += `<input type='hidden' name='variations[` + variation.name + `][code][]' value='` + variation.options[index]['code'] + `'>`;
-					row += `<input type='hidden' name='variations[` + variation.name + `][price][]' value='` + variation.options[index]['price'] + `'>`;
-				} else {
-					row += (index == 0) ? toTitleCase(variation.options[index]['name']) : ", " + toTitleCase(variation.options[index]['name']);
-					row += `<input type='hidden' name='variations[` + variation.name + `][name][]' value='` + variation.options[index]['name'] + `'>`;
-					row += `<input type='hidden' name='variations[` + variation.name + `][price][]' value='` + variation.options[index]['price'] + `'>`;
-				}
-			}
-			row += `</td>
-			<td>
-			<span data-variation-type="` + variation.name + `" class="btn btn-md btn-warning btn-edit-variants"><i class="fa fa-edit"></i></span>
-			<span class="btn btn-md btn-danger btn-delete-variants"><i class="fa fa-trash"></i></span>
-			</td>`;
+	// 	if (variation.name != null && variation.name != "" && variation.options.length > 0) {
+	// 		let row = `<td><strong>` + toTitleCase(variation.name) + ` :</strong></td><td>`;
+	// 		for (let index = 0; index < variation.options.length; index++) {
+	// 			if (variation.name == 'colors') {
+	// 				row += (index == 0) ? toTitleCase(variation.options[index]['name']) : ", " + toTitleCase(variation.options[index]['name']);
+	// 				row += `<input type='hidden' name='variations[` + variation.name + `][name][]' value='` + variation.options[index]['name'] + `'>`;
+	// 				row += `<input type='hidden' name='variations[` + variation.name + `][code][]' value='` + variation.options[index]['code'] + `'>`;
+	// 				row += `<input type='hidden' name='variations[` + variation.name + `][price][]' value='` + variation.options[index]['price'] + `'>`;
+	// 			} else {
+	// 				row += (index == 0) ? toTitleCase(variation.options[index]['name']) : ", " + toTitleCase(variation.options[index]['name']);
+	// 				row += `<input type='hidden' name='variations[` + variation.name + `][name][]' value='` + variation.options[index]['name'] + `'>`;
+	// 				row += `<input type='hidden' name='variations[` + variation.name + `][price][]' value='` + variation.options[index]['price'] + `'>`;
+	// 			}
+	// 		}
+	// 		row += `</td>
+	// 		<td>
+	// 		<span data-variation-type="` + variation.name + `" class="btn btn-md btn-warning btn-edit-variants"><i class="fa fa-edit"></i></span>
+	// 		<span class="btn btn-md btn-danger btn-delete-variants"><i class="fa fa-trash"></i></span>
+	// 		</td>`;
 
-			if ($('#product-variations tr[data-variation-type="' + variation.name + '"]').length != 0) {
-				$('#product-variations tr[data-variation-type="' + variation.name + '"]').html(row);
-			} else {
-				$('#product-variations').append(`<tr data-variation-type="` + variation.name + `">` + row + `</tr>`);
-			}
-		}
+	// 		if ($('#product-variations tr[data-variation-type="' + variation.name + '"]').length != 0) {
+	// 			$('#product-variations tr[data-variation-type="' + variation.name + '"]').html(row);
+	// 		} else {
+	// 			$('#product-variations').append(`<tr data-variation-type="` + variation.name + `">` + row + `</tr>`);
+	// 		}
+	// 	}
 
-		$('#modal-variants').modal('hide');
-	});
+	// 	$('#modal-variants').modal('hide');
+	// });
 
-	$(document).on('click', '.btn-add-color', function() {
-		$(this).before(`<span class="btn btn-danger btn-remove-variation" style="margin-top:6px;"><i class="fa fa-trash"></i></span>`);
-		$(this).remove();
-		$('.colors-list').append(`
-			<div class="row">
-			<div class="col-md-4">
-			<div class="form-group">
-			<label  class="control-label"><?= __('admin.color') ?></label>
-			<input value="#FFFFFF" class="form-control jscolor color-code" data-jscolor type="text">
-			</div>
-			</div>
-			<div class="col-md-4">
-			<div class="form-group">
-			<label class="control-label"><?= __('admin.color_name') ?></label>
-			<input value="" class="form-control color-name" type="text">
-			</div>
-			</div>
-			<div class="col-md-3">
-			<div class="form-group">
-			<label class="control-label"><?= __('admin.additional_price') ?></label>
-			<input value="" class="form-control color-price" type="number">
-			</div>
-			</div>
-			<div class="col-md-1 pt-4"><span class="btn btn-primary btn-add-color" style="margin-top:6px;"><i class="fa fa-plus"></i></span></div>
-			</div>
-			`);
-		jscolor.install();
-	});
+	// $(document).on('click', '.btn-add-color', function() {
+	// 	$(this).before(`<span class="btn btn-danger btn-remove-variation" style="margin-top:6px;"><i class="fa fa-trash"></i></span>`);
+	// 	$(this).remove();
+	// 	$('.colors-list').append(`
+	// 		<div class="row">
+	// 		<div class="col-md-4">
+	// 		<div class="form-group">
+	// 		<label  class="control-label"><?= __('admin.color') ?></label>
+	// 		<input value="#FFFFFF" class="form-control jscolor color-code" data-jscolor type="text">
+	// 		</div>
+	// 		</div>
+	// 		<div class="col-md-4">
+	// 		<div class="form-group">
+	// 		<label class="control-label"><?= __('admin.color_name') ?></label>
+	// 		<input value="" class="form-control color-name" type="text">
+	// 		</div>
+	// 		</div>
+	// 		<div class="col-md-3">
+	// 		<div class="form-group">
+	// 		<label class="control-label"><?= __('admin.additional_price') ?></label>
+	// 		<input value="" class="form-control color-price" type="number">
+	// 		</div>
+	// 		</div>
+	// 		<div class="col-md-1 pt-4"><span class="btn btn-primary btn-add-color" style="margin-top:6px;"><i class="fa fa-plus"></i></span></div>
+	// 		</div>
+	// 		`);
+	// 	jscolor.install();
+	// });
 
 	$(document).on('click', '.btn-add-feature', function() {
 		$(this).before(`<span class="btn btn-danger btn-remove-variation" style="margin-top:6px;"><i class="fa fa-trash"></i></span>`);

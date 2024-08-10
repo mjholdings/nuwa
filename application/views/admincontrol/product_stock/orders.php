@@ -5,7 +5,7 @@
 				<h5 class="float-start"><?= __('ĐƠN NHẬP HÀNG') ?></h5>
 				<div class="float-end">
 					<button id="toggle-uploader" class="btn btn-light">
-						<?php echo __('admin.total_orders') ?> : <?= $full_local_store_hold_orders ?>
+						<?php echo __('admin.total_orders') ?> : <?= $full_branch_import_orders ?>
 					</button>
 					<a id="toggle-uploader" class="btn btn-light" href="<?php echo base_url('admincontrol/stock_addorder'); ?>"><?= __('Đơn nhập mới') ?></a>
 

@@ -81,49 +81,72 @@ $userdetails = $db->userdetails();
 					}
 					?>
 
-					<table id="product-variations" class="table table-striped table-bordered">
-						<?php
-						foreach ($variations as $key => $value) {
-							if (!empty($value)) {
-						?>
-								<tr data-variation-type="<?= strtolower($key); ?>">
-									<td class="fw-bold"><?= ucwords(strtolower($key)); ?> :</td>
-									<td>
-										<?php
-										for ($i = 0; $i < sizeof($value); $i++) {
-											$this_price = isset($value[$i]->price) ? $value[$i]->price : 0;
-											if ($key == 'colors') {
-												echo ($i == 0) ? ucwords(strtolower($value[$i]->name)) : ", " . ucwords(strtolower($value[$i]->name));
-												echo "<input type='hidden' name='variations[" . strtolower($key) . "][name][]' value='" . $value[$i]->name . "'>";
-												echo "<input type='hidden' name='variations[" . strtolower($key) . "][code][]' value='" . $value[$i]->code . "'>";
-												echo "<input type='hidden' name='variations[" . strtolower($key) . "][price][]' value='" . $this_price . "'>";
-											} else {
-												$this_name = isset($value[$i]->name) ? $value[$i]->name : $value[$i];
-												echo ($i == 0) ? ucwords(strtolower($this_name)) : ", " . ucwords(strtolower($this_name));
-												echo "<input type='hidden' name='variations[" . strtolower($key) . "][name][]' value='" . $this_name . "'>";
-												echo "<input type='hidden' name='variations[" . strtolower($key) . "][price][]' value='" . $this_price . "'>";
+					<table id="product-variations-container" class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Sản phẩm</th>
+								<th>Giá</th>
+								<th>Số lượng</th>
+								<th>Thành tiền</th>
+							</tr>
+						</thead>
+
+						<tbody id="product-variations">
+							<?php
+							foreach ($variations as $key => $value) {
+								if (!empty($value)) {
+							?>
+									<tr data-variation-type="<?= strtolower($key); ?>">
+										<td class="fw-bold"><?= ucwords(strtolower($key)); ?> :</td>
+										<td>
+											<?php
+											for ($i = 0; $i < sizeof($value); $i++) {
+												$this_price = isset($value[$i]->price) ? $value[$i]->price : 0;
+												if ($key == 'colors') {
+													echo ($i == 0) ? ucwords(strtolower($value[$i]->name)) : ", " . ucwords(strtolower($value[$i]->name));
+													echo "<input type='hidden' name='variations[" . strtolower($key) . "][name][]' value='" . $value[$i]->name . "'>";
+													echo "<input type='hidden' name='variations[" . strtolower($key) . "][code][]' value='" . $value[$i]->code . "'>";
+													echo "<input type='hidden' name='variations[" . strtolower($key) . "][price][]' value='" . $this_price . "'>";
+												} else {
+													$this_name = isset($value[$i]->name) ? $value[$i]->name : $value[$i];
+													echo ($i == 0) ? ucwords(strtolower($this_name)) : ", " . ucwords(strtolower($this_name));
+													echo "<input type='hidden' name='variations[" . strtolower($key) . "][name][]' value='" . $this_name . "'>";
+													echo "<input type='hidden' name='variations[" . strtolower($key) . "][price][]' value='" . $this_price . "'>";
+												}
 											}
-										}
-										?>
-									</td>
-									<td>
-										<button type="button" data-variation-type="<?= strtolower($key); ?>" class="btn btn-warning btn-edit-variants"><i class="fa fa-edit"></i></button>
-										<button type="button" data-variation-type="<?= strtolower($key); ?>" class="btn btn-danger btn-delete-variants"><i class="fa fa-trash"></i></button>
-									</td>
-								</tr>
-						<?php
+											?>
+										</td>
+										<td>
+											<button type="button" data-variation-type="<?= strtolower($key); ?>" class="btn btn-warning btn-edit-variants"><i class="fa fa-edit"></i></button>
+											<button type="button" data-variation-type="<?= strtolower($key); ?>" class="btn btn-danger btn-delete-variants"><i class="fa fa-trash"></i></button>
+										</td>
+									</tr>
+							<?php
+								}
 							}
-						}
-						?>
+							?>
+						</tbody>
+						<tfoot id="product-variations-footer" style="display: none;">
+							<tr>
+								<td colspan="3">Tổng cộng</td>
+								<td><span class="order-total">Tổng ở đây</span></td>
+							</tr>
+							<tr>
+								<td colspan="3"></td>
+								<td>
+									<div id="action">
+										<span data-variation-type="branch_product" class="btn btn-md btn-warning btn-edit-variants">
+											<i class="fa fa-edit"></i>
+										</span>
+										<span class="btn btn-md btn-danger btn-delete-variants">
+											<i class="fa fa-trash"></i>
+										</span>
+									</div>
+								</td>
+							</tr>
+						</tfoot>
 					</table>
-					<div id="action">
-						<span data-variation-type="branch_product" class="btn btn-md btn-warning btn-edit-variants">
-							<i class="fa fa-edit"></i>
-						</span>
-						<span class="btn btn-md btn-danger btn-delete-variants">
-							<i class="fa fa-trash"></i>
-						</span>
-					</div>
+
 
 				</div>
 			</div>
@@ -188,14 +211,19 @@ $userdetails = $db->userdetails();
 								</div>
 								<div id="variation-container">
 									<div class="row mb-3">
-										<div class="col-md-8">
+										<div class="col-md-5">
 											<div class="form-group">
-												<input value="" class="form-control variation-option" type="text">
+												<input value="" class="form-control variation-option" type="text" data-product-id="" placeholder="Sản phẩm">
 											</div>
 										</div>
 										<div class="col-md-3">
 											<div class="form-group">
-												<input value="" class="form-control variation-price" type="number">
+												<input value="" class="form-control variation-price" type="number" placeholder="Giá">
+											</div>
+										</div>
+										<div class="col-md-2">
+											<div class="form-group">
+												<input value="" class="form-control variation-qty" type="number" placeholder="SL">
 											</div>
 										</div>
 										<div class="col-md-1">
@@ -206,15 +234,6 @@ $userdetails = $db->userdetails();
 									</div>
 								</div>
 							</div>
-
-							<?php
-
-							// Chuyển danh sách sản phẩm sang JSON để sử dụng trong JS
-							$productlist_json = json_encode($productlist);
-
-							?>
-
-
 						</div>
 					</div>
 
@@ -228,11 +247,40 @@ $userdetails = $db->userdetails();
 		</div>
 	</div>
 </div>
+<?php
 
+// Chuyển danh sách sản phẩm sang JSON để sử dụng trong JS
+$productlist_json = json_encode($productlist);
+
+?>
 <!-- Đoạn mã Javascript -->
 <script>
 	$(document).ready(function() {
 		var products = <?php echo $productlist_json; ?>;
+
+		function updateTableFooter() {
+			var total = 0;
+			var rows = $('#product-variations tr').length;
+
+			// Nếu không có hàng trong tbody, ẩn tfoot
+			if (rows === 0) {
+				$('#product-variations-footer').hide();
+			} else {
+				// Hiển thị tfoot nếu có hàng
+				$('#product-variations-footer').show();
+
+				// Tính tổng giá trị - Cột 4
+				$('#product-variations tr').each(function() {
+					var price = parseFloat($(this).find('td').eq(3).text().trim());
+					if (!isNaN(price)) {
+						total += price;
+					}
+				});
+
+				// Cập nhật tổng giá trị vào tfoot
+				$('.order-total').text(total.toFixed(2));
+			}
+		}
 
 		// Thêm sản phẩm vào bảng khi nhấn nút "Vào đơn"
 		$('.add-variation-to-form').on('click', function() {
@@ -241,17 +289,29 @@ $userdetails = $db->userdetails();
 			$('#variation-container .row').each(function() {
 				var productName = $(this).find('.variation-option').val();
 				var productPrice = $(this).find('.variation-price').val();
+				var productQty = $(this).find('.variation-qty').val();
 				var productId = $(this).find('.variation-option').data('product-id'); // ID của sản phẩm
+				var productTotal = productPrice * productQty;
 
 				if (productName !== '' && productPrice !== '') {
 					var newRow = `
                 <tr data-variation-type="branch_product">
-                    <td><strong>${productName}:</strong></td>
+                    <td><strong>${productName}:</strong><input type="hidden" class="product_id" name="variations[${productId}]" value="${productId}"></td>
                     <td>${productPrice} 
-                        <input type="hidden" name="variations[${productName}][${productPrice}][]" value="${productId}">
+                        <input type="hidden" name="variations[${productId}][${productPrice}]" value="${productPrice}">                        
                     </td>
+                    <td>${productQty} 
+                        <input type="hidden" name="variations[${productId}][${productQty}]" value="${productQty}">
+                    </td>
+                    <td>${productTotal} 
+                        <input type="hidden" name="variations[${productId}][${productTotal}]" value="${productTotal}">
+                    </td>
+					
                 </tr>`;
+
 					$('#product-variations').append(newRow);
+					updateTableFooter();
+
 				}
 			});
 			$('#modal-variants').modal('hide'); // Đóng modal sau khi thêm
@@ -271,19 +331,25 @@ $userdetails = $db->userdetails();
 			tableRows.each(function() {
 				var productName = $(this).find('td strong').text().replace(':', '');
 				var productPrice = $(this).find('td').eq(1).text().trim();
-				var productId = $(this).find('input').val();
+				var productQty = $(this).find('td').eq(2).text().trim();
+				var productId = $(this).find('input.product_id').val();
 
 				// Tạo lại hàng trong dialog
 				var newRow = `
             <div class="row mb-3">
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <div class="form-group">
                         <input value="${productName}" class="form-control variation-option" type="text" data-product-id="${productId}">
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
                         <input value="${productPrice}" class="form-control variation-price" type="number">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input value="${productQty}" class="form-control variation-qty" type="number">
                     </div>
                 </div>
                 <div class="col-md-1">
@@ -332,9 +398,11 @@ $userdetails = $db->userdetails();
 				matches.forEach(function(product) {
 					$('#product-select').append(
 						$('<option>', {
-							value: product.product_name,
+							value: product.product_name,							
 							text: product.product_name,
-							'data-price': product.price
+							'data-price': product.product_price,
+							'data-id': product.product_id,
+							'data-qty': product.product_qty
 						})
 					);
 				});
@@ -348,11 +416,14 @@ $userdetails = $db->userdetails();
 			var selectedProduct = $(this).find('option:selected');
 			var productName = selectedProduct.val();
 			var productPrice = selectedProduct.data('price');
+			var productID = selectedProduct.data('id');
+			var productQty = selectedProduct.data('qty');
 
 			// Kiểm tra hàng cuối cùng
 			var lastRow = $('#variation-container .row').last();
 			var optionInput = lastRow.find('.variation-option');
 			var priceInput = lastRow.find('.variation-price');
+			var qtyInput = lastRow.find('.variation-qty');
 
 			if (optionInput.val() !== '' || priceInput.val() !== '') {
 				// Nếu hàng cuối đã có nội dung, tạo hàng mới
@@ -360,11 +431,14 @@ $userdetails = $db->userdetails();
 				lastRow = $('#variation-container .row').last();
 				optionInput = lastRow.find('.variation-option');
 				priceInput = lastRow.find('.variation-price');
+				qtyInput = lastRow.find('.variation-qty');
 			}
 
 			// Điền giá trị vào dòng cuối cùng (mới nếu đã tạo)
 			optionInput.val(productName);
+			optionInput.attr('data-product-id', productID);
 			priceInput.val(productPrice);
+			qtyInput.val(productQty);
 
 			$('#product-select').hide(); // Ẩn select sau khi chọn
 		});

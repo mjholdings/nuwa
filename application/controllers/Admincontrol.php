@@ -5145,6 +5145,19 @@ class Admincontrol extends MY_Controller
 		redirect(base_url('admincontrol/stock_listproduct'));
 	}
 
+	// Thêm Order Import Stock
+	public function stock_addImportOrder()
+	{
+
+		$userdetails = $this->userdetails();
+
+		$post = $this->input->post(null, true);
+
+		if (!empty($post)) {
+		}
+	}
+
+	// Sửa sản phẩm Stock
 	public function stock_editProduct()
 	{
 

@@ -929,7 +929,7 @@ $productlist_json = json_encode($productlist);
 
 		$btn.btn("loading");
 		$.ajax({
-			url: '<?= base_url('admincontrol/stock_editProduct') ?>',
+			url: '<?= base_url('admincontrol/stock_addImportOrder') ?>',
 			type: 'POST',
 			dataType: 'json',
 			cache: false,

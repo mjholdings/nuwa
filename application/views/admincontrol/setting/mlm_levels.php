@@ -68,7 +68,7 @@
                     <th class="text-left border-end p-3">
                         <div class="row">
                             <div class="col-12">
-                                <?= __('Thưởng mỗi lần đăng ký') ?>
+                                <?= __('Thưởng ngay giới thiệu (đăng ký thành công)') ?>
                             </div>
                             <div class="col-12">
                                 <select class="form-control refer-reg-symball-select d-block w-100 mt-2" name="referlevel[reg_comission_type]">
@@ -84,7 +84,7 @@
                     <th class="text-left border-end p-3">
                         <div class="row">
                             <div class="col-12">
-                                <?= __('Thưởng mỗi lần bán hàng') ?>
+                                <?= __('Thưởng ngay bán hàng (đơn hoàn thành)') ?>
                             </div>
                             <div class="col-12">
                                 <select class="form-control refer-symball-select w-100 mt-2" name="referlevel[sale_type]">
@@ -94,14 +94,14 @@
                             </div>
                         </div>
                     </th>
-                    <th class="text-left border-end p-3" colspan="2">
+                    <th class="text-left border-end p-3 d-none" colspan="2">
                         <div class="row">
                             <div class="col-12">
                                 <?= __('admin.clicks_count') ?> &amp; <?= __('admin.cpc_cost') ?>
                             </div>
                         </div>
                     </th>
-                    <th class="text-left border p-3">
+                    <th class="text-left border p-3 d-none">
                         <div class="row">
                             <div class="col-12">
                                 <?= __('admin.cpa_cost') ?>
@@ -128,14 +128,14 @@
                                 <div class="input-group-append"><span class="input-group-text refer-symball"></span></div>
                             </div>
                         </td>
-                        <td class="border-end"><input type="number" step="any" name="referlevel_<?= $level ?>[commition]" value="<?php echo ${"referlevel_". $level}['commition'] ?>" class="form-control" /></td>
-                        <td class="border-end">
+                        <td class="border-end d-none"><input type="number" step="any" name="referlevel_<?= $level ?>[commition]" value="<?php echo ${"referlevel_". $level}['commition'] ?>" class="form-control" /></td>
+                        <td class="border-end d-none">
                             <div class="input-group">
                                 <input type="number" step="any" name="referlevel_<?= $level ?>[ex_commition]" value="<?php echo ${"referlevel_". $level}['ex_commition'] ?>" class="form-control" />
                                 <div class="input-group-append"><span class="input-group-text"><?= $CurrencySymbol ?></span></div>
                             </div>
                         </td>
-                        <td class="border">
+                        <td class="border d-none">
                             <div class="input-group">
                                 <input type="number" step="any" name="referlevel_<?= $level ?>[ex_action_commition]" value="<?php echo ${"referlevel_". $level}['ex_action_commition'] ?>" class="form-control" />
                                 <div class="input-group-append"><span class="input-group-text"><?= $CurrencySymbol ?></span></div>
@@ -151,7 +151,7 @@
 
 
 	<?php if(false){ ?>
-	<div class="commi-cube">
+	<div class="commi-cube d-none">
 		<div class="row">
 			<div class="col-sm-3">
 				<div class="comm-cube-box">

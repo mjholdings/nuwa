@@ -25,6 +25,7 @@
 						<thead class="blue-ng-order">
 							<tr>
 								<th><?= __('Mã đơn nhập') ?></th>
+								<th><?= __('Ngày nhập') ?></th>
 								<th><?= __('Người nhập') ?></th>
 								<th><?= __('Chi nhánh/Kho') ?></th>
 								<th><?= __('Tổng giá trị') ?></th>
@@ -70,6 +71,37 @@
 
 
 <script type="text/javascript">
+	var base_url = '<?php echo base_url(); ?>';
+
+	// Hỏi trước khi hủy
+	$(document).on('click', '.btn-trash', function(e) {
+		e.preventDefault();
+		var id = $(this).data('id');
+
+		if (confirm('Bạn có chắc chắn muốn hủy đơn nhập không?')) {
+			$.ajax({
+				url: base_url + 'admincontrol/stock_deleteorder/' + id, // Sử dụng base_url
+				type: 'POST',
+				dataType: 'json',
+				success: function(response) {
+					if (response.status === 'success') {
+						alert(response.message); // Hiển thị thông báo thành công
+						// Thực hiện chuyển hướng đến trang danh sách đơn hàng
+						window.location.href = base_url + 'admincontrol/stock_listorders'; // Sử dụng base_url
+					} else {
+						alert(response.message); // Hiển thị thông báo lỗi
+					}
+				},
+				error: function() {
+					alert('Có lỗi xảy ra.'); // Thông báo lỗi khi không thể thực hiện yêu cầu
+				}
+			});
+		}
+	});
+
+
+
+
 	$(document).on('change', ".status-change-rdo", function(e) {
 		$this = $(this);
 		var id = $this.attr("data-id");

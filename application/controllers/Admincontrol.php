@@ -5172,6 +5172,7 @@ class Admincontrol extends MY_Controller
 
 				// Duyệt qua tất cả các mục variations và thêm vào bảng product_branch
 				if (isset($post['variations'])) {
+					$order_totals = 0;
 					foreach ($post['variations'] as $variation) {
 						if (isset($variation['id'])) {
 							foreach ($variation['id'] as $index => $product_id) {
@@ -5183,6 +5184,7 @@ class Admincontrol extends MY_Controller
 									'stock_quantity' => $variation['qty'][$index],
 									'product_price' => $variation['price'][$index]
 								);
+								$order_totals += $product_branch_data['product_price'] *  $product_branch_data['stock_quantity'];
 								$this->db->insert('product_branch', $product_branch_data);
 							}
 						}
@@ -5193,18 +5195,20 @@ class Admincontrol extends MY_Controller
 				$order_update_data = array(
 					'user_id' => $post['user_id'],
 					'branch_id' => $post['branch_id'],
-					'total' => array_sum($post['variations']['total']),
+					'total' => $order_totals,
 					'created_at' => date('Y-m-d H:i:s'),
 					'status' => 1
 				);
+
+
 				$this->db->where('id', $order_branch_id);
-				$this->db->update('order', $order_update_data);
+				$this->db->update('order_branch', $order_update_data);
 
 				// Commit giao dịch nếu mọi thứ thành công
 				if ($this->db->trans_status() === TRUE) {
 					$this->db->trans_commit();
 					$json['success'] = true;
-					$json['message'] = 'Đơn hàng đã được lưu thành công.';
+					$json['message'] = 'Đơn nhập hàng đã được lưu thành công.';
 
 					if ($post['action'] == 'save_close') {
 						$json['location'] = base_url('admincontrol/stock_listorders/');
@@ -6134,6 +6138,31 @@ class Admincontrol extends MY_Controller
 
 		$this->view($data, 'product_stock/orders');
 	}
+
+	// Xóa đơn hàng
+	public function stock_deleteorder($id)
+	{
+		// Tải mô hình để thực hiện các thao tác với cơ sở dữ liệu
+		$this->load->model('Order_model');
+
+		// Kiểm tra xem id có hợp lệ không
+		if ($id && is_numeric($id)) {
+			// Thực hiện xóa đơn hàng và các hàng nhập liên quan
+			$result = $this->Order_model->delete_order_and_products($id);
+
+			if ($result) {
+				// Trả về phản hồi thành công
+				echo json_encode(['status' => 'success', 'message' => 'Đơn hàng đã được xóa thành công.']);
+			} else {
+				// Trả về phản hồi lỗi
+				echo json_encode(['status' => 'error', 'message' => 'Có lỗi xảy ra khi xóa đơn hàng.']);
+			}
+		} else {
+			// Nếu id không hợp lệ
+			echo json_encode(['status' => 'error', 'message' => 'ID không hợp lệ.']);
+		}
+	}
+
 
 	// Thay đổi trạng thái đơn hàng nhập
 	public function stock_order_change_status()

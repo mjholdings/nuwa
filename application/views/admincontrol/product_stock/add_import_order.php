@@ -32,6 +32,22 @@ $userdetails = $db->userdetails();
 		border: 1px solid #ccc;
 		/* Tạo viền cho select */
 	}
+
+	select {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		border: 1px solid #ccc;
+		padding: 10px;
+		background-color: white;
+		cursor: pointer;
+	}
+
+	/* Giả lập đổi màu khi hover cho toàn bộ select */
+	select:hover {
+		border-color: #3498db;
+		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+	}
 </style>
 
 <form class="form-horizontal" method="post" action="" enctype="multipart/form-data" id="form_form">
@@ -132,8 +148,8 @@ $userdetails = $db->userdetails();
 						</tbody>
 						<tfoot id="product-variations-footer" style="display: none;">
 							<tr>
-								<td colspan="3">Tổng cộng</td>
-								<td><span class="order-total">Tổng ở đây</span></td>
+								<td colspan="3"><span style="color:orangered; font-weight:600">Tổng cộng</span></td>
+								<td><span class="order-total" style="color:orangered; font-weight:600">Tổng ở đây</span></td>
 							</tr>
 							<tr>
 								<td colspan="3"></td>
@@ -211,7 +227,7 @@ $userdetails = $db->userdetails();
 									<label for="product-search">Chọn sản phẩm:</label>
 									<input type="text" id="product-search" class="form-control w-100 mb-3">
 									<!-- Select hiển thị danh sách gợi ý -->
-									<select id="product-select" size="5"></select>
+									<select id="product-select" class="form-control w-100 mb-3" size="5"></select>
 								</div>
 								<div id="variation-container">
 									<div class="row mb-3">
@@ -258,8 +274,10 @@ $productlist_json = json_encode($productlist);
 
 ?>
 <!-- Đoạn mã Javascript -->
+
 <script>
 	$(document).ready(function() {
+
 		var products = <?php echo $productlist_json; ?>;
 
 		function updateTableFooter() {
@@ -603,78 +621,7 @@ $productlist_json = json_encode($productlist);
 		$('#modal-variants').modal('show');
 	}
 
-	// $(document).on('click', '.add-variation-to-form', function() {
-	// 	let variation = {
-	// 		name: null,
-	// 		options: []
-	// 	}
-	// 	if ($('#modal-variants #variation_type').val() == 'colors') {
-	// 		variation.name = 'colors';
-	// 		variation.options = getOptions("#modal-variants .color-code", "#modal-variants .color-name", "#modal-variants .color-price");
-	// 	} else {
-	// 		variation.name = $('#modal-variants #other_variation_title').val();
-	// 		variation.name = variation.name.replace(/\s+/g, '-').toLowerCase();
-	// 		variation.options = getOptions("#modal-variants .variation-option", "#modal-variants .variation-price");
-	// 	}
 
-	// 	if (variation.name != null && variation.name != "" && variation.options.length > 0) {
-	// 		let row = `<td><strong>` + toTitleCase(variation.name) + ` :</strong></td><td>`;
-	// 		for (let index = 0; index < variation.options.length; index++) {
-	// 			if (variation.name == 'colors') {
-	// 				row += (index == 0) ? toTitleCase(variation.options[index]['name']) : ", " + toTitleCase(variation.options[index]['name']);
-	// 				row += `<input type='hidden' name='variations[` + variation.name + `][name][]' value='` + variation.options[index]['name'] + `'>`;
-	// 				row += `<input type='hidden' name='variations[` + variation.name + `][code][]' value='` + variation.options[index]['code'] + `'>`;
-	// 				row += `<input type='hidden' name='variations[` + variation.name + `][price][]' value='` + variation.options[index]['price'] + `'>`;
-	// 			} else {
-	// 				row += (index == 0) ? toTitleCase(variation.options[index]['name']) : ", " + toTitleCase(variation.options[index]['name']);
-	// 				row += `<input type='hidden' name='variations[` + variation.name + `][name][]' value='` + variation.options[index]['name'] + `'>`;
-	// 				row += `<input type='hidden' name='variations[` + variation.name + `][price][]' value='` + variation.options[index]['price'] + `'>`;
-	// 			}
-	// 		}
-	// 		row += `</td>
-	// 		<td>
-	// 		<span data-variation-type="` + variation.name + `" class="btn btn-md btn-warning btn-edit-variants"><i class="fa fa-edit"></i></span>
-	// 		<span class="btn btn-md btn-danger btn-delete-variants"><i class="fa fa-trash"></i></span>
-	// 		</td>`;
-
-	// 		if ($('#product-variations tr[data-variation-type="' + variation.name + '"]').length != 0) {
-	// 			$('#product-variations tr[data-variation-type="' + variation.name + '"]').html(row);
-	// 		} else {
-	// 			$('#product-variations').append(`<tr data-variation-type="` + variation.name + `">` + row + `</tr>`);
-	// 		}
-	// 	}
-
-	// 	$('#modal-variants').modal('hide');
-	// });
-
-	// $(document).on('click', '.btn-add-color', function() {
-	// 	$(this).before(`<span class="btn btn-danger btn-remove-variation" style="margin-top:6px;"><i class="fa fa-trash"></i></span>`);
-	// 	$(this).remove();
-	// 	$('.colors-list').append(`
-	// 		<div class="row">
-	// 		<div class="col-md-4">
-	// 		<div class="form-group">
-	// 		<label  class="control-label"><?= __('admin.color') ?></label>
-	// 		<input value="#FFFFFF" class="form-control jscolor color-code" data-jscolor type="text">
-	// 		</div>
-	// 		</div>
-	// 		<div class="col-md-4">
-	// 		<div class="form-group">
-	// 		<label class="control-label"><?= __('admin.color_name') ?></label>
-	// 		<input value="" class="form-control color-name" type="text">
-	// 		</div>
-	// 		</div>
-	// 		<div class="col-md-3">
-	// 		<div class="form-group">
-	// 		<label class="control-label"><?= __('admin.additional_price') ?></label>
-	// 		<input value="" class="form-control color-price" type="number">
-	// 		</div>
-	// 		</div>
-	// 		<div class="col-md-1 pt-4"><span class="btn btn-primary btn-add-color" style="margin-top:6px;"><i class="fa fa-plus"></i></span></div>
-	// 		</div>
-	// 		`);
-	// 	jscolor.install();
-	// });
 
 	$(document).on('click', '.btn-add-feature', function() {
 		$(this).before(`<span class="btn btn-danger btn-remove-variation" style="margin-top:6px;"><i class="fa fa-trash"></i></span>`);
@@ -1088,6 +1035,7 @@ $productlist_json = json_encode($productlist);
 		fileArray.splice(index, 1);
 		render_priview()
 	})
+
 	$("#priview-table-video").delegate('.remove-priview', 'click', function() {
 		if (!confirm('<?= __('admin.are_you_sure') ?>')) return false;
 
@@ -1207,6 +1155,7 @@ $productlist_json = json_encode($productlist);
 
 		}
 	});
+
 	$('input[name="product_type"]').on('change', function() {
 		var val = $(this).val();
 		if (val == 'downloadable') {
@@ -1258,6 +1207,7 @@ $productlist_json = json_encode($productlist);
 			success: function(json) {},
 		})
 	});
+
 	$(document).ready(function() {
 		var totalSection = $("#priview-table-video").find("fieldset").length;
 
@@ -1501,6 +1451,7 @@ $productlist_json = json_encode($productlist);
 		});
 
 	});
+
 	$(".updateVideoFileResource").change(function(e) {
 		var ext = $(this).val().split('.').pop().toLowerCase();
 		if ('zip' != ext) {
@@ -1556,6 +1507,7 @@ $productlist_json = json_encode($productlist);
 
 		}
 	});
+
 	$(document).on('change', '.updateResource', function() {
 		var id = $(this).attr('id');
 		if ($(this).is(':checked')) {
@@ -1588,6 +1540,7 @@ $productlist_json = json_encode($productlist);
 
 		}
 	});
+
 	$(document).on('click', ".proType", function(e) {
 		e.preventDefault();
 		var value = $(this).data('value');

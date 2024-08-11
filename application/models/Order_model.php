@@ -1783,11 +1783,12 @@ class Order_model extends MY_Model
     }
 
     // Lấy tổng số đơn nhập từ Kho hàng
-    public function getBranchTotals($filter = array()) {
+    public function getBranchTotals($filter = array())
+    {
         // Bắt đầu xây dựng truy vấn
         $this->db->select('COUNT(*) as total_orders');
         $this->db->from('order_branch');
-    
+
         // Áp dụng các bộ lọc nếu có
         if (!empty($filter)) {
             if (isset($filter['branch_id'])) {
@@ -1799,15 +1800,15 @@ class Order_model extends MY_Model
             }
             // Thêm các điều kiện lọc khác nếu cần
         }
-    
+
         // Thực hiện truy vấn và lấy kết quả
         $query = $this->db->get();
         $result = $query->row();
-    
+
         // Trả về tổng số đơn hàng
         return isset($result->total_orders) ? $result->total_orders : 0;
     }
-    
+
 
     // Lấy tổng số đơn bán từ Kho hàng
     public function getOrderTotals($product, $order, $branch) {}
@@ -2104,8 +2105,28 @@ class Order_model extends MY_Model
     }
 
 
-    // Lấy tất cả đơn hàng nhập sản phẩm
+    // Hàm xóa đơn hàng và các hàng nhập liên quan
+    public function delete_order_and_products($id)
+    {
+        // Bắt đầu giao dịch để đảm bảo tính toàn vẹn dữ liệu
+        $this->db->trans_start();
 
+        // Xóa các hàng nhập liên quan
+        $this->db->where('order_branch_id', $id);
+        $this->db->delete('product_branch');
+
+        // Xóa đơn hàng
+        $this->db->where('id', $id);
+        $this->db->delete('order_branch');
+
+        // Kiểm tra kết quả giao dịch
+        $this->db->trans_complete();
+
+        // Trả về true nếu giao dịch thành công
+        return $this->db->trans_status();
+    }
+
+    // Lấy tất cả đơn hàng nhập sản phẩm
     public function getImportOrders($filter = array(), $addShipping = true)
     {
         // Kiểm tra xem $filter có phải là một số hay không (trường hợp order_id được truyền trực tiếp)

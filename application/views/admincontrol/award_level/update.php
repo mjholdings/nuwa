@@ -368,23 +368,23 @@
                                     <div class="input-group">
                                         <select name="comission_source" class="form-control">
                                             <option value=""><?= __('Chọn nguồn trả thưởng') ?></option>
-                                            <option <?= ($award_level['comission_source'] == 'sales_personal') ? 'selected' : '' ?> value="sales_personal"><?= __('Doanh thu Cá nhân') ?></option>
-                                            <option <?= ($award_level['comission_source'] == 'sales_direct') ? 'selected' : '' ?> value="sales_direct"><?= __('Doanh thu Trực tiếp') ?></option>
-                                            <option <?= ($award_level['comission_source'] == 'sales_indirect') ? 'selected' : '' ?> value="sales_indirect"><?= __('Doanh thu Gián tiếp') ?></option>
+                                            <option <?= ($award_level['comission_source'] == 'sales_personal') ? 'selected' : '' ?> value="sales_personal"><?= __('Doanh thu Cá nhân (giới thiệu link sản phẩm)') ?></option>
+                                            <option <?= ($award_level['comission_source'] == 'sales_direct') ? 'selected' : '' ?> value="sales_direct"><?= __('Doanh thu Trực tiếp (cấp dưới giới thiệu link sản phẩm)') ?></option>
+                                            <option <?= ($award_level['comission_source'] == 'sales_indirect') ? 'selected' : '' ?> value="sales_indirect"><?= __('Doanh thu Gián tiếp (cấp dưới của cấp dưới giới thiệu)') ?></option>
                                             <option <?= ($award_level['comission_source'] == 'sales_members') ? 'selected' : '' ?> value="sales_members"><?= __('Doanh thu Tuyến dưới') ?></option>
                                             <option <?= ($award_level['comission_source'] == 'sales_shop') ? 'selected' : '' ?> value="sales_shop"><?= __('Doanh thu Chi nhánh') ?></option>
                                             <option <?= ($award_level['comission_source'] == 'sales_branch') ? 'selected' : '' ?> value="sales_branch"><?= __('Doanh thu Nhánh') ?></option>
                                             <option <?= ($award_level['comission_source'] == 'sales_team') ? 'selected' : '' ?> value="sales_team"><?= __('Doanh thu Nhóm') ?></option>
-                                            <option <?= ($award_level['comission_source'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân') ?></option>
-                                            <option <?= ($award_level['comission_source'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp') ?></option>
-                                            <option <?= ($award_level['comission_source'] == 'consum_indirect') ? 'selected' : '' ?> value="consum_indirect"><?= __('Tiêu dùng Gián tiếp') ?></option>
+                                            <option <?= ($award_level['comission_source'] == 'consum_personal') ? 'selected' : '' ?> value="consum_personal"><?= __('Tiêu dùng Cá nhân (tự mình mua hàng)') ?></option>
+                                            <option <?= ($award_level['comission_source'] == 'consum_direct') ? 'selected' : '' ?> value="consum_direct"><?= __('Tiêu dùng Trực tiếp (cấp dưới mua hàng)') ?></option>
+                                            <option <?= ($award_level['comission_source'] == 'consum_indirect') ? 'selected' : '' ?> value="consum_indirect"><?= __('Tiêu dùng Gián tiếp (cấp dưới của cấp dưới mua hàng)') ?></option>
                                             <option <?= ($award_level['comission_source'] == 'consum_members') ? 'selected' : '' ?> value="consum_members"><?= __('Tiêu dùng Tuyến dưới') ?></option>
                                             <option <?= ($award_level['comission_source'] == 'consum_shop') ? 'selected' : '' ?> value="consum_shop"><?= __('Tiêu dùng Chi nhánh') ?></option>
                                             <option <?= ($award_level['comission_source'] == 'consum_branch') ? 'selected' : '' ?> value="consum_branch"><?= __('Tiêu dùng Nhánh') ?></option>
                                             <option <?= ($award_level['comission_source'] == 'consum_team') ? 'selected' : '' ?> value="consum_team"><?= __('Tiêu dùng Nhóm') ?></option>
-                                            <option <?= ($award_level['comission_source'] == 'commission_personal') ? 'selected' : '' ?> value="commission_personal"><?= __('Thu nhập Cá nhân') ?></option>
-                                            <option <?= ($award_level['comission_source'] == 'commission_direct') ? 'selected' : '' ?> value="commission_direct"><?= __('Thu nhập Trực tiếp') ?></option>
-                                            <option <?= ($award_level['comission_source'] == 'commission_members') ? 'selected' : '' ?> value="commission_members"><?= __('Thu nhập Tuyến dưới') ?></option>
+                                            <option <?= ($award_level['comission_source'] == 'commission_personal') ? 'selected' : '' ?> value="commission_personal"><?= __('Thu nhập Cá nhân (hoa hồng cá nhân)') ?></option>
+                                            <option <?= ($award_level['comission_source'] == 'commission_direct') ? 'selected' : '' ?> value="commission_direct"><?= __('Thu nhập Trực tiếp (hoa hồng cấp dưới)') ?></option>
+                                            <option <?= ($award_level['comission_source'] == 'commission_members') ? 'selected' : '' ?> value="commission_members"><?= __('Thu nhập Tuyến dưới (hoa hồng cấp dưới cấp dưới)') ?></option>
                                         </select>
                                     </div>
                                 </div>

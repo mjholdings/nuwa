@@ -3127,7 +3127,6 @@ class Usercontrol extends MY_Controller
 			$id = (int)$post['id'];
 
 
-
 			$req = $this->db->query("SELECT * FROM wallet_requests WHERE id={$id}")->row();
 
 			if ($req) {

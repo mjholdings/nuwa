@@ -3,6 +3,7 @@
 		<td><?= $value['id'] ?></td>
 		<td><?= $value['username'] ?></td>
 		<td><?= dateFormat($value['created_at'],'d F Y') ?></td>
+		<td>Transfer Type Here (admin)</td>
 		<td><?= $value['prefer_method'] ?></td>
 		<td><a class="trans_ids" href="javascript:void(0);" data-trans_ids="<?= $value['tran_ids'] ?>"><i class="fas fa-eye"></i></a></td>
 		<td><?= c_format($value['total']) ?></td>

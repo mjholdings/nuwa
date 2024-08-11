@@ -43,6 +43,7 @@
                 <th><?= __('admin.id') ?></th>
                 <th><?= __('admin.user') ?></th>
                 <th><?= __('admin.date') ?></th>
+                <th><?= __('Loại giao dịch') ?></th>
                 <th><?= __('admin.payment_method') ?></th>
                 <th><?= __('admin.transactions_ids') ?></th>
                 <th><?= __('admin.total') ?></th>

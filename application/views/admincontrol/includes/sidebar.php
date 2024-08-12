@@ -542,7 +542,7 @@ $sidebar_data = array(
 
           <a class="dropdown-item" href="<?= base_url('admincontrol/listproduct') ?>">
 
-            <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-box"></i>
 
             <?= __('admin.store_cart_products') ?>
 
@@ -566,7 +566,7 @@ $sidebar_data = array(
 
           <a class="dropdown-item" href="<?= base_url('admincontrol/store_category') ?>">
 
-            <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-folder-open"></i>
 
             <?= __('admin.store_categories') ?>
 
@@ -574,7 +574,7 @@ $sidebar_data = array(
 
           <a class="dropdown-item" href="<?= base_url('admincontrol/listorders') ?>">
 
-            <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-shopping-cart"></i>
 
             <?= __('admin.store_orders') ?>
 
@@ -582,7 +582,7 @@ $sidebar_data = array(
 
           <a class="dropdown-item" href="<?= base_url('admincontrol/listclients') ?>">
 
-            <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-users"></i>
 
             <?= __('admin.store_clients') ?>
 
@@ -590,7 +590,7 @@ $sidebar_data = array(
 
           <a class="dropdown-item" href="<?= base_url('admincontrol/branch') ?>">
 
-            <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-code-branch"></i>
 
             <?= __('admin.store_branchs') ?>
 
@@ -598,7 +598,7 @@ $sidebar_data = array(
 
           <a class="dropdown-item" href="<?= base_url('admincontrol/stock_listproduct') ?>">
 
-            <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-warehouse"></i>
 
             <?= __('admin.store_stocks') ?>
 
@@ -606,9 +606,16 @@ $sidebar_data = array(
 
           <a class="dropdown-item" href="<?= base_url('admincontrol/stock_listorders') ?>">
 
-            <i class="fas fa-sliders-h"></i>
+            <i class="fas fa-file-import"></i>
 
             <?= __('Đơn nhập hàng') ?>
+
+          </a>
+          <a class="dropdown-item" href="<?= base_url('admincontrol/stock_listorders_export') ?>">
+
+            <i class="fas fa-file-export"></i>
+
+            <?= __('Đơn xuất hàng') ?>
 
           </a>
 

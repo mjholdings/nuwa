@@ -5162,6 +5162,7 @@ class Admincontrol extends MY_Controller
 			try {
 				// Thực hiện thêm record mới vào bảng order_branch
 				$order_data = array(
+					'branch_id' => 'import',
 					'user_id' => $post['user_id'],
 					'branch_id' => $post['branch_id'],
 					'created_at' => date('Y-m-d H:i:s'),
@@ -5193,6 +5194,7 @@ class Admincontrol extends MY_Controller
 
 				// Cập nhật bảng order
 				$order_update_data = array(
+					'order_type' => 'import',
 					'user_id' => $post['user_id'],
 					'branch_id' => $post['branch_id'],
 					'total' => $order_totals,
@@ -6139,6 +6141,43 @@ class Admincontrol extends MY_Controller
 		$this->view($data, 'product_stock/orders');
 	}
 
+	// Danh sách đơn hàng xuất kho
+	public function stock_listorders_export()
+	{
+
+		$userdetails = $this->userdetails();
+
+		$store_setting = $this->Product_model->getSettings('store');
+
+		$this->load->model('Order_model');
+
+		$data['status'] = $this->Order_model->status();
+
+		$data['user'] = $userdetails;
+
+		$data['wallet_status'] = $this->Wallet_model->status();
+
+		if (isset($_POST['getOrdersRows'])) {
+
+			$data['getallorders'] = $this->Order_model->getExportOrders();
+
+			$json['view'] = $this->load->view("admincontrol/product_stock/orders_list_tr_export", $data, true);
+
+			echo json_encode($json);
+			exit;
+		}
+
+		$this->load->model('Wallet_model');
+
+		$totals = $this->Wallet_model->getTotals(array(), true);
+
+		$stock_order_totals = $this->Order_model->getBranchTotals([], 'export');
+
+		$data['full_branch_export_orders'] = $stock_order_totals;
+
+		$this->view($data, 'product_stock/orders_export');
+	}
+
 	// Xóa đơn hàng
 	public function stock_deleteorder($id)
 	{
@@ -6217,6 +6256,38 @@ class Admincontrol extends MY_Controller
 		}
 	}
 
+	// Xem chi tiết đơn hàng xuất
+	public function stock_vieworder_export($order_id = null)
+	{
+		$this->db->db_debug = FALSE;
+		try {
+			$userdetails = $this->userdetails();
+			$this->load->model('Order_model');
+			$this->load->model('Form_model');
+			$post = $this->input->post(null, true);
+
+			if ($post) {
+				$this->Order_model->changeImportStatus($order_id, $post['payment_item_status'], $post['remarks']);
+				$this->session->set_flashdata('success', __('admin.you_have_updated_order_status_successfully'));
+				redirect('admincontrol/stock_vieworder_export/' . $order_id);
+				die();
+			}
+
+			$data['status'] = $this->Order_model->status();
+			$data['order'] = $this->Order_model->getExportOrders($order_id);
+
+			if (!empty($data['order']['id'])) {
+
+				$this->view($data, 'product_stock/vieworder_export');
+			} else {
+				$this->session->set_flashdata('error', sprintf(__("admin.order_id_no_longer_available"), $order_id));
+				redirect('admincontrol/stock_listorders_export/');
+			}
+		} catch (Exception $e) {
+			$this->session->set_flashdata('error', $e->getMessage());
+			redirect('admincontrol/stock_listorders_export/');
+		}
+	}
 
 	// Product
 	public function addproduct()

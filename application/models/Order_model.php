@@ -1783,11 +1783,14 @@ class Order_model extends MY_Model
     }
 
     // Lấy tổng số đơn nhập từ Kho hàng
-    public function getBranchTotals($filter = array())
+    public function getBranchTotals($filter = array(), $order_type = 'import')
     {
         // Bắt đầu xây dựng truy vấn
         $this->db->select('COUNT(*) as total_orders');
         $this->db->from('order_branch');
+        $this->db->where('status', 1);
+        $this->db->where('order_type', $order_type); // Nếu bạn có một cột để xác định loại đơn hàng là "nhập"
+
 
         // Áp dụng các bộ lọc nếu có
         if (!empty($filter)) {
@@ -2171,7 +2174,7 @@ class Order_model extends MY_Model
         FROM `order_branch` ob
         LEFT JOIN branch b ON b.id = ob.branch_id   
         LEFT JOIN users u ON u.id = ob.user_id
-        WHERE ob.status > 0 AND {$where}
+        WHERE ob.status > 0 AND ob.order_type = 'import' AND {$where}
         " . ($isSingleOrder ? '' : "GROUP BY ob.id") . " 
         ORDER BY ob.id DESC
         " . $limit;
@@ -2226,7 +2229,105 @@ class Order_model extends MY_Model
         return $data;
     }
 
+    // Lấy tất cả đơn hàng nhập sản phẩm
+    public function getExportOrders($filter = array(), $addShipping = true)
+    {
+        // Kiểm tra xem $filter có phải là một số hay không (trường hợp order_id được truyền trực tiếp)
+        $isSingleOrder = is_numeric($filter);
+        $order_id = $isSingleOrder ? (int) $filter : null;
 
+        // Xây dựng điều kiện WHERE dựa trên loại của $filter
+        $where = '1=1';
+        if ($isSingleOrder) {
+            $where .= " AND ob.id = " . $order_id;
+        } else {
+            if (isset($filter['user_id'])) {
+                $where .= " AND ob.user_id = " . (int) $filter['user_id'];
+            }
+            if (isset($filter['branch_id'])) {
+                $where .= " AND ob.branch_id = " . (int) $filter['branch_id'];
+            }
+            if (isset($filter['order_id'])) {
+                $where .= " AND ob.id = " . (int) $filter['order_id'];
+            }
+        }
+
+        // Định nghĩa giới hạn và trang nếu không lấy một đơn hàng cụ thể
+        $limit = '';
+        if (!$isSingleOrder && isset($filter['limit']) && (int) $filter['limit'] > 0) {
+            $limit = " LIMIT " . (int) $filter['limit'];
+        }
+        if (!$isSingleOrder && isset($filter['page'])) {
+            $offset = (int) $filter['limit'] * ((int) $filter['page'] - 1);
+            $limit = " LIMIT " . $offset . " ," . (int) $filter['limit'];
+        }
+
+        // Truy vấn chính
+        $query = "
+    SELECT 
+    ob.*,
+    b.name as branch_name,
+    b.id as branchid,
+    b.address,
+    u.firstname,
+    u.lastname                
+    FROM `order_branch` ob
+    LEFT JOIN branch b ON b.id = ob.branch_id   
+    LEFT JOIN users u ON u.id = ob.user_id
+    WHERE ob.status > 0 AND ob.order_type = 'export' AND {$where}
+    " . ($isSingleOrder ? '' : "GROUP BY ob.id") . " 
+    ORDER BY ob.id DESC
+    " . $limit;
+
+        // Lấy danh sách đơn hàng nhập
+        $orders = $this->db->query($query)->result_array();
+
+
+        // Nếu chỉ có một đơn hàng (dựa trên order_id), lấy chi tiết sản phẩm
+        if ($isSingleOrder && !empty($orders)) {
+            $order = $orders[0];
+
+            // Lấy chi tiết sản phẩm từ bảng order_branch_products
+            $query_products = "
+                SELECT 
+                pb.*, 
+                p.product_price,
+                p.product_id,
+                p.product_featured_image,
+                p.product_name
+                FROM order_branch_products pb
+                LEFT JOIN product p ON p.product_id = pb.product_id
+                WHERE pb.order_branch_id = " . (int) $order['id'];
+
+            $products = $this->db->query($query_products)->result_array();
+
+
+            // List products of order
+            $order['products'] = $products;
+            $order['total_quantity'] = array_sum(array_column($products, 'stock_quantity'));
+
+
+            return $order;
+        }
+
+        // Xử lý dữ liệu trả về nếu không có order_id
+        $data = array();
+        foreach ($orders as $key => $value) {
+            $data[] = array(
+                'id' => $value['id'],
+                'user_id' => $value['user_id'],
+                'branch_id' => $value['branch_id'],
+                'branch_name' => $value['branch_name'],
+                'total' => $value['total'],
+                'status' => $value['status'],
+                'created_at' => $value['created_at'],
+                'firstname' => $value['firstname'],
+                'lastname' => $value['lastname'],
+            );
+        }
+
+        return $data;
+    }
 
     public function getUserdetail($product_created_by)
     {

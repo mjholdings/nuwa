@@ -1612,7 +1612,7 @@ class Product_model extends MY_Model
 
         // Thêm điều kiện lọc theo branch_id
         if (isset($filter['branch_id']) && !empty($filter['branch_id'])) {
-            $left_join .= " LEFT JOIN product_branch pb ON pb.product_id = product.product_id";
+            $left_join .= " LEFT JOIN order_branch_products pb ON pb.product_id = product.product_id";
             $where .= " AND pb.branch_id = " . (int)$filter['branch_id'];
         }
 
@@ -5533,7 +5533,7 @@ class Product_model extends MY_Model
         // Kiểm tra xem bản ghi đã tồn tại chưa
         $this->db->where('branch_id', $branch_id);
         $this->db->where('product_id', $product_id);
-        $query = $this->db->get('product_branch');
+        $query = $this->db->get('order_branch_products');
 
         if ($query->num_rows() > 0) {
             // Nếu đã tồn tại, cập nhật số lượng bằng cách cộng thêm và cập nhật giá sản phẩm
@@ -5545,7 +5545,7 @@ class Product_model extends MY_Model
             );
             $this->db->where('branch_id', $branch_id);
             $this->db->where('product_id', $product_id);
-            $this->db->update('product_branch', $data);
+            $this->db->update('order_branch_products', $data);
         } else {
             // Nếu chưa tồn tại, thêm mới bản ghi
             $data = array(
@@ -5554,7 +5554,7 @@ class Product_model extends MY_Model
                 'stock_quantity' => $quantity,
                 'product_price' => $price
             );
-            $this->db->insert('product_branch', $data);
+            $this->db->insert('order_branch_products', $data);
         }
     }
 
@@ -5563,7 +5563,7 @@ class Product_model extends MY_Model
     {
         $this->db->select_sum('stock_quantity');
         $this->db->where('product_id', $product_id);
-        $query = $this->db->get('product_branch');
+        $query = $this->db->get('order_branch_products');
 
         if ($query->num_rows() > 0) {
             return $query->row()->stock_quantity;
@@ -5577,7 +5577,7 @@ class Product_model extends MY_Model
     {
         // Check if product exists in branch_product
         $normal = $this->db->where('product_id', $product_id);
-        $query = $this->db->get('product_branch');
+        $query = $this->db->get('order_branch_products');
 
 
         if ($query->num_rows() > 0) {
@@ -5587,7 +5587,7 @@ class Product_model extends MY_Model
 
             $this->db->where('branch_id', $branch_id);
             $this->db->where('product_id', $product_id);
-            $query = $this->db->get('product_branch');
+            $query = $this->db->get('order_branch_products');
 
             if ($query->num_rows() > 0) {
                 // Found price in current location

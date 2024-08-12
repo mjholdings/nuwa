@@ -2113,7 +2113,7 @@ class Order_model extends MY_Model
 
         // Xóa các hàng nhập liên quan
         $this->db->where('order_branch_id', $id);
-        $this->db->delete('product_branch');
+        $this->db->delete('order_branch_products');
 
         // Xóa đơn hàng
         $this->db->where('id', $id);
@@ -2184,7 +2184,7 @@ class Order_model extends MY_Model
         if ($isSingleOrder && !empty($orders)) {
             $order = $orders[0];
 
-            // Lấy chi tiết sản phẩm từ bảng product_branch
+            // Lấy chi tiết sản phẩm từ bảng order_branch_products
             $query_products = "
                     SELECT 
                     pb.*, 
@@ -2192,7 +2192,7 @@ class Order_model extends MY_Model
                     p.product_id,
                     p.product_featured_image,
                     p.product_name
-                    FROM product_branch pb
+                    FROM order_branch_products pb
                     LEFT JOIN product p ON p.product_id = pb.product_id
                     WHERE pb.order_branch_id = " . (int) $order['id'];
 

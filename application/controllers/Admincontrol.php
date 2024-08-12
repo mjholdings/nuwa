@@ -5102,7 +5102,7 @@ class Admincontrol extends MY_Controller
         FROM 
             branch b 
         LEFT JOIN 
-            product_branch pb 
+            order_branch_products pb 
         ON 
             b.id = pb.branch_id AND pb.product_id = " . (int)$data['product']->product_id
 		)->result();
@@ -5170,13 +5170,13 @@ class Admincontrol extends MY_Controller
 				$this->db->insert('order_branch', $order_data);
 				$order_branch_id = $this->db->insert_id(); // Lấy ID của đơn hàng mới
 
-				// Duyệt qua tất cả các mục variations và thêm vào bảng product_branch
+				// Duyệt qua tất cả các mục variations và thêm vào bảng order_branch_products
 				if (isset($post['variations'])) {
 					$order_totals = 0;
 					foreach ($post['variations'] as $variation) {
 						if (isset($variation['id'])) {
 							foreach ($variation['id'] as $index => $product_id) {
-								$product_branch_data = array(
+								$order_branch_products_data = array(
 									'order_branch_id' => $order_branch_id,
 									'branch_id' => $post['branch_id'],
 									'product_id' => $product_id,
@@ -5184,8 +5184,8 @@ class Admincontrol extends MY_Controller
 									'stock_quantity' => $variation['qty'][$index],
 									'product_price' => $variation['price'][$index]
 								);
-								$order_totals += $product_branch_data['product_price'] *  $product_branch_data['stock_quantity'];
-								$this->db->insert('product_branch', $product_branch_data);
+								$order_totals += $order_branch_products_data['product_price'] *  $order_branch_products_data['stock_quantity'];
+								$this->db->insert('order_branch_products', $order_branch_products_data);
 							}
 						}
 					}

@@ -838,7 +838,20 @@ class Usercontrol extends MY_Controller
 							$this->user->update_user_login($user_details_array['id']);
 							$this->Mail_model->send_register_mail($post, __('user.welcome_to_new_user_registration'));
 							if ($user_type == 'user') {
+
 								$this->session->set_userdata(array('user' => $user_details_array));
+
+								// MJ ĐĂNG KÝ THÀNH CÔNG NGƯỜI DÙNG MỚI =================
+								// => PHÁT SINH GIAO DỊCH THƯỞNG CHO NGƯỜI GIỚI THIỆU
+								$this->Wallet_model->add_transaction_wallets(1, $refid, 'Thưởng giới thiệu', 'admin', 'reward');
+
+								// => PHÁT SINH GIAO DỊCH THƯỞNG CHO NGƯỜI RA NHẬP
+								$new_user_id = $user_details_array['id'];
+								$this->Wallet_model->add_transaction_wallets(1, $new_user_id, 'Thưởng ra nhập', 'admin', 'credit');
+
+								// => PHÁT SINH CẬP NHẬT SỐ LƯỢNG THÀNH VIÊN TRỰC TIẾP CHO NGƯỜI GIỚI THIỆU
+
+
 								$json['redirect'] = base_url('usercontrol/dashboard');
 							} else {
 								$this->session->set_userdata(array('client' => $user_details_array));

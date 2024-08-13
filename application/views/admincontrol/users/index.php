@@ -66,7 +66,7 @@
 								<div class="mb-3">
 									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 										<button type="button" class="btn btn-success mb-2 star-update"><?= __('admin.star_update') ?></button>
-										<a class="btn btn-primary mb-2" href="<?= base_url("admincontrol/addusers") ?>"><?= __('admin.add_affiliate') ?></a>
+										<a class="btn btn-primary mb-2" href="<?= base_url("admincontrol/addusers") ?>"><?= __('Thêm thành viên') ?></a>
 										<button type="button" class="btn btn-dark mb-2 export-excel"> <i class="fa fa-file-excel"></i> <?= __('admin.export') ?></button>
 										<button type="button" class="btn btn-info mb-2 import-excel" data-bs-toggle="modal" data-bs-target="#importUsersModel"> <i class="fa fa-file-excel"></i> <?= __('admin.import') ?></button>
 										<button class="btn btn-danger mb-2 delete-multiple" type="button"><?= __('admin.delete_selected') ?><span class="selected-count"></span></button>

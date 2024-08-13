@@ -199,7 +199,7 @@
                             <td><?= $plan->active_text ?></td> 
                             <td>
                                 <?php  
-                                    if ($plan->payment_method == 'Free by Admin') {
+                                    if ($plan->payment_method == 'Đặc cách bởi Admin') {
                                         echo __('admin.free_by_admin');
                                     }else{
                                         echo $plan->payment_method;

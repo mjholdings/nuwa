@@ -179,6 +179,14 @@ class Wallet_model extends MY_Model
 		}
 	}
 
+	// Thêm giao dịch các ví khác nhau hệ thống MJ
+	public function add_transaction_wallets($from_user_id, $owner_wallet_user_id, $transaction_type = 'Giao dịch ví', $wallet_from, $wallet_to, $data = [])
+	{
+		// $data chứa các thông tin is_sent, wallet_from, wallet_to, amount, ...
+
+		return true;
+	}
+
 	// Thêm giao dịch hàng loạt
 	public function addTransactionBatch($dataBatch)
 	{

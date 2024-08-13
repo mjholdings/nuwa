@@ -70,6 +70,8 @@ class Order_model extends MY_Model
         $this->load->model('Mail_model');
         $this->load->model('Product_model');
         $this->load->model('User_model');
+        $this->load->model('Order_model');
+        $this->load->model('Wallet_model');
 
         $historyData = array(
             'order_id' => $order_id,
@@ -94,13 +96,6 @@ class Order_model extends MY_Model
             // Cập nhật Order History
             $sql = "UPDATE `orders_history` SET `paypal_status` = 'Complete' WHERE `orders_history`.`order_id` = ? AND `orders_history`.`history_type` = 'payment'";
             $this->db->query($sql, (int) $order_id);
-
-            // MJ UPDATE DOANH THU - TIÊU DÙNG TỪ ĐƠN HÀNG =========
-
-            // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ DOANH THU SHOP TOÀN BỘ ĐƠN HÀNG            
-            // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ DOANH SỐ CHO MEMBER NẾU GIỚI THIỆU
-            // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ DOANH SỐ ADMIN NẾU ĐƠN HÀNG KHÁCH TỰ MUA   
-            // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ TIÊU DÙNG MEMBER NẾU MEMBER TỰ MUA
 
             // Chỉ cấp nhật nếu loại hoa hồng là sale, refer, vendor, admin_sale...
             // Cập nhật ví là Hoàn tiền nếu người dùng không phải Admin
@@ -268,15 +263,48 @@ class Order_model extends MY_Model
                 }
             }
 
+
+            // MJ UPDATE DOANH THU - TIÊU DÙNG TỪ ĐƠN HÀNG =========
+            $sold_order_id = 1; // lấy id trong bảng order
+            $sold_user_id = 0;  // lấy refer_id trong bảng order_products => mặc định là 0 tự mua
+            $purchased_user_id = 1; // lấy user_id trong bảng order
+            $purchased_user_type = 'client'; // lấy type trong bảng users
+            $tranfer_user_id = 1; // admin id
+
+
+            // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ DOANH THU SHOP TOÀN BỘ ĐƠN HÀNG - KHÁCH MUA HÀNG  
+            $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $sold_user_id, 'Doanh thu cửa hàng');
+
+            // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ DOANH SỐ CHO MEMBER NẾU GIỚI THIỆU
+            if ($sold_user_id > 0) {
+                $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $sold_user_id, 'Doanh thu cá nhân');
+            }
+
+            // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ TIÊU DÙNG MEMBER NẾU MUA HÀNG
+            if ($purchased_user_type == 'client') {
+                $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $purchased_user_id, 'Giao dịch Mua hàng');
+            }
+
+            if ($purchased_user_type == 'user') {
+                $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $purchased_user_id, 'Giao dịch Tiêu dùng');
+            }
+
+            if ($purchased_user_type == 'admin') {
+                $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $purchased_user_id, 'Admin Tiêu dùng');
+            }
+
             // MJ TẠO MỘT ĐƠN HÀNG XUẤT CHO KHO ===========
             $this->Order_model->add_order_branch($order_info);
 
             // MJ TÍNH THƯỞNG BÁN HÀNG THEO % DOANH THU CHO NGƯỜI GIỚI THIỆU + CHÍNH SÁCH THƯỞNG ===========               
-            // => PHÁT SINH GIAO DỊCH % VÀO VÍ THƯỞNG BÁN HÀNG NẾU CÓ GIỚI THIỆU KHÁCH MUA            
+            // => PHÁT SINH GIAO DỊCH % VÀO VÍ THƯỞNG BÁN HÀNG NẾU CÓ GIỚI THIỆU KHÁCH MUA  
+            $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $sold_user_id, 'Thưởng bán hàng', 'admin', 'reward');
+
             // => PHÁT SINH GIAO DỊCH ĐIỂM VÀO VÍ ĐIỂM CHO CUSTOMER
+            $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $purchased_user_id, 'Thưởng điểm mua hàng', 'admin', 'reward');
 
 
-
+            //
         }
 
         $this->Mail_model->send_order_mail($order_id);
@@ -495,7 +523,7 @@ class Order_model extends MY_Model
         $this->Mail_model->send_order_mail($order_id);
     }
 
-    
+
     public function getAllClickLogs($filter = array())
     {
         $where1 = $where2 = $where3 = '';

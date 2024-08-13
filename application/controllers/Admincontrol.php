@@ -8492,7 +8492,6 @@ class Admincontrol extends MY_Controller
 					}
 
 
-
 					$userArray = array(
 
 						'firstname'                 => $this->input->post('firstname', true),
@@ -8583,6 +8582,7 @@ class Admincontrol extends MY_Controller
 					if (isset($post['refid'])) {
 
 						$userArray['refid'] = (int)$post['refid'];
+
 					}
 
 
@@ -8599,6 +8599,7 @@ class Admincontrol extends MY_Controller
 									$userArray['level_id'] = $defaultLevel['id'];
 							}
 						}
+
 					}
 
 					if ((int)$id == 0) {
@@ -8625,11 +8626,41 @@ class Admincontrol extends MY_Controller
 
 
 							if (!empty($plan) && (($plan->user_type == 1 && $is_vendor != 1) || ($plan->user_type != 1 && $is_vendor == 1))) {
-								$plan->buy($user, 1, 'Automatically Added (Default Plan)', 'Free by Admin', 0);
+								$plan->buy($user, 1, 'Automatically Added (Default Plan)', 'Đặc cách bởi Admin', 0);
 							}
 						}
 					} else {
 
+						// Nếu người giới thiệu sẽ thưởng giới thiệu và gia nhập - kiểm tra gia nhập hay sửa
+						if (isset($userArray['refid'])) {
+	
+							// MJ THÊM NGƯỜI DÙNG MỚI DƯỚI NGƯỜI DÙNG ĐANG CÓ HOẶC THAY ĐỔI NGƯỜI BÊN TRÊN =================
+							// => PHÁT SINH GIAO DỊCH THƯỞNG ADMIN CHO MEMBER GIỚI THIỆU VÀO VÍ THƯỞNG
+							$refer_user_id = (int)$userArray['refid'];
+							$this->Wallet_model->add_transaction_wallets(1, $refer_user_id, 'Thưởng giới thiệu', 'admin', 'reward');	
+							
+							// => PHÁT SINH GIAO DỊCH THƯỞNG ĐIỂM NGƯỜI RA NHẬP CLIENT VÀO VÍ ĐIỂM
+							$update_user_id = (int)$id;
+							$this->Wallet_model->add_transaction_wallets(1, $update_user_id, 'Thưởng ra nhập', 'admin', 'credit');
+	
+							// => PHÁT SINH CẬP NHẬT SỐ LƯỢNG THÀNH VIÊN TRỰC TIẾP CHO NGƯỜI GIỚI THIỆU
+						}
+
+
+						// Thay đổi cấp độ sẽ thưởng lên cấp - nhớ kiểm tra cấp cũ
+						if (isset($userArray['level_id'])) {
+	
+							// MJ CẬP NHẬT CẤP ĐỘ KHI THAY ĐỔI CẤP ĐỘ HOẶC VỊ TRÍ =================
+							// => PHÁT SINH GIAO DỊCH CẬP NHẬT BẢNG CẤP ĐỘ 
+
+							// => PHÁT SINH GIAO DỊCH THƯỞNG LÊN CẤP TỪ ADMIN CHO VÍ THƯỞNG CỦA USER
+							$update_user_id = (int)$id;
+							$this->Wallet_model->add_transaction_wallets(1, $update_user_id, 'Thưởng lên cấp', 'admin', 'reward');
+	
+						}
+
+
+						// Cập nhật thông tin 
 						$data = $this->user->update_user($id, $userArray);
 					}
 
@@ -8778,9 +8809,7 @@ class Admincontrol extends MY_Controller
 	}
 
 
-	// Thêm giao dịch các ví khác nhau hệ thống MJ
-	public function add_transaction_wallets($data) {}
-
+	// Thêm giao dịch rút tiền hệ thống cũ
 	public function add_transaction_old($wallet_from = 'admin')
 	{
 
@@ -20203,6 +20232,11 @@ class Admincontrol extends MY_Controller
 
 					// Cập nhật plan_id và level_id mới cho user
 					$this->upgrade_plan($user_id, $new_plan_id);
+
+					// MJ CẬP NHẬT THƯỞNG CẤP ĐỘ NGAY CHO MỖI THÀNH VIÊN TĂNG CẤP ===========
+					// => PHÁT SINH GIAO DỊCH THƯỞNG NGAY VỀ TĂNG CẤP MỚI - TỪ ADMIN CHO MEMBER VÀO VÍ THƯỞNG
+					$this->Wallet_model->add_transaction_wallets(1, $user_id, 'Thưởng lên cấp', 'admin', 'reward');
+
 				}
 			}
 
@@ -22213,31 +22247,38 @@ class Admincontrol extends MY_Controller
 		$userdetails = $this->userdetails();
 
 		// Update Bảng tuyển dụng
-		$this->update_user_tree();
-		$this->update_user_recruitment();
+		// $this->update_user_tree();
+		// $this->update_user_recruitment();
 
 		// Update Bảng doanh thu cá nhân + trực tiếp, gián tiếp,..
-		$this->calculate_revenue();
-		$this->update_revenue();
+		// $this->calculate_revenue();
+		// $this->update_revenue();
 
 		// Update bảng tiêu dùng cá nhân + trực tiếp, gián tiếp,..
-		$this->calculate_consum();
-		$this->update_consum();
+		// $this->calculate_consum();
+		// $this->update_consum();
 
 		// Update bảng thứ bậc
-		$this->update_user_rank();
+		// $this->update_user_rank();
 
 		// => Cập nhật thứ bậc
-		$this->mj_rank_upgrade_get_condition();
+		// $this->mj_rank_upgrade_get_condition();
 
 		// => Tính toán chính sách cho Demo - update user_commission and wallet
-		$this->mj_update_commission();
+		// $this->mj_update_commission();
 
 		// => Cập nhật thưởng vào bảng Ví
-		$this->mj_update_commission_to_wallet();
+		// $this->mj_update_commission_to_wallet();
 
 		// Tính toán thưởng tất cả - BETA chưa tính vì còn các chính sách và cài đặt settings
 		// $this->calculate_and_update_commissions();
+
+		// MJ THỰC HIỆN CẬP NHẬT TOÀN BỘ THƯỞNG CHO THÀNH VIÊN THEO CẤP ĐỘ VÀ ĐIỀU KIỆN ĐẠT ĐƯỢC (KẾT VÍ)
+		// => CẬP NHẬT THƯỞNG THEO CHÍNH SÁCH (THỨ HÀNG VÀ ĐIỀU KIỆN NGOÀI THỨ HẠNG)
+		// => PHÁT SINH GIAO DỊCH THƯỞNG TỪ ADMIN CHO MEMBER VÀO VÍ THƯỞNG
+		$user_id = $userdetails['id'];
+		$this->Wallet_model->add_transaction_wallets(1, $user_id, 'Thưởng lên cấp', 'admin', 'reward');
+
 
 		$data = [];
 		$this->view($data, 'users/update_all_user_commissions');

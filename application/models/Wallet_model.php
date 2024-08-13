@@ -848,6 +848,10 @@ class Wallet_model extends MY_Model
 		$data['purchase_credit'] = (float)$this->db->query('SELECT sum(amount) as total FROM wallet WHERE `is_sent` = 1 AND status IN (1,2) AND `wallet_from` = "credit" AND `wallet_to` = "order" AND withdraw_request = 1 AND ' . $where)->row_array()['total'];
 
 
+		// TÍNH TOÁN TỔNG SỐ GHI NHẬN DOANH THU TIÊU DÙNG ===================		
+
+
+
 		// TÍNH TOÁN TỔNG SỐ DƯ CÁC VÍ ==============================		
 
 		// Tổng tiền dư Ví tài khoản withdraw

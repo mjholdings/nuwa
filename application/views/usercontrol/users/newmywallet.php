@@ -57,14 +57,14 @@
 	<div class="<?= ($userdetails['is_vendor'] == 1) ? "col-xl-3" : "col-xl-3"; ?>">
 		<div class="card border mt-2">
 			<div class="card-header bg-success">
-				<h6 class='card-title text-center text-uppercase text-white m-0'><?= __('Ví tài khoản (Rút ra)') ?></h6>
+				<h6 class='card-title text-center text-uppercase text-white m-0'><?= __('Ví tài khoản (Rút)') ?></h6>
 			</div>
 			<div class="card-body">
 				<div class="text-center">
 					<ul class="list-inline row mb-0 clearfix">
 						<li class="col-12">
 							<p class="m-b-5 font-18 font-500 counter text-primary set-color"><strong><?= c_format($user_totals_wallet['balance_wallet_withdraw']) ?></strong></p>
-							<p class="mb-0 text-muted"><?= __('Ví tài khoản (Rút ra)') ?></p>
+							<p class="mb-0 text-muted"><?= __('Ví tài khoản (Rút)') ?></p>
 						</li>
 
 					</ul>

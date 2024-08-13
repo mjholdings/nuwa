@@ -453,44 +453,7 @@ $enable_disable = array(
                                 <!-- Section Information 1-->
                                 <div id="dashboard" class="section-content active">
                                     <div class="row row-cols-sm-2 mt-3">
-                                        <!-- Card 1: Balance -->
-                                        <div class="col">
-                                            <div class="card bg-light position-relative">
-                                                <div class="position-absolute top-0 end-0 card-dashboard-css1"></div>
-                                                <div class="card-body">
-                                                    <!-- Row 1: Title -->
-                                                    <div class="row justify-content-center mb-2">
-                                                        <div class="col text-center">
-                                                            <h6 class="card-title fw-bold text-primary py-2">
-                                                                <?= __('Tổng Dư Nạp (Tiêu dùng)') ?>
-                                                            </h6>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Row 2: First Amount -->
-                                                    <div class="row justify-content-center mb-2">
-                                                        <div class="col text-center">
-                                                            <span class="card-text h5">
-                                                                <span class="card-text h6 ajax-admin_balance"><?= $fun_c_format($admin_totals['admin_balance_purchase']) ?>
-                                                                </span>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Row 3: Second Amount -->
-                                                    <div class="row justify-content-center mb-2">
-                                                        <div class="col text-center">
-                                                            <span class="card-text h5">
-                                                                <span class="badge bg-primary fs-6">
-                                                                    <span class="ajax-admin_balance"><?= $admin_totals['admin_balance_growth']; ?>
-                                                                    </span>% <i class="bi bi-arrow-up-short"></i>
-                                                                </span>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Card 2: Sales -->
+                                        <!-- Card 1: Sales -->
                                         <div class="col">
                                             <div class="card bg-light position-relative">
                                                 <div class="position-absolute top-0 end-0 card-dashboard-css2"></div>
@@ -499,7 +462,7 @@ $enable_disable = array(
                                                     <div class="row justify-content-center mb-2">
                                                         <div class="col text-center">
                                                             <h6 class="card-title fw-bold text-primary py-2">
-                                                                <?= __('admin.admin_sales') ?>
+                                                                <?= __('Chi Tiêu') ?>
                                                             </h6>
                                                         </div>
                                                     </div>
@@ -527,6 +490,80 @@ $enable_disable = array(
                                             </div>
                                         </div>
 
+                                        <!-- Card 2: Sales -->
+                                        <div class="col">
+                                            <div class="card bg-light position-relative">
+                                                <div class="position-absolute top-0 end-0 card-dashboard-css2"></div>
+                                                <div class="card-body">
+                                                    <!-- Row 1: Title -->
+                                                    <div class="row justify-content-center mb-2">
+                                                        <div class="col text-center">
+                                                            <h6 class="card-title fw-bold text-primary py-2">
+                                                                <?= __('Doanh thu') ?>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Row 2: First Amount -->
+                                                    <div class="row justify-content-center mb-2">
+                                                        <div class="col text-center">
+                                                            <span class="card-text h5">
+                                                                <span class="card-text h6 ajax-sale_total_admin_store"><?= $fun_c_format($admin_totals['sale_localstore_total'] + $admin_totals['order_external_total']) ?>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Row 3: Second Amount -->
+                                                    <div class="row justify-content-center mb-2">
+                                                        <div class="col text-center">
+                                                            <span class="card-text h5">
+                                                                <span class="badge bg-success fs-6">
+                                                                    <span class="ajax-admin_all_sales_growth"><?= $admin_totals['admin_all_sales_growth']; ?>
+                                                                    </span>% <i class="bi bi-arrow-up-short"></i>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Card 3: Balance -->
+                                        <div class="col">
+                                            <div class="card bg-light position-relative">
+                                                <div class="position-absolute top-0 end-0 card-dashboard-css1"></div>
+                                                <div class="card-body">
+                                                    <!-- Row 1: Title -->
+                                                    <div class="row justify-content-center mb-2">
+                                                        <div class="col text-center">
+                                                            <h6 class="card-title fw-bold text-primary py-2">
+                                                                <?= __('Ví tiêu dùng (Nạp)') ?>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Row 2: First Amount -->
+                                                    <div class="row justify-content-center mb-2">
+                                                        <div class="col text-center">
+                                                            <span class="card-text h5">
+                                                                <span class="card-text h6 ajax-admin_balance"><?= $fun_c_format($admin_totals['admin_balance_purchase']) ?>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Row 3: Second Amount -->
+                                                    <div class="row justify-content-center mb-2">
+                                                        <div class="col text-center">
+                                                            <span class="card-text h5">
+                                                                <span class="badge bg-primary fs-6">
+                                                                    <span class="ajax-admin_balance"><?= $admin_totals['admin_balance_growth']; ?>
+                                                                    </span>% <i class="bi bi-arrow-up-short"></i>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <!-- Card 5: Balance -->
                                         <div class="col">
                                             <div class="card bg-light position-relative">
@@ -536,7 +573,7 @@ $enable_disable = array(
                                                     <div class="row justify-content-center mb-2">
                                                         <div class="col text-center">
                                                             <h6 class="card-title fw-bold text-primary py-2">
-                                                                <?= __('Tổng Hoa Hồng') ?>
+                                                                <?= __('Ví Hoa Hồng') ?>
                                                             </h6>
                                                         </div>
                                                     </div>
@@ -573,7 +610,7 @@ $enable_disable = array(
                                                     <div class="row justify-content-center mb-2">
                                                         <div class="col text-center">
                                                             <h6 class="card-title fw-bold text-primary py-2">
-                                                                <?= __('Tổng Điểm (Nuwa)') ?>
+                                                                <?= __('Ví điểm (Nuwa)') ?>
                                                             </h6>
                                                         </div>
                                                     </div>
@@ -610,7 +647,7 @@ $enable_disable = array(
                                                     <div class="row justify-content-center mb-2">
                                                         <div class="col text-center">
                                                             <h6 class="card-title fw-bold text-primary py-2">
-                                                                <?= __('Ví Tài Khoản Rút (VND)') ?>
+                                                                <?= __('Ví Tài Khoản (Rút)') ?>
                                                             </h6>
                                                         </div>
                                                     </div>

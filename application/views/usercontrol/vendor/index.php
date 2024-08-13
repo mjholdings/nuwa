@@ -1,10 +1,10 @@
 <style>
-  .card-title{
-      text-align:center;
+  .card-title {
+    text-align: center;
   }
 
-  .card-header{
-      font-size:20px;
+  .card-header {
+    font-size: 20px;
   }
 </style>
 
@@ -13,25 +13,25 @@
   <div class="section">
     <div class="card-group">
       <div class="card card-title text-white bg-primary mb-3 mr-3 col-4">
-        <div class="card-header"><?= __( 'user.my_vendor_store') ?></div>
+        <div class="card-header"><?= __('user.my_vendor_store') ?></div>
         <div class="card-body">
-          <p class="card-text"><?= __( 'user.my_vendor_store_info') ?></p>
-       </div>
+          <p class="card-text"><?= __('user.my_vendor_store_info') ?></p>
+        </div>
       </div>
 
       <div class="card card-title text-white bg-info mb-3 mr-3 col-4">
-        <div class="card-header"><?= __( 'user.my_vendor_market_tools') ?></div>
+        <div class="card-header"><?= __('user.my_vendor_market_tools') ?></div>
         <div class="card-body">
-          <p class="card-text"><?= __( 'user.my_vendor_market_tools_info') ?></p>
+          <p class="card-text"><?= __('user.my_vendor_market_tools_info') ?></p>
         </div>
       </div>
 
       <div class="card card-title text-white bg-info mb-3 col-4">
-        <div class="card-header"><?= __( 'user.my_store') ?></div>
+        <div class="card-header"><?= __('user.my_store') ?></div>
         <div class="card-body">
-           <a href="<?= base_url('store/'.$store_details['store_slug']); ?>" target="_blank" class="display-my-store">
-              <?= __('user.display_my_store') ?>
-            </a>
+          <a href="<?= base_url('store/' . $store_details['store_slug']); ?>" target="_blank" class="display-my-store">
+            <?= __('user.display_my_store') ?>
+          </a>
         </div>
       </div>
     </div>
@@ -62,15 +62,11 @@
 
 </div>
 
-<!--This group is display the vendor store--> 
-<?php if((isset($userdetails['is_vendor']) && $userdetails['is_vendor']) && (int)$vendor_setting['storestatus'] == 1 && (int)$store_setting['status'] == 1){ ?>
+<!--This group is display the vendor store-->
+<?php if ((isset($userdetails['is_vendor']) && $userdetails['is_vendor']) && (int)$vendor_setting['storestatus'] == 1 && (int)$store_setting['status'] == 1) { ?>
 <?php } ?>
 
 
-<!--This group is display the vendor market tools--> 
-<?php if((isset($userdetails['is_vendor']) && $userdetails['is_vendor']) && (int)$market_vendor['marketvendorstatus'] == 1){ ?>
-<?php } ?> 
-
-
-
-
+<!--This group is display the vendor market tools-->
+<?php if ((isset($userdetails['is_vendor']) && $userdetails['is_vendor']) && (int)$market_vendor['marketvendorstatus'] == 1) { ?>
+<?php } ?>

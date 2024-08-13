@@ -87,14 +87,20 @@ class Order_model extends MY_Model
         $this->db->update('order');
 
         if ($status == 1) {         // Nếu là trạng thái hoàn thành đơn hàng
+
+            // Cập nhật Sao cho User
             $this->User_model->setStarForUser();
 
             // Cập nhật Order History
             $sql = "UPDATE `orders_history` SET `paypal_status` = 'Complete' WHERE `orders_history`.`order_id` = ? AND `orders_history`.`history_type` = 'payment'";
             $this->db->query($sql, (int) $order_id);
 
-            // MJ UPDATE DOANH THU - TIÊU DÙNG TỪ ĐƠN HÀNG
+            // MJ UPDATE DOANH THU - TIÊU DÙNG TỪ ĐƠN HÀNG =========
 
+            // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ DOANH THU SHOP TOÀN BỘ ĐƠN HÀNG            
+            // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ DOANH SỐ CHO MEMBER NẾU GIỚI THIỆU
+            // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ DOANH SỐ ADMIN NẾU ĐƠN HÀNG KHÁCH TỰ MUA   
+            // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ TIÊU DÙNG MEMBER NẾU MEMBER TỰ MUA
 
             // Chỉ cấp nhật nếu loại hoa hồng là sale, refer, vendor, admin_sale...
             // Cập nhật ví là Hoàn tiền nếu người dùng không phải Admin
@@ -105,8 +111,6 @@ class Order_model extends MY_Model
 
             // Gửi email thông báo cam kết
             $this->Mail_model->send_commition_mail($order_id, true);
-
-
 
             $order_info = $this->getOrder($order_id, 'store');
             $wallet_group_id = time() . rand(10, 100);
@@ -263,9 +267,30 @@ class Order_model extends MY_Model
                     }
                 }
             }
+
+            // MJ TẠO MỘT ĐƠN HÀNG XUẤT CHO KHO ===========
+            $this->Order_model->add_order_branch($order_info);
+
+            // MJ TÍNH THƯỞNG BÁN HÀNG THEO % DOANH THU CHO NGƯỜI GIỚI THIỆU + CHÍNH SÁCH THƯỞNG ===========               
+            // => PHÁT SINH GIAO DỊCH % VÀO VÍ THƯỞNG BÁN HÀNG NẾU CÓ GIỚI THIỆU KHÁCH MUA            
+            // => PHÁT SINH GIAO DỊCH ĐIỂM VÀO VÍ ĐIỂM CHO CUSTOMER
+
+
+
         }
 
         $this->Mail_model->send_order_mail($order_id);
+    }
+
+
+    // Thêm một đơn xuất hàng nội dung từ đơn bán hàng
+    public function add_order_branch($order_infor = [], $order_type = 'export')
+    {
+
+        // Tạo một order kho mới dạng $order_type
+
+        // Đưa nội dung của order bán hàng $order_infor vào
+
     }
 
     // Thay đổi trạng thái đơn hàng nhập
@@ -291,14 +316,13 @@ class Order_model extends MY_Model
         $this->db->update('order');
 
         if ($status == 1) {         // Nếu là trạng thái hoàn thành đơn hàng
-            $this->User_model->setStarForUser();
+
+            // Cập nhật sao cho User
+            // $this->User_model->setStarForUser();
 
             // Cập nhật Order History
             $sql = "UPDATE `orders_history` SET `paypal_status` = 'Complete' WHERE `orders_history`.`order_id` = ? AND `orders_history`.`history_type` = 'payment'";
             $this->db->query($sql, (int) $order_id);
-
-            // MJ UPDATE DOANH THU - TIÊU DÙNG TỪ ĐƠN HÀNG
-
 
             // Chỉ cấp nhật nếu loại hoa hồng là sale, refer, vendor, admin_sale...
             // Cập nhật ví là Hoàn tiền nếu người dùng không phải Admin
@@ -309,7 +333,6 @@ class Order_model extends MY_Model
 
             // Gửi email thông báo cam kết
             $this->Mail_model->send_commition_mail($order_id, true);
-
 
 
             $order_info = $this->getOrder($order_id, 'store');
@@ -471,6 +494,8 @@ class Order_model extends MY_Model
 
         $this->Mail_model->send_order_mail($order_id);
     }
+
+    
     public function getAllClickLogs($filter = array())
     {
         $where1 = $where2 = $where3 = '';

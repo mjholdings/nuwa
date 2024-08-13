@@ -8777,6 +8777,10 @@ class Admincontrol extends MY_Controller
 		echo json_encode($json);
 	}
 
+
+	// Thêm giao dịch các ví khác nhau hệ thống MJ
+	public function add_transaction_wallets($data) {}
+
 	public function add_transaction_old($wallet_from = 'admin')
 	{
 

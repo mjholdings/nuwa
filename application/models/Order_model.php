@@ -269,28 +269,36 @@ class Order_model extends MY_Model
             $sold_user_id = 0;  // lấy refer_id trong bảng order_products => mặc định là 0 tự mua
             $purchased_user_id = 1; // lấy user_id trong bảng order
             $purchased_user_type = 'client'; // lấy type trong bảng users
+            $purchased_wallet = 'bank'; // lấy loại ví mua hàng từ form (bank / purchase / credit)
             $tranfer_user_id = 1; // admin id
 
 
             // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ DOANH THU SHOP TOÀN BỘ ĐƠN HÀNG - KHÁCH MUA HÀNG  
-            $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $sold_user_id, 'Doanh thu cửa hàng');
+            $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $sold_user_id, 'Doanh thu cửa hàng', $purchased_wallet, 'revenue');
 
             // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ DOANH SỐ CHO MEMBER NẾU GIỚI THIỆU
             if ($sold_user_id > 0) {
-                $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $sold_user_id, 'Doanh thu cá nhân');
+                $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $sold_user_id, 'Doanh thu cá nhân', $purchased_wallet, 'revenue');
             }
 
-            // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ TIÊU DÙNG MEMBER NẾU MUA HÀNG
+            // => PHÁT SINH GIAO DỊCH ĐỂ GHI NHẬN VÍ TIÊU DÙNG MEMBER NẾU MUA HÀNG
             if ($purchased_user_type == 'client') {
-                $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $purchased_user_id, 'Giao dịch Mua hàng');
+
+                // khách mua hàng sẽ trừ tiền từ ví bank / credit
+                $purchased_wallet = 'credit'; // hoặc bank
+                $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $purchased_user_id, 'Giao dịch Mua hàng', $purchased_wallet, 'consum');
             }
 
             if ($purchased_user_type == 'user') {
-                $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $purchased_user_id, 'Giao dịch Tiêu dùng');
+                // người dùng mua hàng sẽ trừ tiền từ ví tiêu dùng / tiền thưởng               
+                $purchased_wallet = 'purchase'; // hoặc reward
+                $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $purchased_user_id, 'Giao dịch Tiêu dùng', $purchased_wallet, 'consum');
             }
 
             if ($purchased_user_type == 'admin') {
-                $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $purchased_user_id, 'Admin Tiêu dùng');
+                // admin mua hàng sẽ trừ tiền từ ví tiêu dùng của admin
+                $purchased_wallet = 'purchase'; // hoặc credit
+                $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $purchased_user_id, 'Admin Tiêu dùng', $purchased_wallet, 'consum');
             }
 
             // MJ TẠO MỘT ĐƠN HÀNG XUẤT CHO KHO ===========

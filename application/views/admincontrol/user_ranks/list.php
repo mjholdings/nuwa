@@ -10,35 +10,32 @@
                     <table class="table table-striped text-center">
                         <thead>
                             <tr>
-                                <th><?= __('Stt') ?></th>
+                                <th><?= __('ID') ?></th>
                                 <th><?= __('Tên') ?></th>
                                 <th><?= __('Cấp độ') ?></th>
                                 <th><?= __('Vị trí') ?></th>
                                 <th><?= __('Doanh thu') ?></th>                                
+                                <th><?= __('Order lớn nhất') ?></th>                                
+                                <th><?= __('Nạp') ?></th>
                                 <th><?= __('Tiêu dùng') ?></th>
                                 <th><?= __('Tuyển dụng') ?></th>
-                                <th><?= __('Thưởng') ?></th>
-                                <th>#</th>
+                                <th><?= __('Vị trí tuyển') ?></th>                                
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($branch as $key => $value) { ?>
                                 <tr>
+                                    <td><?= $value['id'] ?></td>
                                     <td><?= $value['name'] ?></td>
                                     <td><?= c_format($value['con_revenue_branch']); ?></td>
-                                    <td><?= c_format($value['con_revenue_branch_total']); ?></td>
+                                    <td><?= $value['sale_commission_rate'] . '%'; ?></td>                                    
+                                    <td><?= $value['name'] ?></td>
+                                    <td><?= c_format($value['con_revenue_branch']); ?></td>
                                     <td><?= $value['sale_commission_rate'] . '%'; ?></td>
-                                    <td><?= c_format($value['sale_commission_fixed']) . 'đ'; ?></td>
+                                    <td><?= $value['sale_commission_rate'] . '%'; ?></td>
+                                    
 
-                                    <td>
-                                        <a href="<?= base_url('admincontrol/update_branch/' . $value['id'] . '?ref=branch_bonus') ?>" class="btn btn-sm btn-primary">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-
-                                        <a href="<?= base_url('admincontrol/delete_branch/' . $value['id'] . '?ref=branch_bonus') ?>" class="btn btn-sm btn-danger btn-delete">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </td>
+                                    
                                 </tr>
                             <?php } ?>
                         </tbody>

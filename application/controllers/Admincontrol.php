@@ -4809,6 +4809,8 @@ class Admincontrol extends MY_Controller
 
 		$data['guest_count'] = $this->Product_model->getAllClientrecord('guest');
 
+		$data['user_count'] = $this->Product_model->getAllClientrecord('user');
+
 		$data['ordercount']      = $this->Order_model->getCount();
 
 		$data['salescount']      = $this->Order_model->getSale();
@@ -5164,7 +5166,7 @@ class Admincontrol extends MY_Controller
 			try {
 				// Thực hiện thêm record mới vào bảng order_branch
 				$order_data = array(
-					'branch_id' => 'import',
+					'order_type' => 'import',
 					'user_id' => $post['user_id'],
 					'branch_id' => $post['branch_id'],
 					'created_at' => date('Y-m-d H:i:s'),

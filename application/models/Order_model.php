@@ -196,7 +196,7 @@ class Order_model extends MY_Model
                 $purchased_wallet = 'bank'; // lấy loại ví mua hàng từ form (bank / purchase / credit)
 
                 $data = array();
-                $data['amount'] = $product['price'] * $product['quantity'];  // lấy thành tiền từ sản phẩm đơn hàng
+                $data['amount'] = $product['total'];  // lấy thành tiền từ sản phẩm đơn hàng
                 $data['comment'] = 'Note doanh thu.';
                 $data['is_sent'] = 1;
 
@@ -289,10 +289,10 @@ class Order_model extends MY_Model
 
 
             // MJ UPDATE DOANH THU - TIÊU DÙNG TỪ ĐƠN HÀNG =========
-            $user_infor = $this->User_model->get_user_by_id();
 
             $sold_user_id = 0;  // lấy refer_id trong bảng order_products => mặc định là 0 tự mua
             $purchased_user_id = $order_info['user_id']; // lấy user_id trong bảng order
+            $user_infor = $this->User_model->get_user_by_id($purchased_user_id);
             $purchased_user_type = $user_infor['type']; // lấy type trong bảng users
             $tranfer_user_id = 1; // admin id
             $purchased_wallet = 'bank'; // lấy loại ví mua hàng từ form (bank / purchase / credit)
@@ -327,11 +327,11 @@ class Order_model extends MY_Model
                 $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $purchased_user_id, 'Admin Tiêu dùng', $purchased_wallet, $account_wallet);
             }
 
-            // MJ TẠO MỘT ĐƠN HÀNG XUẤT CHO KHO ===========
-            $this->Order_model->add_order_branch($order_info);
-
-            // => PHÁT SINH GIAO DỊCH ĐIỂM VÀO VÍ ĐIỂM CHO CUSTOMER
+            // MJ => PHÁT SINH GIAO DỊCH ĐIỂM VÀO VÍ ĐIỂM CHO CUSTOMER
             $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $purchased_user_id, 'Thưởng điểm mua hàng', 'admin', 'reward');
+
+            // MJ TẠO MỘT ĐƠN HÀNG XUẤT CHO KHO THÔNG TIN LẤY NGUYÊN TỪ ORDER VỪA HOÀN THÀNH ===========
+            $this->Order_model->add_order_branch($order_id);
 
 
             //
@@ -342,14 +342,74 @@ class Order_model extends MY_Model
 
 
     // Thêm một đơn xuất hàng nội dung từ đơn bán hàng
-    public function add_order_branch($order_infor = [], $order_type = 'export')
+    public function add_order_branch($order_id, $order_type = 'export')
     {
+        // Kiểm tra sự tồn tại của đơn hàng trong bảng `order`
+        $order = $this->db->get_where('order', ['id' => $order_id])->row();
 
-        // Tạo một order kho mới dạng $order_type
+        if ($order) {
+            // Kiểm tra nếu $order_id chưa có trong bảng `order_branch`
+            $existing_order_branch = $this->db->get_where('order_branch', ['order_id' => $order_id])->row();
+            if (!$existing_order_branch) {
+                // Tạo mới bản ghi trong bảng `order_branch`
+                $data = [
+                    'order_id' => $order_id,
+                    'order_type' => $order_type,
+                    'user_id' => $order->user_id,
+                    'total' => 0, // Sẽ cập nhật sau
+                    'branch_id' => 0 // Sẽ cập nhật sau
+                ];
+                $this->db->insert('order_branch', $data);
+                $id_order_branch = $this->db->insert_id(); // Lấy ID của bản ghi mới tạo
 
-        // Đưa nội dung của order bán hàng $order_infor vào
+                // Tìm các sản phẩm trong bảng `order_products` có order_id = $order_id
+                $order_products = $this->db->get_where('order_products', ['order_id' => $order_id])->result();
 
+                $total_stock_total = 0;
+                $branch_id_first = null;
+
+                // Lặp qua các sản phẩm và thêm vào bảng `order_branch_products`
+                foreach ($order_products as $product) {
+                    $branch_id = $product->branch_id;
+                    $branch_price = $product->branch_price ? $product->branch_price : $product->price;
+                    $branch_total = $product->branch_total ? $product->branch_total : $product->total;
+                    $total_stock_total += $branch_total;
+
+                    if ($branch_id_first === null) {
+                        $branch_id_first = $branch_id; // Lưu lại branch_id đầu tiên
+                    }
+
+                    $data_product = [
+                        'order_branch_id' => $id_order_branch,
+                        'product_id' => $product->product_id,
+                        'branch_id' => $branch_id,
+                        'user_id' => $order->user_id,
+                        'stock_quantity' => $product->quantity,
+                        'product_price' => $branch_price,
+                        'stock_total' => $branch_total
+                    ];
+                    $this->db->insert('order_branch_products', $data_product);
+                }
+
+                // Cập nhật lại bảng `order_branch` cho bản ghi đã tạo
+                $update_data = [
+                    'total' => $total_stock_total,
+                    'branch_id' => $branch_id_first
+                ];
+                $this->db->update('order_branch', $update_data, ['id' => $id_order_branch]);
+
+                echo json_encode(['status' => 'success', 'message' => 'Order branch created successfully.']);
+
+                // Quay về danh sách đơn hàng
+                redirect(base_url('admincontrol/listorders/'));
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Order branch already exists for this order.']);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Order not found.']);
+        }
     }
+
 
     // Thay đổi trạng thái đơn hàng nhập
     public function changeImportStatus($order_id, $status, $comment = '')

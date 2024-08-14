@@ -1,9 +1,9 @@
 <?php
-$db =& get_instance();
+$db = &get_instance();
 $userdetails = get_object_vars($db->user_info());
-$store_setting =$db->Product_model->getSettings('store');
+$store_setting = $db->Product_model->getSettings('store');
 $products = $db->Product_model;
-$notifications_count = $products->getnotificationnew_count('admin',null);
+$notifications_count = $products->getnotificationnew_count('admin', null);
 ?>
 
 <div class="row g-3">
@@ -23,7 +23,7 @@ $notifications_count = $products->getnotificationnew_count('admin',null);
             </div>
             <div class="card col-md-2">
                 <div class="card-body text-center">
-                    <h5 class="card-title"><?= __('admin.shipping') ?> / <?= __('admin.tax') ?></h5>
+                    <h5 class="card-title"><?= __('Vận chuyển') ?> / <?= __('Thuế') ?></h5>
                     <p class="card-text fs-2 ajax-total_balance">
                         <?= c_format($local_store_shipping_cost) ?> /
                         <?= c_format($local_store_tax_cost) ?>
@@ -40,12 +40,12 @@ $notifications_count = $products->getnotificationnew_count('admin',null);
                 <div class="card-body text-center">
                     <h5 class="card-title">
                         <b><a href="<?= base_url('admincontrol/listclients') ?>" class="link-dark text-decoration-none">
-                            <?= __('admin.total_clients') ?> / <?= __('admin.total_guests') ?></a>
+                                <?= __('Khách') ?> / <?= __('Thành viên') ?></a>
                         </b>
                     </h5>
                     <p class="card-text fs-2">
                         <?= !empty($client_count) ? count($client_count) : '0'; ?> /
-                        <?= !empty($guest_count) ? count($guest_count) : '0'; ?>
+                        <?= !empty($user_count) ? count($user_count) : '0'; ?>
                     </p>
                 </div>
             </div>
@@ -276,101 +276,114 @@ $notifications_count = $products->getnotificationnew_count('admin',null);
 
 
 <script type="text/javascript">
-function getPage(url){
-    $this = $(this);
+    function getPage(url) {
+        $this = $(this);
 
-    $.ajax({
-        url:url,
-        type:'POST',
-        dataType:'json',
-        data:$("#filter-form").serialize(),
-        beforeSend:function(){$this.btn("loading");},
-        complete:function(){$this.btn("reset");},
-        success:function(json){
-            if(json['view']){
-                $("#store-dashboard-orders tbody").html(json['view']);
-                $("#store-dashboard-orders").show();
-            } else {
-                $(".empty-div").removeClass("d-none");
-                $("#store-dashboard-orders").hide();
-            }
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'json',
+            data: $("#filter-form").serialize(),
+            beforeSend: function() {
+                $this.btn("loading");
+            },
+            complete: function() {
+                $this.btn("reset");
+            },
+            success: function(json) {
+                if (json['view']) {
+                    $("#store-dashboard-orders tbody").html(json['view']);
+                    $("#store-dashboard-orders").show();
+                } else {
+                    $(".empty-div").removeClass("d-none");
+                    $("#store-dashboard-orders").hide();
+                }
 
-            $("#store-dashboard-orders .pagination-td").html(json['pagination']);
-        },
+                $("#store-dashboard-orders .pagination-td").html(json['pagination']);
+            },
+        })
+    }
+    $(function() {
+        getPage('<?= base_url("admincontrol/store_dashboard_order_list?page=1") ?>');
+    });
+    $("#store-dashboard-orders").delegate(".pagination-td a", "click", function(e) {
+        e.preventDefault();
+        getPage($(this).attr("href"));
+        return false;
     })
-}
-$(function() {
-    getPage('<?= base_url("admincontrol/store_dashboard_order_list?page=1") ?>');
-});
-$("#store-dashboard-orders").delegate(".pagination-td a","click",function(e){
-    e.preventDefault();
-    getPage($(this).attr("href"));
-    return false;
-})
 </script>
 
-    <script>
-       function renderStackedBarChart(group) {
+<script>
+    function renderStackedBarChart(group) {
         var group = group ? group : 'month';
         var selectedyear = $('.yearSelection').val();
         $.ajax({
             type: 'POST',
             dataType: 'json',
-            data: {renderChart: group,selectedyear:selectedyear},
-            success: function (json) {
+            data: {
+                renderChart: group,
+                selectedyear: selectedyear
+            },
+            success: function(json) {
                 loadChartData(json);
             },
         })
     }
+
     function toArray(myObj) {
         return $.map(myObj, function(value, index) {
             return [value];
         });
     }
 
-    $( document ).ready(function() {
+    $(document).ready(function() {
         renderStackedBarChart();
     });
-    
+
     function loadChartData(json) {
         var saleHigh = toArray(json['series_new']['sale']);
         var orderHigh = toArray(json['series_new']['order']);
         var commissionsHigh = toArray(json['series_new']['commissions']);
 
         var months = [
-        '',
-        '<?= substr(__('admin.january'),0,3) ?>',
-        '<?= substr(__('admin.february'),0,3) ?>',
-        '<?= substr(__('admin.march'),0,3) ?>',
-        '<?= substr(__('admin.april'),0,3) ?>',
-        '<?= substr(__('admin.may'),0,3) ?>',
-        '<?= substr(__('admin.june'),0,3) ?>',
-        '<?= substr(__('admin.july'),0,3) ?>',
-        '<?= substr(__('admin.august'),0,3) ?>',
-        '<?= substr(__('admin.september'),0,3) ?>',
-        '<?= substr(__('admin.october'),0,3) ?>',
-        '<?= substr(__('admin.november'),0,3) ?>',
-        '<?= substr(__('admin.december'),0,3) ?>',
+            '',
+            '<?= substr(__('admin.january'), 0, 3) ?>',
+            '<?= substr(__('admin.february'), 0, 3) ?>',
+            '<?= substr(__('admin.march'), 0, 3) ?>',
+            '<?= substr(__('admin.april'), 0, 3) ?>',
+            '<?= substr(__('admin.may'), 0, 3) ?>',
+            '<?= substr(__('admin.june'), 0, 3) ?>',
+            '<?= substr(__('admin.july'), 0, 3) ?>',
+            '<?= substr(__('admin.august'), 0, 3) ?>',
+            '<?= substr(__('admin.september'), 0, 3) ?>',
+            '<?= substr(__('admin.october'), 0, 3) ?>',
+            '<?= substr(__('admin.november'), 0, 3) ?>',
+            '<?= substr(__('admin.december'), 0, 3) ?>',
         ];
-        
-        var dataPoints=[];
-        for (var j = 1; j <=12; j++) {
-            dataPoints.push({y:j,a:saleHigh[j],b:orderHigh[j],c:commissionsHigh[j]})
+
+        var dataPoints = [];
+        for (var j = 1; j <= 12; j++) {
+            dataPoints.push({
+                y: j,
+                a: saleHigh[j],
+                b: orderHigh[j],
+                c: commissionsHigh[j]
+            })
         }
 
         Morris.Line({
-          element: 'chartContainer',
-          lineColors: ['#fc836e', '#3d5674', '#3d5674'],
-          data: dataPoints,
-          parseTime: false,
-          xkey: 'y',
-          ykeys: ['a','b','c'],
-          xLabelFormat: function (x) {
-            var index = parseInt(x.src.y);
-            return months[index];
-          },
-          labels: ['Sales (<?=$CurrencySymbol?>)', 'Orders','Commission (<?=$CurrencySymbol?>)'],
-    });
+            element: 'chartContainer',
+            lineColors: ['#fc836e', '#3d5674', '#3d5674'],
+            data: dataPoints,
+            parseTime: false,
+            xkey: 'y',
+            ykeys: ['a', 'b', 'c'],
+            xLabelFormat: function(x) {
+                var index = parseInt(x.src.y);
+                return months[index];
+            },
+            labels: ['Sales (<?= $CurrencySymbol ?>)', 'Orders', 'Commission (<?= $CurrencySymbol ?>)'],
+        });
     }
 </script>
 
@@ -387,13 +400,13 @@ $("#store-dashboard-orders").delegate(".pagination-td a","click",function(e){
     function load_userworldmap(_data) {
         $('.world-map-users').html('<div class="map"><div id="world-map-users" class="map-content"></div></div>');
         var data = {};
-        $.each(_data,function(i,j){
-            data[j['code']] = j['total']; 
+        $.each(_data, function(i, j) {
+            data[j['code']] = j['total'];
         })
 
         $('.world-map-users #world-map-users').vectorMap({
             map: 'world_mill',
-            zoomButtons : 1,
+            zoomButtons: 1,
             zoomOnScroll: false,
             panOnDrag: 1,
             backgroundColor: 'transparent',
@@ -405,8 +418,8 @@ $("#store-dashboard-orders").delegate(".pagination-td a","click",function(e){
                     r: 5
                 },
             },
-            onRegionTipShow: function(e, el, code, f){
-                el.html(el.html() + (data[code] ? ': <small>' + data[code]+'</small>' : ''));
+            onRegionTipShow: function(e, el, code, f) {
+                el.html(el.html() + (data[code] ? ': <small>' + data[code] + '</small>' : ''));
             },
             series: {
                 regions: [{
@@ -420,11 +433,11 @@ $("#store-dashboard-orders").delegate(".pagination-td a","click",function(e){
                     fill: '#2e4765'
                 },
                 hover: {
-                  "fill-opacity": 0.8
-              }
-          },
-          markers:false,
-      });
+                    "fill-opacity": 0.8
+                }
+            },
+            markers: false,
+        });
     };
 
     load_userworldmap(<?= json_encode($userworldmap) ?>);

@@ -182,9 +182,88 @@ class Wallet_model extends MY_Model
 	// Thêm giao dịch các ví khác nhau hệ thống MJ
 	public function add_transaction_wallets($from_user_id, $owner_wallet_user_id, $transaction_type = 'Giao dịch ví', $wallet_from, $wallet_to, $data = [])
 	{
-		// $data chứa các thông tin is_sent, wallet_from, wallet_to, amount, ...
+		// $data chứa các thông tin is_sent, amount, ...
 
-		return true;
+		if (!empty($data)) {
+
+			$data_input = array(
+
+				'amount'         => $data['amount'],
+
+				'comment'        => $data['comment'],
+
+				'is_sent'        => $data['is_sent'],
+
+				'withdraw_request' => '0',
+
+				'dis_type'       => '',
+
+				'comm_from'      => '',
+
+				'reference_id'   => 0,
+
+				'reference_id_2' => 0,
+
+				'ip_details'     => '',
+
+				'domain_name'    => '',
+
+				'group_id'	=> time() . rand(10, 100)
+
+			);
+		} else {
+
+			$data_input = array(
+
+				'amount'         => 0,
+
+				'comment'        => 'Phát sinh giao dịch: ' . $transaction_type,
+
+				'is_sent'        => '1',
+
+				'withdraw_request' => '0',
+
+				'dis_type'       => '',
+
+				'comm_from'      => '',
+
+				'reference_id'   => 0,
+
+				'reference_id_2' => 0,
+
+				'ip_details'     => '',
+
+				'domain_name'    => '',
+
+				'group_id'	=> time() . rand(10, 100)
+			);
+		}
+
+		$data_params = array(
+
+			'status'         => 1,
+
+			'from_user_id'   => $from_user_id,
+
+			'user_id'        => $owner_wallet_user_id,
+
+			'wallet_to'      => $wallet_to,
+
+			'wallet_from'    => $wallet_from,
+
+			'type'           => $transaction_type,
+
+		);
+
+
+		// Ghép lại
+		$input_data = $data_params + $data_input;
+
+
+		// Thực hiện giao dịch
+		$result = $this->Wallet_model->addTransaction($input_data);
+
+		return $result;
 	}
 
 	// Thêm giao dịch hàng loạt

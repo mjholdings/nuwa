@@ -189,6 +189,30 @@ class Order_model extends MY_Model
                         }
                     }
                 }
+
+                // MJ UPDATE DOANH THU - TIÊU DÙNG TỪ ĐƠN HÀNG =========
+                $sold_user_id = $product['refer_id'];  // lấy refer_id trong bảng order_products => mặc định là 0 tự mua
+                $tranfer_user_id = 1; // admin id
+                $purchased_wallet = 'bank'; // lấy loại ví mua hàng từ form (bank / purchase / credit)
+
+                $data = array();
+                $data['amount'] = $product['price'] * $product['quantity'];  // lấy thành tiền từ sản phẩm đơn hàng
+                $data['comment'] = 'Note doanh thu.';
+                $data['is_sent'] = 1;
+
+                // MJ => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ DOANH THU SHOP TOÀN BỘ ĐƠN HÀNG - KHÁCH MUA HÀNG 
+                $account_wallet = 'revenue';
+                $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $sold_user_id, 'Doanh thu cửa hàng', $purchased_wallet, $account_wallet, $data);
+
+                // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ DOANH THU CHO MEMBER NẾU GIỚI THIỆU
+                if ($sold_user_id > 0) {
+                    $account_wallet = 'revenue';
+                    $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $sold_user_id, 'Doanh thu cá nhân', $purchased_wallet, $account_wallet, $data);
+                }
+
+                // MJ TÍNH THƯỞNG BÁN HÀNG THEO % DOANH THU CHO NGƯỜI GIỚI THIỆU + CHÍNH SÁCH THƯỞNG ===========               
+                // => PHÁT SINH GIAO DỊCH % VÀO VÍ THƯỞNG BÁN HÀNG NẾU CÓ GIỚI THIỆU KHÁCH MUA  
+                $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $sold_user_id, 'Thưởng bán hàng', 'admin', 'reward', $data);
             }
 
             $currentMonth = date('m');
@@ -265,30 +289,21 @@ class Order_model extends MY_Model
 
 
             // MJ UPDATE DOANH THU - TIÊU DÙNG TỪ ĐƠN HÀNG =========
-            $sold_order_id = 1; // lấy id trong bảng order
+            $user_infor = $this->User_model->get_user_by_id();
+
             $sold_user_id = 0;  // lấy refer_id trong bảng order_products => mặc định là 0 tự mua
-            $purchased_user_id = 1; // lấy user_id trong bảng order
-            $purchased_user_type = 'client'; // lấy type trong bảng users
+            $purchased_user_id = $order_info['user_id']; // lấy user_id trong bảng order
+            $purchased_user_type = $user_infor['type']; // lấy type trong bảng users
+            $tranfer_user_id = 1; // admin id
             $purchased_wallet = 'bank'; // lấy loại ví mua hàng từ form (bank / purchase / credit)
             $account_wallet = 'order'; // lấy loại ví tài khoản ghi nhận(order / revenue / consum)
-            $tranfer_user_id = 1; // admin id
 
 
-            // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ DOANH THU SHOP TOÀN BỘ ĐƠN HÀNG - KHÁCH MUA HÀNG 
-            $account_wallet = 'revenue';
-            $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $sold_user_id, 'Doanh thu cửa hàng', $purchased_wallet, $account_wallet);
-
-            // => PHÁT SINH GIAO DỊCH GHI NHẬN VÍ DOANH THU CHO MEMBER NẾU GIỚI THIỆU
-            if ($sold_user_id > 0) {
-                $account_wallet = 'revenue';
-                $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $sold_user_id, 'Doanh thu cá nhân', $purchased_wallet, $account_wallet);
-            }
-
-            // => PHÁT SINH GIAO DỊCH ĐỂ GHI NHẬN VÍ TIÊU DÙNG MEMBER NẾU MUA HÀNG
+            // MJ => PHÁT SINH GIAO DỊCH ĐỂ GHI NHẬN VÍ TIÊU DÙNG MEMBER NẾU MUA HÀNG ==============
             if ($purchased_user_type == 'client') {
 
                 $account_wallet = 'consum';
-                
+
                 // khách mua hàng sẽ trừ tiền từ ví bank / credit
                 $purchased_wallet = 'credit'; // hoặc bank
                 $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $purchased_user_id, 'Giao dịch Mua hàng', $purchased_wallet, $account_wallet);
@@ -306,7 +321,7 @@ class Order_model extends MY_Model
             if ($purchased_user_type == 'admin') {
 
                 $account_wallet = 'consum';
-                
+
                 // admin mua hàng sẽ trừ tiền từ ví tiêu dùng của admin
                 $purchased_wallet = 'purchase'; // hoặc credit
                 $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $purchased_user_id, 'Admin Tiêu dùng', $purchased_wallet, $account_wallet);
@@ -314,10 +329,6 @@ class Order_model extends MY_Model
 
             // MJ TẠO MỘT ĐƠN HÀNG XUẤT CHO KHO ===========
             $this->Order_model->add_order_branch($order_info);
-
-            // MJ TÍNH THƯỞNG BÁN HÀNG THEO % DOANH THU CHO NGƯỜI GIỚI THIỆU + CHÍNH SÁCH THƯỞNG ===========               
-            // => PHÁT SINH GIAO DỊCH % VÀO VÍ THƯỞNG BÁN HÀNG NẾU CÓ GIỚI THIỆU KHÁCH MUA  
-            $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $sold_user_id, 'Thưởng bán hàng', 'admin', 'reward');
 
             // => PHÁT SINH GIAO DỊCH ĐIỂM VÀO VÍ ĐIỂM CHO CUSTOMER
             $this->Wallet_model->add_transaction_wallets($tranfer_user_id, $purchased_user_id, 'Thưởng điểm mua hàng', 'admin', 'reward');

@@ -3547,6 +3547,8 @@ class Admincontrol extends MY_Controller
 
 		$data['admin_totals'] = $this->Total_model->adminTotals();
 
+		$data['admin_user_totals'] = $this->Total_model->adminTotals($userdetails['id']);
+
 		$data['admin_totals_week'] = $fun_c_format($this->Total_model->adminBalance(['week' => 1]));
 
 		$data['admin_totals_month'] = $fun_c_format($this->Total_model->adminBalance(['month' => 1]));
@@ -8582,7 +8584,6 @@ class Admincontrol extends MY_Controller
 					if (isset($post['refid'])) {
 
 						$userArray['refid'] = (int)$post['refid'];
-
 					}
 
 
@@ -8599,7 +8600,6 @@ class Admincontrol extends MY_Controller
 									$userArray['level_id'] = $defaultLevel['id'];
 							}
 						}
-
 					}
 
 					if ((int)$id == 0) {
@@ -8633,30 +8633,29 @@ class Admincontrol extends MY_Controller
 
 						// Nếu người giới thiệu sẽ thưởng giới thiệu và gia nhập - kiểm tra gia nhập hay sửa
 						if (isset($userArray['refid'])) {
-	
+
 							// MJ THÊM NGƯỜI DÙNG MỚI DƯỚI NGƯỜI DÙNG ĐANG CÓ HOẶC THAY ĐỔI NGƯỜI BÊN TRÊN =================
 							// => PHÁT SINH GIAO DỊCH THƯỞNG ADMIN CHO MEMBER GIỚI THIỆU VÀO VÍ THƯỞNG
 							$refer_user_id = (int)$userArray['refid'];
-							$this->Wallet_model->add_transaction_wallets(1, $refer_user_id, 'Thưởng giới thiệu', 'admin', 'reward');	
-							
+							$this->Wallet_model->add_transaction_wallets(1, $refer_user_id, 'Thưởng giới thiệu', 'admin', 'reward');
+
 							// => PHÁT SINH GIAO DỊCH THƯỞNG ĐIỂM NGƯỜI RA NHẬP CLIENT VÀO VÍ ĐIỂM
 							$update_user_id = (int)$id;
 							$this->Wallet_model->add_transaction_wallets(1, $update_user_id, 'Thưởng ra nhập', 'admin', 'credit');
-	
+
 							// => PHÁT SINH CẬP NHẬT SỐ LƯỢNG THÀNH VIÊN TRỰC TIẾP CHO NGƯỜI GIỚI THIỆU
 						}
 
 
 						// Thay đổi cấp độ sẽ thưởng lên cấp - nhớ kiểm tra cấp cũ
 						if (isset($userArray['level_id'])) {
-	
+
 							// MJ CẬP NHẬT CẤP ĐỘ KHI THAY ĐỔI CẤP ĐỘ HOẶC VỊ TRÍ =================
 							// => PHÁT SINH GIAO DỊCH CẬP NHẬT BẢNG CẤP ĐỘ 
 
 							// => PHÁT SINH GIAO DỊCH THƯỞNG LÊN CẤP TỪ ADMIN CHO VÍ THƯỞNG CỦA USER
 							$update_user_id = (int)$id;
 							$this->Wallet_model->add_transaction_wallets(1, $update_user_id, 'Thưởng lên cấp', 'admin', 'reward');
-	
 						}
 
 
@@ -20236,7 +20235,6 @@ class Admincontrol extends MY_Controller
 					// MJ CẬP NHẬT THƯỞNG CẤP ĐỘ NGAY CHO MỖI THÀNH VIÊN TĂNG CẤP ===========
 					// => PHÁT SINH GIAO DỊCH THƯỞNG NGAY VỀ TĂNG CẤP MỚI - TỪ ADMIN CHO MEMBER VÀO VÍ THƯỞNG
 					$this->Wallet_model->add_transaction_wallets(1, $user_id, 'Thưởng lên cấp', 'admin', 'reward');
-
 				}
 			}
 

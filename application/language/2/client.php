@@ -1,4 +1,4 @@
-<?php 
+<?php
 $lang['payment_method'] = 'Phương thức thanh toán';
 $lang['update_password'] = 'Cập nhật mật khẩu';
 $lang['password'] = 'Mật khẩu';

@@ -1240,8 +1240,10 @@ class Usercontrol extends MY_Controller
 
 		$data['user_totals_wallet'] = $this->Wallet_model->getTotals(array("user_id" => $userdetails['id']), true);
 
+		// MJ Tính thêm tiêu dùng cá nhân
+		$data['admin_user_totals'] = $this->Total_model->adminTotals($userdetails['id']);
 
-		//        khen thưởng
+		// Khen thưởng
 		$data['reward'] = $this->db->query("SELECT * FROM reward")->result_array();
 		foreach ($data['reward'] as $reward) {
 			if ($data['user_totals']['wallet_unpaid_amount'] == $reward['minimum_earning']) {

@@ -725,7 +725,7 @@ class Total_model extends MY_Model
 	}
 
 	// Tính tổng trang Dashboard Admin
-	public function adminTotals()
+	public function adminTotals($user_id = null)
 	{
 		$totals = [];
 
@@ -735,7 +735,7 @@ class Total_model extends MY_Model
 
 		$totals['admin_balance_growth'] = $this->getGrowthPercentage((int)$totals['admin_balance'], (int)$admin_balance_growth_from_last_weak);
 
-		// Tính thêm các phần khác dựa vào giao dịch Ví ========
+		// MJ Tính thêm các phần khác dựa vào giao dịch Ví ========
 
 		// Thưởng hoa hồng
 		$totals['admin_balance_reward'] = $this->adminBalanceWallet('reward');
@@ -749,6 +749,7 @@ class Total_model extends MY_Model
 		// Tài khoản điểm
 		$totals['admin_balance_credit'] = $this->adminBalanceWallet('credit');
 
+		// Tính tổng doanh thu từ đơn hàng
 		$sale_localstore_total = $this->db->query("SELECT 
 			SUM(order_products.total) as total,
 			SUM(order_products.admin_commission+order_products.commission) as total_commission,
@@ -761,7 +762,44 @@ class Total_model extends MY_Model
 		$totals['sale_localstore_commission'] = $sale_localstore_total->total_commission;
 		$totals['sale_localstore_count'] = $sale_localstore_total->total_order;
 
+		// Tính tổng chi tiêu từ đơn hàng => user_id của đơn hàng bằng chính tài khoản admin đang đăng nhập 
+		if ($user_id != null) {
+			$consum_user_total = $this->db->query("SELECT 
+			SUM(order_products.total) as total,
+			SUM(order_products.admin_commission + order_products.commission) as total_commission,
+			COUNT(order_products.id) as total_order 
+		FROM order_products
+		LEFT JOIN `order` o ON o.id = order_products.order_id
+		WHERE o.user_id = ? AND (order_products.vendor_id = 0 OR order_products.vendor_id IS NULL) AND o.status > 0", array($user_id))->row();
 
+			$totals['consum_user_total'] = $consum_user_total->total;
+			$totals['consum_user_commission'] = $consum_user_total->total_commission;
+			$totals['consum_user_count'] = $consum_user_total->total_order;
+		} else {
+			$totals['consum_user_total'] = 0;
+			$totals['consum_user_commission'] = 0;
+			$totals['consum_user_count'] = 0;
+		}
+
+		// Tính tổng doanh thu từ đơn hàng mà sản phẩm được giới thiệu bởi user_id
+		if ($user_id != null) {
+			$refer_user_id = $user_id; // Thay 123 bằng giá trị user_id cụ thể mà bạn muốn tính doanh thu cho họ
+
+			$revenue_user_total = $this->db->query("SELECT 
+			SUM(order_products.total) as total_revenue
+		FROM order_products
+		LEFT JOIN `order` o ON o.id = order_products.order_id
+		WHERE order_products.refer_id = ? AND o.status > 0", array($refer_user_id))->row();
+
+			$totals['revenue_user_total'] = $revenue_user_total->total_revenue;
+		} else {
+			$totals['revenue_user_total'] = 0;
+		}
+
+		// ============================
+
+
+		// Tính tổng doanh thu của đơn hàng từ Vendor
 		$sale_localstore_vendor_total = $this->db->query("SELECT 
 			SUM(order_products.total) as total,
 			SUM(order_products.admin_commission+order_products.commission) as total_commission,
@@ -775,7 +813,6 @@ class Total_model extends MY_Model
 			$totals['sale_localstore_vendor_commission'] += $value->total_commission;
 			$totals['sale_localstore_vendor_count'] += $value->total_order;
 		}
-
 
 		$totals['vendor_all_sales_growth'] = $this->vendor_sales_growth((int) $totals['sale_localstore_vendor_total']);
 

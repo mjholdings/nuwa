@@ -150,7 +150,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                 <?= __('Chi tiêu cá nhân') ?>
               </p>
               <h1>
-                <?= c_format($user_totals_wallet['balance_wallet_credit']) ?>
+                <?= $fun_c_format($admin_user_totals['consum_user_total']) ?>
               </h1>
             </div>
           </div>
@@ -171,7 +171,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                 <?= __('Doanh thu cá nhân') ?>
               </p>
               <h1>
-                <?= c_format($user_totals_wallet['balance_wallet_withdraw']) ?>
+                <?= $fun_c_format($admin_user_totals['revenue_user_total']) ?>
               </h1>
             </div>
           </div>
@@ -1668,7 +1668,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
               <div class="card-header  bg-color">
                 <h4 class="header-title font-title">
                   <?= __('user.name') ?>
-                  <?= __('user.country') ?>&
+                  <?= __('user.country') ?> &
                   <?= __('user.commission') ?>
                 </h4>
               </div>

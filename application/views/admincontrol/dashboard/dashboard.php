@@ -470,7 +470,7 @@ $enable_disable = array(
                                                     <div class="row justify-content-center mb-2">
                                                         <div class="col text-center">
                                                             <span class="card-text h5">
-                                                                <span class="card-text h6 ajax-sale_total_admin_store"><?= $fun_c_format($admin_totals['sale_localstore_total'] + $admin_totals['order_external_total']) ?>
+                                                                <span class="card-text h6 ajax-sale_total_admin_store"><?= $fun_c_format($admin_user_totals['consum_user_total']) ?>
                                                                 </span>
                                                             </span>
                                                         </div>
@@ -480,7 +480,8 @@ $enable_disable = array(
                                                         <div class="col text-center">
                                                             <span class="card-text h5">
                                                                 <span class="badge bg-success fs-6">
-                                                                    <span class="ajax-admin_all_sales_growth"><?= $admin_totals['admin_all_sales_growth']; ?>
+                                                                    <span class="ajax-admin_all_sales_growth"><?= 0; //$admin_totals['admin_all_sales_growth']; 
+                                                                                                                ?>
                                                                     </span>% <i class="bi bi-arrow-up-short"></i>
                                                                 </span>
                                                             </span>

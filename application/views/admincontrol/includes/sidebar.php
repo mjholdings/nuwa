@@ -315,7 +315,7 @@ $sidebar_data = array(
 
         <div class="dropdown-menu">
           <?php if ($userdetails['id'] == 1) : ?>
-            <a class="dropdown-item" href="<?= base_url('admincontrol/update_all_user_levels') ?>">
+            <a class="dropdown-item" href="<?= base_url('admincontrol/user_ranks') ?>">
 
               <i class="bi bi-clipboard2-data-fill"></i>
 

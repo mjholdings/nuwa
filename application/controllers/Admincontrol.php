@@ -11934,16 +11934,26 @@ class Admincontrol extends MY_Controller
 		$this->view($data, 'clients/index');
 	}
 
-
+	// Danh sách users theo cấp bậc và cập nhật cấp bậc theo điều kiện mới nhất
+	public function user_ranks($offset = 0)
+	{
+		$userdetails = $this->userdetails();
+		$this->load->library('pagination');
+		$config['base_url'] = base_url('admincontrol/user_ranks');
+		$config['uri_segment'] = 3;
+		$config['per_page'] = 10;
+		$config['total_rows'] = $this->Product_model->countByTable('users');
+		$this->pagination->initialize($config);
+		$data['pagination'] = $this->pagination->create_links();
+		$data['branch'] = $this->Product_model->getAllBranch($config['per_page'], $offset);
+		$data['total_users'] = $this->Product_model->countByTable('users');
+		$this->view($data, 'user_ranks/list');
+	}
 
 	public function addstock($id = null)
 	{
 
-
-
 		$userdetails = $this->userdetails();
-
-
 
 		if (empty($userdetails)) {
 
@@ -22237,7 +22247,38 @@ class Admincontrol extends MY_Controller
 		// Kiểm tra và nâng cấp các thành viên nếu đủ điều kiện
 		$this->mj_rank_upgrade_get_condition();
 
-		$data = [];
+
+		// Liệt kê danh sách cấp bậc Users
+		$data['user'] = $userdetails;
+
+		if (isset($_POST['listclients'])) {
+
+			$page = max((int)$page, 1);
+
+			$filter = array(
+				'limit' => 50,
+				'page' => $page
+			);
+
+			list($data['clientslist'], $total) = $this->Product_model->getAllClients($filter);
+			$data['start_from'] = (($page - 1) * $filter['limit']) + 1;
+			$json['html'] = $this->load->view("admincontrol/users/update_all_user_levels", $data, true);
+
+			$this->load->library('pagination');
+			$config['base_url'] = base_url('admincontrol/update_all_user_levels/');
+			$config['per_page'] = $filter['limit'];
+			$config['total_rows'] = $total;
+			$config['use_page_numbers'] = TRUE;
+			$config['enable_query_strings'] = TRUE;
+			$this->pagination->initialize($config);
+			$json['pagination'] = $this->pagination->create_links();
+			echo json_encode($json);
+			die;
+
+			exit;
+		}
+
+		$data['note'] = 'Đã cập nhật CẤP ĐỘ toàn bộ thành viên theo điều kiện và chính sách !!!';
 		$this->view($data, 'users/update_all_user_levels');
 	}
 

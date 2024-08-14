@@ -10,11 +10,14 @@
                     <table class="table table-striped text-center">
                         <thead>
                             <tr>
+                                <th><?= __('Stt') ?></th>
                                 <th><?= __('Tên') ?></th>
-                                <th><?= __('Doanh số Yêu cầu') ?></th>
-                                <th><?= __('Doanh số Tổng Yêu cầu') ?></th>
-                                <th><?= __('Thưởng Hoa hồng (%)') ?></th>
-                                <th><?= __('Thưởng cứng (đ)') ?></th>
+                                <th><?= __('Cấp độ') ?></th>
+                                <th><?= __('Vị trí') ?></th>
+                                <th><?= __('Doanh thu') ?></th>                                
+                                <th><?= __('Tiêu dùng') ?></th>
+                                <th><?= __('Tuyển dụng') ?></th>
+                                <th><?= __('Thưởng') ?></th>
                                 <th>#</th>
                             </tr>
                         </thead>

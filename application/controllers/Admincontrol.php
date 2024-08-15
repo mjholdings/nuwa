@@ -11935,17 +11935,61 @@ class Admincontrol extends MY_Controller
 	}
 
 	// Danh sách users theo cấp bậc và cập nhật cấp bậc theo điều kiện mới nhất
+
 	public function user_ranks($offset = 0)
+	{
+		$userdetails = $this->userdetails();
+		$this->load->library('pagination');
+
+		// Lấy giá trị từ các select input
+		$order_by = $this->input->get('order_by') ? $this->input->get('order_by') : 'level_number';
+		$order_type = $this->input->get('order_type') ? $this->input->get('order_type') : 'DESC';
+		$filter_type = $this->input->get('filter_type') ? $this->input->get('filter_type') : 'user';
+		$limit = $this->input->get('limit') ? $this->input->get('limit') : 25;
+
+		// Tính tổng số người dùng sau khi lọc
+		$sql = "SELECT COUNT(*) as total FROM users";
+
+		// Thêm điều kiện lọc nếu cần thiết
+		if ($filter_type != 'all') {
+			$sql .= " WHERE type = " . $this->db->escape($filter_type);
+		}
+
+		// Thực hiện truy vấn đếm
+		$query = $this->db->query($sql);
+		$total_users = $query->row()->total;
+
+		// Cấu hình phân trang
+		$config['base_url'] = base_url('admincontrol/user_ranks');
+		$config['uri_segment'] = 3;
+		$config['per_page'] = $limit;
+		$config['total_rows'] = $total_users; // Tổng số lượng người dùng đã lọc
+		$this->pagination->initialize($config);
+
+		// Lấy danh sách người dùng sau khi sắp xếp và lọc
+		$data['pagination'] = $this->pagination->create_links();
+		$data['list_users'] = $this->Product_model->getAllUserRanks($config['per_page'], $offset, $order_by, $order_type, $filter_type);
+		$data['total_users'] = $total_users; // Truyền tổng số lượng người dùng vào view
+		$data['order_by'] = $order_by;
+		$data['order_type'] = $order_type;
+		$data['filter_type'] = $filter_type;
+		$data['limit'] = $limit;
+
+		$this->view($data, 'user_ranks/list');
+	}
+
+
+	public function user_ranks_old($offset = 0)
 	{
 		$userdetails = $this->userdetails();
 		$this->load->library('pagination');
 		$config['base_url'] = base_url('admincontrol/user_ranks');
 		$config['uri_segment'] = 3;
-		$config['per_page'] = 10;
+		$config['per_page'] = 25;
 		$config['total_rows'] = $this->Product_model->countByTable('users');
 		$this->pagination->initialize($config);
 		$data['pagination'] = $this->pagination->create_links();
-		$data['branch'] = $this->Product_model->getAllBranch($config['per_page'], $offset);
+		$data['list_users'] = $this->Product_model->getAllUserRanks($config['per_page'], $offset);
 		$data['total_users'] = $this->Product_model->countByTable('users');
 		$this->view($data, 'user_ranks/list');
 	}

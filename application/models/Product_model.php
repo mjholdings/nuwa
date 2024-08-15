@@ -5480,6 +5480,69 @@ class Product_model extends MY_Model
         return $result;
     }
 
+    // Lấy danh sách cấp độ người dùng
+
+
+    public function getAllUserRanks($limit = false, $offset = 0, $order_by = 'u.id', $order_type = 'ASC', $filter_type = 'all')
+    {
+        $ci = &get_instance();
+
+        $sql = "
+    SELECT 
+        u.id as user_id,
+        u.username,
+        u.type,
+        CONCAT(u.firstname, ' ', u.lastname) as full_name,
+        al.level_number,
+        mp.name as plan_name,
+        CONCAT(ref.firstname, ' ', ref.lastname) as referrer_name,
+        IFNULL(SUM(o.total), 0) as personal_consumption,
+        IFNULL(SUM(op.total), 0) as personal_revenue,
+        IFNULL(MAX(o.total), 0) as max_order_total,
+        IFNULL(MAX(op.branch_total), 0) as max_revenue_total,
+        (SELECT COUNT(*) FROM users WHERE refid = u.id) as recruitment_count,
+        (SELECT MAX(al2.level_number) 
+            FROM users u2 
+            JOIN membership_user mu2 ON u2.plan_id = mu2.id
+            JOIN membership_plans mp2 ON mu2.plan_id = mp2.id
+            JOIN award_level al2 ON mp2.level_id = al2.id
+            WHERE u2.refid = u.id
+        ) as max_recruit_level
+    FROM 
+        users u
+    LEFT JOIN users ref ON u.refid = ref.id
+    LEFT JOIN membership_user mu ON u.plan_id = mu.id
+    LEFT JOIN membership_plans mp ON mu.plan_id = mp.id
+    LEFT JOIN award_level al ON mp.level_id = al.id
+    LEFT JOIN `order` o ON o.user_id = u.id AND o.status = 1
+    LEFT JOIN order_products op ON op.refer_id = u.id
+    ";
+
+        // Điều kiện lọc theo loại người dùng
+        if ($filter_type != 'all') {
+            $sql .= " WHERE u.type = " . $ci->db->escape($filter_type);
+        }
+
+        // Thêm điều kiện GROUP BY
+        $sql .= " GROUP BY u.id";
+
+        // Sắp xếp theo trường được chỉ định và theo thứ tự ASC/DESC
+        $sql .= " ORDER BY $order_by $order_type";
+
+        // Giới hạn số lượng bản ghi trả về và offset nếu cần
+        if ($limit != false) {
+            $sql .= " LIMIT " . (int)$limit . " OFFSET " . (int)$offset;
+        }
+
+        // Thực hiện truy vấn SQL
+        $query = $ci->db->query($sql);
+
+        // Lấy kết quả và trả về
+        $result = $query->result_array();
+
+        return $result;
+    }
+
 
     // Branch Model
     public function getAllBranch($limit = false, $offset = 0)

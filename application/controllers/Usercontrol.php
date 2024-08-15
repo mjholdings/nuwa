@@ -843,11 +843,21 @@ class Usercontrol extends MY_Controller
 
 								// MJ ĐĂNG KÝ THÀNH CÔNG NGƯỜI DÙNG MỚI =================
 								// => PHÁT SINH GIAO DỊCH THƯỞNG CHO NGƯỜI GIỚI THIỆU
-								$this->Wallet_model->add_transaction_wallets(1, $refid, 'Thưởng giới thiệu', 'admin', 'reward');
+								$data_transaction = [];
+								$data_transaction['amount'] = 0;  // lấy tiền cho việc lên cấp
+								$data_transaction['comment'] = 'Thưởng cho người giới thiệu.';
+								$data_transaction['is_sent'] = 1;
+								$this->Wallet_model->add_transaction_wallets(1, $refid, 'Thưởng giới thiệu', 'admin', 'reward', $data_transaction);
 
 								// => PHÁT SINH GIAO DỊCH THƯỞNG CHO NGƯỜI RA NHẬP
+
+								$data_transaction = [];
+								$data_transaction['amount'] = 0;  // lấy tiền cho việc lên cấp
+								$data_transaction['comment'] = 'Thưởng cho người ra nhập.';
+								$data_transaction['is_sent'] = 1;
+
 								$new_user_id = $user_details_array['id'];
-								$this->Wallet_model->add_transaction_wallets(1, $new_user_id, 'Thưởng ra nhập', 'admin', 'credit');
+								$this->Wallet_model->add_transaction_wallets(1, $new_user_id, 'Thưởng ra nhập', 'admin', 'credit', $data_transaction);
 
 								// => PHÁT SINH CẬP NHẬT SỐ LƯỢNG THÀNH VIÊN TRỰC TIẾP CHO NGƯỜI GIỚI THIỆU
 
@@ -1238,7 +1248,7 @@ class Usercontrol extends MY_Controller
 
 		$data['user_totals'] = $this->Total_model->getUserTotals((int)$userdetails['id']);
 
-		// MJ Tính tổng các Ví 
+		// MJ Tính tổng các Ví show ra dashboard
 		$wallet_requests = (float)$this->db->query("SELECT SUM(total) as total FROM wallet_requests WHERE  total > 0  AND user_id=" . (int)$userdetails['id'])->row()->total;
 		$data['wallet_requests'] = $wallet_requests;
 		$data['user_totals_wallet'] = $this->Wallet_model->getTotals(array("user_id" => $userdetails['id']), true);

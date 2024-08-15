@@ -8639,11 +8639,23 @@ class Admincontrol extends MY_Controller
 							// MJ THÊM NGƯỜI DÙNG MỚI DƯỚI NGƯỜI DÙNG ĐANG CÓ HOẶC THAY ĐỔI NGƯỜI BÊN TRÊN =================
 							// => PHÁT SINH GIAO DỊCH THƯỞNG ADMIN CHO MEMBER GIỚI THIỆU VÀO VÍ THƯỞNG
 							$refer_user_id = (int)$userArray['refid'];
-							$this->Wallet_model->add_transaction_wallets(1, $refer_user_id, 'Thưởng giới thiệu', 'admin', 'reward');
+
+							$data_transaction = [];
+							$data_transaction['amount'] = 0;  // lấy tiền từ cài đặt thưởng giới thiệu
+							$data_transaction['comment'] = 'Thưởng cho người giới thiệu.';
+							$data_transaction['is_sent'] = 1;
+
+							$this->Wallet_model->add_transaction_wallets(1, $refer_user_id, 'Thưởng giới thiệu', 'admin', 'reward', $data_transaction);
 
 							// => PHÁT SINH GIAO DỊCH THƯỞNG ĐIỂM NGƯỜI RA NHẬP CLIENT VÀO VÍ ĐIỂM
 							$update_user_id = (int)$id;
-							$this->Wallet_model->add_transaction_wallets(1, $update_user_id, 'Thưởng ra nhập', 'admin', 'credit');
+
+							$data_transaction = [];
+							$data_transaction['amount'] = 0;  // lấy tiền từ cài đặt thưởng ra nhập
+							$data_transaction['comment'] = 'Thưởng cho người ra nhập.';
+							$data_transaction['is_sent'] = 1;
+
+							$this->Wallet_model->add_transaction_wallets(1, $update_user_id, 'Thưởng ra nhập', 'admin', 'credit', $data_transaction);
 
 							// => PHÁT SINH CẬP NHẬT SỐ LƯỢNG THÀNH VIÊN TRỰC TIẾP CHO NGƯỜI GIỚI THIỆU
 						}
@@ -8653,11 +8665,23 @@ class Admincontrol extends MY_Controller
 						if (isset($userArray['level_id'])) {
 
 							// MJ CẬP NHẬT CẤP ĐỘ KHI THAY ĐỔI CẤP ĐỘ HOẶC VỊ TRÍ =================
+
+							$data_transaction = [];
+							$data_transaction['amount'] = 0;  // lấy tiền từ cài đặt thưởng giới thiệu
+							$data_transaction['comment'] = 'Thưởng cho người giới thiệu.';
+							$data_transaction['is_sent'] = 1;
+
+
+							$data_transaction = [];
+							$data_transaction['amount'] = 0;  // lấy tiền cho việc lên cấp
+							$data_transaction['comment'] = 'Thưởng cho người vừa lên cấp.';
+							$data_transaction['is_sent'] = 1;
+
 							// => PHÁT SINH GIAO DỊCH CẬP NHẬT BẢNG CẤP ĐỘ 
 
 							// => PHÁT SINH GIAO DỊCH THƯỞNG LÊN CẤP TỪ ADMIN CHO VÍ THƯỞNG CỦA USER
 							$update_user_id = (int)$id;
-							$this->Wallet_model->add_transaction_wallets(1, $update_user_id, 'Thưởng lên cấp', 'admin', 'reward');
+							$this->Wallet_model->add_transaction_wallets(1, $update_user_id, 'Thưởng lên cấp', 'admin', 'reward', $data_transaction);
 						}
 
 
@@ -9464,131 +9488,66 @@ class Admincontrol extends MY_Controller
 		return $value ? $reward['name'] : $reward['id'];
 	}
 
-	// Tính toán và cập nhật thưởng
+	// MJ Tính toán và cập nhật thưởng theo RANK =====================
 	public function calculate_and_update_commissions()
 	{
 
 		// Xóa dữ liệu cũ trong bảng user_commission
 		$this->db->truncate('user_commission');
 
-		// Lấy danh sách tất cả các user từ bảng users
-		$this->db->select('id');
-		$query = $this->db->get('users');
-		$users = $query->result_array();
+		// Load settings - Tải toàn bộ cài đặt thưởng theo cấp độ
+		$rank_settings = $this->get_commission_by_rank_settings();
 
-		// Load settings
-		$settings = $this->load_commission_settings();
+		// Lặp qua mỗi cấp độ
+		foreach ($rank_settings as $level_setting) {
 
-		foreach ($users as $user) {
-			$user_id = $user['id'];
+			// Lấy danh sách tất cả các user thuộc mỗi cấp độ			
+			$users = $this->getUsersByLevel($level_setting['level_number']);
 
-			// Sales Commission ********************
-			// Calculate personal sales commission
-			if ($settings['bonus_from_sales_personal']) {
-				$this->calculate_personal_sales_commission($user_id, $settings);
-			}
+			// Lặp qua mỗi thành viên trong cấp độ đó
+			foreach ($users as $user) {
+				$user_id = $user['id'];
 
-			// Calculate direct sales commission
-			if ($settings['bonus_from_sales_direct_members']) {
-				$this->calculate_direct_sales_commission($user_id, $settings);
-			}
+				// Mảng dữ liệu đầu vào tham gia kiểm tra trả thưởng
+				$data_user = [];
+				$data_transaction = [];
 
-			// Calculate indirect sales commission
-			if ($settings['bonus_from_sales_indirect_members']) {
-				$this->calculate_indirect_sales_commission($user_id, $settings);
-			}
+				// Tính toán tiền hoa hồng cho cấp độ và doanh thu | tiêu dùng | thu nhập người này
+				$data_transaction['amount'] = $this->calculate_cron_user_commission($user_id, $level_setting, $data_user);
+				$data_transaction['comment'] = 'Thưởng hoa hồng theo chính sách.';
+				$data_transaction['is_sent'] = 1;
 
-			// Calculate downline sales commission
-			if ($settings['bonus_from_sales_members']) {
-				$this->calculate_downline_sales_commission($user_id, $settings);
-			}
-
-			// Calculate team sales commission
-			if ($settings['bonus_from_sales_team']) {
-				$this->calculate_team_sales_commission($user_id, $settings);
-			}
-
-			// Calculate branch sales commission
-			if ($settings['bonus_from_sales_branch_members']) {
-				$this->calculate_branch_sales_commission($user_id, $settings);
-			}
-
-			// Calculate shop sales commission
-			if ($settings['bonus_from_sales_shop']) {
-				$this->calculate_shop_sales_commission($user_id, $settings);
-			}
-
-			// Consum Commission *********************
-			// Calculate direct consumption commission
-			if ($settings['bonus_from_consum_personal']) {
-				$this->calculate_personal_consum_commission($user_id, $settings);
-			}
-
-			// Calculate direct consumption commission
-			if ($settings['bonus_from_consum_direct_members']) {
-				$this->calculate_direct_consum_commission($user_id, $settings);
-			}
-
-			// Calculate indirect consumption commission
-			if ($settings['bonus_from_consum_indirect_members']) {
-				$this->calculate_indirect_consum_commission($user_id, $settings);
-			}
-
-			// Calculate indirect consumption commission
-			if ($settings['bonus_from_consum_members']) {
-				$this->calculate_downline_consum_commission($user_id, $settings);
-			}
-
-			// Calculate indirect consumption commission
-			if ($settings['bonus_from_consum_team']) {
-				$this->calculate_team_consum_commission($user_id, $settings);
-			}
-
-			// Calculate indirect consumption commission
-			if ($settings['bonus_from_consum_branch_members']) {
-				$this->calculate_branch_consum_commission($user_id, $settings);
-			}
-
-			// Recruitment Commission ***********************
-			// Calculate recruitment commission
-			if ($settings['bonus_recruitment_direct']) {
-				$this->calculate_direct_recruitment_commission($user_id, $settings);
-			}
-
-			// Calculate recruitment commission indirect
-			if ($settings['bonus_recruitment_indirect']) {
-				$this->calculate_indirect_recruitment_commission($user_id, $settings);
-			}
-
-			// Calculate recruitment commission indirect
-			if ($settings['bonus_recruitment_downline']) {
-				$this->calculate_downline_recruitment_commission($user_id, $settings);
-			}
-
-			// Rank Commission and Other ***************************
-			// Calculate rank up commission
-			if ($settings['bonus_up_rank']) {
-				$this->calculate_rank_up_commission($user_id, $settings);
-			}
-
-			// Calculate retention commission
-			if ($settings['bonus_retention_apply']) {
-				$this->calculate_retention_commission($user_id, $settings);
-			}
-
-			// Calculate condition commission
-			if ($settings['condition_bonus_sales_team']) {
-				$this->calculate_condition_commission($user_id, $settings);
-			}
-
-			// Calculate shared goal commission
-			if ($settings['bonus_shared_apply']) {
-				$this->calculate_shared_goal_commission($user_id, $settings);
+				$user_id = $userdetails['id'];
+				$this->Wallet_model->add_transaction_wallets(1, $user_id, 'Thưởng theo chính sách.', 'admin', 'reward', $data_transaction);
 			}
 		}
 	}
 
-	// Lấy settings commission
+	// MJ Tính tiền hoa hồng hoặc thưởng theo $user_id, $condition_setting, $data_user
+	public function calculate_cron_user_commission($user_id, $condition_setting, $data_user)
+	{
+		return 0;
+	}
+
+	// MJ Lấy cài đặt hoa hồng thưởng theo cấp độ
+	public function get_commission_by_rank_settings()
+	{
+		$ci = &get_instance();
+
+		// Truy vấn SQL để lấy toàn bộ giá trị trong bảng award_level
+		$sql = "SELECT * FROM award_level";
+
+		// Thực hiện truy vấn
+		$query = $ci->db->query($sql);
+
+		// Lấy kết quả và trả về dưới dạng mảng
+		$result = $query->result_array();
+
+		return $result;
+	}
+
+
+	// Lấy settings commission ====
 	private function load_commission_settings()
 	{
 
@@ -20290,7 +20249,13 @@ class Admincontrol extends MY_Controller
 
 					// MJ CẬP NHẬT THƯỞNG CẤP ĐỘ NGAY CHO MỖI THÀNH VIÊN TĂNG CẤP ===========
 					// => PHÁT SINH GIAO DỊCH THƯỞNG NGAY VỀ TĂNG CẤP MỚI - TỪ ADMIN CHO MEMBER VÀO VÍ THƯỞNG
-					$this->Wallet_model->add_transaction_wallets(1, $user_id, 'Thưởng lên cấp', 'admin', 'reward');
+
+					$data_transaction = [];
+					$data_transaction['amount'] = 0;  // lấy tiền cho việc lên cấp
+					$data_transaction['comment'] = 'Thưởng cho người vừa lên cấp.';
+					$data_transaction['is_sent'] = 1;
+
+					$this->Wallet_model->add_transaction_wallets(1, $user_id, 'Thưởng lên cấp', 'admin', 'reward', $data_transaction);
 				}
 			}
 
@@ -22355,16 +22320,15 @@ class Admincontrol extends MY_Controller
 		// => Cập nhật thưởng vào bảng Ví
 		// $this->mj_update_commission_to_wallet();
 
-		// Tính toán thưởng tất cả - BETA chưa tính vì còn các chính sách và cài đặt settings
-		// $this->calculate_and_update_commissions();
+
 
 		// MJ THỰC HIỆN CẬP NHẬT TOÀN BỘ THƯỞNG CHO THÀNH VIÊN THEO CẤP ĐỘ VÀ ĐIỀU KIỆN ĐẠT ĐƯỢC (KẾT VÍ)
 		// => CẬP NHẬT THƯỞNG THEO CHÍNH SÁCH (THỨ HÀNG VÀ ĐIỀU KIỆN NGOÀI THỨ HẠNG)
 		// => PHÁT SINH GIAO DỊCH THƯỞNG TỪ ADMIN CHO MEMBER VÀO VÍ THƯỞNG
-		$user_id = $userdetails['id'];
-		$this->Wallet_model->add_transaction_wallets(1, $user_id, 'Thưởng lên cấp', 'admin', 'reward');
 
+		$this->calculate_and_update_commissions();
 
+		// Hiển thị thông tin thưởng ra View
 		$data = [];
 		$this->view($data, 'users/update_all_user_commissions');
 	}

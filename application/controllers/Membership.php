@@ -60,7 +60,13 @@ class Membership extends MY_Controller
 
 				// => PHÁT SINH GIAO DỊCH THƯỞNG CHO MEMBER KHI THAY ĐỔI CẤP - ADMIN CHUYỂN TỚI VÍ THƯỞNG MEMBER
 				$update_user_id = $user;
-				$this->Wallet_model->add_transaction_wallets(1, $update_user_id, 'Thưởng lên cấp', 'admin', 'reward');
+
+				$data_transaction = [];
+				$data_transaction['amount'] = 0;  // lấy tiền cho việc lên cấp
+				$data_transaction['comment'] = 'Thưởng cho người vừa lên cấp.';
+				$data_transaction['is_sent'] = 1;
+
+				$this->Wallet_model->add_transaction_wallets(1, $update_user_id, 'Thưởng lên cấp', 'admin', 'reward', $data_transaction);
 
 				$json['reload'] = 1;
 				$this->session_message("Success: {$plan->name} assign to {$user->firstname} {$user->lastname}");

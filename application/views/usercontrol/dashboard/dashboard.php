@@ -129,7 +129,7 @@ $productForAffiliate = $db->Product_model->getProductForAffiliate();
                 <?= __('Ví Tài Khoản (Rút)') ?>
               </p>
               <h1>
-                <?= c_format($user_totals_wallet['balance_wallet_withdraw']) ?>
+                <?= c_format($user_totals_wallet['balance_wallet_withdraw'] - $wallet_requests) ?>
               </h1>
             </div>
           </div>

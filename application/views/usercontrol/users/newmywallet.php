@@ -63,7 +63,7 @@
 				<div class="text-center">
 					<ul class="list-inline row mb-0 clearfix">
 						<li class="col-12">
-							<p class="m-b-5 font-18 font-500 counter text-primary set-color"><strong><?= c_format($user_totals_wallet['balance_wallet_withdraw']) ?></strong></p>
+							<p class="m-b-5 font-18 font-500 counter text-primary set-color"><strong><?= c_format($user_totals_wallet['balance_wallet_withdraw'] - $wallet_requests) ?></strong></p>
 							<p class="mb-0 text-muted"><?= __('Ví tài khoản (Rút)') ?></p>
 						</li>
 
@@ -221,24 +221,26 @@
 														<div class="mt-2 mb-3">
 															<h6>Rút tiền từ</h6>
 															<select class="form-control input-transaction" id="withdraw_from" name="withdraw_from">
-																<option value="withdraw">Ví Tài khoản (VND)</option>
-																<option value="purchase" selected>Ví Tiêu dùng</option>
+																<option value="withdraw" selected>Ví Tài khoản (VND)</option>
+																<option value="purchase">Ví Tiêu dùng</option>
 																<option value="reward">Ví Thưởng</option>
 																<option value="credit">Ví Điểm (Nuwa)</option>
 															</select>
 														</div>
-														<span class="text-danger">Quý khách chỉ được rút tối đa 70% số tiền hiện có. (<?= c_format(($wallet_unpaid_amount * 70) / 100) ?>)</span>
+														<span class="text-danger">Quý khách chỉ được rút tối đa 70% (<?= c_format(($wallet_unpaid_amount * 70) / 100) ?>) số tiền hiện có <?= c_format($wallet_unpaid_amount) ?>. </span>
+
+														<?= // var_dump($site_setting['wallet_max_amount_type']); ?>
 
 														<div><?= __('Nhập số tiền cần rút/chuyển') ?></div>
 														<input type="number" name="amount-request" class="form-control" data-val="<?= ($wallet_unpaid_amount * 70) / 100 ?>" />
 														<div class="mt-3 mb-2">
 															<h6>Tới ví hoặc ngân hàng</h6>
 															<select class="form-control input-transaction" id="withdraw_to" name="withdraw_to">
-																<option value="withdraw" selected>Ví tài khoản (VND)</option>
+																<option value="bank" selected>Tài khoản Ngân hàng</option>
+																<option value="withdraw">Ví tài khoản (VND)</option>
 																<option value="purchase">Ví Tiêu dùng</option>
 																<option value="reward">Ví Thưởng</option>
 																<option value="credit">Ví Điểm (Nuwa)</option>
-																<option value="bank">Tài khoản Ngân hàng</option>
 															</select>
 														</div>
 													</div>

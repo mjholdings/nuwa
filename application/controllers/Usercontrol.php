@@ -1238,6 +1238,9 @@ class Usercontrol extends MY_Controller
 
 		$data['user_totals'] = $this->Total_model->getUserTotals((int)$userdetails['id']);
 
+		// MJ Tính tổng các Ví 
+		$wallet_requests = (float)$this->db->query("SELECT SUM(total) as total FROM wallet_requests WHERE  total > 0  AND user_id=" . (int)$userdetails['id'])->row()->total;
+		$data['wallet_requests'] = $wallet_requests;
 		$data['user_totals_wallet'] = $this->Wallet_model->getTotals(array("user_id" => $userdetails['id']), true);
 
 		// MJ Tính thêm tiêu dùng cá nhân
@@ -3356,7 +3359,14 @@ class Usercontrol extends MY_Controller
 
 		$total = (float)$this->db->query("SELECT SUM(amount) as total FROM wallet WHERE status=1 AND amount > 0 AND commission_status=0 AND user_id=" . (int)$userdetails['id'])->row()->total;
 		$wallet_requests = (float)$this->db->query("SELECT SUM(total) as total FROM wallet_requests WHERE  total > 0  AND user_id=" . (int)$userdetails['id'])->row()->total;
+		// $data['wallet_unpaid_amount'] =  $total - $wallet_requests;
+
+		// Tiền có thể rút từ Ví tài khoản withdraw - tính toán lại tổng ví tài khoản và tiền yêu cầu rút
+		$total = (float)$data['user_totals_wallet']['balance_wallet_withdraw'];
+		$data['wallet_requests'] =  $wallet_requests;
 		$data['wallet_unpaid_amount'] =  $total - $wallet_requests;
+
+
 		$filter['sortBy'] = isset($get['sortby']) ? $get['sortby'] : '';
 		$filter['orderBy'] = isset($get['order']) ? $get['order'] : '';
 
@@ -7586,6 +7596,7 @@ class Usercontrol extends MY_Controller
 		$data['PrimaryPaymentMethodStatus'] = $userdetails['primary_payment_method'];
 		$data['paymentlist'] = $this->Product_model->getAllPayment($userdetails['id']);
 		$data['paypalaccounts'] = $this->Product_model->getPaypalAccounts($userdetails['id']);
+		$data['site_setting'] = $site_setting;
 
 		$json['html'] = $this->load->view('usercontrol/users/parts/withdrawal_modal', $data, true);
 		echo json_encode($json);

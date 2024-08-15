@@ -58,9 +58,9 @@
 					<div class="col-sm-4 mb-3">
 						<label class="form-label"><?= __('Chọn kiểu giới hạn rút') ?></label>
 						<select class="form-select" name="site[wallet_max_amount_type]">
-							<option value="0" <?= (int)$site['wallet_max_amount_type'] == 0 ? 'selected' : '' ?>><?= __('Rút tối đa theo % số dư') ?></option>
-							<option value="1" <?= (int)$site['wallet_max_amount_type'] == 1 ? 'selected' : '' ?>><?= __('Rút tối đa để số dư còn') ?></option>
-							<option value="1" <?= (int)$site['wallet_max_amount_type'] == 3 ? 'selected' : '' ?>><?= __('Rút tối đa số tiền') ?></option>
+							<option value="max_percent_balance" <?= (int)$site['wallet_max_amount_type'] == 'max_percent_balance' ? 'selected' : '' ?>><?= __('Rút tối đa theo % số dư') ?></option>
+							<option value="max_balance" <?= (int)$site['wallet_max_amount_type'] == 'max_balance' ? 'selected' : '' ?>><?= __('Rút tối đa để số dư còn') ?></option>
+							<option value="max_amount" <?= (int)$site['wallet_max_amount_type'] == 'max_amount' ? 'selected' : '' ?>><?= __('Rút tối đa số tiền') ?></option>
 						</select>
 					</div>
 					<div class="col-sm-4 mb-3">
@@ -77,8 +77,8 @@
 					<div class="col-sm-6 mb-3">
 						<label class="form-label"><?= __('Chọn kiểu thưởng Nạp tiền') ?></label>
 						<select class="form-select" name="site[deposit_bonus_type]">
-							<option value="0" <?= (int)$site['deposit_bonus_type'] == 0 ? 'selected' : '' ?>><?= __('Thưởng theo %') ?></option>
-							<option value="1" <?= (int)$site['deposit_bonus_type'] == 1 ? 'selected' : '' ?>><?= __('Thưởng cố định') ?></option>
+							<option value="bonus_percent" <?= (int)$site['deposit_bonus_type'] == 'bonus_percent' ? 'selected' : '' ?>><?= __('Thưởng theo %') ?></option>
+							<option value="bonus_fixed" <?= (int)$site['deposit_bonus_type'] == 'bonus_fixed' ? 'selected' : '' ?>><?= __('Thưởng cố định') ?></option>
 						</select>
 					</div>
 					<div class="col-sm-6">
@@ -86,17 +86,55 @@
 						<input type="number" name="site[deposit_bonus_value]" class="form-control" value="<?= $site['deposit_bonus_value'] ? (int)$site['deposit_bonus_value'] : 0; ?>" />
 					</div>
 				</div>
-				<h4>Trở thành thành viên:</h4>
-				<div class="mb-3">
-					<label class="form-label"><?= __('Số tiền mở khoá Affiliate - Tiêu dùng để vào Hệ thống hưởng hoa hồng') ?></label>
-					<input name="site[wallet_unlock_amount_affiliate]" value="<?= $site['wallet_unlock_amount_affiliate']; ?>" class="form-control" type="number" onblur="return onWallentMaxamountChange()" id="txt_wallet_max_amount">
+				<h4>Tỉ lệ chuyển đổi tiền:</h4>
+				<div class="row">
+					<div class="col-4">
+						<label class="form-label"><?= __('VND => Điểm') ?></label>
+						<div class="row">
+							<div class="col-md-6">
+								<input type="number" name="site[currency_rate_vnd_credit]" class="form-control" value="<?= $site['currency_rate_vnd_credit'] ? (int)$site['currency_rate_vnd_credit'] : 1; ?>" />
+							</div>
+							<div class="col-md-6">
+								<input type="number" name="site[currency_rate_credit_vnd]" class="form-control" value="<?= $site['currency_rate_credit_vnd'] ? (int)$site['currency_rate_credit_vnd'] : 1; ?>" />
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<label class="form-label"><?= __('VND => Thưởng') ?></label>
+						<div class="row">
+							<div class="col-md-6">
+								<input type="number" name="site[currency_rate_vnd_reward]" class="form-control" value="<?= $site['currency_rate_vnd_reward'] ? (int)$site['currency_rate_vnd_reward'] : 1; ?>" />
+							</div>
+							<div class="col-md-6">
+								<input type="number" name="site[currency_rate_reward_vnd]" class="form-control" value="<?= $site['currency_rate_reward_vnd'] ? (int)$site['currency_rate_reward_vnd'] : 1; ?>" />
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<label class="form-label"><?= __('Thưởng => Điểm') ?></label>
+						<div class="row">
+							<div class="col-md-6">
+								<input type="number" name="site[currency_rate_reward_credit]" class="form-control" value="<?= $site['currency_rate_reward_credit'] ? (int)$site['currency_rate_reward_credit'] : 1; ?>" />
+							</div>
+							<div class="col-md-6">
+								<input type="number" name="site[currency_rate_credit_reward]" class="form-control" value="<?= $site['currency_rate_credit_reward'] ? (int)$site['currency_rate_credit_reward'] : 1; ?>" />
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="col-sm-12 text-end">
-					<button type="submit" class="btn btn-primary btn-submit"><?= __('admin.save_settings') ?></button>
-				</div>
+
 			</div>
-		</form>
+			<h4>Trở thành thành viên:</h4>
+			<div class="mb-3">
+				<label class="form-label"><?= __('Số tiền mở khoá Affiliate - Tiêu dùng để vào Hệ thống hưởng hoa hồng') ?></label>
+				<input name="site[wallet_unlock_amount_affiliate]" value="<?= $site['wallet_unlock_amount_affiliate']; ?>" class="form-control" type="number" onblur="return onWallentMaxamountChange()" id="txt_wallet_max_amount">
+			</div>
+			<div class="col-sm-12 text-end">
+				<button type="submit" class="btn btn-primary btn-submit"><?= __('admin.save_settings') ?></button>
+			</div>
 	</div>
+	</form>
+</div>
 </div>
 
 

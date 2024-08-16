@@ -5484,7 +5484,7 @@ class Product_model extends MY_Model
     public function getUsersByLevel($level, $user_id = null)
     {
         $ci = &get_instance();
-    
+
         $sql = "
         SELECT 
             u.id as user_id,
@@ -5517,24 +5517,24 @@ class Product_model extends MY_Model
         WHERE 
             u.type = 'user' 
             AND al.level_number = " . $ci->db->escape($level);
-    
+
         // Nếu có $user_id, thêm điều kiện để chỉ lấy người dùng có id đó
         if ($user_id != null) {
             $sql .= " AND u.id = " . $ci->db->escape($user_id);
         }
-    
+
         // Thêm điều kiện GROUP BY
         $sql .= " GROUP BY u.id";
-    
+
         // Thực hiện truy vấn SQL
         $query = $ci->db->query($sql);
-    
+
         // Lấy kết quả và trả về
         $result = $query->result_array();
-    
+
         return $result;
     }
-    
+
 
     // MJ Lấy danh sách cấp độ người dùng
     public function getAllUserRanks($limit = false, $offset = 0, $order_by = 'u.id', $order_type = 'ASC', $filter_type = 'all')
@@ -5595,6 +5595,23 @@ class Product_model extends MY_Model
         $result = $query->result_array();
 
         return $result;
+    }
+
+    // Lấy danh sách thưởng tất cả người dùng
+    public function getAllUserCommissions($limit, $offset, $order_by, $order_type, $filter_type)
+    {
+        $this->db->select('uc.id, u.firstname, u.lastname, uc.commission_method, uc.commission_type, uc.commission, uc.commission_date, SUM(w.amount) as total_wallet_amount');
+        $this->db->from('user_commission uc');
+        $this->db->join('users u', 'uc.user_id = u.id', 'left');
+        $this->db->join('wallet w', 'uc.user_id = w.user_id AND w.wallet_to = "reward" AND w.withdraw_request = 0', 'left');
+        $this->db->where('u.type', $filter_type);
+        $this->db->group_by('uc.id');
+        $this->db->order_by($order_by, $order_type);
+        $this->db->limit($limit, $offset);
+
+        $query = $this->db->get();
+
+        return $query->result_array();
     }
 
 

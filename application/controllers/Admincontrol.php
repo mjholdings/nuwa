@@ -9489,7 +9489,7 @@ class Admincontrol extends MY_Controller
 	}
 
 	// MJ Tính toán và cập nhật thưởng theo RANK =====================
-	public function calculate_and_update_commissions()
+	public function mj_calculate_and_update_commissions()
 	{
 
 		// Xóa dữ liệu cũ trong bảng user_commission
@@ -22076,10 +22076,13 @@ class Admincontrol extends MY_Controller
 		$this->view($data, 'users/update_all_user_levels');
 	}
 
-	// Cập nhật thưởng theo cấp bậc - điều kiện chính sách cho các thành viên
-	public function user_commissions()
+	// MJ Cập nhật thưởng theo cấp bậc - điều kiện chính sách cho các thành viên ==========
+
+	public function user_commissions($offset = 0)
 	{
+
 		$userdetails = $this->userdetails();
+		$this->load->library('pagination');
 
 		// Update Bảng tuyển dụng
 		// $this->update_user_tree();
@@ -22104,10 +22107,41 @@ class Admincontrol extends MY_Controller
 		// => CẬP NHẬT THƯỞNG THEO CHÍNH SÁCH (THỨ HÀNG VÀ ĐIỀU KIỆN NGOÀI THỨ HẠNG)
 		// => PHÁT SINH GIAO DỊCH THƯỞNG TỪ ADMIN CHO MEMBER VÀO VÍ THƯỞNG
 
-		//$this->calculate_and_update_commissions();
+		//$this->mj_calculate_and_update_commissions();
+
+
+		// Lấy giá trị từ các select input
+		$order_by = $this->input->get('order_by') ? $this->input->get('order_by') : 'commission_date';
+		$order_type = $this->input->get('order_type') ? $this->input->get('order_type') : 'DESC';
+		$filter_type = $this->input->get('filter_type') ? $this->input->get('filter_type') : 'user';
+		$limit = $this->input->get('limit') ? $this->input->get('limit') : 25;
+
+		// Tính tổng số bản ghi sau khi lọc
+		$sql = "SELECT COUNT(*) as total FROM user_commission uc 
+            JOIN users u ON uc.user_id = u.id
+            WHERE u.type = " . $this->db->escape($filter_type);
+
+		// Thực hiện truy vấn đếm
+		$query = $this->db->query($sql);
+		$total_commissions = $query->row()->total;
+
+		// Cấu hình phân trang
+		$config['base_url'] = base_url('admincontrol/user_commissions');
+		$config['uri_segment'] = 3;
+		$config['per_page'] = $limit;
+		$config['total_rows'] = $total_commissions; // Tổng số lượng bản ghi đã lọc
+		$this->pagination->initialize($config);
+
+		// Lấy danh sách thông tin người dùng và các khoản thưởng sau khi sắp xếp và lọc
+		$data['pagination'] = $this->pagination->create_links();
+		$data['list_commissions'] = $this->Product_model->getAllUserCommissions($config['per_page'], $offset, $order_by, $order_type, $filter_type);
+		$data['total_commissions'] = $total_commissions;
+		$data['order_by'] = $order_by;
+		$data['order_type'] = $order_type;
+		$data['filter_type'] = $filter_type;
+		$data['limit'] = $limit;
 
 		// Hiển thị thông tin thưởng ra View
-		$data = [];
-		$this->view($data, 'users/update_all_user_commissions');
+		$this->view($data, 'user_commissions/list');
 	}
 }

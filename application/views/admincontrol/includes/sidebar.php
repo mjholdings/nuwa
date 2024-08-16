@@ -320,7 +320,7 @@ $sidebar_data = array(
               <i class="bi bi-clipboard2-data-fill"></i>
 
               <?= __('Cập nhật Cấp bậc') ?></a>
-            <a class="dropdown-item" href="<?= base_url('admincontrol/update_all_user_commissions') ?>">
+            <a class="dropdown-item" href="<?= base_url('admincontrol/user_commissions') ?>">
 
               <i class="bi bi-clipboard2-data-fill"></i>
 

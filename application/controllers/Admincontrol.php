@@ -3858,8 +3858,6 @@ class Admincontrol extends MY_Controller
 	}
 
 
-
-
 	// Award Level - Kiểm tra nhảy cấp
 	public function award_level($offset = 0)
 	{

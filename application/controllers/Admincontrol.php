@@ -11914,7 +11914,7 @@ class Admincontrol extends MY_Controller
 		$this->load->library('pagination');
 
 		// Kiểm tra và nâng cấp các thành viên nếu đủ điều kiện
-		$this->mj_rank_upgrade_by_condition();
+		// $this->mj_rank_upgrade_by_condition();
 
 		// Lấy giá trị từ các select input
 		$order_by = $this->input->get('order_by') ? $this->input->get('order_by') : 'level_number';

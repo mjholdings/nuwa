@@ -11991,7 +11991,7 @@ class Admincontrol extends MY_Controller
 			}
 
 			// Lấy điều kiện để được thăng cấp ==========
-			$current_level_condition = array(
+			$target_level_condition = array(
 				'condition_recuruitment_number' => $award_level['recuruitment_number'],
 				'condition_recuruitment_level' => $award_level['recuruitment_level'],
 				'condition_consum' => $award_level['minimum_earning']
@@ -12014,11 +12014,11 @@ class Admincontrol extends MY_Controller
 				// $user_sales_data = $this->user->getSaleDataByUser($user_id);
 
 				// Kiểm tra nếu user data thỏa mãn điều kiện thì thực hiện nâng cấp 
-				if ($this->check_level_pass_condition($user_id, $user_sales_data, $current_level_condition)) {
+				if ($this->check_level_pass_condition($user_id, $user_sales_data, $target_level_condition)) {
 					// $user->consum >= $condition_consum && $this->user->check_direct_member_level($user_id, $condition_recuruitment_number, $condition_recuruitment_level)) {
 
 					// Cập nhật plan_id và level_id mới cho user
-					$this->upgrade_plan($user_id, $new_plan_id);
+					$this->upgrade_plan($user_id, $target_plan_id);
 
 					// MJ CẬP NHẬT THÔNG TIN TĂNG CẤP ===========
 					$data_transaction = [];

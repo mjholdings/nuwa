@@ -9489,7 +9489,6 @@ class Admincontrol extends MY_Controller
 	// MJ Tính toán và cập nhật thưởng theo RANK =====================
 	public function mj_calculate_and_update_commissions()
 	{
-
 		// Xóa dữ liệu cũ trong bảng user_commission
 		$this->db->truncate('user_commission');
 
@@ -9498,38 +9497,39 @@ class Admincontrol extends MY_Controller
 
 		// Lặp qua mỗi cấp độ
 		foreach ($rank_settings as $level_setting) {
-
-			// Lấy settings công thức tính thưởng của cấp độ hiện tại
-			$data_level_setting = [];
-
-			// Lấy danh sách tất cả các user thuộc cấp độ hiện tại			
+			// Lấy danh sách tất cả các user thuộc cấp độ hiện tại            
 			$users = $this->Product_model->getUsersByLevel($level_setting['level_number']);
 
 			// Lặp qua mỗi thành viên trong cấp độ đó
 			foreach ($users as $user) {
+				$user_id = $user->id; // Đảm bảo rằng $user_id không phải là NULL
 
-				$user_id = $user['id'];
+				if (is_null($user_id)) {
+					log_message('error', 'User ID is NULL for user data: ' . print_r($user, true));
+					continue; // Bỏ qua nếu user_id là NULL
+				}
 
-				// thống kê dữ liệu của user hiện tại
+				// Thống kê dữ liệu của user hiện tại
 				$this_user = $user;
 
 				// Tính toán cập nhật lại thông tin thưởng theo thông số user và công thức cấp độ hiện tại của họ =>  trả ra thưởng
+				$data_level_setting = []; // Lấy cài đặt công thức cấp độ từ đâu đó
 				$user_commission = $this->mj_update_commission($user_id, $this_user, $data_level_setting);
 
 				// Mảng dữ liệu đầu vào tham gia kiểm tra trả thưởng => vào Ví thưởng
-				$data_user = [];
 				$data_transaction = [];
-
-				// Tính toán tiền hoa hồng cho cấp độ và doanh thu | tiêu dùng | thu nhập người này
 				$data_transaction['amount'] = $user_commission;
 				$data_transaction['comment'] = 'Thưởng hoa hồng theo chính sách.';
 				$data_transaction['is_sent'] = 1;
 
-				$user_id = $userdetails['id'];
-				$this->Wallet_model->add_transaction_wallets(1, $user_id, 'Thưởng theo chính sách.', 'admin', 'reward', $data_transaction);
+				// Thực hiện thêm giao dịch vào ví
+				if (!$this->Wallet_model->add_transaction_wallets(1, $user_id, 'Thưởng theo chính sách.', 'admin', 'reward', $data_transaction)) {
+					log_message('error', 'Failed to add transaction for user ID: ' . $user_id);
+				}
 			}
 		}
 	}
+
 
 	// MJ Tính toán và cập nhật thưởng theo công thức cài đặt
 	// MJ Tính tiền hoa hồng hoặc thưởng theo $user_id, $condition_setting, $data_user
@@ -11912,7 +11912,7 @@ class Admincontrol extends MY_Controller
 		$this->load->library('pagination');
 
 		// Kiểm tra và nâng cấp các thành viên nếu đủ điều kiện
-		// $this->mj_rank_upgrade_by_condition();
+		$this->mj_rank_upgrade_by_condition();
 
 		// Lấy giá trị từ các select input
 		$order_by = $this->input->get('order_by') ? $this->input->get('order_by') : 'level_number';
@@ -11966,9 +11966,9 @@ class Admincontrol extends MY_Controller
 		$levels_query = $this->db->get('award_level');
 
 		// Cập nhật bảng rank và doanh thu			
-		// $this->calculate_revenue();
-		// $this->update_revenue();
-		// $this->update_user_rank();
+		$this->calculate_revenue();
+		$this->update_revenue();
+		$this->update_user_rank();
 
 		// Chạy qua mỗi cấp độ bắt đầu từ số 2
 		foreach ($levels_query->result() as $award_level) {
@@ -11990,9 +11990,9 @@ class Admincontrol extends MY_Controller
 
 			// Lấy điều kiện để được thăng cấp ==========
 			$target_level_condition = array(
-				'condition_recuruitment_number' => $award_level['recuruitment_number'],
-				'condition_recuruitment_level' => $award_level['recuruitment_level'],
-				'condition_consum' => $award_level['minimum_earning']
+				'condition_recuruitment_number' => $award_level->recuruitment_number,
+				'condition_recuruitment_level' => $award_level->recuruitment_level,
+				'condition_consum' => $award_level->minimum_earning
 			);
 
 			// Lấy danh sách toàn bộ users có type là user và điều kiện thỏa mãn $conditions ============
@@ -22122,7 +22122,7 @@ class Admincontrol extends MY_Controller
 		// => CẬP NHẬT THƯỞNG THEO CHÍNH SÁCH (THỨ HÀNG VÀ ĐIỀU KIỆN NGOÀI THỨ HẠNG)
 		// => PHÁT SINH GIAO DỊCH THƯỞNG TỪ ADMIN CHO MEMBER VÀO VÍ THƯỞNG
 
-		//$this->mj_calculate_and_update_commissions();
+		$this->mj_calculate_and_update_commissions();
 
 
 		// Lấy giá trị từ các select input

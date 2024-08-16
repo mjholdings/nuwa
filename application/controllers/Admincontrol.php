@@ -20326,6 +20326,23 @@ class Admincontrol extends MY_Controller
 		return $query->row(); // Return a single row
 	}
 
+	// lấy plan_name của id
+	public function get_plan_name_by_id($id)
+	{
+		// Truy vấn để lấy tên của plan dựa theo id
+		$this->db->select('name');
+		$this->db->from('membership_plans');
+		$this->db->where('id', $id);
+		$query = $this->db->get();
+
+		// Kiểm tra xem kết quả có tồn tại hay không
+		if ($query->num_rows() > 0) {
+			return $query->row()->name; // Trả về tên của plan
+		} else {
+			return false; // Trả về false nếu không tìm thấy id
+		}
+	}
+
 	// lấy plan_id của 1 level
 	public function get_plan_id_by_level($level_number)
 	{

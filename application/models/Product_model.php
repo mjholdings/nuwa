@@ -5774,45 +5774,55 @@ class Product_model extends MY_Model
     public function mj_getAllAwardLevel($limit = false, $offset = 0)
     {
         $ci = &get_instance();
-        $sql = "SELECT 
-            award_level.id,
-            award_level.level_number,
-            award_level.jump_level, 
-            membership.name as membership_name,
-            award_level.minimum_earning,
-            award_level.con_revenue_team,
-            award_level.con_revenue_personal,
-            award_level.con_revenue_direct_members,
-            award_level.con_revenue_indirect_members,
-            award_level.con_revenue_members,
-            award_level.con_revenue_total,
-            award_level.con_refer_number,
-            award_level.con_consum_personal,
-            award_level.con_consum_total,
-            award_level.con_consum_team,
-            award_level.con_consum_direct_members,
-            award_level.con_consum_indirect_members,
-            award_level.con_consum_members,
-            award_level.con_refer_direct_number,
-            award_level.con_refer_reward_id,
-            award_level.sale_comission_rate,
-            award_level.con_and,
-            award_level.bonus,
-            award_level.split_branch,
-            award_level.default_registration_level
-        FROM award_level
-        LEFT JOIN membership_plans AS membership
-        ON award_level.id = membership.level_id";
+        $sql = "
+            SELECT 
+                award_level.id,
+                award_level.level_number,
+                award_level.jump_level, 
+                membership.name AS membership_name,
+                award_level.minimum_earning,
+                award_level.con_revenue_team,
+                award_level.con_revenue_personal,
+                award_level.con_revenue_direct_members,
+                award_level.con_revenue_indirect_members,
+                award_level.con_revenue_members,
+                award_level.con_revenue_total,
+                award_level.con_refer_number,
+                award_level.con_consum_personal,
+                award_level.con_consum_total,
+                award_level.con_consum_team,
+                award_level.con_consum_direct_members,
+                award_level.con_consum_indirect_members,
+                award_level.con_consum_members,
+                award_level.con_refer_direct_number,
+                award_level.con_refer_reward_id,
+                award_level.sale_comission_rate,
+                award_level.con_and,
+                award_level.bonus,
+                award_level.split_branch,
+                award_level.default_registration_level,
+                refer_award_level.level_number AS refer_level_number,
+                refer_membership.name AS refer_position
+            FROM award_level
+            LEFT JOIN membership_plans AS membership
+                ON award_level.id = membership.level_id
+            LEFT JOIN award_level AS refer_award_level
+                ON award_level.con_refer_reward_id = refer_award_level.id
+            LEFT JOIN membership_plans AS refer_membership
+                ON refer_award_level.id = refer_membership.level_id
+            ORDER BY award_level.level_number ASC";
 
-
-        if ($limit != false) {
+        if ($limit !== false) {
             $sql .= " LIMIT ? OFFSET ?";
-            $query = $ci->db->query($sql, array((int) $limit, (int) $offset));
+            $query = $ci->db->query($sql, array((int)$limit, (int)$offset));
         } else {
             $query = $ci->db->query($sql);
         }
 
         $result = $query->result_array();
+
+        // Kiểm tra kết quả truy vấn
+        // print_r($result); die();
 
         return $result;
     }

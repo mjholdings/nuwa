@@ -23,7 +23,7 @@
                             <thead>
                                 <tr>
                                     <th><?= __('Cấp') ?></th>
-                                    <th><?= __('Vị trí') ?></th> 
+                                    <th><?= __('Vị trí') ?></th>
                                     <!-- <th><?= __('Nhảy') ?></th>  -->
                                     <!-- <th><?= __('Tối thiểu') ?></th> -->
                                     <!-- <th><?= __('Cá nhân') ?></th> -->
@@ -32,10 +32,11 @@
                                     <!-- <th><?= __('Gián tiếp') ?></th> -->
                                     <!-- <th><?= __('Tuyến dưới') ?></th> -->
                                     <!-- <th><?= __('Nhóm') ?></th> -->
-                                    <th><?= __('Tiêu dùng cá nhân') ?></th>
+                                    <th><?= __('Tiêu 1 đơn') ?></th>
+                                    <th><?= __('Tiêu cộng dồn') ?></th>
                                     <th><?= __('Tuyển trực tiếp') ?></th>
-                                    <th><?= __('Tuyển gián tiếp') ?></th> 
-                                    <th><?= __('Thưởng HH (%)') ?></th> 
+                                    <th><?= __('Tuyển gián tiếp') ?></th>
+                                    <th><?= __('Thưởng HH (%)') ?></th>
                                     <th><?= __('Thưởng cứng (đ)') ?></th>
                                     <!-- <th><?= __('Tách nhóm') ?></th> -->
                                     <!-- <th><?= __('Cấp mặc định') ?></th> -->
@@ -44,6 +45,12 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($award_level as $key => $value) { ?>
+
+                                    <?php
+                                    // Gọi hàm từ Controller để lấy tên của plan theo id
+                                    // $con_plan_name = $this->Admincontrol->get_plan_name_by_id($value['con_refer_reward_id']);
+                                    // $con_plan_name = $plan_name ? $plan_name : 'Không tìm thấy tên gói';
+                                    ?>
                                     <tr>
                                         <td><?= $value['level_number'] ?></td>
                                         <td><?= $value['membership_name'] ?></td>
@@ -63,6 +70,7 @@
                                         <!-- <td><?= c_format($value['con_revenue_members']); ?></td> -->
                                         <!-- <td><?= c_format($value['con_revenue_team']); ?></td> -->
                                         <td><?= c_format($value['con_consum_personal']); ?></td>
+                                        <td><?= c_format($value['con_consum_total']); ?></td>
                                         <td><?= c_format($value['con_refer_direct_number']); ?></td>
                                         <td><?= c_format($value['con_refer_number']); ?></td>
                                         <td><?= $value['sale_comission_rate'] . '%'; ?></td>

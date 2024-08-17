@@ -2,12 +2,17 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
-                <h5><?= __('Danh sách Thành viên theo Cấp bậc') ?></h5>
-
+                <h5><?= __('Danh sách Cấp bậc') ?></h5>
                 <div class="d-flex align-items-center">
-                    <div class="row">
-                        <div class="col-md-3">
 
+                    <div class="row">
+                        <div class="col-md-2">
+                            <!-- Form để cập nhật dữ liệu -->
+                            <form method="POST" action="<?= base_url('admincontrol/user_ranks') ?>" class="d-inline">
+                                <button type="submit" name="update_data" class="btn btn-primary mr-2" title="Cập nhật dữ liệu Doanh thu, Tiêu dùng, Tuyển dụng">Update</button>
+                            </form>
+                        </div>
+                        <div class="col-md-2">
                             <!-- Select 1: Sắp xếp theo -->
                             <select id="order_by" class="form-control mr-2">
                                 <option value="user_id" <?= ($order_by == 'user_id') ? 'selected' : '' ?>>ID</option>
@@ -21,7 +26,7 @@
                             </select>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <!-- Select 3: Số lượng hiển thị -->
                             <select id="limit" class="form-control mr-2">
                                 <option value="10" <?= ($limit == 10) ? 'selected' : '' ?>>10</option>
@@ -44,7 +49,11 @@
                                 <option value="admin" <?= ($filter_type == 'admin') ? 'selected' : '' ?>>Quản trị</option>
                             </select>
                         </div>
-                        <div class="col-md-3">Tổng số <strong><?= $total_users ?> </strong></div>
+                        <div class="col-md-3">
+                            <p>Tổng số <strong><?= $total_users ?> </strong></p>
+
+                        </div>
+
                     </div>
                 </div>
             </div>

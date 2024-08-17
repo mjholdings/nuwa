@@ -11912,18 +11912,24 @@ class Admincontrol extends MY_Controller
 		$userdetails = $this->userdetails();
 		$this->load->library('pagination');
 
-		// MJ Cập nhật thông tin các bảng doanh thu, tiêu dùng và tuyển dụng trước khi xét thứ hạng ===================
-		// Update Bảng tuyển dụng user_recruitment			
-		$this->update_user_tree();
-		$this->update_user_recruitment();
+		// Kiểm tra nếu nhấn vào nút Cập nhật
+		if ($this->input->post('update_data')) {
+			// MJ Cập nhật thông tin các bảng doanh thu, tiêu dùng và tuyển dụng trước khi xét thứ hạng ===================
+			// Update Bảng tuyển dụng user_recruitment
+			$this->update_user_tree();
+			$this->update_user_recruitment();
 
-		// Update bảng doanh thu user_revenue
-		$this->calculate_revenue();
-		$this->update_revenue();
+			// Update bảng doanh thu user_revenue
+			$this->calculate_revenue();
+			$this->update_revenue();
 
-		// Update bảng tiêu dùng user_consum
-		$this->calculate_consum();
-		$this->update_consum();
+			// Update bảng tiêu dùng user_consum
+			$this->calculate_consum();
+			$this->update_consum();
+
+			// Sau khi cập nhật, redirect quay lại trang hiện tại
+			redirect(current_url() . '?' . $_SERVER['QUERY_STRING']);
+		}
 
 		// MJ Kiểm tra và nâng cấp các thành viên nếu đủ điều kiện ======================
 		$this->mj_rank_upgrade_by_condition();
@@ -11964,6 +11970,7 @@ class Admincontrol extends MY_Controller
 
 		$this->view($data, 'user_ranks/list');
 	}
+
 
 	// MJ Tính toán và Nâng cấp độ thành viên theo điều kiện
 	public function mj_rank_upgrade_by_condition()

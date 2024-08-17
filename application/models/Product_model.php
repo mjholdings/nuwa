@@ -5550,10 +5550,11 @@ class Product_model extends MY_Model
         al.level_number,
         mp.name as plan_name,
         CONCAT(ref.firstname, ' ', ref.lastname) as referrer_name,
-        IFNULL(SUM(o.total), 0) as personal_consumption,
-        IFNULL(SUM(op.total), 0) as personal_revenue,
+        IFNULL(personal_consumption.total_consumption, 0) as personal_consumption,
+        IFNULL(personal_revenue.total_revenue, 0) as personal_revenue,
         IFNULL(MAX(o.total), 0) as max_order_total,
         IFNULL(MAX(op.branch_total), 0) as max_revenue_total,
+        IFNULL(total_deposit.total_deposit, 0) as total_deposit,
         (SELECT COUNT(*) FROM users WHERE refid = u.id) as recruitment_count,
         (SELECT MAX(al2.level_number) 
             FROM users u2 
@@ -5568,6 +5569,25 @@ class Product_model extends MY_Model
     LEFT JOIN membership_user mu ON u.plan_id = mu.id
     LEFT JOIN membership_plans mp ON mu.plan_id = mp.id
     LEFT JOIN award_level al ON mp.level_id = al.id
+    LEFT JOIN (
+        SELECT user_id, SUM(total) as total_consumption
+        FROM `order`
+        WHERE status = 1
+        GROUP BY user_id
+    ) personal_consumption ON personal_consumption.user_id = u.id
+    LEFT JOIN (
+        SELECT refer_id, SUM(op.total) as total_revenue
+        FROM order_products op
+        JOIN `order` o ON o.id = op.order_id
+        WHERE o.status = 1
+        GROUP BY refer_id
+    ) personal_revenue ON personal_revenue.refer_id = u.id
+    LEFT JOIN (
+        SELECT user_id, SUM(amount) as total_deposit
+        FROM wallet
+        WHERE wallet_to = 'purchase'
+        GROUP BY user_id
+    ) total_deposit ON total_deposit.user_id = u.id
     LEFT JOIN `order` o ON o.user_id = u.id AND o.status = 1
     LEFT JOIN order_products op ON op.refer_id = u.id
     ";
@@ -5596,6 +5616,9 @@ class Product_model extends MY_Model
 
         return $result;
     }
+
+
+
 
     // Lấy danh sách thưởng tất cả người dùng
     public function getAllUserCommissions($limit, $offset, $order_by, $order_type, $filter_type)

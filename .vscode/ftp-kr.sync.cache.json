@@ -216,8 +216,8 @@
             },
             "Admincontrol.php": {
               "type": "-",
-              "size": 731946,
-              "lmtime": 1723746268542,
+              "size": 727146,
+              "lmtime": 1723800317743,
               "modified": false
             },
             "Api.php": {
@@ -20628,8 +20628,8 @@
             },
             "Product_model.php": {
               "type": "-",
-              "size": 240434,
-              "lmtime": 1723745851663,
+              "size": 241891,
+              "lmtime": 1723798161851,
               "modified": false
             },
             "Report_model.php": {
@@ -27178,21 +27178,21 @@
               "award_level": {
                 "create.php": {
                   "type": "-",
-                  "size": 35858,
+                  "size": 36222,
                   "lmtime": 1722361615359,
                   "modified": true
                 },
                 "index.php": {
                   "type": "-",
-                  "size": 13348,
-                  "lmtime": 1719983287268,
-                  "modified": true
+                  "size": 13935,
+                  "lmtime": 1723798828301,
+                  "modified": false
                 },
                 "update.php": {
                   "type": "-",
-                  "size": 39900,
+                  "size": 40849,
                   "lmtime": 1722530108530,
-                  "modified": false
+                  "modified": true
                 }
               },
               "backup": {
@@ -27241,6 +27241,7 @@
                   "modified": true
                 }
               },
+              "branch copy": {},
               "branchs": {
                 "_form.php": {
                   "type": "-",
@@ -27329,6 +27330,7 @@
                   "modified": false
                 }
               },
+              "clients copy": {},
               "commission": {
                 "index.php": {
                   "type": "-",
@@ -27520,9 +27522,9 @@
                 },
                 "sidebar.php": {
                   "type": "-",
-                  "size": 27907,
-                  "lmtime": 1722359022111,
-                  "modified": true
+                  "size": 28099,
+                  "lmtime": 1723785243742,
+                  "modified": false
                 },
                 "store.php": {
                   "type": "-",
@@ -27747,6 +27749,7 @@
                   "modified": false
                 }
               },
+              "permission": {},
               "product": {
                 "add_product.php": {
                   "type": "-",
@@ -27951,6 +27954,7 @@
                   "modified": true
                 }
               },
+              "ranks": {},
               "registration_builder": {
                 "index.php": {
                   "type": "-",
@@ -27959,6 +27963,7 @@
                   "modified": false
                 }
               },
+              "report": {},
               "reward": {
                 "create.php": {
                   "type": "-",
@@ -27979,6 +27984,7 @@
                   "modified": true
                 }
               },
+              "role": {},
               "script_details": {
                 "index.php": {
                   "type": "-",
@@ -28402,6 +28408,8 @@
                   "modified": false
                 }
               },
+              "user_commission": {},
+              "user_ranks": {},
               "usergroup": {
                 "form.php": {
                   "type": "-",
@@ -28791,6 +28799,14 @@
                   "type": "-",
                   "size": 7965,
                   "lmtime": 1718329895177,
+                  "modified": false
+                }
+              },
+              "user_commissions": {
+                "list.php": {
+                  "type": "-",
+                  "size": 5227,
+                  "lmtime": 1723793031210,
                   "modified": false
                 }
               }

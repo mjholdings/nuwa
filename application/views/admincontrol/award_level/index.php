@@ -101,6 +101,45 @@
         </div>
     </div>
 
+    <!-- Chính sách Cấp bậc và Trả thưởng -->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3>Chính sách Nuwa:</h3>
+                <hr>
+                <h5>Cấp 2: Thành viên</h5>
+                <ul>
+                    <li>Nạp 3.000.000 / Hoặc tiêu dùng cộng dồn 30 ngày 3.000.000 => Hết 30 ngày reset</li>
+                    <li>Được chiết khấu 10% => Thưởng 10% Ví thưởng</li>
+                </ul>
+                <h5>Cấp 3: Phó phòng</h5>
+                <ul>
+                    <li>Nạp hoặc Tiêu dùng 1 đơn hàng 5.000.000 / Hoặc tiêu dùng cộng dồn 30 ngày 8.000.000 => Hết 30 ngày reset</li>
+                    <li>Được chiết khấu 20% => Thưởng 10% Ví thưởng</li>
+                </ul>
+                <h5>Cấp 4: Trưởng phòng</h5>
+                <ul>
+                    <li>Tuyển 20 Phó phòng (Cấp 3)</li>
+                    <li>Được chiết khấu 24% => Thưởng 24% Ví thưởng</li>
+                </ul>
+                <h5>Cấp 5: Giám đốc</h5>
+                <ul>
+                    <li>Tuyển 20 Trưởng phòng (Cấp 4)</li>
+                    <li>Được chiết khấu 28% => Thưởng 28% Ví thưởng</li>
+                </ul>
+                <h5>Đồng chia Cấp 5 GĐ</h5>
+                <ul>
+                    <li>Khi lên Cấp 5 Giám đốc => Được hưởng đồng chia</li>
+                    <li>2%(Tổng doanh thu GĐ/ Tổng doanh thu toàn quốc) => Đồng chia (chia đều)</li>
+                </ul>
+                <h5>Siêu thị - Kho - Chi nhánh</h5>
+                <ul>
+                    <li>Tổng kho được chiết khấu 8%</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <div id="cron-job-info-modal" class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">

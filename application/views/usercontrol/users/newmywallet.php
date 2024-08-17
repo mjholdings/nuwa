@@ -229,7 +229,6 @@
 														</div>
 														<span class="text-danger">Quý khách chỉ được rút tối đa 70% (<?= c_format(($wallet_unpaid_amount * 70) / 100) ?>) số tiền hiện có <?= c_format($wallet_unpaid_amount) ?>. </span>
 
-														<?= // var_dump($site_setting['wallet_max_amount_type']); ?>
 
 														<div><?= __('Nhập số tiền cần rút/chuyển') ?></div>
 														<input type="number" name="amount-request" class="form-control" data-val="<?= ($wallet_unpaid_amount * 70) / 100 ?>" />

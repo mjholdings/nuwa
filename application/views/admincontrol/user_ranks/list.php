@@ -62,8 +62,9 @@
                                 <th><?= __('Doanh thu') ?></th>
                                 <th><?= __('Tiêu dùng') ?></th>
                                 <th><?= __('Tuyển dụng') ?></th>
-                                <th><?= __('Total Max') ?></th>
-                                <th><?= __('Total Branch Max') ?></th>
+                                <th><?= __('Ví nạp') ?></th>
+                                <th><?= __('Order Max') ?></th>
+                                <th><?= __('Order Branch Max') ?></th>
                                 <th><?= __('Vị trí tuyển max') ?></th>
                             </tr>
                         </thead>
@@ -78,6 +79,7 @@
                                     <td><?= c_format($value['personal_revenue']); ?></td>
                                     <td><?= c_format($value['personal_consumption']); ?></td>
                                     <td><?= $value['recruitment_count'] ?></td>
+                                    <td><?= c_format($value['total_deposit']); ?></td>
                                     <td><?= c_format($value['max_order_total']); ?></td>
                                     <td><?= c_format($value['max_revenue_total']); ?></td>
                                     <td><?= $value['max_recruit_level'] ? $value['max_recruit_level'] : 0 ?></td>

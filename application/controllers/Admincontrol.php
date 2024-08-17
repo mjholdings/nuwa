@@ -9119,7 +9119,7 @@ class Admincontrol extends MY_Controller
 		}
 	}
 
-	// User Revenue - Doanh thu cá nhân
+	// User Revenue - Doanh thu cá nhân - tổng order mà refer_id = user_id
 	public function calculate_revenue()
 	{
 		// Xóa dữ liệu cũ trong bảng user_revenue
@@ -9174,6 +9174,7 @@ class Admincontrol extends MY_Controller
 	// User Update Revenue - Doanh thu khác (trực tiếp, gián tiếp,...)
 	public function update_revenue()
 	{
+
 		// Lấy danh sách tất cả các user từ bảng users_revenue
 		$this->db->select('user_id, revenue');
 		$query = $this->db->get('user_revenue');
@@ -11911,7 +11912,20 @@ class Admincontrol extends MY_Controller
 		$userdetails = $this->userdetails();
 		$this->load->library('pagination');
 
-		// Kiểm tra và nâng cấp các thành viên nếu đủ điều kiện
+		// MJ Cập nhật thông tin các bảng doanh thu, tiêu dùng và tuyển dụng trước khi xét thứ hạng ===================
+		// Update Bảng tuyển dụng user_recruitment			
+		$this->update_user_tree();
+		$this->update_user_recruitment();
+
+		// Update bảng doanh thu user_revenue
+		$this->calculate_revenue();
+		$this->update_revenue();
+
+		// Update bảng tiêu dùng user_consum
+		$this->calculate_consum();
+		$this->update_consum();
+
+		// MJ Kiểm tra và nâng cấp các thành viên nếu đủ điều kiện ======================
 		$this->mj_rank_upgrade_by_condition();
 
 		// Lấy giá trị từ các select input

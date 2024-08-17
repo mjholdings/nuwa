@@ -5550,8 +5550,8 @@ class Product_model extends MY_Model
         al.level_number,
         mp.name as plan_name,
         CONCAT(ref.firstname, ' ', ref.lastname) as referrer_name,
-        IFNULL(personal_consumption.total_consumption, 0) as personal_consumption,
-        IFNULL(personal_revenue.total_revenue, 0) as personal_revenue,
+        IFNULL(SUM(o.total), 0) as personal_revenue,  
+        IFNULL(user_revenue.total_revenue, 0) as personal_consumption,  
         IFNULL(MAX(o.total), 0) as max_order_total,
         IFNULL(MAX(op.branch_total), 0) as max_revenue_total,
         IFNULL(total_deposit.total_deposit, 0) as total_deposit,
@@ -5570,18 +5570,10 @@ class Product_model extends MY_Model
     LEFT JOIN membership_plans mp ON mu.plan_id = mp.id
     LEFT JOIN award_level al ON mp.level_id = al.id
     LEFT JOIN (
-        SELECT user_id, SUM(total) as total_consumption
-        FROM `order`
-        WHERE status = 1
+        SELECT user_id, SUM(revenue) as total_revenue
+        FROM user_revenue
         GROUP BY user_id
-    ) personal_consumption ON personal_consumption.user_id = u.id
-    LEFT JOIN (
-        SELECT refer_id, SUM(op.total) as total_revenue
-        FROM order_products op
-        JOIN `order` o ON o.id = op.order_id
-        WHERE o.status = 1
-        GROUP BY refer_id
-    ) personal_revenue ON personal_revenue.refer_id = u.id
+    ) user_revenue ON user_revenue.user_id = u.id
     LEFT JOIN (
         SELECT user_id, SUM(amount) as total_deposit
         FROM wallet
@@ -5616,7 +5608,6 @@ class Product_model extends MY_Model
 
         return $result;
     }
-
 
 
 

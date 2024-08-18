@@ -6,17 +6,18 @@
 
                 <div class="d-flex align-items-center">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <!-- Select 1: Sắp xếp theo -->
                             <select id="order_by" class="form-control mr-2">
-                                <option value="commission_date" <?= ($order_by == 'commission_date') ? 'selected' : '' ?>>Ngày thưởng</option>
-                                <option value="firstname" <?= ($order_by == 'firstname') ? 'selected' : '' ?>>Tên</option>
-                                <option value="commission" <?= ($order_by == 'commission') ? 'selected' : '' ?>>Giá trị thưởng</option>
-                                <option value="total_wallet_amount" <?= ($order_by == 'total_wallet_amount') ? 'selected' : '' ?>>Tổng giá trị ví</option>
+                                <option value="fullname" <?= ($order_by == 'fullname') ? 'selected' : '' ?>>Tên</option>
+                                <option value="balance_wallet_reward" <?= ($order_by == 'balance_wallet_reward') ? 'selected' : '' ?>>Ví thưởng</option>
+                                <option value="balance_wallet_purchase" <?= ($order_by == 'balance_wallet_purchase') ? 'selected' : '' ?>>Ví tiêu dùng</option>
+                                <option value="balance_wallet_credit" <?= ($order_by == 'balance_wallet_credit') ? 'selected' : '' ?>>Ví điểm</option>
+                                <option value="balance_wallet_withdraw" <?= ($order_by == 'balance_wallet_withdraw') ? 'selected' : '' ?>>Ví rút</option>
                             </select>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <!-- Select 3: Số lượng hiển thị -->
                             <select id="limit" class="form-control mr-2">
                                 <option value="10" <?= ($limit == 10) ? 'selected' : '' ?>>10</option>
@@ -35,7 +36,6 @@
                                 <option value="admin" <?= ($filter_type == 'admin') ? 'selected' : '' ?>>Quản trị</option>
                             </select>
                         </div>
-                        <div class="col-md-3">Tổng số <strong><?= $total_commissions ?> </strong></div>
                     </div>
                 </div>
             </div>
@@ -47,23 +47,23 @@
                             <tr>
                                 <th><?= __('ID') ?></th>
                                 <th><?= __('Tên') ?></th>
-                                <th><?= __('Phương thức thưởng') ?></th>
-                                <th><?= __('Loại thưởng') ?></th>
-                                <th><?= __('Giá trị thưởng') ?></th>
-                                <th><?= __('Ngày thưởng') ?></th>
-                                <th><?= __('Tổng giá trị Ví') ?></th>
+                                <th><?= __('Ví thưởng') ?></th>
+                                <th><?= __('Ví tiêu dùng') ?></th>
+                                <th><?= __('Ví điểm') ?></th>
+                                <th><?= __('Ví rút') ?></th>
                             </tr>
+                          
                         </thead>
                         <tbody>
                             <?php foreach ($list_commissions as $value) { ?>
                                 <tr>
                                     <td><?= $value['id'] ?></td>
-                                    <td><?= $value['firstname'] . ' ' . $value['lastname'] ?></td>
-                                    <td><?= $value['commission_method'] ?></td>
-                                    <td><?= $value['commission_type'] ?></td>
-                                    <td><?= c_format($value['commission']); ?></td>
-                                    <td><?= date('d-m-Y', strtotime($value['commission_date'])); ?></td>
-                                    <td><?= c_format($value['total_wallet_amount']); ?></td>
+                                    <td><?= $value['fullname'] ?></td>
+                                    <td><?= $value['balance_wallet_purchase'] ? c_format($value['balance_wallet_purchase']) : 0; ?></td>
+                                    <td><?= $value['balance_wallet_reward'] ? c_format($value['balance_wallet_reward']) : 0; ?></td>
+                                    <td><?= $value['balance_wallet_credit'] ? c_format($value['balance_wallet_credit']) : 0; ?></td>
+                                    <td><?= $value['balance_wallet_withdraw'] ? c_format($value['balance_wallet_withdraw']) : 0; ?></td>
+
                                 </tr>
                             <?php } ?>
                         </tbody>

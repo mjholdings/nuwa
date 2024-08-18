@@ -3114,9 +3114,14 @@ class Admincontrol extends MY_Controller
 			$transactionSorted = array_merge($transactionSorted, $child_transaction_sorted);
 		}
 
+
+		$this->load->model('Wallet_model');
+
 		$data['userdetails'] = $this->userdetails();
 
 		$data['transaction'] = $transactionSorted;
+
+		$data['wallet_balances'] = $this->Wallet_model->getTotalWalletBalances();
 
 		$this->view($data, 'users/wallet');
 	}
@@ -11986,10 +11991,10 @@ class Admincontrol extends MY_Controller
 		$this->db->order_by('level_number', 'asc');
 		$levels_query = $this->db->get('award_level');
 
-		// Cập nhật bảng rank và doanh thu			
-		$this->calculate_revenue();
-		$this->update_revenue();
-		$this->update_user_rank();
+		// Cập nhật bảng rank và doanh thu, tiêu dùng và tuyển dụng			
+		// $this->calculate_revenue();
+		// $this->update_revenue();
+		// $this->update_user_rank();
 
 		// Chạy qua mỗi cấp độ bắt đầu từ số 2
 		foreach ($levels_query->result() as $award_level) {
@@ -12011,9 +12016,12 @@ class Admincontrol extends MY_Controller
 
 			// Lấy điều kiện để được thăng cấp ==========
 			$target_level_condition = array(
-				'condition_recuruitment_number' => $award_level->recuruitment_number,
-				'condition_recuruitment_level' => $award_level->recuruitment_level,
-				'condition_consum' => $award_level->minimum_earning
+				'condition_consum' => $award_level->con_consum_personal, // tiêu dùng cá nhân
+				'condition_consum_order_number' => $award_level->con_consum_personal_orders, // số đơn hàng tiêu dùng
+				'condition_recuruitment_number' => $award_level->con_refer_direct_number,	// số lượng tuyển
+				'condition_recuruitment_level_id' => $award_level->con_refer_reward_id,		// id cấp độ tuyển
+				'condition_recuruitment_1_branch' => $award_level->con_refer_number_1_branch // số lượng 1 nhánh tuyển
+
 			);
 
 			// Lấy danh sách toàn bộ users có type là user và điều kiện thỏa mãn $conditions ============
@@ -22120,6 +22128,7 @@ class Admincontrol extends MY_Controller
 		$userdetails = $this->userdetails();
 		$this->load->library('pagination');
 
+		// MJ - CẬP NHẬT CÁC BẢNG DỮ LIỆU THÀNH TỰU CỦA MEMBER
 		// Update Bảng tuyển dụng
 		// $this->update_user_tree();
 		// $this->update_user_recruitment();
@@ -22147,7 +22156,7 @@ class Admincontrol extends MY_Controller
 
 
 		// Lấy giá trị từ các select input
-		$order_by = $this->input->get('order_by') ? $this->input->get('order_by') : 'commission_date';
+		$order_by = $this->input->get('order_by') ? $this->input->get('order_by') : 'balance_wallet_reward';
 		$order_type = $this->input->get('order_type') ? $this->input->get('order_type') : 'DESC';
 		$filter_type = $this->input->get('filter_type') ? $this->input->get('filter_type') : 'user';
 		$limit = $this->input->get('limit') ? $this->input->get('limit') : 25;

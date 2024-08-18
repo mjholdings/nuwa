@@ -804,6 +804,23 @@ class Wallet_model extends MY_Model
 		return $data;
 	}
 
+	// Lấy tổng các Ví của toàn bộ người dùng
+	public function getTotalWalletBalances()
+	{
+		$this->db->select('
+        COALESCE(SUM(CASE WHEN w.wallet_to = "purchase" AND w.is_sent = 0 THEN w.amount ELSE 0 END) - SUM(CASE WHEN w.wallet_from = "purchase" AND w.is_sent = 1 THEN w.amount ELSE 0 END), 0) as total_balance_wallet_purchase,
+        COALESCE(SUM(CASE WHEN w.wallet_to = "reward" AND w.is_sent = 0 THEN w.amount ELSE 0 END) - SUM(CASE WHEN w.wallet_from = "reward" AND w.is_sent = 1 THEN w.amount ELSE 0 END), 0) as total_balance_wallet_reward,
+        COALESCE(SUM(CASE WHEN w.wallet_to = "credit" AND w.is_sent = 0 THEN w.amount ELSE 0 END) - SUM(CASE WHEN w.wallet_from = "credit" AND w.is_sent = 1 THEN w.amount ELSE 0 END), 0) as total_balance_wallet_credit,
+        COALESCE(SUM(CASE WHEN w.wallet_to = "withdraw" AND w.is_sent = 0 THEN w.amount ELSE 0 END) - SUM(CASE WHEN w.wallet_from = "withdraw" AND w.is_sent = 1 THEN w.amount ELSE 0 END), 0) as total_balance_wallet_withdraw
+    ');
+		$this->db->from('wallet w');
+
+		$query = $this->db->get();
+
+		return $query->row_array();
+	}
+
+
 	// Lấy giá trị tổng số Wallets trong Database
 	public function getTotals($filter = array(), $extraTotals = false, $calling_for = 'admin')
 	{

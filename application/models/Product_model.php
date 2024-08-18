@@ -5611,8 +5611,30 @@ class Product_model extends MY_Model
 
 
 
-    // Lấy danh sách thưởng tất cả người dùng
+    // MJ - Lấy danh sách thưởng tất cả người dùng ===========
     public function getAllUserCommissions($limit, $offset, $order_by, $order_type, $filter_type)
+    {
+        $this->db->select('
+            u.id,
+            CONCAT(u.firstname, " ", u.lastname) as fullname,
+            COALESCE(SUM(CASE WHEN w.wallet_to = "purchase" AND w.is_sent = 0 THEN w.amount ELSE 0 END) - SUM(CASE WHEN w.wallet_from = "purchase" AND w.is_sent = 1 THEN w.amount ELSE 0 END), 0) as balance_wallet_purchase,
+            COALESCE(SUM(CASE WHEN w.wallet_to = "reward" AND w.is_sent = 0 THEN w.amount ELSE 0 END) - SUM(CASE WHEN w.wallet_from = "reward" AND w.is_sent = 1 THEN w.amount ELSE 0 END), 0) as balance_wallet_reward,
+            COALESCE(SUM(CASE WHEN w.wallet_to = "credit" AND w.is_sent = 0 THEN w.amount ELSE 0 END) - SUM(CASE WHEN w.wallet_from = "credit" AND w.is_sent = 1 THEN w.amount ELSE 0 END), 0) as balance_wallet_credit,
+            COALESCE(SUM(CASE WHEN w.wallet_to = "withdraw" AND w.is_sent = 0 THEN w.amount ELSE 0 END) - SUM(CASE WHEN w.wallet_from = "withdraw" AND w.is_sent = 1 THEN w.amount ELSE 0 END), 0) as balance_wallet_withdraw
+        ');
+        $this->db->from('users u');
+        $this->db->join('wallet w', 'u.id = w.user_id', 'left');
+        $this->db->where('u.type', $filter_type);
+        $this->db->group_by('u.id');
+        $this->db->order_by($order_by, $order_type);
+        $this->db->limit($limit, $offset);
+
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
+    public function getAllUserCommissions_old($limit, $offset, $order_by, $order_type, $filter_type)
     {
         $this->db->select('uc.id, u.firstname, u.lastname, uc.commission_method, uc.commission_type, uc.commission, uc.commission_date, SUM(w.amount) as total_wallet_amount');
         $this->db->from('user_commission uc');

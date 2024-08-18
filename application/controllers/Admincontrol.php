@@ -8758,24 +8758,33 @@ class Admincontrol extends MY_Controller
 
 		$admin_id = $this->input->post("admin_id", true); // Thông tin user thực hiện nạp
 		$user_id = $this->input->post("user_id", true); // Thông tin user sẽ được nạp tiền
+		$who_deposit = $this->input->post("who_deposit", true); // Thông tin user sẽ được nạp tiền
 
-		// Kiểm tra xem đang là Admin rút tiền hay User
-		if ($admin_id != $user_id) {
+		// Kiểm tra xem đang là Admin nạp tiền hay User
+		if ($who_deposit == 'admin') {
 
-			// Dành cho User rút tiền
+			// Dành cho Admin nạp  tiền cho User
+			$this->form_validation->set_rules('withdraw_from', 'withdraw_from', 'required|trim');
+
+			$this->form_validation->set_rules('deposit', 'Deposit', 'required|trim');
+
+			$target_wallet = $this->input->post("deposit", true);
+
+			$from_wallet = 'admin_deposit';
+
+		} else {
+
+			// Dành cho User nạp tiền
+
 			$this->form_validation->set_rules('withdraw_from', 'withdraw_from', 'required|trim');
 
 			$this->form_validation->set_rules('withdraw_to', 'withdraw_to', 'required|trim');
 
-			$target_wallet = $this->input->post("withdraw_from", true);
-			$from_wallet = 'user_deposit';
-		} else {
-
-			// Dành cho Admin nạp  tiền cho User
 			$this->form_validation->set_rules('deposit', 'Deposit', 'required|trim');
 
 			$target_wallet = $this->input->post("deposit", true);
-			$from_wallet = 'admin_deposit';
+			
+			$from_wallet = 'user_deposit';
 		}
 
 		// Thực hiện
@@ -8826,10 +8835,10 @@ class Admincontrol extends MY_Controller
 				$this->session->set_flashdata('error', __('admin.transaction_not_add'));
 
 			// Nếu là Admin nạp tiền cho User	
-			if ($user_id == $admin_id) {
-				$json['location'] = base_url("usercontrol/mywallet");
-			} else {
+			if ($who_deposit == 'admin') {
 				$json['location'] = base_url("admincontrol/addusers/" . $this->input->post("user_id", true));
+			} else {
+				$json['location'] = base_url("usercontrol/mywallet");
 			}
 		}
 

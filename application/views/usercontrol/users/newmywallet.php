@@ -273,6 +273,7 @@
 
 														<input type="hidden" name="user_id" class="input-transaction" value="<?= isset($userdetails) ? $userdetails['id'] : '1' ?>">
 														<input type="hidden" name="admin_id" class="input-transaction" value="<?= isset($userdetails) ? $userdetails['id'] : '1' ?>">
+														<input type="hidden" name="who_deposit" class="input-transaction" value="<?= isset($who_deposit) ? $who_deposit['id'] : 'user' ?>">
 
 														<div><?= __('Nhập số tiền cần nạp') ?></div>
 														<input class="form-control input-transaction mb-3" type="number" name="amount" value="" min="1" step="any" oninput="validity.valid||(value='');">

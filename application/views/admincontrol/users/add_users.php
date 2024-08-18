@@ -30,7 +30,6 @@
 							<!-- Add Transaction Tab -->
 							<div id="add-transaction" class="tab-pane fade bg-light p-4 rounded">
 
-
 								<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
 									<h4 style="margin-right: 5px;">Nạp tiền</h4>
 									<span class="col d-flex badge bg-primary text-white px-2 py-2 fs-7 me-2">
@@ -49,14 +48,16 @@
 
 								<input type="hidden" name="admin_id" class="input-transaction" value="<?= isset($userdetails) ? $userdetails['id'] : '1' ?>">
 								<input type="hidden" name="user_id" class="input-transaction" value="<?= isset($user) ? $user['id'] : '1' ?>">
+								<input type="hidden" name="withdraw_from" class="input-transaction" value="<?= isset($withdraw_from) ? $user['withdraw_from'] : 'admin' ?>">
+								<input type="hidden" name="who_deposit" class="input-transaction" value="<?= isset($who_deposit) ? $user['who_deposit'] : 'admin' ?>">
 
 								<!-- Amount Input -->
 								<div class="row">
 									<div class="col-6 form-group mb-3">
 										<label class="form-label"><?= __('Nạp vào') ?></label>
 										<select class="form-control input-transaction" name="deposit">
-											<option value="withdraw" selected>Ví tài khoản (VND)</option>
-											<option value="purchase">Ví tiêu dùng</option>
+											<option value="withdraw">Ví tài khoản (VND)</option>
+											<option value="purchase" selected>Ví tiêu dùng</option>
 											<option value="reward">Ví thưởng</option>
 											<option value="credit">Ví điểm (Nuwa)</option>
 										</select>

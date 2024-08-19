@@ -760,6 +760,107 @@ class User_model extends MY_Model
 		}
 	}
 
+
+	// MJ - Hàm lấy dữ liệu bán hàng theo User ID
+	public function getSaleDataByUser($user_id)
+	{
+		// Khởi tạo mảng dữ liệu với giá trị mặc định
+		$data = [
+			'user_id' => $user_id,
+			'consum' => 0,
+			'consum_direct' => 0,
+			'consum_indirect' => 0,
+			'consum_downline' => 0,
+			'consum_team' => 0,
+			'revenue' => 0,
+			'revenue_direct' => 0,
+			'revenue_indirect' => 0,
+			'revenue_downline' => 0,
+			'revenue_team' => 0,
+			'total_direct' => 0,
+			'total_indirect' => 0,
+			'total_downline' => 0,
+			'ids_direct' => [],
+			'ids_indirect' => [],
+			'deposit_wallet' => 0, // Tổng giá trị nạp ví
+			'max_order_value' => 0 // Giá trị đơn hàng lớn nhất
+		];
+
+		// Truy vấn từ bảng user_consum và cập nhật vào mảng $data
+		$consum_data = $this->db->select('consum, consum_direct, consum_indirect, consum_downline, consum_team')
+			->from('user_consum')
+			->where('user_id', $user_id)
+			->get()
+			->row_array();
+
+		if ($consum_data) {
+			$data['consum'] = $consum_data['consum'];
+			$data['consum_direct'] = $consum_data['consum_direct'];
+			$data['consum_indirect'] = $consum_data['consum_indirect'];
+			$data['consum_downline'] = $consum_data['consum_downline'];
+			$data['consum_team'] = $consum_data['consum_team'];
+		}
+
+		// Truy vấn từ bảng user_revenue và cập nhật vào mảng $data
+		$revenue_data = $this->db->select('revenue, revenue_direct, revenue_indirect, revenue_downline, revenue_team')
+			->from('user_revenue')
+			->where('user_id', $user_id)
+			->get()
+			->row_array();
+
+		if ($revenue_data) {
+			$data['revenue'] = $revenue_data['revenue'];
+			$data['revenue_direct'] = $revenue_data['revenue_direct'];
+			$data['revenue_indirect'] = $revenue_data['revenue_indirect'];
+			$data['revenue_downline'] = $revenue_data['revenue_downline'];
+			$data['revenue_team'] = $revenue_data['revenue_team'];
+		}
+
+		// Truy vấn từ bảng user_recruitment và cập nhật vào mảng $data
+		$recruitment_data = $this->db->select('total_direct, total_indirect, total_downline, ids_direct, ids_indirect')
+			->from('user_recruitment')
+			->where('user_id', $user_id)
+			->get()
+			->row_array();
+
+		if ($recruitment_data) {
+			$data['total_direct'] = $recruitment_data['total_direct'];
+			$data['total_indirect'] = $recruitment_data['total_indirect'];
+			$data['total_downline'] = $recruitment_data['total_downline'];
+			$data['ids_direct'] = explode(',', $recruitment_data['ids_direct']);
+			$data['ids_indirect'] = explode(',', $recruitment_data['ids_indirect']);
+		}
+
+		// Truy vấn tổng giá trị nạp ví từ bảng wallet
+		$deposit_wallet = $this->db->select_sum('amount', 'deposit_wallet')
+			->from('wallet')
+			->where('user_id', $user_id)
+			->where('wallet_from', 'bank')
+			->where('wallet_to', 'purchase')
+			->get()
+			->row_array();
+
+		if ($deposit_wallet) {
+			$data['deposit_wallet'] = (float) $deposit_wallet['deposit_wallet'];
+		}
+
+		// Truy vấn giá trị đơn hàng lớn nhất từ bảng order
+		$max_order_value = $this->db->select_max('total', 'max_order_value')
+			->from('order')
+			->where('user_id', $user_id)
+			->get()
+			->row_array();
+
+		if ($max_order_value) {
+			$data['max_order_value'] = (float) $max_order_value['max_order_value'];
+		}
+
+		// Trả về mảng dữ liệu đã cập nhật
+		return $data;
+	}
+
+
+
 	// Hàm cập nhật thông tin hoa hồng vào bảng user_commission
 	private function update_commission($user_id, $order_id, $product_id, $created_time, $method, $type, $value)
 	{

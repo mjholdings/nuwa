@@ -8760,6 +8760,11 @@ class Admincontrol extends MY_Controller
 		$user_id = $this->input->post("user_id", true); // Thông tin user sẽ được nạp tiền
 		$who_deposit = $this->input->post("who_deposit", true); // Thông tin user sẽ được nạp tiền
 
+		if ($wallet_from == 'admin') {
+			$wallet_from = 'bank';
+		} 
+		
+
 		// Kiểm tra xem đang là Admin nạp tiền hay User
 		if ($who_deposit == 'admin') {
 
@@ -8785,6 +8790,7 @@ class Admincontrol extends MY_Controller
 			$target_wallet = $this->input->post("deposit", true);
 			
 			$from_wallet = 'user_deposit';
+			
 		}
 
 		// Thực hiện
@@ -12000,10 +12006,8 @@ class Admincontrol extends MY_Controller
 		$this->db->order_by('level_number', 'asc');
 		$levels_query = $this->db->get('award_level');
 
-		// Cập nhật bảng rank và doanh thu, tiêu dùng và tuyển dụng			
-		// $this->calculate_revenue();
-		// $this->update_revenue();
-		// $this->update_user_rank();
+		// Thông tin thứ hạng, doanh thu, tiêu dùng, tuyển dụng lấy từ các bảng đã thống kê ============
+	
 
 		// Chạy qua mỗi cấp độ bắt đầu từ số 2
 		foreach ($levels_query->result() as $award_level) {
@@ -12025,13 +12029,17 @@ class Admincontrol extends MY_Controller
 
 			// Lấy điều kiện để được thăng cấp ==========
 			$target_level_condition = array(
+				'condition_level_id' => $target_level_id, // id cấp độ
+				'condition_level_number' => $target_level_number, // số cấp độ
 				'condition_consum' => $award_level->con_consum_personal, // tiêu dùng cá nhân
 				'condition_consum_order_number' => $award_level->con_consum_personal_orders, // số đơn hàng tiêu dùng
 				'condition_recuruitment_number' => $award_level->con_refer_direct_number,	// số lượng tuyển
 				'condition_recuruitment_level_id' => $award_level->con_refer_reward_id,		// id cấp độ tuyển
 				'condition_recuruitment_1_branch' => $award_level->con_refer_number_1_branch // số lượng 1 nhánh tuyển
-
 			);
+
+			// var_dump($target_level_condition);
+			// die();
 
 			// Lấy danh sách toàn bộ users có type là user và điều kiện thỏa mãn $conditions ============
 
@@ -12047,11 +12055,11 @@ class Admincontrol extends MY_Controller
 
 				// Lấy dữ liệu của user hiện tại cho kiểm tra ===========
 				$user_sales_data = [];
-				// $user_sales_data = $this->user->getSaleDataByUser($user_id);
-
+				$user_sales_data = $this->user->getSaleDataByUser($user_id);					
+				
+		
 				// Kiểm tra nếu user data thỏa mãn điều kiện thì thực hiện nâng cấp 
 				if ($this->check_level_pass_condition($user_id, $user_sales_data, $target_level_condition)) {
-					// $user->consum >= $condition_consum && $this->user->check_direct_member_level($user_id, $condition_recuruitment_number, $condition_recuruitment_level)) {
 
 					// Cập nhật plan_id và level_id mới cho user
 					$this->upgrade_plan($user_id, $target_plan_id);
@@ -12072,10 +12080,53 @@ class Admincontrol extends MY_Controller
 	}
 
 	// MJ Kiểm tra điều kiện dữ liệu của user thỏa mãn điều kiện cấp độ
-	public function check_level_pass_condition($user_id, $user_sales_data, $level_condition)
+	public function check_level_pass_condition($user_id, $user_sales_data = [], $level_condition = [])
 	{
 
-		return false;
+		// Lấy thông tin bán hàng của user
+		var_dump($user_sales_data);
+		die();
+		// $data = [
+		// 	'user_id' => $user_id,
+		// 	'consum' => 0,
+		// 	'consum_direct' => 0,
+		// 	'consum_indirect' => 0,
+		// 	'consum_downline' => 0,
+		// 	'consum_team' => 0,
+		// 	'revenue' => 0,
+		// 	'revenue_direct' => 0,
+		// 	'revenue_indirect' => 0,
+		// 	'revenue_downline' => 0,
+		// 	'revenue_team' => 0,
+		// 	'total_direct' => 0,
+		// 	'total_indirect' => 0,
+		// 	'total_downline' => 0,
+		// 	'ids_direct' => [],
+		// 	'ids_indirect' => [],
+		// 	'deposit_wallet' => 0, // Tổng giá trị nạp ví
+		// 	'max_order_value' => 0 // Giá trị đơn hàng lớn nhất
+		// ];
+
+		// Lấy thông tin điều kiện để lên cấp
+		// var_dump($level_condition);
+		// $target_level_condition = array(
+		// 	'condition_level_id' => $target_level_id, // id cấp độ
+		// 	'condition_level_number' => $target_level_number, // số cấp độ
+		// 	'condition_consum' => $award_level->con_consum_personal, // tiêu dùng cá nhân
+		// 	'condition_consum_order_number' => $award_level->con_consum_personal_orders, // số đơn hàng tiêu dùng
+		// 	'condition_recuruitment_number' => $award_level->con_refer_direct_number,	// số lượng tuyển
+		// 	'condition_recuruitment_level_id' => $award_level->con_refer_reward_id,		// id cấp độ tuyển
+		// 	'condition_recuruitment_1_branch' => $award_level->con_refer_number_1_branch // số lượng 1 nhánh tuyển
+		// );
+
+		// So sánh các điều kiện để trả ra giá trị đúng nếu thỏa mãn ngược lại thì false
+		// Với Nuwa xem xét về điều kiện tiêu dùng
+		$check_pass = true;
+
+		// Nạp và doanh thu 1 đơn hàng
+		// $check_pass = $check_pass && ($user_sales_data['consum']);
+
+		return $check_pass;
 	}
 
 	// Buy new plan - Update Level
@@ -12096,10 +12147,9 @@ class Admincontrol extends MY_Controller
 	// Lấy danh sách User ứng viên theo level của cấp hướng tới
 	public function get_candidate_upgrade_users($candidate_level_number)
 	{
-		$this->db->select('award_level.level_number, users.id, users.level_id, users.type, user_revenue.revenue, user_revenue.revenue_direct, user_revenue.revenue_indirect');
+		$this->db->select('award_level.level_number, users.id, users.level_id, users.type');
 		$this->db->from('users');
 		$this->db->join('award_level', 'users.level_id = award_level.id', 'left');
-		$this->db->join('user_revenue', 'users.id = user_revenue.user_id', 'left');
 		$this->db->where('users.type', 'user');
 
 		if ($candidate_level_number == 2) {

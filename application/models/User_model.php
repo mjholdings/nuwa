@@ -767,6 +767,10 @@ class User_model extends MY_Model
 		// Khởi tạo mảng dữ liệu với giá trị mặc định
 		$data = [
 			'user_id' => $user_id,
+			'plan_id' => 0,
+			'order_plan_id' => 0,			
+			'level_number' => 0,			
+			'level_id' => 0,			
 			'consum' => 0,
 			'consum_direct' => 0,
 			'consum_indirect' => 0,
@@ -781,12 +785,37 @@ class User_model extends MY_Model
 			'total_indirect' => 0,
 			'total_downline' => 0,
 			'ids_direct' => [],
-			'ids_indirect' => [],
+			'ids_indirect' => [],			
 			'deposit_wallet' => 0, // Tổng giá trị nạp ví
 			'max_order_value' => 0 // Giá trị đơn hàng lớn nhất
 		];
 
 		// Truy vấn từ bảng user_consum và cập nhật vào mảng $data
+
+		$user_data = $this->db->select('plan_id, level_id, level_number')	// lấy plain_id từ bảng users => đây là id của bảng membership_user 
+			->from('users')
+			->where('id', $user_id)
+			->get()
+			->row_array();
+
+		if ($user_data) {
+			$order_plan_id = $user_data['plan_id'];
+			$data['order_plan_id'] = $order_plan_id;
+			$data['level_id'] = $user_data['level_id'];
+			$data['user_level'] = $user_data['level_number'];
+
+			$order_plan_data = $this->db->select('plan_id')	// lấy plan_id
+				->from('membership_user')
+				->where('id', $order_plan_id)
+				->get()
+				->row_array();
+			if ($order_plan_data) {
+				$membershop_plan_id = $order_plan_data['plan_id'];
+				$data['plan_id'] = $membershop_plan_id;
+			}
+		}
+
+		// 
 		$consum_data = $this->db->select('consum, consum_direct, consum_indirect, consum_downline, consum_team')
 			->from('user_consum')
 			->where('user_id', $user_id)

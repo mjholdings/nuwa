@@ -12,7 +12,7 @@
                                 <button type="submit" name="update_data" class="btn btn-primary mr-2" title="Cập nhật dữ liệu Doanh thu, Tiêu dùng, Tuyển dụng">Update</button>
                             </form>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <!-- Select 1: Sắp xếp theo -->
                             <select id="order_by" class="form-control mr-2">
                                 <option value="user_id" <?= ($order_by == 'user_id') ? 'selected' : '' ?>>ID</option>
@@ -40,7 +40,7 @@
                                 <option value="100" <?= ($limit == 500) ? 'selected' : '' ?>>500</option>
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <!-- Select 2: Lọc theo loại người dùng -->
                             <select id="filter_type" class="form-control mr-2">
                                 <option value="all" <?= ($filter_type == 'all') ? 'selected' : '' ?>>Tất cả</option>

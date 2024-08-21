@@ -8600,12 +8600,11 @@ class Admincontrol extends MY_Controller
 							if ($defaultRegistrationLevel) {
 								$userArray['level_id'] = $defaultRegistrationLevel['id'];
 								$userArray['level_number'] = $defaultRegistrationLevel['level_number'];
-
 							} else {
 								$defaultLevel = $this->Product_model->getByField('award_level', 'jump_level', 0);
 								if ($defaultLevel)
 									$userArray['level_id'] = $defaultLevel['id'];
-									$userArray['level_number'] = $defaultLevel['level_number'];
+								$userArray['level_number'] = $defaultLevel['level_number'];
 							}
 						}
 					}
@@ -11953,7 +11952,8 @@ class Admincontrol extends MY_Controller
 		}
 
 		// MJ Kiểm tra và nâng cấp các thành viên nếu đủ điều kiện ======================
-		$this->mj_rank_upgrade_by_condition();
+		// $this->mj_rank_upgrade_by_condition();
+		$this->mj_rank_upgrade_by_condition_v2();
 
 		// Lấy giá trị từ các select input
 		$order_by = $this->input->get('order_by') ? $this->input->get('order_by') : 'level_number';
@@ -12003,6 +12003,7 @@ class Admincontrol extends MY_Controller
 		$query = $this->db->get(); // Thực hiện truy vấn
 		return $query->result_array(); // Trả về kết quả dưới dạng mảng
 	}
+
 
 
 	// MJ Tính toán và Nâng cấp độ thành viên theo điều kiện
@@ -12072,20 +12073,66 @@ class Admincontrol extends MY_Controller
 				// $user_sales_data['user_level'] = $target_level_number - 1;
 				$user_sales_data = $this->user->getSaleDataByUser($user_id);
 
+				// echo '===========================================> ' . $user_sales_data['user_id'] . '<br>';
+				// echo '===========================================> ' . $user_sales_data['username'] . '<br>';
+				// echo '===========================================> ' . $user_sales_data['level_number'] . '<br>';
+				// echo '===========================================> ' . $user_sales_data['consum'] . '<br>';
+				// echo '===========================================> ' . $user_sales_data['total_direct'] . '<br>';
+				// echo '===========================================> ' . $user_sales_data['deposit_wallet'] . '<br>';
+				// echo '<hr>';
+
+				// =====================================================
+
+				// Người dùng				
+				if (($user_sales_data['consum'] < 3000000) && ((int)$target_level_condition['condition_level_number'] == 1)) {
+					$this->upgrade_plan($user_id, $target_plan_id);
+				}
+
+				// Thành viên				
+				if (($user_sales_data['consum'] > 3000000) && ((int)$target_level_condition['condition_level_number'] == 2)) {
+					$this->upgrade_plan($user_id, $target_plan_id);
+				}
+
+				// Phó phòng
+				if (($user_sales_data['consum'] > 8000000) && ((int)$target_level_condition['condition_level_number'] == 3)) {
+					$this->upgrade_plan($user_id, $target_plan_id);
+				}
+
+				// Trưởng phòng
+
+				$refer_level_condition = 3;
+				$total_direct_pho_phong = $this->countDirectMembersByLevel($user_id, $refer_level_condition);
+
+				// if (($user_sales_data['total_direct'] > 20) && ($total_direct_pho_phong > 20)) {
+				if (((int)$user_sales_data['total_direct'] > 2) && ((int)$target_level_condition['condition_level_number'] == 4)) {
+					$this->upgrade_plan($user_id, $target_plan_id);
+				}
+
+				// Giám đốc				
+				$refer_level_condition = 4;
+				$total_direct_truong_phong = $this->countDirectMembersByLevel($user_id, $refer_level_condition);
+
+				// if (($user_sales_data['total_direct'] > 20) && ($total_direct_truong_phong > 2)) {
+				if (((int)$user_sales_data['total_direct'] > 10) && ((int)$target_level_condition['condition_level_number'] == 5)) {
+					$this->upgrade_plan($user_id, $target_plan_id);
+				}
+
+				// =====================================================
+
 				// Kiểm tra nếu user data thỏa mãn điều kiện thì thực hiện nâng cấp 
 				if ($this->check_level_pass_condition($user_id, $user_sales_data, $target_level_condition)) {
 
-					// Cập nhật plan_id và level_id mới cho user
-					// $this->upgrade_plan($user_id, $target_plan_id);
+					// 	// Cập nhật plan_id và level_id mới cho user
+					// 	// $this->upgrade_plan($user_id, $target_plan_id);
 
 
-					// MJ CẬP NHẬT THÔNG TIN TĂNG CẤP ===========
-					$data_transaction = [];
-					$data_transaction['amount'] = 0;  // lấy tiền cho việc lên cấp
-					$data_transaction['comment'] = 'Quyết định lên cấp.';
-					$data_transaction['is_sent'] = 1;
+					// 	// MJ CẬP NHẬT THÔNG TIN TĂNG CẤP ===========
+					// 	$data_transaction = [];
+					// 	$data_transaction['amount'] = 0;  // lấy tiền cho việc lên cấp
+					// 	$data_transaction['comment'] = 'Quyết định lên cấp.';
+					// 	$data_transaction['is_sent'] = 1;
 
-					$this->Wallet_model->add_transaction_wallets(1, $user_id, 'Thực hiện thăng cấp', 'admin', 'uplevel', $data_transaction);
+					// 	$this->Wallet_model->add_transaction_wallets(1, $user_id, 'Thực hiện thăng cấp', 'admin', 'uplevel', $data_transaction);
 				}
 			}
 		}
@@ -12093,6 +12140,188 @@ class Admincontrol extends MY_Controller
 
 		//
 	}
+
+	// MJ Tính toán và nâng cấp độ thành viên theo điều kiện từng level v2
+	public function mj_rank_upgrade_by_condition_v2()
+	{
+		if (!$this->userdetails()) {
+			die();
+		}
+
+		$user_id = $this->userdetails['user_id'];
+
+		// Thông tin thứ hạng, doanh thu, tiêu dùng, tuyển dụng lấy từ các bảng đã thống kê ============
+		// Lấy danh sách toàn bộ users có type là user và điều kiện thỏa mãn $conditions ============
+
+		// Lấy danh sách user có điều kiện cần tăng cấp dựa vào
+		// Cấp độ muốn lấy < target_level_number 
+		// $users_query = $this->get_candidate_upgrade_users($target_level_number);
+		$users_query = $this->mj_getAllUsers();
+
+		// Kiểm tra và nâng cấp các thành viên nếu đủ điều kiện
+		// Lấy các bản ghi từ bảng award_level
+		// Lấy toàn bộ cấp độ theo bảng award_level => giữ lại settings điều kiện để sử dụng 		
+		$this->db->where('level_number >=', 2);
+		$this->db->order_by('level_number', 'desc');
+		$levels_query = $this->db->get('award_level');
+
+		// Với mỗi users cấp độ dưới trong danh sách cấp độ nhỏ hơn
+		foreach ($users_query as $user) {
+
+			// Kiểm tra doanh số cá nhân và số lượng thành viên trực tiếp
+			$user_id = $user['id'];
+
+			// Lấy dữ liệu của user hiện tại cho kiểm tra ===========
+			// $user_sales_data['user_level'] = $target_level_number - 1;
+			$user_sales_data = $this->user->getSaleDataByUser($user_id);
+
+			// =====================================================		
+
+			// Điều kiện Giám đốc
+			if (((int)$user_sales_data['total_direct'] > 10)) {
+
+				// Lấy plan member ship của level hiện tại
+				// Gọi hàm get_plan_id_by_level để lấy plan_id cho level_number đã cho
+				$target_level_number = 5;
+				$target_plan = $this->get_plan_id_by_level($target_level_number);
+
+				if ($target_plan) {
+					$target_plan_id = $target_plan->plan_id;
+				} else {
+					$target_plan_id = 6;
+				}
+
+				// Giám đốc				
+				$refer_level_condition = 4;
+				$total_direct_truong_phong = $this->countDirectMembersByLevel($user_id, $refer_level_condition);
+
+				$this->upgrade_plan($user_id, $target_plan_id);
+
+			// Điều kiện Trưởng phòng
+			} elseif (((int)$user_sales_data['total_direct'] > 2)) {
+
+				// Lấy plan member ship của level hiện tại
+				// Gọi hàm get_plan_id_by_level để lấy plan_id cho level_number đã cho
+				$target_level_number = 4;
+				$target_plan = $this->get_plan_id_by_level($target_level_number);
+
+				if ($target_plan) {
+					$target_plan_id = $target_plan->plan_id;
+				} else {
+					$target_plan_id = 6;
+				}
+
+				// Trưởng phòng
+				$refer_level_condition = 3;
+				$total_direct_pho_phong = $this->countDirectMembersByLevel($user_id, $refer_level_condition);
+				$this->upgrade_plan($user_id, $target_plan_id);
+
+			// Điều kiện Phó phòng
+			} elseif (($user_sales_data['consum'] > 8000000)) {
+
+				// Lấy plan member ship của level hiện tại
+				// Gọi hàm get_plan_id_by_level để lấy plan_id cho level_number đã cho
+				$target_level_number = 3;
+				$target_plan = $this->get_plan_id_by_level($target_level_number);
+
+				if ($target_plan) {
+					$target_plan_id = $target_plan->plan_id;
+				} else {
+					$target_plan_id = 6;
+				}
+
+				// Phó phòng
+				$this->upgrade_plan($user_id, $target_plan_id);
+
+			// Điều kiện thành viên
+			} elseif (($user_sales_data['consum'] > 3000000)) {
+
+				// Lấy plan member ship của level hiện tại
+				// Gọi hàm get_plan_id_by_level để lấy plan_id cho level_number đã cho
+				$target_level_number = 2;
+				$target_plan = $this->get_plan_id_by_level($target_level_number);
+
+				if ($target_plan) {
+					$target_plan_id = $target_plan->plan_id;
+				} else {
+					$target_plan_id = 6;
+				}
+
+				// Thành viên	
+				$this->upgrade_plan($user_id, $target_plan_id);
+
+			// Còn lại là người dùng
+			} else {
+
+				// Lấy plan member ship của level hiện tại
+				// Gọi hàm get_plan_id_by_level để lấy plan_id cho level_number đã cho
+				$target_level_number = 1;
+				$target_plan = $this->get_plan_id_by_level($target_level_number);
+
+				if ($target_plan) {
+					$target_plan_id = $target_plan->plan_id;
+				} else {
+					$target_plan_id = 6;
+				}
+
+				$this->upgrade_plan($user_id, $target_plan_id);
+			}
+
+			// =====================================================
+
+			// Chạy qua mỗi cấp độ bắt đầu từ số lớn nhất
+			// foreach ($levels_query->result() as $award_level) {
+
+			// 	// Lấy điều kiện đạt cấp $conditions =====================
+			// 	// Lấy ID của cấp độ sẽ nâng cấp lên nếu đạt điều kiện
+			// 	$target_level_id = $award_level->id;
+			// 	$target_level_number = $award_level->level_number;
+
+			// 	// Lấy plan member ship của level hiện tại
+			// 	// Gọi hàm get_plan_id_by_level để lấy plan_id cho level_number đã cho
+			// 	$target_plan = $this->get_plan_id_by_level($target_level_number);
+
+			// 	if ($target_plan) {
+			// 		$target_plan_id = $target_plan->plan_id;
+			// 	} else {
+			// 		$target_plan_id = 6;
+			// 	}
+
+			// 	// Lấy điều kiện để được thăng cấp ==========
+			// 	$target_level_condition = array(
+			// 		'condition_level_id' => $target_level_id, // id cấp độ
+			// 		'condition_level_number' => $target_level_number, // số cấp độ
+			// 		'condition_consum' => $award_level->con_consum_personal, // tiêu dùng cá nhân				
+			// 		'condition_consum_order_number' => $award_level->con_consum_personal_orders, // số đơn hàng tiêu dùng
+			// 		'con_consum_total' => $award_level->con_consum_total, // tiêu dùng cộng dồn
+			// 		'con_consum_total_days' => $award_level->con_consum_total_days, // ngày tiêu dùng cộng dồn
+			// 		'condition_recuruitment_number' => $award_level->con_refer_direct_number,	// số lượng tuyển
+			// 		'condition_recuruitment_level_id' => $award_level->con_refer_reward_id,		// id cấp độ tuyển
+			// 		'condition_recuruitment_1_branch' => $award_level->con_refer_number_1_branch // số lượng 1 nhánh tuyển
+			// 	);
+
+			// 	// Kiểm tra nếu user data thỏa mãn điều kiện thì thực hiện nâng cấp 
+			// 	if ($this->check_level_pass_condition($user_id, $user_sales_data, $target_level_condition)) {
+
+			// 		// Cập nhật plan_id và level_id mới cho user
+			// 		$this->upgrade_plan($user_id, $target_plan_id);
+
+			// 		// MJ CẬP NHẬT THÔNG TIN TĂNG CẤP ===========
+			// 		// 	$data_transaction = [];
+			// 		// 	$data_transaction['amount'] = 0;  // lấy tiền cho việc lên cấp
+			// 		// 	$data_transaction['comment'] = 'Quyết định lên cấp.';
+			// 		// 	$data_transaction['is_sent'] = 1;
+
+			// 		// 	$this->Wallet_model->add_transaction_wallets(1, $user_id, 'Thực hiện thăng cấp', 'admin', 'uplevel', $data_transaction);
+
+			// 		break; // Thoát ra khi đã thỏa mãn và updated xong
+			// 	}
+			// }
+		}
+
+		//
+	}
+
 
 	// MJ Kiểm tra điều kiện dữ liệu của user thỏa mãn điều kiện cấp độ
 	public function check_level_pass_condition($user_id, $user_sales_data = [], $level_condition = [])

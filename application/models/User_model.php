@@ -792,7 +792,7 @@ class User_model extends MY_Model
 
 		// Truy vấn từ bảng user_consum và cập nhật vào mảng $data
 
-		$user_data = $this->db->select('plan_id, level_id, level_number')	// lấy plain_id từ bảng users => đây là id của bảng membership_user 
+		$user_data = $this->db->select('username, plan_id, level_id, level_number')	// lấy plain_id từ bảng users => đây là id của bảng membership_user 
 			->from('users')
 			->where('id', $user_id)
 			->get()
@@ -800,6 +800,7 @@ class User_model extends MY_Model
 
 		if ($user_data) {
 			$order_plan_id = $user_data['plan_id'];
+			$data['username'] = $user_data['username'];
 			$data['order_plan_id'] = $order_plan_id;
 			$data['level_id'] = $user_data['level_id'];
 			$data['user_level'] = $user_data['level_number'];

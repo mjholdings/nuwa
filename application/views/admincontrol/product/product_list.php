@@ -230,7 +230,7 @@ $vendor_setting = $this->Product_model->getSettings('vendor');
 							?><!-- <br/><br/>-->
 		<!--			<b>--><? //= __('admin.view') 
 								?><!-- / --><? //= __('admin.ratio') 
-																	?><!--</b><br/>-->
+											?><!--</b><br/>-->
 		<!--			--><?php //
 							//			$ordercountratio=0;
 							//			if($product['view_statistics']>0)
@@ -249,7 +249,7 @@ $vendor_setting = $this->Product_model->getSettings('vendor');
 		<!---->
 		<!--			<b>--><? //= __('admin.view') 
 								?><!-- / --><? //= __('admin.ratio') 
-																	?><!--</b><br/>-->
+											?><!--</b><br/>-->
 		<!--			--><?php //
 							//			$ordercountratio=0;
 							//			$comissionclickcount=(int)$product['commition_click_count'] + (int)$product['commition_click_count_admin'];
@@ -277,20 +277,13 @@ $vendor_setting = $this->Product_model->getSettings('vendor');
 			<a class="btn btn-primary" onclick="return confirmpopup('<?= base_url(); ?>admincontrol/updateproduct/<?php echo $product['product_id']; ?>');" href="<?php echo base_url(); ?>admincontrol/updateproduct/<?php echo $product['product_id']; ?>">
 				<i class="fa fa-edit cursors" aria-hidden="true"></i>
 			</a>
-			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i class="fa fa-ellipsis-h"></i>
-				</button>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					<?php if ((int)$product['seller_id'] == 0) { ?>
-						<a class="dropdown-item" href="<?php echo base_url('admincontrol/duplicateProduct'); ?>/<?php echo $product['product_id']; ?>"><i class="fa fa-clone cursors" aria-hidden="true"></i> Duplicate Product</a>
-					<?php } ?>
-					<a class="dropdown-item" href="<?php echo base_url('admincontrol/productupload/' . $product['product_id']); ?>"><i class="fa fa-image cursors"></i> Upload Image</a>
-					<a class="dropdown-item" href="<?php echo base_url('admincontrol/videoupload/' . $product['product_id']); ?>"><i class="fa fa-video-camera cursors"></i> Upload Video</a>
-					<a class="dropdown-item" href="#" data-social-share data-share-url="<?= $productLink ?>" data-share-title="<?= $product['product_name']; ?>" data-share-desc="<?= $product['product_short_description']; ?>"><i class="fa fa-share-alt" aria-hidden="true"></i> Share</a>
-					<a class="dropdown-item delete-product" type="button" data-id="<?= $product['product_id'] ?>"> <i class="fa fa-trash"></i> Delete</a>
-				</div>
-			</div>
+			<?php if ((int)$product['seller_id'] == 0) { ?>
+				<a class="btn btn-primary" href="<?php echo base_url('admincontrol/duplicateProduct'); ?>/<?php echo $product['product_id']; ?>"><i class="fa fa-clone cursors" aria-hidden="true"></i></a>
+			<?php } ?>
+			<a class="btn btn-primary" href="<?php echo base_url('admincontrol/productupload/' . $product['product_id']); ?>"><i class="fa fa-image cursors"></i></a>
+			<a class="btn btn-primary" href="<?php echo base_url('admincontrol/videoupload/' . $product['product_id']); ?>"><i class="fa fa-video-camera cursors"></i>
+			</a> <span class="btn btn-primary" data-social-share data-share-url="<?= $productLink ?>" data-share-title="<?= $product['product_name']; ?>" data-share-desc="<?= $product['product_short_description']; ?>"><i class="fa fa-share-alt" aria-hidden="true"></i></span>
+			<a class="btn btn-danger delete-product" type="button" data-id="<?= $product['product_id'] ?>"> <i class="fa fa-trash"></i> </a>
 		</td>
 	</tr>
 <?php } ?>
